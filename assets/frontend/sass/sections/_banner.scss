@@ -1,0 +1,67 @@
+.banner {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 660px;
+    padding: 5em 0;
+
+    &-form {
+        background: $white;
+        border-radius: 10px;
+        box-shadow: 0 20px 30px rgba(0,22,84,.15);
+        max-width: 540px;
+        overflow: hidden;
+        padding: 30px 40px 40px;
+        position: relative;
+
+        &-title {
+            h1 {
+                font-weight: 800;
+            }
+        }
+
+        &-content {
+            .search-location {
+                position: relative;
+
+                .form-control {
+                   padding-left: 45px;
+                }
+
+                img {
+                    left: 15px;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+            }
+
+            .form-control {
+                background: #edf1fb !important;
+                box-shadow: none;
+                border: none;
+                border-radius: 5px;
+                height: 50px;
+                overflow: hidden;
+            }
+
+            label {
+                color: #455892;
+                font-family: $font-heading;
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
+
+        &-action {
+            &-button {
+                border-radius: 5px;
+                box-shadow: 0 5px 24px rgb(31 37 59 / 15%);
+                font-size: 1.2rem;
+                padding: 17px;
+                width: 100%;
+            }
+        }
+    }
+}
