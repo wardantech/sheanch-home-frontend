@@ -46,7 +46,7 @@
             </b-container>
         </div>
 
-        <section class="gray">
+        <section class="gray city-list">
             <b-container>
                 <b-row>
                     <b-col lg="12" md="12" list-layout>
@@ -78,23 +78,192 @@
                                 </div>
                             </b-col>
                         </b-row>
-                    </b-col>
-                </b-row>
 
-                <b-row>
-                    <b-col lg="6" md="12" class="list-layout">
+                        <b-row>
+                            <b-col lg="6" md="12">
+                                <div class="place-layout-listing property-1">
+                                    <div class="place-layout-listing-img">
+                                        <b-link>
+                                            <b-img src="https://resido.thesky9.com/storage/properties/p-6-400xauto.jpg" alt="Image"></b-img>
+                                        </b-link>
+                                        <div class="place-layout-listing-img-action">
+                                            <b-link href="#" class="add-to-wishlist">
+                                                <font-awesome-icon icon="fa-solid fa-heart" />
+                                            </b-link>
+                                        </div>
+                                    </div>
+                                    <div class="place-layout-listing-content">
+                                        <div class="place-layout-listing-detail">
+                                            <div class="place-layout-listing-detail-wrap">
+                                                <div class="place-layout-listing-detail-wrap-short">
+                                                    <div class="list-price d-flex justify-content-between">
+                                                        <span class="sale-type sale">For Sale</span>
+                                                        <h6 class="card-price">$236,117</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="place-layout-listing-detail-name">
+                                                <b-link to="properties" title="6007 Applegate Lane">
+                                                    6007 Applegate Lane
+                                                </b-link>
+                                            </div>
+                                            <div class="rating-wrap">
+                                                <div class="rating">
+                                                    <div class="product-rate" width="70%">
+                                                        <font-awesome-icon icon="fa-solid fa-star" />
+                                                        <font-awesome-icon icon="fa-solid fa-star" />
+                                                        <font-awesome-icon icon="fa-solid fa-star" />
+                                                        <font-awesome-icon icon="fa-solid fa-star" />
+                                                        <font-awesome-icon icon="fa-solid fa-star-half" />
+                                                    </div>
+                                                </div>
+                                                <span class="reviews-text">( 6 Reviews)</span>
+                                            </div>
+                                        </div>
+                                        <div class="place-layout-listing-features">
+                                            <div class="features-list">
+                                                <div class="features-list-icon">
+                                                    <div class="fleat-icon">
+                                                        <font-awesome-icon icon="fa-solid fa-bed" />
+                                                    </div>
+                                                    1 Bed
+                                                </div>
 
+                                                <div class="features-list-icon">
+                                                    <div class="fleat-icon">
+                                                        <font-awesome-icon icon="fa-solid fa-bath" />
+                                                    </div>
+                                                    5 Bath
+                                                </div>
+
+                                                <div class="features-list-icon">
+                                                    <div class="fleat-icon">
+                                                        <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right" />
+                                                    </div>
+                                                    83 m²
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="place-layout-listing-footer">
+                                            <div class="footer-first">
+                                                <div class="footer-first-location d-flex">
+                                                    <font-awesome-icon icon="fa-solid fa-location-dot" />
+                                                    Hampton, Virginia
+                                                </div>
+                                            </div>
+                                            <div class="footer-flex">
+                                                <nuxt-link
+                                                  class="product-view"
+                                                  :to="{ name: 'properties-property-details',
+                                                  params: { userId: 123 }}">
+                                                    View
+                                                </nuxt-link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </b-col>
+
+                            <b-col lg="6" md="12">
+                                <div class="place-layout-listing property-1">
+                                    <div class="place-layout-listing-img">
+                                        <b-link>
+                                            <b-img src="https://resido.thesky9.com/storage/properties/p-9-400xauto.jpg" alt="Image"></b-img>
+                                        </b-link>
+                                        <div class="place-layout-listing-img-action">
+                                            <b-link href="#" class="add-to-wishlist">
+                                                <font-awesome-icon icon="fa-solid fa-heart" />
+                                            </b-link>
+                                        </div>
+                                    </div>
+                                    <div class="place-layout-listing-content">
+                                        <div class="place-layout-listing-detail">
+                                            <div class="place-layout-listing-detail-wrap">
+                                                <div class="place-layout-listing-detail-wrap-short">
+                                                    <div class="list-price d-flex justify-content-between">
+                                                        <span class="sale-type sale">For Sale</span>
+                                                        <h6 class="card-price">$236,117</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="place-layout-listing-detail-name">
+                                                <b-link to="properties" title="6007 Applegate Lane">
+                                                    6007 Applegate Lane
+                                                </b-link>
+                                            </div>
+                                            <div class="rating-wrap">
+                                                <div class="rating">
+                                                    <div class="product-rate" width="70%">
+                                                        <font-awesome-icon icon="fa-solid fa-star" />
+                                                        <font-awesome-icon icon="fa-solid fa-star" />
+                                                        <font-awesome-icon icon="fa-solid fa-star" />
+                                                        <font-awesome-icon icon="fa-solid fa-star" />
+                                                        <font-awesome-icon icon="fa-solid fa-star-half" />
+                                                    </div>
+                                                </div>
+                                                <span class="reviews-text">( 6 Reviews)</span>
+                                            </div>
+                                        </div>
+                                        <div class="place-layout-listing-features">
+                                            <div class="features-list">
+                                                <div class="features-list-icon">
+                                                    <div class="fleat-icon">
+                                                        <font-awesome-icon icon="fa-solid fa-bed" />
+                                                    </div>
+                                                    1 Bed
+                                                </div>
+
+                                                <div class="features-list-icon">
+                                                    <div class="fleat-icon">
+                                                        <font-awesome-icon icon="fa-solid fa-bath" />
+                                                    </div>
+                                                    5 Bath
+                                                </div>
+
+                                                <div class="features-list-icon">
+                                                    <div class="fleat-icon">
+                                                        <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right" />
+                                                    </div>
+                                                    83 m²
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="place-layout-listing-footer">
+                                            <div class="footer-first">
+                                                <div class="footer-first-location d-flex">
+                                                    <font-awesome-icon icon="fa-solid fa-location-dot" />
+                                                    Hampton, Virginia
+                                                </div>
+                                            </div>
+                                            <div class="footer-flex">
+                                                <nuxt-link
+                                                  class="product-view"
+                                                  :to="{ name: 'properties-property-details',
+                                                  params: { userId: 123 }}">
+                                                    View
+                                                </nuxt-link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </b-col>
+                        </b-row>
                     </b-col>
                 </b-row>
             </b-container>
         </section>
+
+        <!-- Start newsletter -->
+        <Newsletter></Newsletter>
+        <!-- End newsletter -->
     </div>
 </template>
 
 <script>
+    import Newsletter from "../../components/frontend/Newsletter";
     export default {
         name: "city",
-
+        components: {Newsletter},
         data() {
             return {
                 selected: null,
