@@ -466,6 +466,55 @@
                                 </li>
                             </ul>
                         </div>
+
+                        <div class="sidebar-message">
+                            <div class="sidebar-message-widget">
+                                  <div class="widget-header">
+                                      <div class="photo">
+                                          <b-img src="https://resido.thesky9.com/storage/accounts/6-150x150.jpg"></b-img>
+                                      </div>
+                                      <div class="widget-details">
+                                          <h4>
+                                              <b-link href="#">Ollie Paucek</b-link>
+                                          </h4>
+
+                                          <span>
+                                              <b-icon icon="telephone" aria-hidden="true"></b-icon>
+                                              +13414690277
+                                          </span>
+                                      </div>
+                                  </div>
+                                  <div class="clearfix"></div>
+
+                                  <div class="widget-body">
+                                      <b-form>
+                                          <div class="form-group">
+                                              <b-form-input name="name" type="text" placeholder="Name *"></b-form-input>
+                                          </div>
+
+                                          <div class="form-group">
+                                              <b-form-input name="phone" type="text" placeholder="Phone *"></b-form-input>
+                                          </div>
+
+                                          <div class="form-group">
+                                              <b-form-input name="email" type="email" placeholder="Email"></b-form-input>
+                                          </div>
+
+                                          <div class="form-group">
+                                              <b-form-input name="subject" type="text" placeholder="Subject *" value="6007 Applegate Lane" disabled></b-form-input>
+                                          </div>
+
+                                          <div class="form-group">
+                                              <b-form-textarea name="message" placeholder="Message"></b-form-textarea>
+                                          </div>
+
+                                          <div class="form-group">
+                                              <b-button class="btn btn-black btn-md rounded btn-block">Send Message</b-button>
+                                          </div>
+                                      </b-form>
+                                  </div>
+                            </div>
+                        </div>
                     </b-col>
                 </b-row>
             </b-container>

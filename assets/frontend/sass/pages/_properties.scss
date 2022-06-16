@@ -394,6 +394,99 @@
     }
 }
 
+.sidebar-message {
+    &-widget {
+        background-color: #fff;
+        border: 1px solid #ebeef5;
+        border-radius: 8px;
+        color: #707070;
+        margin-bottom: 30px;
+        overflow: hidden;
+        transition: .5s;
+
+        .widget-header {
+            align-items: center;
+            background: #0fca98;
+            color: #fff;
+            display: flex;
+            padding: 1.5rem 1.4rem;
+            position: relative;
+
+            .photo {
+                display: block;
+                float: left;
+
+                img {
+                    border-radius: 50%;
+                    max-width: 60px;
+                }
+            }
+
+            .widget-details {
+                display: block;
+                padding-left: 20px;
+                position: relative;
+
+                h4 {
+                    color: $white !important;
+                    margin-bottom: 2px;
+
+                    a {
+                        color: $white !important;
+                    }
+                }
+
+                span {
+                    color: #b8ffec;
+
+                    svg {
+                        color: #ffeb3b;
+                        font-size: 18px;
+                        margin-right: 5px;
+                        position: relative;
+                        top: 1px;
+                    }
+                }
+            }
+        }
+
+        .widget-body {
+            padding: 1.5rem 1.4rem;
+
+            .form-group {
+                .form-control {
+                    background: #f6f8fd;
+                    border: 1px solid #edf0f9;
+                    box-shadow: none;
+                    font-size: 16px;
+                    height: 56px;
+                    padding: 0.5rem 0.75rem;
+                }
+
+                textarea.form-control {
+                    height: 180px;
+                }
+
+                .btn-black {
+                    background: #263547;
+                    border: 1px solid #263547;
+                    color: #fff;
+
+                    &:hover {
+                        background: #0f7dff;
+                        border: 1px solid #0f7dff;
+                    }
+                }
+
+                .btn-md {
+                    font-size: 1rem;
+                    padding: 1rem 1.5rem;
+                }
+            }
+        }
+    }
+}
+
 .reviews {
     &-list {
         ul {

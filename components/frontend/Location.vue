@@ -26,9 +26,12 @@
                                     <span>2 Properties</span>
                                 </div>
                                 <div class="content-right">
-                                    <b-link class="content-right-view">
-                                        <font-awesome-icon icon="fa-solid fa-angle-right" />
-                                    </b-link>
+                                    <nuxt-link
+                                        class="content-right-view"
+                                        :to="{ name: 'location-city',
+                                        params: { userId: 1253 }}">
+                                            <font-awesome-icon icon="fa-solid fa-angle-right" />
+                                    </nuxt-link>
                                 </div>
                             </div>
                         </div>
