@@ -3,9 +3,9 @@
         <header class="header header-light head-shadow">
             <b-container>
                 <b-navbar class="header-navber" toggleable="lg">
-                    <b-navbar-brand href="#" class="navbar-brand-logo">
+                    <nuxt-link :to="{ name: 'index'}" class="navbar-brand-logo">
                         <img src="../../assets/frontend/images/logo.png" alt="logo">
-                    </b-navbar-brand>
+                    </nuxt-link>
 
                     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -58,7 +58,7 @@
 
 <script>
     export default {
-        name: "Header"
+        name: "Header",
     }
 </script>
 
