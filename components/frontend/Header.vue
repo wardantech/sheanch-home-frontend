@@ -44,10 +44,16 @@
                                 Add Property
                             </b-nav-item>
 
-                            <b-button class="sign-in-button">
-                                <font-awesome-icon icon="fa-solid fa-user" />
-                                Sign In
-                            </b-button>
+                            <!--<b-button class="sign-in-button">-->
+                                <!--<font-awesome-icon icon="fa-solid fa-user" />-->
+                                <!--Sign In-->
+                            <!--</b-button>-->
+                            <nuxt-link
+                              class="btn sign-in-button"
+                              :to="{ name: 'auth-login'}">
+                              <font-awesome-icon icon="fa-solid fa-user" />
+                              Sign In
+                            </nuxt-link>
                         </b-navbar-nav>
                     </b-collapse>
                 </b-navbar>
