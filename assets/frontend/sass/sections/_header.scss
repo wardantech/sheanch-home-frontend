@@ -102,10 +102,17 @@
             }
 
             .sign-in-button {
+                display: flex;
+                align-items: center;
+                color: $white;
                 background: #08184b;
                 border-radius: 4px;
                 height: 50px;
                 position: relative;
+
+                svg {
+                    margin-right: .75rem;
+                }
             }
         }
     }

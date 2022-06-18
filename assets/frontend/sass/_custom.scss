@@ -137,3 +137,14 @@ section {
 .b-r {
     border-right: 1px solid #e0ecf5 !important;
 }
+
+.social-button {
+  .social-button-login {
+    padding: 20px 0;
+    color: $white;
+
+    &.facebook {
+      background: #3b5998;
+    }
+  }
+}
