@@ -34,7 +34,13 @@
                                 <b-dropdown-item href="#">Contact</b-dropdown-item>
                             </b-nav-item-dropdown>
 
-                            <b-nav-item href="#">Sign Up</b-nav-item>
+                            <li class="nav-item b-nav-dropdown dropdown custom-dropdown-menu">
+                              <nuxt-link
+                                class="mt-2 ml-1"
+                                :to="{ name: 'auth-register'}">
+                                Sign Up
+                              </nuxt-link>
+                            </li>
                         </b-navbar-nav>
 
                         <!-- Right aligned nav items -->
@@ -44,10 +50,6 @@
                                 Add Property
                             </b-nav-item>
 
-                            <!--<b-button class="sign-in-button">-->
-                                <!--<font-awesome-icon icon="fa-solid fa-user" />-->
-                                <!--Sign In-->
-                            <!--</b-button>-->
                             <nuxt-link
                               class="btn sign-in-button"
                               :to="{ name: 'auth-login'}">

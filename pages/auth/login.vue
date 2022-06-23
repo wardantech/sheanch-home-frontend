@@ -44,7 +44,11 @@
                       <b-form-group class="text-center">
                         <p>
                           Don't have an account?
-                          <b-link class="text-danger">Register a new account</b-link>
+                          <nuxt-link
+                            class="text-danger"
+                            :to="{ name: 'auth-register'}">
+                            Register a new account
+                          </nuxt-link>
                         </p>
                       </b-form-group>
 
