@@ -24,22 +24,25 @@
                   </nuxt-link>
                 </li>
                 <li>
-                  <b-link>
+                  <nuxt-link
+                    :to="{ name: 'account-packages'}">
                     <b-icon icon="credit-card" font-scale="1"></b-icon>
                     Buy credits
-                  </b-link>
+                  </nuxt-link>
                 </li>
                 <li>
-                  <b-link>
+                  <nuxt-link
+                    :to="{ name: 'account-properties'}">
                     <b-icon icon="newspaper" font-scale="1"></b-icon>
                     Properties
-                  </b-link>
+                  </nuxt-link>
                 </li>
                 <li>
-                  <b-link>
+                  <nuxt-link
+                    :to="{ name: 'account-security'}">
                     <b-icon icon="lock" font-scale="1"></b-icon>
                     Security
-                  </b-link>
+                  </nuxt-link>
                 </li>
                 <li>
                   <b-link>

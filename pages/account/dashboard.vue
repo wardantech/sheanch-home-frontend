@@ -77,14 +77,19 @@
           </b-row>
         </b-container>
       </section>
+
+      <!-- Start newsletter -->
+      <Newsletter/>
+      <!-- End newsletter -->
     </div>
 </template>
 
 <script>
     import Sidebar from "../../components/frontend/dashboard/Sidebar";
+    import Newsletter from "../../components/frontend/Newsletter";
     export default {
       name: "dashboard",
-      components: {Sidebar}
+      components: {Newsletter, Sidebar}
     }
 </script>
 
