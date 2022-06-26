@@ -12,14 +12,14 @@
                   <b-form class="simple-form">
                     <b-form-group label="Email/Username">
                       <div class="input-with-icon">
-                        <b-form-input type="text" placeholder="Email/Username"></b-form-input>
+                        <b-form-input type="text" v-model="form.email" placeholder="Email/Username"></b-form-input>
                         <b-icon icon="person"></b-icon>
                       </div>
                     </b-form-group>
 
                     <b-form-group label="Password">
                       <div class="input-with-icon">
-                        <b-form-input type="password" placeholder="Password"></b-form-input>
+                        <b-form-input type="password" v-model="form.password" placeholder="Password"></b-form-input>
                         <b-icon icon="unlock"></b-icon>
                       </div>
                     </b-form-group>
