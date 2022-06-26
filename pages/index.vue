@@ -35,6 +35,7 @@
     import Newsletter from "../components/frontend/Newsletter";
     export default {
       name: 'IndexPage',
+      auth: false,
       components: {Newsletter, Package, Location, Property, Work, Banner}
     }
 </script>

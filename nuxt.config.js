@@ -51,7 +51,34 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
+  axios: {
+    //proxy: true,
+    baseURL: process.env.APP_ROOT_API
+  },
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'access_token',
+          global: true,
+          // required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: false
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: 'auth/login', method: 'post' },
+          logout: { url: 'auth/logout', method: 'post' },
+          user: { url: 'auth/me', method: 'post' }
+        }
+      }
+    }
+  },
 
   bootstrapVue: {
       icons: true
@@ -59,5 +86,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+  router: {
+    middleware: ['auth']
+  },
+  reactStrictMode: true,
+  env: {
+    APP_ROOT_API: process.env.APP_ROOT_API
   }
+
 }

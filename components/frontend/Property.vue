@@ -18,7 +18,7 @@
               <div class="place-layout-listing-img">
                 <div class="place-layout-listing-img-slide">
                   <b-carousel id="carousel-6" v-model="slide" :interval="1800" controls>
-                    <b-carousel-slide v-for="image in property.images" :img-src="image.img"></b-carousel-slide>
+                    <b-carousel-slide v-for="(image , i) in property.images" :img-src="image.img" :key="i"></b-carousel-slide>
                   </b-carousel>
                 </div>
                 <div class="place-layout-listing-img-action">

@@ -110,7 +110,8 @@
 
 <script>
     export default {
-        name: "register"
+        name: "register",
+        auth: false,
     }
 </script>
 
