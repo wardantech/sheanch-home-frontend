@@ -9,12 +9,16 @@
                 <h2 class="text-center">Login</h2>
                 <br>
                 <div class="login-form">
+                  <p v-if="active" class="text-danger">Your account is not activated yet. please contact with admin</p>
+                  <p v-if="validation" class="text-danger">Credentials does not match. Please register or contact with admin  </p>
                   <b-form class="simple-form">
                     <b-form-group label="Email/Username">
                       <div class="input-with-icon">
                         <b-form-input type="text" v-model="form.email" placeholder="Email/Username"></b-form-input>
                         <b-icon icon="person"></b-icon>
                       </div>
+                      <strong class="text-danger" style="font-size: 12px"
+                              v-if="errors.email">{{ errors.email[0] }}</strong>
                     </b-form-group>
 
                     <b-form-group label="Password">
@@ -22,6 +26,9 @@
                         <b-form-input type="password" v-model="form.password" placeholder="Password"></b-form-input>
                         <b-icon icon="unlock"></b-icon>
                       </div>
+                      <strong class="text-danger" style="font-size: 12px"
+                              v-if="errors.password">{{ errors.password[0] }}</strong>
+
                     </b-form-group>
 
                     <b-form-group>
@@ -77,6 +84,7 @@
 export default {
   name: "login",
   auth: false,
+  validation: false,
   mounted() {
     console.log(this.$store.state.auth.user)
      console.log(this.$auth.loggedIn)
@@ -87,6 +95,8 @@ export default {
   data() {
     return {
       loader: false,
+      active:false,
+      validation:false,
       form: {
         email: 'admin@gmail.com',
         password: '123456',
@@ -103,14 +113,23 @@ export default {
         .then(response => {
           //this.$toast.success('Logged In successfully!');
           console.log(response)
-          //this.$nuxt.$loading.finish();
-          //this.$store.dispatch('auth/storeAuthToken', response.data.data.token)
-          //console.log(this.$store.getters['auth/getAuthToken']);
-          //console.log(response);
-          //console.log(this.$auth.user)
-          this.$nuxt.$options.router.push({name: 'account-dashboard'})
-          //console.log(this.$auth.user)
-          //console.log(this.$auth.loggedIn)
+          if(response.data.status == false){
+            this.validation = false;
+            this.active = true;
+          }
+          else{
+            this.$nuxt.$options.router.push({name: 'account-dashboard'})
+          }
+        }).catch(error => {
+          if(error.response.status == 422){
+            console.log(error.response.data.errors)
+            this.errors = error.response.data.errors
+          }
+          else{
+            this.active = false;
+            this.validation = true;
+          }
+
         });
 
 

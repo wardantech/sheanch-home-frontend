@@ -1,4 +1,5 @@
 export default {
+  mode: 'universal',
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -9,13 +10,13 @@ export default {
       lang: 'en'
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: ''},
+      {name: 'format-detection', content: 'telephone=no'}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800;900&display=swap',
@@ -44,16 +45,27 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-  ],
+  buildModules: [],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    //'@nuxtjs/pwa',
+    'nuxt-izitoast',
+    'vue-sweetalert2/nuxt',
+
+
   ],
+
+  izitoast: {
+    position: 'topRight',
+    transitionIn: 'bounceInLeft',
+    transitionOut: 'fadeOutRight',
+  },
+
   axios: {
     //proxy: true,
     baseURL: process.env.APP_ROOT_API
@@ -72,27 +84,37 @@ export default {
           // autoFetch: true
         },
         endpoints: {
-          login: { url: 'auth/login', method: 'post' },
-          logout: { url: 'auth/logout', method: 'post' },
-          user: { url: 'auth/me', method: 'post' }
+          login: {url: 'auth/login', method: 'post'},
+          logout: {url: 'auth/logout', method: 'post'},
+          user: {url: 'auth/me', method: 'post'}
         }
       }
     }
   },
 
   bootstrapVue: {
-      icons: true
+    icons: true
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  },
+  build: {},
   router: {
     middleware: ['auth']
   },
   reactStrictMode: true,
   env: {
     APP_ROOT_API: process.env.APP_ROOT_API
-  }
+  },
+  // pwa: {
+  //   meta:{
+  //     title:"Sheanch-Home",
+  //     author: "Asif"
+  //   },
+  //   manifest: {
+  //     name: 'Sheanch - Home',
+  //     lang: 'en',
+  //
+  //   }
+  // }
 
 }
