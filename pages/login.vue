@@ -12,13 +12,13 @@
                   <p v-if="active" class="text-danger">Your account is not activated yet. please contact with admin</p>
                   <p v-if="validation" class="text-danger">Credentials does not match. Please register or contact with admin  </p>
                   <b-form class="simple-form">
-                    <b-form-group label="Email/Username">
+                    <b-form-group label="Mobile">
                       <div class="input-with-icon">
-                        <b-form-input type="text" v-model="form.email" placeholder="Email/Username"></b-form-input>
+                        <b-form-input type="text" v-model="form.mobile" placeholder="Mobile"></b-form-input>
                         <b-icon icon="person"></b-icon>
                       </div>
                       <strong class="text-danger" style="font-size: 12px"
-                              v-if="errors.email">{{ errors.email[0] }}</strong>
+                              v-if="errors.mobile">{{ errors.mobile[0] }}</strong>
                     </b-form-group>
 
                     <b-form-group label="Password">
@@ -59,16 +59,16 @@
                       </p>
                     </b-form-group>
 
-                    <div class="text-center">
-                      <div class="auth-divider">
-                        <span>Or login via</span>
-                      </div>
-                      <div class="social-button">
-                        <b-button block class="btn social-button-login facebook">
-                          Facebook
-                        </b-button>
-                      </div>
-                    </div>
+<!--                    <div class="text-center">-->
+<!--                      <div class="auth-divider">-->
+<!--                        <span>Or login via</span>-->
+<!--                      </div>-->
+<!--                      <div class="social-button">-->
+<!--                        <b-button block class="btn social-button-login facebook">-->
+<!--                          Facebook-->
+<!--                        </b-button>-->
+<!--                      </div>-->
+<!--                    </div>-->
                   </b-form>
                 </div>
               </div>
@@ -94,11 +94,10 @@ export default {
   },
   data() {
     return {
-      loader: false,
       active:false,
       validation:false,
       form: {
-        email: 'admin@gmail.com',
+        mobile: '01643734728',
         password: '123456',
       },
       errors: {}
@@ -107,17 +106,24 @@ export default {
 
   methods: {
     async userLogin() {
-      this.loader = true;
 
       await this.$auth.loginWith('local', {data: this.form})
         .then(response => {
-          //this.$toast.success('Logged In successfully!');
           console.log(response)
           if(response.data.status == false){
             this.validation = false;
             this.active = true;
+
+            this.$izitoast.success({
+              title: 'Error !!',
+              message: 'Credentials does not matched'
+            })
           }
           else{
+            this.$izitoast.success({
+              title: 'Success !!',
+              message: 'successfully logged in'
+            })
             this.$nuxt.$options.router.push({name: 'account-dashboard'})
           }
         }).catch(error => {
