@@ -32,7 +32,7 @@
               </li>
               <li>
                 <nuxt-link
-                  :to="{ name: 'account-properties'}">
+                  :to="{ name: 'account-property'}">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Properties
                 </nuxt-link>
