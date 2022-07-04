@@ -18,20 +18,6 @@
               </li>
               <li>
                 <nuxt-link
-                  :to="{ name: 'account-settings'}">
-                  <b-icon icon="gear" font-scale="1"></b-icon>
-                  Settings
-                </nuxt-link>
-              </li>
-              <li>
-                <nuxt-link
-                  :to="{ name: 'account-packages'}">
-                  <b-icon icon="credit-card" font-scale="1"></b-icon>
-                  Buy credits
-                </nuxt-link>
-              </li>
-              <li>
-                <nuxt-link
                   :to="{ name: 'account-property'}">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Properties
@@ -39,11 +25,19 @@
               </li>
               <li>
                 <nuxt-link
-                  :to="{ name: 'account-security'}">
-                  <b-icon icon="lock" font-scale="1"></b-icon>
-                  Security
+                  :to="{ name: 'account-Ads'}">
+                  <b-icon icon="newspaper" font-scale="1"></b-icon>
+                  Ads
                 </nuxt-link>
               </li>
+              <li>
+                <nuxt-link
+                  :to="{ name: 'account-settings'}">
+                  <b-icon icon="gear" font-scale="1"></b-icon>
+                  Settings
+                </nuxt-link>
+              </li>
+
               <li>
                 <b-link @click="logout">
                   <font-awesome-icon icon="fa-solid fa-right-from-bracket"/>
