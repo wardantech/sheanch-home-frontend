@@ -17,8 +17,8 @@
             <div class="place-layout-listing">
               <div class="place-layout-listing-img">
                 <div class="place-layout-listing-img-slide">
-                  <b-carousel id="carousel-6" v-model="slide" :interval="1800" controls>
-                    <b-carousel-slide v-for="(image , i) in property.images" :img-src="image.img" :key="i"></b-carousel-slide>
+                  <b-carousel id="carousel-6" v-if="property.property.image != null" v-model="slide" :interval="1800" controls>
+                    <b-carousel-slide v-for="(image , i) in property.property.image.split(',')" :img-src="imageUrl+image" :key="i"></b-carousel-slide>
                   </b-carousel>
                 </div>
                 <div class="place-layout-listing-img-action">
@@ -31,14 +31,19 @@
                 <div class="place-layout-listing-detail-wrap">
                   <div class="place-layout-listing-detail-wrap-short">
                     <div class="list-price d-flex justify-content-between">
-                      <span class="sale-type rent">For Rent</span>
-                      <h6 class="card-price">$ {{ property.price }}</h6>
+                      <span class="sale-type rent" v-if="property.property.sale_type == 1">
+                        Rent
+                      </span>
+                      <span class="sale-type rent" v-if="property.property.sale_type == 2">
+                        Sale
+                      </span>
+                      <h6 class="card-price">$ {{ property.rent_amount }}</h6>
                     </div>
                   </div>
                 </div>
                 <div class="place-layout-listing-detail-name">
                   <b-link href="#" title="6007 Applegate Lane">
-                    {{ property.title }}
+                    {{ property.name }}
                   </b-link>
                 </div>
                 <div class="rating-wrap">
@@ -60,21 +65,21 @@
                     <div class="fleat-icon">
                       <font-awesome-icon icon="fa-solid fa-bed"/>
                     </div>
-                    {{ property.bed }} Bed
+                    {{ property.property.bed_rooms }} Bed
                   </div>
 
                   <div class="features-list-icon">
                     <div class="fleat-icon">
                       <font-awesome-icon icon="fa-solid fa-bath"/>
                     </div>
-                    {{ property.bath }} Bath
+                    {{ property.property.bath_rooms }} Bath
                   </div>
 
                   <div class="features-list-icon">
                     <div class="fleat-icon">
                       <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
                     </div>
-                    {{ property.area }} m²
+                    {{ property.property.area_size }} m²
                   </div>
                 </div>
               </div>
@@ -82,13 +87,13 @@
                 <div class="footer-first">
                   <div class="footer-first-location d-flex">
                     <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>
-                    {{ property.location }}
+                    {{ property.property.address }}
                   </div>
                 </div>
                 <div class="footer-flex">
                   <nuxt-link
                     class="product-view"
-                    :to="{ name: 'properties-property-details',
+                    :to="{ name: 'account-property-id-show',
                                     params: { id: property.id }}">
                     View
                   </nuxt-link>
@@ -114,25 +119,18 @@
     data() {
       return {
         slide: 0,
-        properties: [
-          {
-            id: 100,
-            title: '1745 T Street Southeast',
-            price: 232.999,
-            images: [
-              {img: 'https://resido.thesky9.com/storage/properties/p-3-400xauto.jpg'},
-              {img: 'https://resido.thesky9.com/storage/properties/p-16-400xauto.jpg'},
-              {img: 'https://resido.thesky9.com/storage/properties/p-6-400xauto.jpg'}
-            ],
-            location: 'Dhaka, Bangladesh',
-            type: 'rent',
-            reviews: 3,
-            bed: 4,
-            bath: 3,
-            area: 83,
-          }
-        ]
+        properties: []
       }
+    },
+    async created() {
+      this.properties = await this.$axios.$post('property/ad/active-property/list');
+    },
+    computed: {
+      imageUrl() {
+        return `${process.env.APP_ROOT_IMG_URL}`
+      }
+    },
+    methods: {
     }
   }
 </script>

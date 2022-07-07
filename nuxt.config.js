@@ -103,7 +103,8 @@ export default {
   },
   reactStrictMode: true,
   env: {
-    APP_ROOT_API: process.env.APP_ROOT_API
+    APP_ROOT_API: process.env.APP_ROOT_API,
+    APP_ROOT_IMG_URL: process.env.APP_ROOT_IMG_URL,
   },
   // pwa: {
   //   meta:{

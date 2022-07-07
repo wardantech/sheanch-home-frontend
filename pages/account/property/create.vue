@@ -36,17 +36,17 @@
               <div>
                 <form @submit.prevent="store">
                   <b-row>
-                    <b-col lg="6" md="6" sm="12">
-                      <b-form-group>
-                        <b-form-input v-model="form.landlord_name" class="custom-input-control" type="text"
-                                      placeholder="Landlord" readonly></b-form-input>
-                        <strong class="text-danger" style="font-size: 12px" v-if="errors.landlord_name">{{
-                          errors.landlord_name[0]
-                          }}</strong>
-                      </b-form-group>
-                    </b-col>
+<!--                    <b-col lg="6" md="6" sm="12">-->
+<!--                      <b-form-group>-->
+<!--                        <b-form-input v-model="form.landlord_name" class="custom-input-control" type="text"-->
+<!--                                      placeholder="Landlord" readonly></b-form-input>-->
+<!--                        <strong class="text-danger" style="font-size: 12px" v-if="errors.landlord_name">{{-->
+<!--                          errors.landlord_name[0]-->
+<!--                          }}</strong>-->
+<!--                      </b-form-group>-->
+<!--                    </b-col>-->
 
-                    <b-col lg="6" md="6" sm="12">
+                    <b-col lg="12" md="12" sm="12">
                       <b-form-group>
                         <select v-model="form.property_type_id"
                                 class="form-control custom-input-control">
@@ -130,7 +130,7 @@
                     <b-col lg="4" md="4" sm="12">
                       <b-form-group>
                         <b-form-input min="1" v-model="form.bed_rooms" class="custom-input-control" type="number"
-                                      placeholder="Enter Quantity (Qty)"></b-form-input>
+                                      placeholder="Enter Bedroom Quantity (Qty)"></b-form-input>
                         <strong class="text-danger" style="font-size: 12px" v-if="errors.bed_rooms">{{
                           errors.bed_rooms[0]
                           }}</strong>
@@ -390,12 +390,12 @@
 
         form: {
           landlord_name: this.$auth.user.name,
-          landlord_id: this.$auth.user.id,
+          landlord_id: this.$auth.user.landlord_id,
           property_type_id: '',
           name: '',
           division_id: '',
           district_id: '',
-          thanas: '',
+          thana_id: '',
           zip_code: '',
           bed_rooms: '',
           bath_rooms: '',

@@ -13,10 +13,10 @@
           <b-col lg="9" md="12">
             <div class="dashboard-wrapper">
               <div class="d-flex justify-content-between align-items-center">
-                <h5>Property Lists</h5>
+                <h5>Property Ads Lists</h5>
                 <nuxt-link
                   class="btn btn-sm btn-info"
-                  :to="{ name: 'account-property-create'}">
+                  :to="{ name: 'account-property-ads-create'}">
                   <font-awesome-icon icon="fa-solid fa-plus" />
                   Create
                 </nuxt-link>
@@ -41,17 +41,13 @@
                     <!--              <td>-->
                     <!--                <img style="height: 50px; width: 50px" :src="imageUrl+value.image" alt="">-->
                     <!--              </td>-->
-                    <td>{{value.name}}</td>
-                    <td>{{value.address}}</td>
-                    <td>
-                      <div v-if="value.lease_type == 1"> Commercial</div>
-                      <div v-if="value.lease_type == 2"> Residiantial</div>
-                    </td>
+                    <td>{{value.start_date}}</td>
                     <td>
                       <div v-if="value.sale_type == 1"> Rent</div>
                       <div v-if="value.sale_type == 2"> Sale</div>
                     </td>
                     <td>{{value.rent_amount}}</td>
+                    <td>{{value.security_money}}</td>
                     <td>
                       <b-button
                                 :class="value.status == 1 ? 'btn-sm btn-info': 'btn-sm btn-danger'">
@@ -104,13 +100,12 @@
     data() {
       let sortOrders = {};
       let columns = [
-        {width: '', label: 'Sl', name: 'id' },
-        {width: '', label: 'Name', name: 'name'},
-        {width: '', label: 'Address', name: 'address'},
+        {width: '', label: 'Sl', name: 'id'},
+        {width: '', label: 'Lease/Rent Start Date', name: 'start_date'},
         {width: '', label: 'Type', name: 'sale_type'},
-        {width: '', label: 'Lease Type', name: 'lease_type'},
         {width: '', label: 'Amount', name: 'rent_amount'},
-        {width: '', label: 'Status', name: 'status'},
+        {width: '', label: 'Security money', name: 'security_money'},
+        {width: '', label: 'Status', name: ''},
         // {width: '', label: 'Action', name: ''},
       ];
       columns.forEach((column) => {
@@ -143,7 +138,7 @@
       }
     },
     methods: {
-      getData(url = '/property/list') {
+      getData(url = '/property/ad/list') {
         this.tableData.draw++;
         this.$axios.post(url, {params: this.tableData})
           .then(response => {
