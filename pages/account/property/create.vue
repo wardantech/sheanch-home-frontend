@@ -390,7 +390,7 @@
 
         form: {
           landlord_name: this.$auth.user.name,
-          landlord_id: this.$auth.user.id,
+          landlord_id: this.$auth.user.landlord_id,
           property_type_id: '',
           name: '',
           division_id: '',

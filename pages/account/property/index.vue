@@ -44,12 +44,27 @@
                     <td>{{value.name}}</td>
                     <td>{{value.address}}</td>
                     <td>
-                      <!--<nuxt-link :to="{name:'users-landlords-id-edit',params: { id: value.id }}" rel="tooltip"-->
-                      <!--class="btn btn-sm btn-success btn-simple"-->
-                      <!--title="Edit">-->
-                      <!--<font-awesome-icon icon="fa-solid fa-pen-to-square"/>-->
-                      <!--</nuxt-link>-->
+                      <div v-if="value.lease_type == 1"> Commercial</div>
+                      <div v-if="value.lease_type == 2"> Residiantial</div>
                     </td>
+                    <td>
+                      <div v-if="value.sale_type == 1"> Rent</div>
+                      <div v-if="value.sale_type == 2"> Sale</div>
+                    </td>
+                    <td>{{value.rent_amount}}</td>
+                    <td>
+                      <b-button
+                                :class="value.status == 1 ? 'btn-sm btn-info': 'btn-sm btn-danger'">
+                        {{ value.status == 1 ? 'Active' : 'Inactive' }}
+                      </b-button>
+                    </td>
+<!--                    <td>-->
+<!--                      &lt;!&ndash;<nuxt-link :to="{name:'users-landlords-id-edit',params: { id: value.id }}" rel="tooltip"&ndash;&gt;-->
+<!--                      &lt;!&ndash;class="btn btn-sm btn-success btn-simple"&ndash;&gt;-->
+<!--                      &lt;!&ndash;title="Edit">&ndash;&gt;-->
+<!--                      &lt;!&ndash;<font-awesome-icon icon="fa-solid fa-pen-to-square"/>&ndash;&gt;-->
+<!--                      &lt;!&ndash;</nuxt-link>&ndash;&gt;-->
+<!--                    </td>-->
                   </tr>
                   </tbody>
                 </DataTable>
@@ -92,7 +107,11 @@
         {width: '', label: 'Sl', name: 'id' },
         {width: '', label: 'Name', name: 'name'},
         {width: '', label: 'Address', name: 'address'},
-        {width: '', label: 'Action', name: ''},
+        {width: '', label: 'Type', name: 'sale_type'},
+        {width: '', label: 'Lease Type', name: 'lease_type'},
+        {width: '', label: 'Amount', name: 'rent_amount'},
+        {width: '', label: 'Status', name: 'status'},
+        // {width: '', label: 'Action', name: ''},
       ];
       columns.forEach((column) => {
         sortOrders[column.name] = -1;
@@ -124,7 +143,7 @@
       }
     },
     methods: {
-      getData(url = '/property/get-list') {
+      getData(url = '/property/list') {
         this.tableData.draw++;
         this.$axios.post(url, {params: this.tableData})
           .then(response => {

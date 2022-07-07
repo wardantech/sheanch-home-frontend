@@ -16,7 +16,7 @@
                 <h5>Property Ads Lists</h5>
                 <nuxt-link
                   class="btn btn-sm btn-info"
-                  :to="{ name: 'account-Ads-create'}">
+                  :to="{ name: 'account-property-ads-create'}">
                   <font-awesome-icon icon="fa-solid fa-plus" />
                   Create
                 </nuxt-link>
@@ -42,20 +42,25 @@
                     <!--                <img style="height: 50px; width: 50px" :src="imageUrl+value.image" alt="">-->
                     <!--              </td>-->
                     <td>{{value.start_date}}</td>
-                    <td>{{value.rent_amount}}</td>
                     <td>
-                      <b-button @click="statusChange({id:value.id, status:value.status})"
+                      <div v-if="value.sale_type == 1"> Rent</div>
+                      <div v-if="value.sale_type == 2"> Sale</div>
+                    </td>
+                    <td>{{value.rent_amount}}</td>
+                    <td>{{value.security_money}}</td>
+                    <td>
+                      <b-button
                                 :class="value.status == 1 ? 'btn-sm btn-info': 'btn-sm btn-danger'">
                         {{ value.status == 1 ? 'Active' : 'Inactive' }}
                       </b-button>
                     </td>
-                    <td>
-                      <!--<nuxt-link :to="{name:'users-landlords-id-edit',params: { id: value.id }}" rel="tooltip"-->
-                      <!--class="btn btn-sm btn-success btn-simple"-->
-                      <!--title="Edit">-->
-                      <!--<font-awesome-icon icon="fa-solid fa-pen-to-square"/>-->
-                      <!--</nuxt-link>-->
-                    </td>
+<!--                    <td>-->
+<!--                      &lt;!&ndash;<nuxt-link :to="{name:'users-landlords-id-edit',params: { id: value.id }}" rel="tooltip"&ndash;&gt;-->
+<!--                      &lt;!&ndash;class="btn btn-sm btn-success btn-simple"&ndash;&gt;-->
+<!--                      &lt;!&ndash;title="Edit">&ndash;&gt;-->
+<!--                      &lt;!&ndash;<font-awesome-icon icon="fa-solid fa-pen-to-square"/>&ndash;&gt;-->
+<!--                      &lt;!&ndash;</nuxt-link>&ndash;&gt;-->
+<!--                    </td>-->
                   </tr>
                   </tbody>
                 </DataTable>
@@ -97,9 +102,11 @@
       let columns = [
         {width: '', label: 'Sl', name: 'id'},
         {width: '', label: 'Lease/Rent Start Date', name: 'start_date'},
-        {width: '', label: 'Lease/Rent Amount', name: 'rent_amount'},
+        {width: '', label: 'Type', name: 'sale_type'},
+        {width: '', label: 'Amount', name: 'rent_amount'},
+        {width: '', label: 'Security money', name: 'security_money'},
         {width: '', label: 'Status', name: ''},
-        {width: '', label: 'Action', name: ''},
+        // {width: '', label: 'Action', name: ''},
       ];
       columns.forEach((column) => {
         sortOrders[column.name] = -1;

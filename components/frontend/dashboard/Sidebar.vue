@@ -25,7 +25,7 @@
               </li>
               <li>
                 <nuxt-link
-                  :to="{ name: 'account-Ads'}">
+                  :to="{ name: 'account-property-ads'}">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Ads
                 </nuxt-link>

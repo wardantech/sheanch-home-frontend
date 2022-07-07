@@ -28,35 +28,39 @@
           <b-col lg="8" md="12" sm="12">
             <div class="property-detail-wrap p-4">
               <div class="property-detail-wrap-title">
-                                <span class="pr-type">
-                                    For Sale
-                                </span>
-                <h3>81 Seaton Place Northwest</h3>
+                 <span class="pr-type" v-if="property.sale_type == 1">
+                        For Rent
+                      </span>
+                <span class="pr-type" v-if="property.sale_type == 2">
+                         For Sale
+                      </span>
+
+                <h3>{{ property.name }}</h3>
                 <span>
                                     <font-awesome-icon icon="fa-solid fa-location-dot"/>
-                                    5630 Kohler OrchardBobbyburgh, SD 72805, Lakewood, Colorado
+                                    {{ property.address }}
                                 </span>
-                <h3 class="fix-price">$495,701</h3>
+                <h3 class="fix-price">${{ property.rent_amount }}</h3>
                 <div class="features-list">
                   <div class="features-list-icon">
                     <div class="fleat-icon">
                       <font-awesome-icon icon="fa-solid fa-bed"/>
                     </div>
-                    1 Bed
+                    {{ property.bed_rooms }}
                   </div>
 
                   <div class="features-list-icon">
                     <div class="fleat-icon">
                       <font-awesome-icon icon="fa-solid fa-bath"/>
                     </div>
-                    5 Bath
+                    {{ property.bath_rooms }}
                   </div>
 
                   <div class="features-list-icon">
                     <div class="fleat-icon">
                       <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
                     </div>
-                    83 m²
+                    {{ property.area_size }}
                   </div>
                 </div>
               </div>
@@ -75,15 +79,15 @@
                       <ul class="detail_features">
                         <li>
                           <strong>Bedrooms: </strong>
-                          1 Beds
+                          {{ property.bed_rooms }}
                         </li>
                         <li>
                           <strong>Bathrooms: </strong>
-                          5 Bath
+                          {{ property.bath_rooms }}
                         </li>
                         <li>
                           <strong>Square: </strong>
-                          83 m²
+                          {{ property.area_size }}
                         </li>
                         <li>
                           <strong>Floors: </strong>
@@ -91,7 +95,7 @@
                         </li>
                         <li>
                           <strong>Property Type: </strong>
-                          Villa
+                          {{ this.property_type }}
                         </li>
                       </ul>
                     </div>
@@ -118,17 +122,9 @@
                       ></b-embed>
                       <div class="mt-3">
                         <p>
-                          Don't let him know she liked them best, For this must ever be A secret, kept from all the
-                          children she knew she had a bone in his throat,' said the Footman, 'and that for the moment
-                          they saw the White Rabbit as he spoke, and added 'It isn't mine,' said the King. The White
-                          Rabbit as he wore his crown over the edge with each hand. 'And now which is which?' she said
-                          to herself; 'the March Hare said in a tone of great relief. 'Now at OURS they had been
-                          anxiously looking across the field after it, and finding it very much,' said Alice; 'living at
-                          the righthand bit again, and said, very gravely, 'I think, you ought to have finished,' said
-                          the one who got any advantage from the Gryphon, 'you first form into a doze; but, on being
-                          pinched by the Hatter, 'when the Queen jumped up and rubbed its eyes: then it chuckled. 'What
-                          fun!' said the Caterpillar. 'Well, perhaps you were down here till I'm somebody else"--but, oh
-                          dear!' cried Alice again, for this time the Queen had ordered. They very soon.
+                          {{
+                            property.description
+                          }}
                         </p>
                       </div>
                     </div>
@@ -148,13 +144,9 @@
                   <b-card-body>
                     <div class="block-body">
                       <ul class="detail_features">
-                        <li>
+                        <li v-for="(utility, j) in property.utilities_paid_by_landlord" :key="j">
                           <font-awesome-icon icon="fa-solid fa-circle-check"/>
-                          <span class="ml-2">Parking</span>
-                        </li>
-                        <li>
-                          <font-awesome-icon icon="fa-solid fa-circle-check"/>
-                          <span class="ml-2">Laundry Room</span>
+                          <span class="ml-2">{{ utility.name }}</span>
                         </li>
                       </ul>
                     </div>
@@ -173,7 +165,7 @@
                 <b-collapse id="accordion-4" visible accordion="my-accordion-4" role="tabpanel">
                   <b-card-body>
                     <div class="block-body p-0">
-                      <p>3349 Dave Hill Abshireborough, ID 78326, Hampton, Virginia</p>
+                      <p>{{ property.address }}</p>
                       <div class="map-container">
                         <b-row class="justify-content-center">
                           <b-col md="12">
@@ -487,49 +479,67 @@
               <div class="sidebar-message-widget">
                 <div class="widget-header">
                   <div class="photo">
-                    <b-img src="https://resido.thesky9.com/storage/accounts/6-150x150.jpg"></b-img>
+                    <b-img :src="imageUrl+landlord.image"></b-img>
                   </div>
                   <div class="widget-details">
                     <h4>
-                      <b-link href="#">Ollie Paucek</b-link>
+                      <b-link href="#">{{ landlord.name }}</b-link>
                     </h4>
 
                     <span>
                                               <b-icon icon="telephone" aria-hidden="true"></b-icon>
-                                              +13414690277
+                                              {{ landlord.mobile }}
                                           </span>
                   </div>
                 </div>
                 <div class="clearfix"></div>
 
-                <div class="widget-body">
-                  <b-form>
-                    <div class="form-group">
-                      <b-form-input name="name" type="text" placeholder="Name *"></b-form-input>
-                    </div>
+                <nuxt-link
+                  v-if="$auth.loggedIn && $auth.user.type == 3"
+                  class="btn btn-black btn-md rounded btn-block mt-5"
+                  :to="{ name: 'register'}">
+                  <b-button  class="btn btn-black btn-md rounded btn-block mt-5">
+                    For Apply
+                  </b-button>
+                </nuxt-link>
 
-                    <div class="form-group">
-                      <b-form-input name="phone" type="text" placeholder="Phone *"></b-form-input>
-                    </div>
+                <nuxt-link
+                  class="btn btn-black btn-md rounded btn-block mt-5"
+                  :to="{ name: 'register'}">
+                  <b-button  class="btn btn-black btn-md rounded btn-block mt-5">
+                    Sign In  for Apply
+                  </b-button>
+                </nuxt-link>
 
-                    <div class="form-group">
-                      <b-form-input name="email" type="email" placeholder="Email"></b-form-input>
-                    </div>
 
-                    <div class="form-group">
-                      <b-form-input name="subject" type="text" placeholder="Subject *" value="6007 Applegate Lane"
-                                    disabled></b-form-input>
-                    </div>
+                <!--                <div class="widget-body">-->
+                <!--                  <b-form>-->
+                <!--                    <div class="form-group">-->
+                <!--                      <b-form-input name="name" type="text" placeholder="Name *"></b-form-input>-->
+                <!--                    </div>-->
 
-                    <div class="form-group">
-                      <b-form-textarea name="message" placeholder="Message"></b-form-textarea>
-                    </div>
+                <!--                    <div class="form-group">-->
+                <!--                      <b-form-input name="phone" type="text" placeholder="Phone *"></b-form-input>-->
+                <!--                    </div>-->
 
-                    <div class="form-group">
-                      <b-button class="btn btn-black btn-md rounded btn-block">Send Message</b-button>
-                    </div>
-                  </b-form>
-                </div>
+                <!--                    <div class="form-group">-->
+                <!--                      <b-form-input name="email" type="email" placeholder="Email"></b-form-input>-->
+                <!--                    </div>-->
+
+                <!--                    <div class="form-group">-->
+                <!--                      <b-form-input name="subject" type="text" placeholder="Subject *" value="6007 Applegate Lane"-->
+                <!--                                    disabled></b-form-input>-->
+                <!--                    </div>-->
+
+                <!--                    <div class="form-group">-->
+                <!--                      <b-form-textarea name="message" placeholder="Message"></b-form-textarea>-->
+                <!--                    </div>-->
+
+                <!--                    <div class="form-group">-->
+                <!--                      <b-button class="btn btn-black btn-md rounded btn-block">Send Message</b-button>-->
+                <!--                    </div>-->
+                <!--                  </b-form>-->
+                <!--                </div>-->
               </div>
             </div>
           </b-col>
@@ -644,27 +654,46 @@
 </template>
 
 <script>
-  import Slick from 'vue-slick';
-  import Newsletter from "../../components/frontend/Newsletter";
+import Slick from 'vue-slick';
+import Newsletter from "@/components/frontend/Newsletter";
 
-  export default {
-    name: "property-details",
-    components: {Newsletter, Slick},
-    data() {
-      return {
-        slickOptions: {
-          lazyLoad: 'ondemand',
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          prevArrow: false,
-          nextArrow: false,
-          centerMode: true
-        },
-        value: 75,
-        slide6: 0,
-      };
+
+export default {
+  name: "show",
+  auth: false,
+  components: {Newsletter, Slick},
+  data() {
+    return {
+      property: [],
+      property_type: '',
+      landlord: '',
+      slickOptions: {
+        lazyLoad: 'ondemand',
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        prevArrow: false,
+        nextArrow: false,
+        centerMode: true
+      },
+      value: 75,
+      slide6: 0,
+    };
+  },
+  computed: {
+    imageUrl() {
+      return `${process.env.APP_ROOT_IMG_URL}`
     }
-  }
+  },
+  async created() {
+    await this.$axios.$get('property/show/' + this.$route.params.id)
+      .then(response => {
+        this.property = response.data;
+        this.property_type = response.data.property_type.name;
+        this.landlord = response.data.landlord;
+        console.log(this.property);
+      })
+  },
+}
 </script>
 
 <style scoped>

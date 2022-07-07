@@ -69,19 +69,6 @@
                     </b-col>
 
                     <b-col lg="6" md="6" sm="12">
-                      <b-form-group label="Status">
-                        <select v-model="form.status" id="" class="form-control custom-input-control">
-                          <option value="">Select</option>
-                          <option value="1">Active</option>
-                          <option value="0">Inactive</option>
-
-                        </select>
-                        <strong class="text-danger" style="font-size: 12px"
-                                v-if="errors.status">{{ errors.status[0] }}</strong>
-                      </b-form-group>
-                    </b-col>
-
-                    <b-col lg="6" md="6" sm="12">
                       <b-form-group label="Start date">
                         <b-form-input class="custom-input-control" v-model="form.start_date" type="date"></b-form-input>
                         <strong class="text-danger" style="font-size: 12px"
@@ -170,10 +157,10 @@
           .then(response => {
             this.$izitoast.success({
               title: 'Success !!',
-              message: 'Property create successfully!'
+              message: 'Property ads create successfully!'
             });
 
-            this.$router.push({name: 'account-Ads'});
+            this.$router.push({name: 'account-property-ads'});
           })
           .catch(error => {
 
