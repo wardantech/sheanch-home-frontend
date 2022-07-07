@@ -1,24 +1,27 @@
 <template>
   <div>
-    <div class="gallery">
+    <div  class="gallery">
       <slick
         ref="slick"
         :options="slickOptions">
-        <a href="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg">
-          <img src="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg" alt="">
+        <a v-for="(image, i) in propertyImage" :key="i" :href="imageUrl+image">
+          <img :src="imageUrl+image" alt="">
         </a>
-        <a href="https://resido.thesky9.com/storage/properties/p-15-autox610.jpg">
-          <img src="https://resido.thesky9.com/storage/properties/p-15-autox610.jpg" alt="">
-        </a>
-        <a href="https://resido.thesky9.com/storage/properties/p-13-autox610.jpg">
-          <img src="https://resido.thesky9.com/storage/properties/p-13-autox610.jpg" alt="">
-        </a>
-        <a href="https://resido.thesky9.com/storage/properties/p-19-autox610.jpg">
-          <img src="https://resido.thesky9.com/storage/properties/p-19-autox610.jpg" alt="">
-        </a>
-        <a href="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg">
-          <img src="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg" alt="">
-        </a>
+<!--        <a href="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg">-->
+<!--          <img src="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg" alt="">-->
+<!--        </a>-->
+<!--        <a href="https://resido.thesky9.com/storage/properties/p-15-autox610.jpg">-->
+<!--          <img src="https://resido.thesky9.com/storage/properties/p-15-autox610.jpg" alt="">-->
+<!--        </a>-->
+<!--        <a href="https://resido.thesky9.com/storage/properties/p-13-autox610.jpg">-->
+<!--          <img src="https://resido.thesky9.com/storage/properties/p-13-autox610.jpg" alt="">-->
+<!--        </a>-->
+<!--        <a href="https://resido.thesky9.com/storage/properties/p-19-autox610.jpg">-->
+<!--          <img src="https://resido.thesky9.com/storage/properties/p-19-autox610.jpg" alt="">-->
+<!--        </a>-->
+<!--        <a href="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg">-->
+<!--          <img src="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg" alt="">-->
+<!--        </a>-->
       </slick>
     </div>
 
@@ -666,6 +669,7 @@ export default {
     return {
       property: [],
       property_type: '',
+      propertyImage:[],
       landlord: '',
       slickOptions: {
         lazyLoad: 'ondemand',
@@ -676,7 +680,7 @@ export default {
         centerMode: true
       },
       value: 75,
-      slide6: 0,
+      slide5: 0,
     };
   },
   computed: {
@@ -690,6 +694,8 @@ export default {
         this.property = response.data;
         this.property_type = response.data.property_type.name;
         this.landlord = response.data.landlord;
+        this.propertyImage = this.property.image.split(',');
+
         console.log(this.property);
       })
   },
