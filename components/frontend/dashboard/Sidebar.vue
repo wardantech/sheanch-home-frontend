@@ -16,18 +16,25 @@
                   Dashboard
                 </nuxt-link>
               </li>
-              <li>
+              <li v-if="$auth.loggedIn && $auth.user.type == 2">
                 <nuxt-link
                   :to="{ name: 'account-property'}">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Properties
                 </nuxt-link>
               </li>
-              <li>
+              <li v-if="$auth.loggedIn && $auth.user.type == 2">
                 <nuxt-link
                   :to="{ name: 'account-property-ads'}">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Ads
+                </nuxt-link>
+              </li>
+              <li>
+                <nuxt-link
+                  :to="{ name: 'account-property-leases'}">
+                  <b-icon icon="newspaper" font-scale="1"></b-icon>
+                  leases
                 </nuxt-link>
               </li>
               <li>
