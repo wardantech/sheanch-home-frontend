@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div  class="gallery">
       <slick
         ref="slick"
@@ -7,6 +8,7 @@
 <!--        <a v-for="(image, i) in propertyImage" :key="i" :href="imageUrl+image">-->
 <!--          <img :src="imageUrl+image" alt="">-->
 <!--        </a>-->
+
         <a href="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg">
           <img src="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg" alt="">
         </a>
@@ -22,9 +24,9 @@
         <a href="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg">
           <img src="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg" alt="">
         </a>
+
       </slick>
     </div>
-
     <section class="property-detail bg-gary">
       <b-container>
         <b-row>
@@ -681,7 +683,7 @@ export default {
         centerMode: true
       },
       value: 75,
-      slide5: 0,
+      slide6: 0,
     };
   },
   computed: {
@@ -696,7 +698,6 @@ export default {
         this.property_type = response.data.property_type.name;
         this.landlord = response.data.landlord;
         this.propertyImage = this.property.image.split(',');
-
         console.log(this.property);
       })
   },
