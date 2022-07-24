@@ -660,75 +660,74 @@
 </template>
 
 <script>
-import Slick from 'vue-slick';
-import Newsletter from "@/components/frontend/Newsletter";
+  import Slick from 'vue-slick';
+  import Newsletter from "@/components/frontend/Newsletter";
 
+  export default {
+    name: "show",
+    auth: false,
+    components: {Newsletter, Slick},
+    data() {
+      return {
+        property: [],
+        property_type: '',
+        propertyImage:[],
+        landlord: '',
+        slickOptions: {
+          lazyLoad: 'ondemand',
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          prevArrow: false,
+          nextArrow: false,
+          centerMode: true
+        },
+        value: 75,
+        slide6: 0,
+      };
+    },
+    computed: {
+      imageUrl() {
+        return `${process.env.APP_ROOT_IMG_URL}`
+      }
+    },
+    async created() {
+      await this.$axios.$get('property/show/' + this.$route.params.id)
+        .then(response => {
+          this.property = response.data;
+          this.property_type = response.data.property_type.name;
+          this.landlord = response.data.landlord;
+          this.propertyImage = this.property.image.split(',');
+          console.log(this.property);
+        })
+    },
+    methods:{
+       apply(){
+        this.$swal.fire({
+          title: 'Are you confirm to apply for this property',
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
 
-export default {
-  name: "show",
-  auth: false,
-  components: {Newsletter, Slick},
-  data() {
-    return {
-      property: [],
-      property_type: '',
-      propertyImage:[],
-      landlord: '',
-      slickOptions: {
-        lazyLoad: 'ondemand',
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        prevArrow: false,
-        nextArrow: false,
-        centerMode: true
-      },
-      value: 75,
-      slide6: 0,
-    };
-  },
-  computed: {
-    imageUrl() {
-      return `${process.env.APP_ROOT_IMG_URL}`
-    }
-  },
-  async created() {
-    await this.$axios.$get('property/show/' + this.$route.params.id)
-      .then(response => {
-        this.property = response.data;
-        this.property_type = response.data.property_type.name;
-        this.landlord = response.data.landlord;
-        this.propertyImage = this.property.image.split(',');
-        console.log(this.property);
-      })
-  },
-  methods:{
-     apply(){
-      this.$swal.fire({
-        title: 'Are you confirm to apply for this property',
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-
-        if (result.isConfirmed) {
-          this.$axios.$post('lease/store/',
-            {
-              property_id: this.$route.params.id,
-              tenant_id: this.$auth.user.tenant_id,
-              landlord_id: this.landlord.id,
-            }
-          )
-            .then(response => {
-              this.$swal.fire('Success !', '', 'wait for admin confirmation')
-            })
-            .catch(error => {
-              alert(error)
-            })
-        }
-      })
+          if (result.isConfirmed) {
+            this.$axios.$post('lease/store/',
+              {
+                property_id: this.$route.params.id,
+                tenant_id: this.$auth.user.tenant_id,
+                landlord_id: this.landlord.id,
+              }
+            )
+              .then(response => {
+                this.$swal.fire('Success !', '', 'wait for admin confirmation')
+              })
+              .catch(error => {
+                alert(error)
+              })
+          }
+        })
+      }
     }
   }
-}
 </script>
 
 <style scoped>

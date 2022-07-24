@@ -5,9 +5,25 @@
         <b-row class="row justify-content-center">
           <b-col lg="7" md="10" class="text-center">
             <div class="section-heading center">
-              <h2>Explore Good Places</h2>
-              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                deleniti atque corrupti quos dolores</p>
+              <h2>Latest Properties</h2>
+              <!--<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum-->
+              <!--deleniti atque corrupti quos dolores</p>-->
+              <div class="latest-properties-radio">
+                <b-row class="my-4">
+                  <b-col lg="12" md="12" sm="12">
+                    <b-form-radio-group
+                      id="btn-radios-2"
+                      :options="options"
+                      :aria-describedby="ariaDescribedby"
+                      button-variant="outline-primary"
+                      size="lg"
+                      name="radio-btn-outline"
+                      buttons
+                      class=""
+                    ></b-form-radio-group>
+                  </b-col>
+                </b-row>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -17,7 +33,8 @@
             <div class="place-layout-listing">
               <div class="place-layout-listing-img">
                 <div class="place-layout-listing-img-slide">
-                  <b-carousel id="carousel-6" v-if="property.property.image != null" v-model="slide" :interval="1800" controls>
+                  <b-carousel id="carousel-6" v-if="property.property.image != null" v-model="slide" :interval="1800"
+                              controls>
                     <!--<b-carousel-slide v-for="(image , i) in property.property.image.split(',')" :img-src="imageUrl+image" :key="i"></b-carousel-slide>-->
                     <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"></b-carousel-slide>
                     <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=53"></b-carousel-slide>
@@ -121,6 +138,10 @@
     name: "Place",
     data() {
       return {
+        options: [
+          {text: 'For Sale', value: '1'},
+          {text: 'To Rent', value: '2'}
+        ],
         slide: 0,
         properties: []
       }
@@ -133,8 +154,7 @@
         return `${process.env.APP_ROOT_IMG_URL}`
       }
     },
-    methods: {
-    }
+    methods: {}
   }
 </script>
 
