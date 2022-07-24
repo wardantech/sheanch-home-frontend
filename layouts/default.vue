@@ -4,7 +4,7 @@
 
         <div id="wrapper">
             <!-- Start Top Bar -->
-            <Topbar/>
+            <!--<Topbar/>-->
             <!-- End Top Bar -->
 
             <!-- Start Navigation -->

@@ -11,28 +11,14 @@
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="custom-navbar">
-              <b-nav-item href="#">Home</b-nav-item>
+              <b-nav-item href="#">Company</b-nav-item>
+              <b-nav-item href="#">Blog</b-nav-item>
 
-              <b-nav-item-dropdown class="custom-dropdown-menu" text="Listing" right>
-                <b-dropdown-item href="#">Listing Layout</b-dropdown-item>
-                <b-dropdown-item href="#">Grid Layout</b-dropdown-item>
-                <b-dropdown-item href="#">Half Map Search</b-dropdown-item>
-              </b-nav-item-dropdown>
-
-              <b-nav-item-dropdown class="custom-dropdown-menu" text="Features" right>
-                <b-dropdown-item href="#">Single Property</b-dropdown-item>
-                <b-dropdown-item href="#">Agents</b-dropdown-item>
-                <b-dropdown-item href="#">My Account</b-dropdown-item>
-                <b-dropdown-item href="#">Submit Property</b-dropdown-item>
-              </b-nav-item-dropdown>
-
-              <b-nav-item-dropdown class="custom-dropdown-menu" text="Pages" right>
-                <b-dropdown-item href="#">Blog Page</b-dropdown-item>
-                <b-dropdown-item href="#">Blog Detail</b-dropdown-item>
-                <b-dropdown-item href="#">Pricing</b-dropdown-item>
-                <b-dropdown-item href="#">Error Page</b-dropdown-item>
-                <b-dropdown-item href="#">Contact</b-dropdown-item>
-              </b-nav-item-dropdown>
+              <!--<b-nav-item-dropdown class="custom-dropdown-menu" text="Listing" right>-->
+                <!--<b-dropdown-item href="#">Listing Layout</b-dropdown-item>-->
+                <!--<b-dropdown-item href="#">Grid Layout</b-dropdown-item>-->
+                <!--<b-dropdown-item href="#">Half Map Search</b-dropdown-item>-->
+              <!--</b-nav-item-dropdown>-->
 
               <li class="nav-item b-nav-dropdown dropdown custom-dropdown-menu">
                 <nuxt-link

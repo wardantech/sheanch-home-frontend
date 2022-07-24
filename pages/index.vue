@@ -17,7 +17,7 @@
         <!-- End Location -->
 
         <!-- Start Packages -->
-        <Package/>
+        <!--<Package/>-->
         <!-- End Packages -->
 
         <!-- Start newsletter -->
