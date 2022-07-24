@@ -697,7 +697,10 @@ export default {
         this.property = response.data;
         this.property_type = response.data.property_type.name;
         this.landlord = response.data.landlord;
-        this.propertyImage = this.property.image.split(',');
+        if(this.property.image != null){
+          this.propertyImage = this.property.image.split(',');
+        }
+
         console.log(this.property);
       })
   },
