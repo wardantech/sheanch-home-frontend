@@ -1,31 +1,63 @@
 <template>
   <div>
-    <div class="gallery">
-      <slick
-        ref="slick"
-        :options="slickOptions">
-        <!--        <a v-for="(image, i) in propertyImage" :key="i" :href="imageUrl+image">-->
-        <!--          <img :src="imageUrl+image" alt="">-->
-        <!--        </a>-->
+    <div  class="gallery">
+      <!--<Slick-->
+        <!--ref="slick"-->
+        <!--:options="slickOptions">-->
+        <!---->
+        <!--<a v-for="(image, i) in propertyImage" :key="i" :href="imageUrl+image">-->
+          <!--<img :src="imageUrl+image" alt="Image">-->
+        <!--</a>-->
 
-        <a href="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg">
-          <img src="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg" alt="">
-        </a>
-        <a href="https://resido.thesky9.com/storage/properties/p-15-autox610.jpg">
-          <img src="https://resido.thesky9.com/storage/properties/p-15-autox610.jpg" alt="">
-        </a>
-        <a href="https://resido.thesky9.com/storage/properties/p-13-autox610.jpg">
-          <img src="https://resido.thesky9.com/storage/properties/p-13-autox610.jpg" alt="">
-        </a>
-        <a href="https://resido.thesky9.com/storage/properties/p-19-autox610.jpg">
-          <img src="https://resido.thesky9.com/storage/properties/p-19-autox610.jpg" alt="">
-        </a>
-        <a href="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg">
-          <img src="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg" alt="">
-        </a>
+        <!--<a href="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg">-->
+          <!--<img src="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg" alt="">-->
+        <!--</a>-->
+        <!--<a href="https://resido.thesky9.com/storage/properties/p-15-autox610.jpg">-->
+          <!--<img src="https://resido.thesky9.com/storage/properties/p-15-autox610.jpg" alt="">-->
+        <!--</a>-->
+        <!--<a href="https://resido.thesky9.com/storage/properties/p-13-autox610.jpg">-->
+          <!--<img src="https://resido.thesky9.com/storage/properties/p-13-autox610.jpg" alt="">-->
+        <!--</a>-->
+        <!--<a href="https://resido.thesky9.com/storage/properties/p-19-autox610.jpg">-->
+          <!--<img src="https://resido.thesky9.com/storage/properties/p-19-autox610.jpg" alt="">-->
+        <!--</a>-->
+        <!--<a href="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg">-->
+          <!--<img src="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg" alt="">-->
+        <!--</a>-->
 
-      </slick>
+      <!--</Slick>-->
+
+      <b-carousel
+        id="carousel-1"
+        v-model="slide"
+        :interval="4000"
+        controls
+        indicators
+        background="#ababab"
+        img-width="1024"
+        img-height="480"
+        style="text-shadow: 1px 1px 2px #333;"
+        @sliding-start="onSlideStart"
+        @sliding-end="onSlideEnd"
+      >
+
+        <b-carousel-slide v-for="(image, i) in propertyImage" :key="i">
+          <template #img>
+            <img
+              class="d-block img-fluid w-100"
+              width="1024"
+              height="480"
+              src="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg"
+              alt="image slot"
+            >
+          </template>
+        </b-carousel-slide>
+
+
+      </b-carousel>
+
     </div>
+
     <section class="property-detail bg-gary">
       <b-container>
         <b-row>
@@ -499,9 +531,11 @@
                 <div class="clearfix"></div>
 
 
+
+
                 <b-button
                   v-if="$auth.loggedIn && $auth.user.type == 3"
-                  @click="apply" class="btn btn-black btn-md rounded btn-block mt-5">
+                  @click="apply"  class="btn btn-black btn-md rounded btn-block mt-5">
                   For Apply
                 </b-button>
 
@@ -509,8 +543,8 @@
                 <nuxt-link v-else
                            class="btn btn-black btn-md rounded btn-block mt-5"
                            :to="{ name: 'login'}">
-                  <b-button class="btn btn-black btn-md rounded btn-block mt-5">
-                    Sign In for Apply
+                  <b-button  class="btn btn-black btn-md rounded btn-block mt-5">
+                    Sign In  for Apply
                   </b-button>
                 </nuxt-link>
 
@@ -668,7 +702,7 @@
       return {
         property: [],
         property_type: '',
-        propertyImage: [],
+        propertyImage:[],
         landlord: '',
         slickOptions: {
           lazyLoad: 'ondemand',
@@ -676,7 +710,9 @@
           slidesToScroll: 1,
           prevArrow: false,
           nextArrow: false,
-          centerMode: true
+          centerMode: true,
+          infinite: true,
+          loop: true,
         },
         value: 75,
         slide6: 0,
@@ -693,15 +729,15 @@
           this.property = response.data;
           this.property_type = response.data.property_type.name;
           this.landlord = response.data.landlord;
-          if (this.property.image != null) {
+          if(this.property.image != null){
             this.propertyImage = this.property.image.split(',');
           }
 
-          console.log(this.property);
+          console.log(this.propertyImage);
         })
     },
-    methods: {
-      apply() {
+    methods:{
+      apply(){
         this.$swal.fire({
           title: 'Are you confirm to apply for this property',
           showCancelButton: true,
@@ -728,7 +764,6 @@
       }
     }
   }
-}
 </script>
 
 <style scoped>
