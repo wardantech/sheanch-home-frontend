@@ -32,93 +32,467 @@
 
           <div class="gallery">
             <Slick ref="slick" :options="slickOptions">
-              <div v-for="(property, index) in properties" :key="index">
-                <div class="place-layout-listing">
-                  <div class="place-layout-listing-img">
-                    <div class="place-layout-listing-img-slide">
-                      <b-img src="https://picsum.photos/1024/480/?image=53" alt="Image 1"></b-img>
-                      <!--<b-carousel id="carousel-6"  v-model="slide" :interval="1800" controls>-->
+              <div v-if="properties.length > 0" v-for="(property, index) in properties"  >
+                <div>
+                  <div class="place-layout-listing">
+                    <div class="place-layout-listing-img">
+                      <div class="place-layout-listing-img-slide">
+                        <b-img src="https://picsum.photos/1024/480/?image=53" alt="Image 1"></b-img>
+                        <!--                      <div v-for="i in 5" :key="i" class="img-wrapper">-->
+                        <!--                        -->
+                        <!--                      </div>-->
+
+                        <!--<b-carousel id="carousel-6"  v-model="slide" :interval="1800" controls>-->
                         <!--&lt;!&ndash;<b-carousel-slide v-for="(image , i) in property.property.image.split(',')" :img-src="imageUrl+image" :key="i"></b-carousel-slide>&ndash;&gt;-->
                         <!--<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"></b-carousel-slide>-->
                         <!--<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=53"></b-carousel-slide>-->
                         <!--<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54"></b-carousel-slide>-->
-                      <!--</b-carousel>-->
-                    </div>
-                    <div class="place-layout-listing-img-action">
-                      <b-link href="#" class="add-to-wishlist">
-                        <font-awesome-icon icon="fa-solid fa-heart"/>
-                      </b-link>
-                    </div>
-                  </div>
-                  <div class="place-layout-listing-detail">
-                    <div class="place-layout-listing-detail-wrap">
-                      <div class="place-layout-listing-detail-wrap-short">
-                        <div class="list-price d-flex justify-content-between">
-                          <span class="sale-type rent">Rent</span>
-                          <!--<span class="sale-type rent" v-if="property.property.sale_type == 2">Sale</span>-->
-                          <h6 class="card-price">$ 256,000</h6>
-                        </div>
+                        <!--</b-carousel>-->
+                      </div>
+                      <div class="place-layout-listing-img-action">
+                        <b-link href="#" class="add-to-wishlist">
+                          <font-awesome-icon icon="fa-solid fa-heart"/>
+                        </b-link>
                       </div>
                     </div>
-                    <div class="place-layout-listing-detail-name">
-                      <b-link href="#" title="6007 Applegate Lane">
-                        Property Title
-                      </b-link>
-                    </div>
-                    <div class="rating-wrap">
-                      <div class="rating">
-                        <div class="product-rate" width="70%">
-                          <font-awesome-icon icon="fa-solid fa-star"/>
-                          <font-awesome-icon icon="fa-solid fa-star"/>
-                          <font-awesome-icon icon="fa-solid fa-star"/>
-                          <font-awesome-icon icon="fa-solid fa-star"/>
-                          <font-awesome-icon icon="fa-solid fa-star-half"/>
-                        </div>
-                      </div>
-                      <span class="reviews-text">( 5 Reviews)</span>
-                    </div>
-                  </div>
-                  <div class="place-layout-listing-features">
-                    <div class="features-list">
-                      <div class="features-list-icon">
-                        <div class="fleat-icon">
-                          <font-awesome-icon icon="fa-solid fa-bed"/>
-                        </div>
-                        3 Bed
-                      </div>
+                    <!--                  <div class="place-layout-listing-detail">-->
+                    <!--                    <div class="place-layout-listing-detail-wrap">-->
+                    <!--                      <div class="place-layout-listing-detail-wrap-short">-->
+                    <!--                        <div class="list-price d-flex justify-content-between">-->
+                    <!--                          <span class="sale-type rent">Rent</span>-->
+                    <!--                          &lt;!&ndash;<span class="sale-type rent" v-if="property.property.sale_type == 2">Sale</span>&ndash;&gt;-->
+                    <!--                          <h6 class="card-price">$ 256,000</h6>-->
+                    <!--                        </div>-->
+                    <!--                      </div>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="place-layout-listing-detail-name">-->
+                    <!--                      <b-link href="#" title="6007 Applegate Lane">-->
+                    <!--                        Property Title-->
+                    <!--                      </b-link>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="rating-wrap">-->
+                    <!--                      <div class="rating">-->
+                    <!--                        <div class="product-rate" width="70%">-->
+                    <!--                          <font-awesome-icon icon="fa-solid fa-star"/>-->
+                    <!--                          <font-awesome-icon icon="fa-solid fa-star"/>-->
+                    <!--                          <font-awesome-icon icon="fa-solid fa-star"/>-->
+                    <!--                          <font-awesome-icon icon="fa-solid fa-star"/>-->
+                    <!--                          <font-awesome-icon icon="fa-solid fa-star-half"/>-->
+                    <!--                        </div>-->
+                    <!--                      </div>-->
+                    <!--                      <span class="reviews-text">( 5 Reviews)</span>-->
+                    <!--                    </div>-->
+                    <!--                  </div>-->
+                    <!--                  <div class="place-layout-listing-features">-->
+                    <!--                    <div class="features-list">-->
+                    <!--                      <div class="features-list-icon">-->
+                    <!--                        <div class="fleat-icon">-->
+                    <!--                          <font-awesome-icon icon="fa-solid fa-bed"/>-->
+                    <!--                        </div>-->
+                    <!--                        3 Bed-->
+                    <!--                      </div>-->
 
-                      <div class="features-list-icon">
-                        <div class="fleat-icon">
-                          <font-awesome-icon icon="fa-solid fa-bath"/>
-                        </div>
-                        2 Bath
-                      </div>
+                    <!--                      <div class="features-list-icon">-->
+                    <!--                        <div class="fleat-icon">-->
+                    <!--                          <font-awesome-icon icon="fa-solid fa-bath"/>-->
+                    <!--                        </div>-->
+                    <!--                        2 Bath-->
+                    <!--                      </div>-->
 
-                      <div class="features-list-icon">
-                        <div class="fleat-icon">
-                          <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
-                        </div>
-                        800 m²
-                      </div>
-                    </div>
-                  </div>
-                  <div class="place-layout-listing-footer">
-                    <div class="footer-first">
-                      <div class="footer-first-location d-flex">
-                        <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>
-                        Mohammadpur, Dhaka
-                      </div>
-                    </div>
-                    <div class="footer-flex">
-                      <nuxt-link
-                        class="product-view"
-                        :to="{ name: 'account-property-id-show', params: { id: 1 }}">
-                        View
-                      </nuxt-link>
-                    </div>
+                    <!--                      <div class="features-list-icon">-->
+                    <!--                        <div class="fleat-icon">-->
+                    <!--                          <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>-->
+                    <!--                        </div>-->
+                    <!--                        800 m²-->
+                    <!--                      </div>-->
+                    <!--                    </div>-->
+                    <!--                  </div>-->
+                    <!--                  <div class="place-layout-listing-footer">-->
+                    <!--                    <div class="footer-first">-->
+                    <!--                      <div class="footer-first-location d-flex">-->
+                    <!--                        <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>-->
+                    <!--                        Mohammadpur, Dhaka-->
+                    <!--                      </div>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="footer-flex">-->
+                    <!--                      <nuxt-link-->
+                    <!--                        class="product-view"-->
+                    <!--                        :to="{ name: 'account-property-id-show', params: { id: 1 }}">-->
+                    <!--                        View-->
+                    <!--                      </nuxt-link>-->
+                    <!--                    </div>-->
+                    <!--                  </div>-->
                   </div>
                 </div>
               </div>
+
+<!--              <div >-->
+<!--                <div class="place-layout-listing">-->
+<!--                  <div class="place-layout-listing-img">-->
+<!--                    <div class="place-layout-listing-img-slide">-->
+<!--                      <b-img src="https://picsum.photos/1024/480/?image=53" alt="Image 1"></b-img>-->
+<!--                      &lt;!&ndash;                      <div v-for="i in 5" :key="i" class="img-wrapper">&ndash;&gt;-->
+<!--                      &lt;!&ndash;                        &ndash;&gt;-->
+<!--                      &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                      &lt;!&ndash;<b-carousel id="carousel-6"  v-model="slide" :interval="1800" controls>&ndash;&gt;-->
+<!--                      &lt;!&ndash;&lt;!&ndash;<b-carousel-slide v-for="(image , i) in property.property.image.split(',')" :img-src="imageUrl+image" :key="i"></b-carousel-slide>&ndash;&gt;&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=53"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;</b-carousel>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="place-layout-listing-img-action">-->
+<!--                      <b-link href="#" class="add-to-wishlist">-->
+<!--                        <font-awesome-icon icon="fa-solid fa-heart"/>-->
+<!--                      </b-link>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-detail">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="place-layout-listing-detail-wrap">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="place-layout-listing-detail-wrap-short">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="list-price d-flex justify-content-between">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <span class="sale-type rent">Rent</span>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          &lt;!&ndash;<span class="sale-type rent" v-if="property.property.sale_type == 2">Sale</span>&ndash;&gt;&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <h6 class="card-price">$ 256,000</h6>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="place-layout-listing-detail-name">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <b-link href="#" title="6007 Applegate Lane">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        Property Title&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </b-link>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="rating-wrap">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="rating">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="product-rate" width="70%">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star-half"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <span class="reviews-text">( 5 Reviews)</span>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-features">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="features-list">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-bed"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        3 Bed&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-bath"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        2 Bath&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        800 m²&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-footer">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="footer-first">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="footer-first-location d-flex">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        Mohammadpur, Dhaka&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="footer-flex">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <nuxt-link&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        class="product-view"&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        :to="{ name: 'account-property-id-show', params: { id: 1 }}">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        View&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </nuxt-link>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div >-->
+<!--                <div class="place-layout-listing">-->
+<!--                  <div class="place-layout-listing-img">-->
+<!--                    <div class="place-layout-listing-img-slide">-->
+<!--                      <b-img src="https://picsum.photos/1024/480/?image=53" alt="Image 1"></b-img>-->
+<!--                      &lt;!&ndash;                      <div v-for="i in 5" :key="i" class="img-wrapper">&ndash;&gt;-->
+<!--                      &lt;!&ndash;                        &ndash;&gt;-->
+<!--                      &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                      &lt;!&ndash;<b-carousel id="carousel-6"  v-model="slide" :interval="1800" controls>&ndash;&gt;-->
+<!--                      &lt;!&ndash;&lt;!&ndash;<b-carousel-slide v-for="(image , i) in property.property.image.split(',')" :img-src="imageUrl+image" :key="i"></b-carousel-slide>&ndash;&gt;&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=53"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;</b-carousel>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="place-layout-listing-img-action">-->
+<!--                      <b-link href="#" class="add-to-wishlist">-->
+<!--                        <font-awesome-icon icon="fa-solid fa-heart"/>-->
+<!--                      </b-link>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-detail">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="place-layout-listing-detail-wrap">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="place-layout-listing-detail-wrap-short">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="list-price d-flex justify-content-between">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <span class="sale-type rent">Rent</span>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          &lt;!&ndash;<span class="sale-type rent" v-if="property.property.sale_type == 2">Sale</span>&ndash;&gt;&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <h6 class="card-price">$ 256,000</h6>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="place-layout-listing-detail-name">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <b-link href="#" title="6007 Applegate Lane">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        Property Title&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </b-link>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="rating-wrap">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="rating">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="product-rate" width="70%">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star-half"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <span class="reviews-text">( 5 Reviews)</span>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-features">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="features-list">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-bed"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        3 Bed&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-bath"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        2 Bath&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        800 m²&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-footer">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="footer-first">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="footer-first-location d-flex">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        Mohammadpur, Dhaka&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="footer-flex">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <nuxt-link&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        class="product-view"&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        :to="{ name: 'account-property-id-show', params: { id: 1 }}">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        View&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </nuxt-link>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div >-->
+<!--                <div class="place-layout-listing">-->
+<!--                  <div class="place-layout-listing-img">-->
+<!--                    <div class="place-layout-listing-img-slide">-->
+<!--                      <b-img src="https://picsum.photos/1024/480/?image=53" alt="Image 1"></b-img>-->
+<!--                      &lt;!&ndash;                      <div v-for="i in 5" :key="i" class="img-wrapper">&ndash;&gt;-->
+<!--                      &lt;!&ndash;                        &ndash;&gt;-->
+<!--                      &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                      &lt;!&ndash;<b-carousel id="carousel-6"  v-model="slide" :interval="1800" controls>&ndash;&gt;-->
+<!--                      &lt;!&ndash;&lt;!&ndash;<b-carousel-slide v-for="(image , i) in property.property.image.split(',')" :img-src="imageUrl+image" :key="i"></b-carousel-slide>&ndash;&gt;&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=53"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;</b-carousel>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="place-layout-listing-img-action">-->
+<!--                      <b-link href="#" class="add-to-wishlist">-->
+<!--                        <font-awesome-icon icon="fa-solid fa-heart"/>-->
+<!--                      </b-link>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-detail">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="place-layout-listing-detail-wrap">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="place-layout-listing-detail-wrap-short">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="list-price d-flex justify-content-between">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <span class="sale-type rent">Rent</span>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          &lt;!&ndash;<span class="sale-type rent" v-if="property.property.sale_type == 2">Sale</span>&ndash;&gt;&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <h6 class="card-price">$ 256,000</h6>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="place-layout-listing-detail-name">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <b-link href="#" title="6007 Applegate Lane">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        Property Title&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </b-link>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="rating-wrap">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="rating">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="product-rate" width="70%">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star-half"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <span class="reviews-text">( 5 Reviews)</span>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-features">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="features-list">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-bed"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        3 Bed&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-bath"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        2 Bath&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        800 m²&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-footer">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="footer-first">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="footer-first-location d-flex">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        Mohammadpur, Dhaka&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="footer-flex">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <nuxt-link&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        class="product-view"&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        :to="{ name: 'account-property-id-show', params: { id: 1 }}">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        View&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </nuxt-link>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div >-->
+<!--                <div class="place-layout-listing">-->
+<!--                  <div class="place-layout-listing-img">-->
+<!--                    <div class="place-layout-listing-img-slide">-->
+<!--                      <b-img src="https://picsum.photos/1024/480/?image=53" alt="Image 1"></b-img>-->
+<!--                      &lt;!&ndash;                      <div v-for="i in 5" :key="i" class="img-wrapper">&ndash;&gt;-->
+<!--                      &lt;!&ndash;                        &ndash;&gt;-->
+<!--                      &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                      &lt;!&ndash;<b-carousel id="carousel-6"  v-model="slide" :interval="1800" controls>&ndash;&gt;-->
+<!--                      &lt;!&ndash;&lt;!&ndash;<b-carousel-slide v-for="(image , i) in property.property.image.split(',')" :img-src="imageUrl+image" :key="i"></b-carousel-slide>&ndash;&gt;&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=52"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=53"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;<b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54"></b-carousel-slide>&ndash;&gt;-->
+<!--                      &lt;!&ndash;</b-carousel>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                    <div class="place-layout-listing-img-action">-->
+<!--                      <b-link href="#" class="add-to-wishlist">-->
+<!--                        <font-awesome-icon icon="fa-solid fa-heart"/>-->
+<!--                      </b-link>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-detail">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="place-layout-listing-detail-wrap">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="place-layout-listing-detail-wrap-short">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="list-price d-flex justify-content-between">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <span class="sale-type rent">Rent</span>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          &lt;!&ndash;<span class="sale-type rent" v-if="property.property.sale_type == 2">Sale</span>&ndash;&gt;&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <h6 class="card-price">$ 256,000</h6>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="place-layout-listing-detail-name">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <b-link href="#" title="6007 Applegate Lane">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        Property Title&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </b-link>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="rating-wrap">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="rating">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="product-rate" width="70%">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-star-half"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <span class="reviews-text">( 5 Reviews)</span>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-features">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="features-list">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-bed"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        3 Bed&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-bath"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        2 Bath&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+
+<!--                  &lt;!&ndash;                      <div class="features-list-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <div class="fleat-icon">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                          <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        800 m²&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  <div class="place-layout-listing-footer">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="footer-first">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <div class="footer-first-location d-flex">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        Mohammadpur, Dhaka&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    <div class="footer-flex">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      <nuxt-link&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        class="product-view"&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        :to="{ name: 'account-property-id-show', params: { id: 1 }}">&ndash;&gt;-->
+<!--                  &lt;!&ndash;                        View&ndash;&gt;-->
+<!--                  &lt;!&ndash;                      </nuxt-link>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                </div>-->
+<!--              </div>-->
             </Slick>
           </div>
 
@@ -239,13 +613,8 @@
           lazyLoad: 'ondemand',
           slidesToShow: 3,
           slidesToScroll: 1,
-          arrows: false,
-          fade: true,
-          autoplay: true,
-          autoplaySpeed: 100,
-          infinite: true,
-          loop: true,
         },
+
         options: [
           {text: 'For Sale', value: '1'},
           {text: 'To Rent', value: '2'}
