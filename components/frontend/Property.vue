@@ -31,9 +31,9 @@
         <b-row class="place-layout">
 
           <div class="gallery">
-            <Slick ref="slick" :options="slickOptions">
-              <div v-if="properties.length > 0" v-for="(property, index) in properties"  >
-                <div>
+            <Slick ref="slick" :options="slickOptions" v-if="properties.length > 0">
+              <div v-for="(property, index) in properties" :key="index">
+                <div >
                   <div class="place-layout-listing">
                     <div class="place-layout-listing-img">
                       <div class="place-layout-listing-img-slide">
@@ -625,6 +625,7 @@
     },
     async created() {
       this.properties = await this.$axios.$post('property/ad/active-property/list');
+      console.log(this.properties.length);
     },
     computed: {
       imageUrl() {
