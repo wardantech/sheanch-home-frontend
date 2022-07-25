@@ -728,6 +728,7 @@
       }
     }
   }
+}
 </script>
 
 <style scoped>
