@@ -11,8 +11,14 @@
     }
   }
 
-  .slick-slide {
-    margin: 0 10px;
+  .gallery {
+    .slick-next {
+      background: red;
+    }
+
+    .slick-slide {
+      margin: 0 10px;
+    }
   }
 }
 

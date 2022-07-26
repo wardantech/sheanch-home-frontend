@@ -1,61 +1,12 @@
 <template>
   <div>
-    <div  class="gallery">
-      <!--<Slick-->
-        <!--ref="slick"-->
-        <!--:options="slickOptions">-->
-        <!---->
-        <!--<a v-for="(image, i) in propertyImage" :key="i" :href="imageUrl+image">-->
-          <!--<img :src="imageUrl+image" alt="Image">-->
-        <!--</a>-->
-
-        <!--<a href="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg">-->
-          <!--<img src="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg" alt="">-->
-        <!--</a>-->
-        <!--<a href="https://resido.thesky9.com/storage/properties/p-15-autox610.jpg">-->
-          <!--<img src="https://resido.thesky9.com/storage/properties/p-15-autox610.jpg" alt="">-->
-        <!--</a>-->
-        <!--<a href="https://resido.thesky9.com/storage/properties/p-13-autox610.jpg">-->
-          <!--<img src="https://resido.thesky9.com/storage/properties/p-13-autox610.jpg" alt="">-->
-        <!--</a>-->
-        <!--<a href="https://resido.thesky9.com/storage/properties/p-19-autox610.jpg">-->
-          <!--<img src="https://resido.thesky9.com/storage/properties/p-19-autox610.jpg" alt="">-->
-        <!--</a>-->
-        <!--<a href="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg">-->
-          <!--<img src="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg" alt="">-->
-        <!--</a>-->
-
-      <!--</Slick>-->
-
-      <b-carousel
-        id="carousel-1"
-        v-model="slide"
-        :interval="4000"
-        controls
-        indicators
-        background="#ababab"
-        img-width="1024"
-        img-height="480"
-        style="text-shadow: 1px 1px 2px #333;"
-        @sliding-start="onSlideStart"
-        @sliding-end="onSlideEnd"
-      >
-
-        <b-carousel-slide v-for="(image, i) in propertyImage" :key="i">
-          <template #img>
-            <img
-              class="d-block img-fluid w-100"
-              width="1024"
-              height="480"
-              src="https://resido.thesky9.com/storage/properties/p-14-autox610.jpg"
-              alt="image slot"
-            >
-          </template>
-        </b-carousel-slide>
-
-
-      </b-carousel>
-
+    <div class="gallery">
+      <Slick ref="slick" :options="slickOptions" v-if="propertyImage.length > 0">
+        <!--imageUrl+image-->
+        <a v-for="(image, i) in propertyImage" :key="i" :href="imageUrl+image">
+          <img src="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg" alt="Image">
+        </a>
+      </Slick>
     </div>
 
     <section class="property-detail bg-gary">
@@ -64,18 +15,14 @@
           <b-col lg="8" md="12" sm="12">
             <div class="property-detail-wrap p-4">
               <div class="property-detail-wrap-title">
-                 <span class="pr-type" v-if="property.sale_type == 1">
-                        For Rent
-                      </span>
-                <span class="pr-type" v-if="property.sale_type == 2">
-                         For Sale
-                      </span>
+                <span class="pr-type" v-if="property.sale_type == 1">For Rent</span>
+                <span class="pr-type" v-if="property.sale_type == 2">For Sale</span>
 
                 <h3>{{ property.name }}</h3>
                 <span>
-                                    <font-awesome-icon icon="fa-solid fa-location-dot"/>
-                                    {{ property.address }}
-                                </span>
+                      <font-awesome-icon icon="fa-solid fa-location-dot"/>
+                      {{ property.address }}
+                </span>
                 <h3 class="fix-price">${{ property.rent_amount }}</h3>
                 <div class="features-list">
                   <div class="features-list-icon">
@@ -127,7 +74,7 @@
                         </li>
                         <li>
                           <strong>Floors: </strong>
-                          3
+                          05
                         </li>
                         <li>
                           <strong>Property Type: </strong>
@@ -158,9 +105,7 @@
                       ></b-embed>
                       <div class="mt-3">
                         <p>
-                          {{
-                          property.description
-                          }}
+                          {{ property.description }}
                         </p>
                       </div>
                     </div>
@@ -531,11 +476,9 @@
                 <div class="clearfix"></div>
 
 
-
-
                 <b-button
                   v-if="$auth.loggedIn && $auth.user.type == 3"
-                  @click="apply"  class="btn btn-black btn-md rounded btn-block mt-5">
+                  @click="apply" class="btn btn-black btn-md rounded btn-block mt-5">
                   For Apply
                 </b-button>
 
@@ -543,40 +486,40 @@
                 <nuxt-link v-else
                            class="btn btn-black btn-md rounded btn-block mt-5"
                            :to="{ name: 'login'}">
-                  <b-button  class="btn btn-black btn-md rounded btn-block mt-5">
-                    Sign In  for Apply
+                  <b-button class="btn btn-black btn-md rounded btn-block mt-5">
+                    Sign In for Apply
                   </b-button>
                 </nuxt-link>
 
 
-                <!--                <div class="widget-body">-->
-                <!--                  <b-form>-->
-                <!--                    <div class="form-group">-->
-                <!--                      <b-form-input name="name" type="text" placeholder="Name *"></b-form-input>-->
-                <!--                    </div>-->
+                                <!--<div class="widget-body">-->
+                                  <!--<b-form>-->
+                                    <!--<div class="form-group">-->
+                                      <!--<b-form-input name="name" type="text" placeholder="Name *"></b-form-input>-->
+                                    <!--</div>-->
 
-                <!--                    <div class="form-group">-->
-                <!--                      <b-form-input name="phone" type="text" placeholder="Phone *"></b-form-input>-->
-                <!--                    </div>-->
+                                    <!--<div class="form-group">-->
+                                      <!--<b-form-input name="phone" type="text" placeholder="Phone *"></b-form-input>-->
+                                    <!--</div>-->
 
-                <!--                    <div class="form-group">-->
-                <!--                      <b-form-input name="email" type="email" placeholder="Email"></b-form-input>-->
-                <!--                    </div>-->
+                                    <!--<div class="form-group">-->
+                                      <!--<b-form-input name="email" type="email" placeholder="Email"></b-form-input>-->
+                                    <!--</div>-->
 
-                <!--                    <div class="form-group">-->
-                <!--                      <b-form-input name="subject" type="text" placeholder="Subject *" value="6007 Applegate Lane"-->
-                <!--                                    disabled></b-form-input>-->
-                <!--                    </div>-->
+                                    <!--<div class="form-group">-->
+                                      <!--<b-form-input name="subject" type="text" placeholder="Subject *" value="6007 Applegate Lane"-->
+                                                    <!--disabled></b-form-input>-->
+                                    <!--</div>-->
 
-                <!--                    <div class="form-group">-->
-                <!--                      <b-form-textarea name="message" placeholder="Message"></b-form-textarea>-->
-                <!--                    </div>-->
+                                    <!--<div class="form-group">-->
+                                      <!--<b-form-textarea name="message" placeholder="Message"></b-form-textarea>-->
+                                    <!--</div>-->
 
-                <!--                    <div class="form-group">-->
-                <!--                      <b-button class="btn btn-black btn-md rounded btn-block">Send Message</b-button>-->
-                <!--                    </div>-->
-                <!--                  </b-form>-->
-                <!--                </div>-->
+                                    <!--<div class="form-group">-->
+                                      <!--<b-button class="btn btn-black btn-md rounded btn-block">Send Message</b-button>-->
+                                    <!--</div>-->
+                                  <!--</b-form>-->
+                                <!--</div>-->
               </div>
             </div>
           </b-col>
@@ -702,7 +645,7 @@
       return {
         property: [],
         property_type: '',
-        propertyImage:[],
+        propertyImage: [],
         landlord: '',
         slickOptions: {
           lazyLoad: 'ondemand',
@@ -729,15 +672,15 @@
           this.property = response.data;
           this.property_type = response.data.property_type.name;
           this.landlord = response.data.landlord;
-          if(this.property.image != null){
+          if (this.property.image != null) {
             this.propertyImage = this.property.image.split(',');
           }
 
           console.log(this.propertyImage);
         })
     },
-    methods:{
-      apply(){
+    methods: {
+      apply() {
         this.$swal.fire({
           title: 'Are you confirm to apply for this property',
           showCancelButton: true,
