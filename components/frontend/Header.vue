@@ -31,10 +31,14 @@
 
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto navigation-right">
-              <b-nav-item href="#" class="navigation-right-item">
-                <font-awesome-icon class="mr-2" icon="fa-solid fa-upload"/>
-                Add Property
-              </b-nav-item>
+              <li class="nav-item navigation-right-item">
+                <nuxt-link
+                  class="nav-link"
+                  :to="{ name: 'your-property'}">
+                  <font-awesome-icon class="mr-2" icon="fa-solid fa-upload"/>
+                  Add Property
+                </nuxt-link>
+              </li>
 
               <nuxt-link
                 class="btn sign-in-button"

@@ -13,7 +13,7 @@
         <!-- End place section -->
 
         <!-- Start Location -->
-        <Location/>
+        <!--<Location/>-->
         <!-- End Location -->
 
         <!-- Start Packages -->
