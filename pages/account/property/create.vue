@@ -426,7 +426,7 @@ export default {
         security_money: '',
         status: '',
         description: '',
-        landlord_id: '',
+        landlord_id: this.$auth.user.landlord_id,
         images: [],
         lease_type: '',
         sale_type: '',
