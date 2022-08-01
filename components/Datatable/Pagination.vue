@@ -9,6 +9,11 @@
     align-items: center;
     margin-right: 5px;
   }
+
+  a {
+    margin-left: 15px;
+  }
+
   i {
     color: #3273dc !important;
   }
