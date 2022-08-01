@@ -485,7 +485,6 @@ export default {
           this.form.images.push(fileObj)
         }
       })
-
     },
 
     fileRemoved(file) {
