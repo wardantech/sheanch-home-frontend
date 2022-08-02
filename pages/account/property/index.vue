@@ -21,7 +21,7 @@
                   Create
                 </nuxt-link>
               </div>
-              <div class="card-body">
+              <div class="card-body p-0 mt-4">
                 <div class="search d-flex justify-content-between align-items-center">
                   <div class="form-group">
                     <input class="form-control custom-form-control" type="text" v-model="tableData.search"
@@ -42,7 +42,6 @@
                     <!--                <img style="height: 50px; width: 50px" :src="imageUrl+value.image" alt="">-->
                     <!--              </td>-->
                     <td>{{value.name}}</td>
-                    <td>{{value.address}}</td>
                     <td>
                       <div v-if="value.lease_type == 1"> Commercial</div>
                       <div v-if="value.lease_type == 2"> Residiantial</div>
@@ -58,13 +57,13 @@
                         {{ value.status == 1 ? 'Active' : 'Inactive' }}
                       </b-button>
                     </td>
-<!--                    <td>-->
-<!--                      &lt;!&ndash;<nuxt-link :to="{name:'users-landlords-id-edit',params: { id: value.id }}" rel="tooltip"&ndash;&gt;-->
-<!--                      &lt;!&ndash;class="btn btn-sm btn-success btn-simple"&ndash;&gt;-->
-<!--                      &lt;!&ndash;title="Edit">&ndash;&gt;-->
-<!--                      &lt;!&ndash;<font-awesome-icon icon="fa-solid fa-pen-to-square"/>&ndash;&gt;-->
-<!--                      &lt;!&ndash;</nuxt-link>&ndash;&gt;-->
-<!--                    </td>-->
+                    <td>
+                      <nuxt-link :to="{name:'account-property-id-edit', params: { id: value.id }}" rel="tooltip"
+                                 class="btn btn-sm btn-success btn-simple"
+                                 title="Edit">
+                        <font-awesome-icon icon="fa-solid fa-edit"/>
+                      </nuxt-link>
+                    </td>
                   </tr>
                   </tbody>
                 </DataTable>
@@ -106,12 +105,11 @@
       let columns = [
         {width: '', label: 'Sl', name: 'id' },
         {width: '', label: 'Name', name: 'name'},
-        {width: '', label: 'Address', name: 'address'},
         {width: '', label: 'Type', name: 'sale_type'},
         {width: '', label: 'Lease Type', name: 'lease_type'},
         {width: '', label: 'Amount', name: 'rent_amount'},
         {width: '', label: 'Status', name: 'status'},
-        // {width: '', label: 'Action', name: ''},
+        {width: '', label: 'Action', name: ''},
       ];
       columns.forEach((column) => {
         sortOrders[column.name] = -1;
