@@ -12,24 +12,22 @@
           <!-- Main Content -->
           <b-col lg="9" md="12">
             <div class="dashboard-wrapper">
-              <form action="">
-                <div class="page-search">
-                  <div>
-                    <div class="form-group">
-                      <h5>Create Property</h5>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="form-group">
-                      <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'account-property' }">
-                        <font-awesome-icon icon="fa-solid fa-arrow-left-long"/>
-                        Back to list
-                      </nuxt-link>
-                    </div>
+              <div class="page-search">
+                <div>
+                  <div class="form-group">
+                    <h5>Create Property</h5>
                   </div>
                 </div>
-              </form>
+
+                <div>
+                  <div class="form-group">
+                    <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'account-property' }">
+                      <font-awesome-icon icon="fa-solid fa-arrow-left-long"/>
+                      Back to list
+                    </nuxt-link>
+                  </div>
+                </div>
+              </div>
 
               <div>
                 <form @submit.prevent="store">
