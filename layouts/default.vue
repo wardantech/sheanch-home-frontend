@@ -8,7 +8,7 @@
       <!-- End Top Bar -->
 
       <!-- Start Navigation -->
-      <Header :data="data"/>
+      <Header/>
       <!-- End Navigation -->
 
       <Nuxt/>
@@ -34,14 +34,6 @@
   export default {
     name: "default",
     components: {Footer, Newsletter, Package, Location, Place, Work, Banner, Header, Topbar},
-    data() {
-      return {
-          data: ''
-      }
-    },
-    async created() {
-      this.data = await this.$axios.$post('get-general-setting');
-    },
   }
 </script>
 

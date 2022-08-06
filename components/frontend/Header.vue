@@ -4,7 +4,7 @@
       <b-container>
         <b-navbar class="header-navber" toggleable="lg">
           <nuxt-link :to="{ name: 'index'}" class="navbar-brand-logo">
-            <img src="../../assets/frontend/images/logo.png" alt="logo">
+            <img :src="logo" alt="logo" width="150px" height="45px">
           </nuxt-link>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -56,10 +56,15 @@
 
 <script>
   export default {
-    props: ['data'],
     name: "Header",
-    created() {
-      console.log(this.data);
+    data() {
+      return {
+        logo: ''
+      }
+    },
+    async created() {
+      const res = await this.$axios.$post('get-general-setting-images', {data: 'logo'});
+      this.logo = res.data;
     }
   }
 </script>
