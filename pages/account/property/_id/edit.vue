@@ -207,6 +207,18 @@
 
                   <b-row>
                     <b-col md="12">
+                      <b-form-group label="Video Link">
+                        <b-form-input min="1" v-model="form.video_link" class="custom-input-control" type="text"
+                                      placeholder="Enter video link"></b-form-input>
+                        <strong class="text-danger" style="font-size: 12px" v-if="errors.video_link">{{
+                          errors.video_link[0]
+                          }}</strong>
+                      </b-form-group>
+                    </b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col md="12">
                       <b-form-group label="Address">
                         <b-form-textarea id="address" placeholder="Address" rows="3" v-model="form.address"
                                          class="custom-input-control"></b-form-textarea>
@@ -393,6 +405,7 @@
           property_category: '',
           bed_rooms: '',
           bath_rooms: '',
+          video_link: '',
           address: '',
           area_size: '',
           rent_amount: '',

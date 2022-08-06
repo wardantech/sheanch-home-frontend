@@ -5,6 +5,7 @@
         <b-navbar class="header-navber" toggleable="lg">
           <nuxt-link :to="{ name: 'index'}" class="navbar-brand-logo">
             <img :src="logo" alt="logo" width="150px" height="45px">
+            <!--<img v-else src="https://i.ibb.co/1MFFM3W/Image-not-available.png" alt="logo" width="150px" height="45px">-->
           </nuxt-link>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -64,7 +65,7 @@
     },
     async created() {
       const res = await this.$axios.$post('get-general-setting-images', {data: 'logo'});
-      this.logo = res.data;
+      this.logo = res.image;
     }
   }
 </script>
