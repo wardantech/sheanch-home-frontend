@@ -56,10 +56,8 @@
 
 <script>
   export default {
-    props: ['data'],
     name: "Header",
     created() {
-      console.log(this.data);
     }
   }
 </script>

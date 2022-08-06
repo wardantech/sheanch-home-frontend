@@ -46,6 +46,9 @@
                                   :property_category="property.property_category"
                                   :security_money="property.security_money"
                                   :rent_amount="property.rent_amount"
+                                  :division_id="property.division_id"
+                                  :district_id="property.district_id"
+                                  :thana_id="property.thana_id"
                                   :value="property.id" :key="i">
                             {{ property.name }}
                           </option>
@@ -151,6 +154,10 @@
           sale_type: '',
           property_id:'',
           property_category:'',
+          property_category_id:'',
+          division_id:'',
+          district_id:'',
+          thana_id:'',
           rent_amount: '',
           security_money: '',
           status: '',
@@ -167,6 +174,8 @@
     async created() {
       let properties = await this.$axios.$post('property/ad/get-property-as-landlord', {landlordId: this.form.landlord_id});
       this.properties = properties.data;
+      console.log(properties.data);
+
     },
 
     methods: {
@@ -181,7 +190,14 @@
             ? this.form.property_category = 'Commercial'
             : this.form.property_category = 'Residential';
 
-            console.log(this.form.sale_type);
+          console.log(options[options.selectedIndex].getAttribute('property_category'))
+
+          this.form.division_id = options[options.selectedIndex].getAttribute('division_id');
+          this.form.district_id = options[options.selectedIndex].getAttribute('district_id');
+          this.form.thana_id = options[options.selectedIndex].getAttribute('thana_id');
+          this.form.property_category_id = options[options.selectedIndex].getAttribute('property_category');
+          console.log(this.form.property_category_i);
+
         }
       },
       async store() {

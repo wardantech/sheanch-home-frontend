@@ -8,7 +8,7 @@
       <!-- End Top Bar -->
 
       <!-- Start Navigation -->
-      <Header :data="data"/>
+      <Header />
       <!-- End Navigation -->
 
       <Nuxt/>
@@ -36,11 +36,11 @@
     components: {Footer, Newsletter, Package, Location, Place, Work, Banner, Header, Topbar},
     data() {
       return {
-          data: ''
+          foo: ''
       }
     },
-    async created() {
-      this.data = await this.$axios.$post('get-general-setting');
+    async mounted() {
+      const res = await this.$axios.$post('get-general-setting');
     },
   }
 </script>
