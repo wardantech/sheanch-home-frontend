@@ -40,11 +40,7 @@
       return {
           foo: ''
       }
-    },
-    async mounted() {
-      const res = await this.$axios.$post('get-general-setting');
-    },
-
+    }
   }
 </script>
 
