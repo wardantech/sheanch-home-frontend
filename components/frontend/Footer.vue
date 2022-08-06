@@ -10,15 +10,15 @@
                 <div class="footer-widget-address">
                   <p>
                     <font-awesome-icon icon="fa-solid fa-location-dot"/>
-                    Collins Street West, Victoria 8007, Australia.
+                    {{ address }}
                   </p>
                   <p>
                     <font-awesome-icon icon="fa-solid fa-square-phone-flip"/>
-                    +1 246-345-0695
+                    {{ phone }}
                   </p>
                   <p>
                     <font-awesome-icon icon="fa-solid fa-envelope"/>
-                    info@example.com
+                    {{ email }}
                   </p>
                 </div>
               </div>
@@ -179,12 +179,19 @@
     name: "Footer",
     data() {
       return {
-        footerLogo: ''
+        footerLogo: '',
+        address: '',
+        email: '',
+        phone: ''
       }
     },
     async created() {
       const res = await this.$axios.$post('get-general-setting-images', {data: 'footerLogo'});
-      this.footerLogo = res.data;
+      this.footerLogo = res.image;
+      this.address = res.data.address;
+      this.email = res.data.email;
+      this.phone = res.data.phone;
+
     }
   }
 </script>

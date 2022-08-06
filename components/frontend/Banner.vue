@@ -160,7 +160,9 @@
 
       const res = await this.$axios.$post('get-general-setting-images', {data: 'banner'});
       // this.bannerImage = 'background: res.data;
-      this.bannerImage = "background: url("+res.data+") no-repeat";
+
+      this.bannerImage = "background: url("+res.image+") no-repeat";
+
     },
 
     methods: {
