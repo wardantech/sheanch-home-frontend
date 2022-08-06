@@ -8,7 +8,8 @@
       <!-- End Top Bar -->
 
       <!-- Start Navigation -->
-      <Header />
+      <Header/>
+
       <!-- End Navigation -->
 
       <Nuxt/>
@@ -34,6 +35,7 @@
   export default {
     name: "default",
     components: {Footer, Newsletter, Package, Location, Place, Work, Banner, Header, Topbar},
+
     data() {
       return {
           foo: ''
@@ -42,6 +44,7 @@
     async mounted() {
       const res = await this.$axios.$post('get-general-setting');
     },
+
   }
 </script>
 

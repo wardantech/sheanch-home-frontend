@@ -208,6 +208,18 @@
 
                   <b-row>
                     <b-col md="12">
+                      <b-form-group label="Video Link">
+                        <b-form-input min="1" v-model="form.video_link" class="custom-input-control" type="text"
+                                      placeholder="Enter video link"></b-form-input>
+                        <strong class="text-danger" style="font-size: 12px" v-if="errors.video_link">{{
+                          errors.video_link[0]
+                          }}</strong>
+                      </b-form-group>
+                    </b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col md="12">
                       <b-form-group label="Address">
                         <b-form-textarea id="address" placeholder="Address" rows="3" v-model="form.address"
                                          class="custom-input-control"></b-form-textarea>
@@ -399,6 +411,7 @@
           property_type_id: '',
           bed_rooms: '',
           bath_rooms: '',
+          video_link: '',
           address: '',
           area_size: '',
           rent_amount: '',
@@ -475,12 +488,30 @@
       },
 
       addUtilityRow(data) {
-        this.form.utilities.push({
-          'utility_id': data.id,
-          'utility_name': data.name,
-          'utility_paid_by': '',
-          'utility_amount': '',
-        })
+        if(data){
+          let dataCheck = this.form.utilities.find(element => element.utility_id == data.id);
+          if(!dataCheck){
+            this.form.utilities.push({
+              'utility_id': data.id,
+              'utility_name': data.name,
+              'utility_paid_by': '',
+              'utility_amount': '',
+            })
+          }
+          else{
+            this.$izitoast.warning({
+              title: 'Warning !!',
+              message: data.name + ' Already added!'
+            });
+          }
+
+        }
+        else {
+          this.$izitoast.error({
+            title: 'Warning !!',
+            message: 'Please select utility first!'
+          });
+        }
       },
 
       deleteUtilityRow(index, utility) {
@@ -501,11 +532,29 @@
       },
 
       addFacilityRow(data) {
-        this.form.facilities.push({
-          'facility_id': data.id,
-          'facility_name': data.name,
-          'facility_amount': '',
-        })
+        if(data){
+          let dataCheck = this.form.facilities.find(element => element.facility_id == data.id)
+          if(!dataCheck){
+            this.form.facilities.push({
+              'facility_id': data.id,
+              'facility_name': data.name,
+              'facility_amount': '',
+            })
+          }
+          else{
+            this.$izitoast.warning({
+              title: 'Warning !!',
+              message: data.name + ' Already added!'
+            });
+          }
+
+        }
+        else{
+          this.$izitoast.error({
+            title: 'Warning !!',
+            message: 'Please select facility first!'
+          });
+        }
       },
 
       deleteFacilityRow(index, facility) {

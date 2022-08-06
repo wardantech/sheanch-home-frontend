@@ -54,7 +54,7 @@
                     <td>
                       <b-button
                                 :class="value.status == 1 ? 'btn-sm btn-info': 'btn-sm btn-danger'">
-                        {{ value.status == 1 ? 'Active' : 'Inactive' }}
+                        {{ value.status == 1 ? 'Active' : 'Pending' }}
                       </b-button>
                     </td>
                     <td>

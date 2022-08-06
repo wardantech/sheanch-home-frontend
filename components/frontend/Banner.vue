@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="banner image-cover"
-         style="background: url('https://resido.thesky9.com/storage/banners/banner-1.jpg') no-repeat;">
+         :style="bannerImage">
       <b-container>
         <div class="banner-form">
           <div class="banner-form-title">
@@ -146,7 +146,8 @@
         thanas: '',
         divisions: '',
         districts: '',
-        propertyTypes: ''
+        propertyTypes: '',
+        bannerImage: ''
       }
     },
 
@@ -156,6 +157,12 @@
 
       const divisions = await this.$axios.$get('settings/divisions');
       this.divisions = divisions.data;
+
+      const res = await this.$axios.$post('get-general-setting-images', {data: 'banner'});
+      // this.bannerImage = 'background: res.data;
+
+      this.bannerImage = "background: url("+res.image+") no-repeat";
+
     },
 
     methods: {
