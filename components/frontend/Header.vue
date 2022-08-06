@@ -59,7 +59,6 @@
   export default {
     name: "Header",
 
-    created() {
     data() {
       return {
         logo: ''
