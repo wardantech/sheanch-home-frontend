@@ -49,6 +49,7 @@
                                   :division_id="property.division_id"
                                   :district_id="property.district_id"
                                   :thana_id="property.thana_id"
+                                  :property_type_id="property.property_type_id"
                                   :value="property.id" :key="i">
                             {{ property.name }}
                           </option>
@@ -155,6 +156,7 @@
           property_id:'',
           property_category:'',
           property_category_id:'',
+          property_type_id:'',
           division_id:'',
           district_id:'',
           thana_id:'',
@@ -196,7 +198,8 @@
           this.form.district_id = options[options.selectedIndex].getAttribute('district_id');
           this.form.thana_id = options[options.selectedIndex].getAttribute('thana_id');
           this.form.property_category_id = options[options.selectedIndex].getAttribute('property_category');
-          console.log(this.form.property_category_i);
+          this.form.property_type_id = options[options.selectedIndex].getAttribute('property_type_id');
+
 
         }
       },
