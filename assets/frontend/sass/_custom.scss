@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
 // Colors
 $primary-color: #2b4db9;
 $body-color: #212529;
@@ -49,8 +51,8 @@ $body-rgb: 33, 37, 41;
 $top-bar: #431C6B;
 
 // Font Style
-$font-body: 'Mulish', sans-serif;
-$font-heading: Jost, sans-serif;
+$font-body: 'Nunito Sans', sans-serif;
+$font-heading: 'Nunito Sans', sans-serif;
 
 body {
   background: $white;

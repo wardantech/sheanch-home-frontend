@@ -5,7 +5,7 @@
       <b-container>
         <div class="banner-form">
           <div class="banner-form-title">
-            <h1>Find Accessible Homes To Rent</h1>
+            <h2>Find Accessible Homes To Rent</h2>
           </div>
 
           <form action="" method="POST">
