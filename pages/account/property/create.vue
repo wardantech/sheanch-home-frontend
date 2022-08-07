@@ -438,7 +438,12 @@
         errors: {},
       }
     },
-
+    mounted(){
+      const authId = this.$auth.user.landlord_id;
+      if(!authId){
+        this.$router.push({name: 'account-dashboard'});
+      }
+    },
     async created() {
       const data = await this.$axios.$post('property/get-create-data');
 
