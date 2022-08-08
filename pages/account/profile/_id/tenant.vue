@@ -20,6 +20,11 @@
                 </div>
                 <div>
                   <div class="form-group">
+                    <nuxt-link class="btn btn-success btn-sm" :to="{ name: 'account-profile-id-change-password', params: { id: $auth.user.landlord_id }}">
+                      <font-awesome-icon icon="fa-solid fa-key" />
+                      Change password
+                    </nuxt-link>
+
                     <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'account-dashboard' }">
                       <font-awesome-icon icon="fa-solid fa-arrow-left-long"/>
                       Back to dashboard
