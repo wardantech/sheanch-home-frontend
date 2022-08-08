@@ -32,39 +32,21 @@
                   <b-col md="8">
                     <b-form @submit.prevent="update">
                       <b-row>
-                        <b-col lg="6" md="6" sm="12">
+                        <b-col md="12">
                           <b-form-group label="Name">
-                            <b-form-input class="custom-input-control" v-model="form.name" type="text"
+                            <b-form-input v-model="form.name" type="text" class="custom-form-control"
                                           placeholder="Name"></b-form-input>
                             <strong class="text-danger" style="font-size: 12px" v-if="errors.name">{{
                               errors.name[0]
                               }}</strong>
                           </b-form-group>
                         </b-col>
-                        <b-col lg="6" md="6" sm="12">
-                          <b-form-group label="Mobile">
-                            <b-form-input class="custom-input-control" type="text" v-model="form.mobile"
-                                          placeholder="Mobile"></b-form-input>
-                            <strong class="text-danger" style="font-size: 12px"
-                                    v-if="errors.mobile">{{ errors.mobile[0] }}</strong>
-                          </b-form-group>
-                        </b-col>
                       </b-row>
 
                       <b-row>
                         <b-col lg="6" md="6" sm="12">
-                          <b-form-group label="NID">
-                            <b-form-input class="custom-input-control" type="text" v-model="form.nid"
-                                          placeholder="National ID"></b-form-input>
-                            <strong class="text-danger" style="font-size: 12px" v-if="errors.nid">{{
-                              errors.nid[0]
-                              }}</strong>
-                          </b-form-group>
-                        </b-col>
-
-                        <b-col lg="6" md="6" sm="12">
                           <b-form-group label="Email">
-                            <b-form-input class="custom-input-control" v-model="form.email" type="email"
+                            <b-form-input v-model="form.email" type="email" class="custom-form-control"
                                           placeholder="Email"></b-form-input>
                             <strong class="text-danger" style="font-size: 12px" v-if="errors.email">{{
                               errors.email[0]
@@ -73,9 +55,21 @@
                         </b-col>
 
                         <b-col lg="6" md="6" sm="12">
+                          <b-form-group label="Mobile">
+                            <b-form-input v-model="form.mobile" type="text" class="custom-form-control"
+                                          placeholder="Mobile"></b-form-input>
+                            <strong class="text-danger" style="font-size: 12px" v-if="errors.mobile">{{
+                              errors.mobile[0]
+                              }}</strong>
+                          </b-form-group>
+                        </b-col>
+                      </b-row>
+
+                      <b-row>
+                        <b-col lg="6" md="6" sm="12">
                           <b-form-group label="Division">
-                            <select @change="getDistricts(form.division_id)" v-model="form.division_id" id="division_id"
-                                    class="form-control custom-input-control">
+                            <select @change="getDistricts(form.division_id)" v-model="form.division_id" id=""
+                                    class="form-control custom-form-control">
                               <option value="">Select</option>
                               <option v-for="(division, i) in divisions" :value="division.id" :key="i">
                                 {{ division.name }}
@@ -85,10 +79,11 @@
                                     v-if="errors.division_id">{{ errors.division_id[0] }}</strong>
                           </b-form-group>
                         </b-col>
+
                         <b-col lg="6" md="6" sm="12">
                           <b-form-group label="District">
-                            <select @change="getThanas(form.district_id)" v-model="form.district_id" id="district_id"
-                                    class="form-control custom-input-control">
+                            <select @change="getThanas(form.district_id)" v-model="form.district_id" id=""
+                                    class="form-control custom-form-control">
                               <option value="">Select</option>
                               <option v-for="(district, i) in districts" :value="district.id" :key="i">
                                 {{ district.name }}
@@ -98,9 +93,12 @@
                                     v-if="errors.district_id">{{ errors.district_id[0] }}</strong>
                           </b-form-group>
                         </b-col>
+                      </b-row>
+
+                      <b-row>
                         <b-col lg="6" md="6" sm="12">
                           <b-form-group label="Thana">
-                            <select v-model="form.thana_id" id="thana_id" class="form-control custom-input-control">
+                            <select v-model="form.thana_id" id="" class="form-control custom-form-control">
                               <option value="">Select</option>
                               <option v-for="(thana, i) in thanas" :value="thana.id" :key="i">
                                 {{ thana.name }}
@@ -113,10 +111,11 @@
 
                         <b-col lg="6" md="6" sm="12">
                           <b-form-group label="Status">
-                            <select v-model="form.status" id="" class="form-control custom-input-control">
+                            <select v-model="form.status" id="" class="form-control custom-form-control">
                               <option value="">Select</option>
                               <option value="1">Active</option>
                               <option value="0">Inactive</option>
+
                             </select>
                             <strong class="text-danger" style="font-size: 12px"
                                     v-if="errors.status">{{ errors.status[0] }}</strong>
@@ -124,9 +123,77 @@
                         </b-col>
                       </b-row>
 
+                      <b-row>
+                        <b-col lg="6" md="6" sm="12">
+                          <b-form-group label="Gender">
+                            <select v-model="form.gender" id="" class="form-control custom-form-control">
+                              <option value="">Select</option>
+                              <option value="1">Male</option>
+                              <option value="2">Female</option>
+                              <option value="3">Others</option>
+
+                            </select>
+                            <strong class="text-danger" style="font-size: 12px"
+                                    v-if="errors.gender">{{ errors.gender[0] }}</strong>
+                          </b-form-group>
+                        </b-col>
+
+                        <b-col lg="6" md="6" sm="12">
+                          <b-form-group label="Date of birth">
+                            <b-form-input v-model="form.dob" type="date"
+                                          placeholder="Date of Birth" class="custom-form-control"></b-form-input>
+                            <strong class="text-danger" style="font-size: 12px"
+                                    v-if="errors.dob">{{ errors.dob[0] }}</strong>
+                          </b-form-group>
+                        </b-col>
+                      </b-row>
+
+                      <b-row>
+                        <b-col lg="6" md="6" sm="12">
+                          <b-form-group label="National Id">
+                            <b-form-input v-model="form.nid" class="custom-form-control" type="text"
+                                          placeholder="National Id"></b-form-input>
+                            <strong class="text-danger" style="font-size: 12px"
+                                    v-if="errors.nid">{{ errors.nid[0] }}</strong>
+                          </b-form-group>
+                        </b-col>
+
+                        <b-col lg="6" md="6" sm="12">
+                          <b-form-group label="Passport No">
+                            <b-form-input v-model="form.passport_no" class="custom-form-control" type="text"
+                                          placeholder="Passport No"></b-form-input>
+                            <strong class="text-danger" style="font-size: 12px"
+                                    v-if="errors.passport_no">{{ errors.passport_no[0] }}</strong>
+                          </b-form-group>
+                        </b-col>
+                      </b-row>
+
+                      <b-row>
+                        <b-col lg="6" md="6" sm="12">
+                          <b-form-group label="Marital status">
+                            <select v-model="form.marital_status" id="" class="form-control custom-form-control">
+                              <option value="">Select</option>
+                              <option value="1">Married</option>
+                              <option value="2">Unmarried</option>
+
+                            </select>
+                            <strong class="text-danger" style="font-size: 12px"
+                                    v-if="errors.marital_status">{{ errors.marital_status[0] }}</strong>
+                          </b-form-group>
+                        </b-col>
+
+                        <b-col lg="6" md="6" sm="12">
+                          <b-form-group label="Postal code">
+                            <b-form-input v-model="form.postal_code" class="custom-form-control" type="text"
+                                          placeholder="Postal code"></b-form-input>
+                            <strong class="text-danger" style="font-size: 12px"
+                                    v-if="errors.postal_code">{{ errors.postal_code[0] }}</strong>
+                          </b-form-group>
+                        </b-col>
+                      </b-row>
+
                       <b-form-group label="Postal Address">
                         <b-form-textarea
-                          class="custom-input-control"
                           id="postal"
                           placeholder="Postal Address..."
                           rows="3"
@@ -136,28 +203,31 @@
                                 v-if="errors.postal_address">{{ errors.postal_address[0] }}</strong>
                       </b-form-group>
 
-                      <b-form-group label="Residential Address">
+                      <b-form-group label="Physical Address">
                         <b-form-textarea
-                          class="custom-input-control"
-                          id="residential"
-                          placeholder="Residential Address..."
+                          id="physical_address"
+                          placeholder="Physical Address..."
                           rows="3"
-                          v-model="form.residential_address"
+                          v-model="form.physical_address"
                         ></b-form-textarea>
                         <strong class="text-danger" style="font-size: 12px"
-                                v-if="errors.residential_address">{{ errors.residential_address[0] }}</strong>
+                                v-if="errors.physical_address">{{ errors.physical_address[0] }}</strong>
                       </b-form-group>
 
-                      <b-form-group>
-                        <b-button type="submit" variant="dark">Update</b-button>
-                      </b-form-group>
-
+                      <b-row>
+                        <b-col>
+                          <b-form-group>
+                            <b-button type="submit" variant="dark">Update</b-button>
+                          </b-form-group>
+                        </b-col>
+                      </b-row>
                     </b-form>
                   </b-col>
                   <b-col md="4">
                     <b-card class="mt-3" header="Image">
                       <td>
-                        <img style="height: 200px; width: 100%; object-fit: cover;" v-model="form.oldImage" :src="imageUrl+form.image" alt="">
+                        <img style="height: 200px; width: 100%; object-fit: cover;" v-model="form.oldImage"
+                             :src="imageUrl+form.image" alt="">
                       </td>
                       <b-form-group label="Image upload">
                         <Dropzone id="foo" ref="el"
@@ -173,6 +243,7 @@
             </div>
           </b-col>
           <!-- /.Main Content -->
+
         </b-row>
       </b-container>
     </section>
@@ -181,14 +252,14 @@
 
 <script>
   import Sidebar from "@/components/frontend/dashboard/Sidebar";
-  import Dropzone from 'nuxt-dropzone'
-  import 'nuxt-dropzone/dropzone.css'
+  import Dropzone from 'nuxt-dropzone';
+  import 'nuxt-dropzone/dropzone.css';
 
   export default {
-    name: "landloard",
+    name: "tenant",
     components: {Sidebar, Dropzone},
-    computed:{
-      imageUrl(){
+    computed: {
+      imageUrl() {
         return `${process.env.APP_ROOT_IMG_URL}`
       }
     },
@@ -204,19 +275,21 @@
         },
         form: {
           name: '',
-          mobile: '',
-          nid: '',
           email: '',
-          image: '',
-          oldImage:'',
-          status: '',
+          mobile: '',
           thana_id: '',
           district_id: '',
           division_id: '',
+          gender: '',
+          dob: '',
+          nid: '',
+          marital_status: '',
           postal_address: '',
-          residential_address: '',
+          physical_address: '',
+          postal_code: '',
+          passport_no: '',
           password: '',
-          password_confirmation: '',
+          password_confirmation: ''
         },
         previewImage: null,
         landlord: '',
@@ -227,15 +300,15 @@
       }
     },
     mounted() {
-      const authId = this.$auth.user.landlord_id;
+      const authId = this.$auth.user.tenant_id;
       if (!authId) {
         this.$router.push({name: 'account-dashboard'});
       }
     },
     async created() {
-      const response = await this.$axios.$post('profile/landlord', {id: this.$auth.user.landlord_id});
+      const response = await this.$axios.$post('profile/tenant', {id: this.$auth.user.tenant_id});
 
-      this.form = response.data.landlord;
+      this.form = response.data.tenant;
       this.form.oldImage = response.data.image;
       this.divisions = response.data.divisions;
       this.districts = response.data.districts;
@@ -254,15 +327,15 @@
       },
 
       async update() {
-        await this.$axios.$post('profile/landlord/update/'+this.$auth.user.landlord_id, this.form, )
+        await this.$axios.$post('profile/tenant/update/'+this.$auth.user.tenant_id, this.form, )
           .then(response => {
             this.$izitoast.success({
               title: 'Success !!',
-              message: 'Landlord updated successfully!'
+              message: 'Tenant updated successfully!'
             })
-            this.$refs.el.dropzone.options.url = process.env.APP_ROOT_API+'profile/landlord/image-upload/'+response.data.id;
+            this.$refs.el.dropzone.options.url = process.env.APP_ROOT_API+'profile/tenant/tenant-image-upload/'+response.data.id;
             this.$refs.el.dropzone.processQueue();
-            this.$router.push({name: 'account-profile-id-landloard'});
+            this.$router.push({name: 'account-profile-id-tenant'});
           })
           .catch(error => {
             if(error.response.status == 422){
