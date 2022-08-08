@@ -23,6 +23,13 @@
                   Profile
                 </nuxt-link>
               </li>
+              <li v-if="$auth.loggedIn && $auth.user.type == 3">
+                <nuxt-link
+                  :to="{ name: 'account-profile-id-tenant', params: { id: $auth.user.tenant_id }}">
+                  <b-icon icon="person" font-scale="1"></b-icon>
+                  Profile
+                </nuxt-link>
+              </li>
               <li v-if="$auth.loggedIn && $auth.user.type == 2">
                 <nuxt-link
                   :to="{ name: 'account-property'}">
