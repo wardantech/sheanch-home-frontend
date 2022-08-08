@@ -146,7 +146,6 @@
     components: {Newsletter, Sidebar},
     data() {
       return {
-
         form: {
           landlord_name: this.$auth.user.name,
           landlord_id: this.$auth.user.landlord_id,
@@ -164,7 +163,6 @@
           start_date:'',
           end_date:'',
           description: '',
-
         },
         properties:'',
         errors: {},
