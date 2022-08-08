@@ -103,6 +103,12 @@
   export default {
     name: "properties",
     components: {DataTable, Pagination, Newsletter, Sidebar,},
+    mounted(){
+      const authId = this.$auth.user.landlord_id;
+      if(!authId){
+        this.$router.push({name: 'account-dashboard'});
+      }
+    },
     created() {
       this.getData();
     },

@@ -18,6 +18,13 @@
               </li>
               <li v-if="$auth.loggedIn && $auth.user.type == 2">
                 <nuxt-link
+                  :to="{ name: 'account-profile-id-landloard', params: { id: $auth.user.landlord_id }}">
+                  <b-icon icon="person" font-scale="1"></b-icon>
+                  Profile
+                </nuxt-link>
+              </li>
+              <li v-if="$auth.loggedIn && $auth.user.type == 2">
+                <nuxt-link
                   :to="{ name: 'account-property'}">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Properties
