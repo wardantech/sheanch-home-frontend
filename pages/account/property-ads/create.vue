@@ -140,12 +140,10 @@
 <script>
   import Sidebar from "../../../components/frontend/dashboard/Sidebar";
   import Newsletter from "../../../components/frontend/Newsletter";
-  import Dropzone from 'nuxt-dropzone'
-  import 'nuxt-dropzone/dropzone.css'
 
   export default {
     name: "create",
-    components: {Dropzone, Newsletter, Sidebar},
+    components: {Newsletter, Sidebar},
     data() {
       return {
 
