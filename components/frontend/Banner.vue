@@ -15,7 +15,6 @@
                   <b-form-radio-group
                     id="btn-radios-2"
                     :options="options"
-                    :aria-describedby="ariaDescribedby"
                     button-variant="outline-primary"
                     size="lg"
                     name="radio-btn-outline"
@@ -150,6 +149,11 @@
         bannerImage: ''
       }
     },
+    computed: {
+      imageUrl(){
+        return `${process.env.APP_ROOT_IMG_URL}/`
+      }
+    },
 
     async created() {
       const propertyTypes = await this.$axios.$get('property/get-property-type');
@@ -161,7 +165,7 @@
       const res = await this.$axios.$post('get-general-setting-images', {data: 'banner'});
       // this.bannerImage = 'background: res.data;
 
-      this.bannerImage = "background: url("+res.image+") no-repeat";
+      this.bannerImage = "background: url("+this.imageUrl+'banner/'+res.image+") no-repeat";
 
     },
 
