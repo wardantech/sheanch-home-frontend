@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section id="place" v-if="properties.length > 3">
+    <section id="place" v-if="properties.length > 0">
       <b-container>
         <b-row class="row justify-content-center">
           <b-col lg="7" md="10" class="text-center">
@@ -147,6 +147,7 @@
     },
     async created() {
       this.properties = await this.$axios.$post('property/ad/active-property/list');
+      console.log(this.properties);
     },
     computed: {
       imageUrl() {

@@ -46,6 +46,10 @@
                       <div v-if="value.sale_type == 1"> Rent</div>
                       <div v-if="value.sale_type == 2"> Sale</div>
                     </td>
+                    <td>
+                      <div v-if="value.property_category == 1"> Commercial </div>
+                      <div v-if="value.property_category == 2"> Residential </div>
+                    </td>
                     <td>{{value.rent_amount}}</td>
                     <td>{{value.security_money}}</td>
                     <td>
@@ -53,6 +57,18 @@
                                 :class="value.status == 1 ? 'btn-sm btn-info': 'btn-sm btn-danger'">
                         {{ value.status == 1 ? 'Active' : 'Inactive' }}
                       </b-button>
+                    </td>
+                    <td>
+                      <nuxt-link :to="{name:'account-property-id-details', params: { id: value.property_id }}" rel="tooltip"
+                                 class="btn btn-sm btn-info btn-simple"
+                                 title="View property">
+                        <font-awesome-icon icon="fa-solid fa-hotel"/>
+                      </nuxt-link>
+                      <nuxt-link :to="{name:'account-property-ads-id-edit', params: { id: value.id }}" rel="tooltip"
+                                 class="btn btn-sm btn-success btn-simple"
+                                 title="Edit">
+                        <font-awesome-icon icon="fa-solid fa-edit"/>
+                      </nuxt-link>
                     </td>
 <!--                    <td>-->
 <!--                      &lt;!&ndash;<nuxt-link :to="{name:'users-landlords-id-edit',params: { id: value.id }}" rel="tooltip"&ndash;&gt;-->
@@ -101,11 +117,13 @@
       let sortOrders = {};
       let columns = [
         {width: '', label: 'Sl', name: 'id'},
-        {width: '', label: 'Lease/Rent Start Date', name: 'start_date'},
+        {width: '', label: 'Start Date', name: 'start_date'},
         {width: '', label: 'Type', name: 'sale_type'},
+        {width: '', label: 'Property ', name: 'property_category'},
         {width: '', label: 'Amount', name: 'rent_amount'},
         {width: '', label: 'Security money', name: 'security_money'},
         {width: '', label: 'Status', name: ''},
+        {width: '', label: 'Action', name: ''},
         // {width: '', label: 'Action', name: ''},
       ];
       columns.forEach((column) => {
