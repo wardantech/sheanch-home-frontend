@@ -129,9 +129,10 @@
     data() {
       return {
         slickOptions: {
+          infinite: true,
           autoplay:true,
           lazyLoad: 'ondemand',
-          slidesToShow: 3,
+          slidesToShow: '',
           slidesToScroll: 1,
           arrows: false
         },
@@ -146,7 +147,14 @@
     },
     async created() {
       this.properties = await this.$axios.$post('property/ad/active-property/list');
-      console.log(this.properties);
+
+      if(this.properties.length == 1) {
+        this.slickOptions.slidesToShow = 1;
+      }else if (this.properties.length == 2)  {
+        this.slickOptions.slidesToShow = 2;
+      }else {
+        this.slickOptions.slidesToShow = 3;
+      }
     },
     computed: {
       imageUrl() {
