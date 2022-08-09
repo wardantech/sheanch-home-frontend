@@ -140,7 +140,7 @@
       return {
         slickOptions: {
           infinite: true,
-          autoplay:true,
+          autoplay:false,
           lazyLoad: 'ondemand',
           slidesToShow: '',
           slidesToScroll: 1,
