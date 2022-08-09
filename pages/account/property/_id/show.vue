@@ -667,7 +667,7 @@
       }
     },
     async created() {
-      await this.$axios.$get('property/show/' + this.$route.params.id)
+      await this.$axios.$post('property/ad/get-details/' + this.$route.params.id)
         .then(response => {
           this.property = response.data;
 
