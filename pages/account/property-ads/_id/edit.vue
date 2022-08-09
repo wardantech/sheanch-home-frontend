@@ -172,7 +172,7 @@ export default {
   },
 
   async created() {
-    const propertyAdData = await this.$axios.$post('property/ad/get-property-edit-data', {
+    const propertyAdData = await this.$axios.$post('property/ad/get-edit-data', {
       id: this.$route.params.id,
       landlordId: this.form.landlord_id
     });
