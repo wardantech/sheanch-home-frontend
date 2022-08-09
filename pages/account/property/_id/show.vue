@@ -119,11 +119,11 @@
             <div class="accordion mt-5" role="tablist">
               <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button block v-b-toggle.accordion-3 variant="info">
+                  <b-button block v-b-toggle.utilities variant="info">
                     Utilities
                   </b-button>
                 </b-card-header>
-                <b-collapse id="accordion-3" visible accordion="my-accordion-3" role="tabpanel">
+                <b-collapse id="utilities" visible accordion="my-accordion-3" role="tabpanel">
                   <b-card-body>
                     <div class="block-body">
                       <div class="detail_features">
@@ -167,11 +167,11 @@
             <div class="accordion mt-5" role="tablist">
               <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button block v-b-toggle.accordion-3 variant="info">
+                  <b-button block v-b-toggle.facilities variant="info">
                     Facilities
                   </b-button>
                 </b-card-header>
-                <b-collapse id="accordion-3" visible accordion="my-accordion-3" role="tabpanel">
+                <b-collapse id="facilities" visible accordion="facilities" role="tabpanel">
                   <b-card-body>
                     <div class="block-body">
                       <ul class="detail_features">
