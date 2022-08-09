@@ -159,12 +159,10 @@
 
       const propertiesAds = await this.$axios.$post('property/ad/active-property/list');
       this.propertiesAds = propertiesAds.data;
-      
-      this.properties = await this.$axios.$post('property/ad/active-property/list');
 
-      if(this.properties.length == 1) {
+      if(this.propertiesAds.length == 1) {
         this.slickOptions.slidesToShow = 1;
-      }else if (this.properties.length == 2)  {
+      }else if (this.propertiesAds.length == 2)  {
         this.slickOptions.slidesToShow = 2;
       }else {
         this.slickOptions.slidesToShow = 3;
