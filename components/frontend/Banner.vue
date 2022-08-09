@@ -163,10 +163,7 @@
       this.divisions = divisions.data;
 
       const res = await this.$axios.$post('get-general-setting-images', {data: 'banner'});
-      // this.bannerImage = 'background: res.data;
-
-      this.bannerImage = "background: url("+this.imageUrl+'banner/'+res.image+") no-repeat";
-
+      this.bannerImage = "background: url("+res.image+") no-repeat";
     },
 
     methods: {
