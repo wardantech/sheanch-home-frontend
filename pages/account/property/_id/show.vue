@@ -1,10 +1,11 @@
 <template>
   <div>
     <div class="gallery">
-      <Slick ref="slick" :options="slickOptions" v-if="propertyImage.length > 0">
+
+      <Slick ref="slick" :options="slickOptions" v-if="media.length > 0">
         <!--imageUrl+image-->
-        <a v-for="(image, i) in propertyImage" :key="i" :href="imageUrl+image">
-          <img src="https://resido.thesky9.com/storage/properties/p-6-autox610.jpg" alt="Image">
+        <a v-for="(image, i) in property.media" :key="i" :href="image.original_url">
+          <img :src="image.original_url" alt="Image">
         </a>
       </Slick>
     </div>
@@ -23,7 +24,7 @@
                       <font-awesome-icon icon="fa-solid fa-location-dot"/>
                       {{ property.address }}
                 </span>
-                <h3 class="fix-price">${{ property.rent_amount }}</h3>
+                <h3 class="fix-price">${{ propertyAd.rent_amount }}</h3>
                 <div class="features-list">
                   <div class="features-list-icon">
                     <div class="fleat-icon">
@@ -72,13 +73,13 @@
                           <strong>Square: </strong>
                           {{ property.area_size }}
                         </li>
-                        <li>
-                          <strong>Floors: </strong>
-                          05
-                        </li>
+<!--                        <li>-->
+<!--                          <strong>Floors: </strong>-->
+<!--                          05-->
+<!--                        </li>-->
                         <li>
                           <strong>Property Type: </strong>
-                          {{ this.property_type }}
+                          {{ property.property_type }}
                         </li>
                       </ul>
                     </div>
@@ -98,9 +99,10 @@
                   <b-card-body>
                     <div class="block-body p-0">
                       <b-embed
+                        v-if="property.video_link"
                         type="iframe"
                         aspect="16by9"
-                        src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"
+                        :src="property.video_link"
                         allowfullscreen
                       ></b-embed>
                       <div class="mt-3">
@@ -118,16 +120,46 @@
               <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" class="p-1" role="tab">
                   <b-button block v-b-toggle.accordion-3 variant="info">
-                    Amenities
+                    Utilities
                   </b-button>
                 </b-card-header>
                 <b-collapse id="accordion-3" visible accordion="my-accordion-3" role="tabpanel">
                   <b-card-body>
                     <div class="block-body">
                       <ul class="detail_features">
-                        <li v-for="(utility, j) in property.utilities_paid_by_landlord" :key="j">
+                        <li v-for="(utility, j) in utilities" :key="j">
                           <font-awesome-icon icon="fa-solid fa-circle-check"/>
-                          <span class="ml-2">{{ utility.name }}</span>
+                          <span class="ml-2">{{ utility.utility_name }} - </span>
+                          <span class="ml-2">Paid by</span>
+                          <span v-if="utility.utility_paid_by == 1" class="ml-2">Landlord</span>
+                          <span v-else class="ml-2">Tenant</span>
+                          <span class="ml-2">Amount - {{utility.utility_amount}}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </b-card-body>
+                </b-collapse>
+              </b-card>
+            </div>
+
+            <div class="accordion mt-5" role="tablist">
+              <b-card no-body class="mb-1">
+                <b-card-header header-tag="header" class="p-1" role="tab">
+                  <b-button block v-b-toggle.accordion-3 variant="info">
+                    Facilities
+                  </b-button>
+                </b-card-header>
+                <b-collapse id="accordion-3" visible accordion="my-accordion-3" role="tabpanel">
+                  <b-card-body>
+                    <div class="block-body">
+                      <ul class="detail_features">
+                        <li v-for="(utility, j) in utilities" :key="j">
+                          <font-awesome-icon icon="fa-solid fa-circle-check"/>
+                          <span class="ml-2">{{ utility.utility_name }} - </span>
+                          <span class="ml-2">Paid by</span>
+                          <span v-if="utility.utility_paid_by == 1" class="ml-2">Landlord</span>
+                          <span v-else class="ml-2">Tenant</span>
+                          <span class="ml-2">Amount - {{utility.utility_amount}}</span>
                         </li>
                       </ul>
                     </div>
@@ -643,9 +675,12 @@
     components: {Newsletter, Slick},
     data() {
       return {
-        property: [],
+        propertyAd: '',
+        property: '',
+        media: '',
+        utilities: '',
+        facilities: '',
         property_type: '',
-        propertyImage: [],
         landlord: '',
         slickOptions: {
           lazyLoad: 'ondemand',
@@ -661,22 +696,22 @@
         slide6: 0,
       };
     },
+
+    async created() {
+      const propertiesAds = await this.$axios.$post('property/ad/get-details/' + this.$route.params.id);
+      this.propertyAd = propertiesAds.data;
+      this.property = propertiesAds.data.property;
+      this.media = propertiesAds.data.property.media;
+      this.utilities = JSON.parse(this.property.utilities);
+      this.facilities = JSON.parse(this.property.facilities);
+      console.log(this.propertyAds)
+
+    },
+
     computed: {
       imageUrl() {
         return `${process.env.APP_ROOT_IMG_URL}`
       }
-    },
-    async created() {
-      await this.$axios.$post('property/ad/get-details/' + this.$route.params.id)
-        .then(response => {
-          this.property = response.data;
-
-          console.log(this.property);
-
-          this.property_type = response.data.property_type.name;
-          this.landlord = response.data.landlord;
-
-        })
     },
     methods: {
       apply() {
