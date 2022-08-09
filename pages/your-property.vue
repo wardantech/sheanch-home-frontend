@@ -31,6 +31,7 @@
 
   export default {
     name: "your-property",
+    auth: false,
     components: {Newsletter, AboutProperty, Faq, CustomerExperiences, PropertyHero},
   }
 </script>
