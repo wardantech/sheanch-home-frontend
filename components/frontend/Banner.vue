@@ -117,7 +117,9 @@
               </b-row>
             </div>
             <div class="banner-form-action">
-              <b-button variant="primary banner-form-action-button">Search Result</b-button>
+              <nuxt-link :to="{name: 'property-ad-search'}" class="btn btn-primary banner-form-action-button">
+                Search Result
+              </nuxt-link>
             </div>
           </form>
         </div>
