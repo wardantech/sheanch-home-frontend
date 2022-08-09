@@ -5,7 +5,7 @@
       <Slick ref="slick" :options="slickOptions" v-if="media.length > 0">
         <!--imageUrl+image-->
         <a v-for="(image, i) in property.media" :key="i" :href="image.original_url">
-          <img :src="image.original_url" alt="Image">
+          <img :src="image.original_url" alt="Image" style="height: 357px; object-fit: cover;">
         </a>
       </Slick>
     </div>
@@ -73,10 +73,10 @@
                           <strong>Square: </strong>
                           {{ property.area_size }}
                         </li>
-<!--                        <li>-->
-<!--                          <strong>Floors: </strong>-->
-<!--                          05-->
-<!--                        </li>-->
+                        <!--                        <li>-->
+                        <!--                          <strong>Floors: </strong>-->
+                        <!--                          05-->
+                        <!--                        </li>-->
                         <li>
                           <strong>Property Type: </strong>
                           {{ property.property_type }}
@@ -126,16 +126,38 @@
                 <b-collapse id="accordion-3" visible accordion="my-accordion-3" role="tabpanel">
                   <b-card-body>
                     <div class="block-body">
-                      <ul class="detail_features">
-                        <li v-for="(utility, j) in utilities" :key="j">
-                          <font-awesome-icon icon="fa-solid fa-circle-check"/>
-                          <span class="ml-2">{{ utility.utility_name }} - </span>
-                          <span class="ml-2">Paid by</span>
-                          <span v-if="utility.utility_paid_by == 1" class="ml-2">Landlord</span>
-                          <span v-else class="ml-2">Tenant</span>
-                          <span class="ml-2">Amount - {{utility.utility_amount}}</span>
-                        </li>
-                      </ul>
+                      <div class="detail_features">
+
+                        <table class="table">
+                          <thead style="border-style: hidden">
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Paid by</th>
+                            <th scope="col">Amount</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <th scope="row">
+                              <font-awesome-icon icon="fa-solid fa-circle-check" style=""/>
+                            </th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                          </tr>
+                          </tbody>
+                        </table>
+
+                        <!--<li v-for="(utility, j) in utilities" :key="j">-->
+                        <!--<font-awesome-icon icon="fa-solid fa-circle-check"/>-->
+                        <!--<span class="ml-2">{{ utility.utility_name }} - </span>-->
+                        <!--<span class="ml-2">Paid by</span>-->
+                        <!--<span v-if="utility.utility_paid_by == 1" class="ml-2">Landlord</span>-->
+                        <!--<span v-else class="ml-2">Tenant</span>-->
+                        <!--<span class="ml-2">Amount - {{utility.utility_amount}}</span>-->
+                        <!--</li>-->
+                      </div>
                     </div>
                   </b-card-body>
                 </b-collapse>
@@ -488,72 +510,79 @@
               </ul>
             </div>
 
-            <div class="sidebar-message">
-              <div class="sidebar-message-widget">
-                <div class="widget-header">
-                  <div class="photo">
-                    <b-img :src="imageUrl+landlord.image"></b-img>
-                  </div>
-                  <div class="widget-details">
-                    <h4>
-                      <b-link href="#">{{ landlord.name }}</b-link>
-                    </h4>
-
-                    <span>
-                                              <b-icon icon="telephone" aria-hidden="true"></b-icon>
-                                              {{ landlord.mobile }}
-                                          </span>
-                  </div>
-                </div>
-                <div class="clearfix"></div>
+            <b-button
+              v-if="$auth.loggedIn && $auth.user.type == 3"
+              @click="apply" class="btn btn-black btn-md rounded btn-block">
+              For Apply
+            </b-button>
 
 
-                <b-button
-                  v-if="$auth.loggedIn && $auth.user.type == 3"
-                  @click="apply" class="btn btn-black btn-md rounded btn-block mt-5">
-                  For Apply
-                </b-button>
+            <nuxt-link v-else
+                       class="btn btn-black btn-md rounded btn-block"
+                       :to="{ name: 'login'}">
+              <b-button class="btn btn-black btn-md rounded btn-block">
+                Sign In for Apply
+              </b-button>
+            </nuxt-link>
+
+            <!--<div class="sidebar-message">-->
+              <!--<div class="sidebar-message-widget">-->
+                <!--<div class="widget-header">-->
+
+                  <!--&lt;!&ndash;<div class="photo">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<b-img :src="imageUrl+landlord.image"></b-img>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<div class="widget-details">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<h4>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<b-link href="#">{{ landlord.name }}</b-link>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</h4>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<span>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<b-icon icon="telephone" aria-hidden="true"></b-icon>&ndash;&gt;-->
+                        <!--&lt;!&ndash;{{ landlord.mobile }}&ndash;&gt;-->
+                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;&ndash;&gt;-->
 
 
-                <nuxt-link v-else
-                           class="btn btn-black btn-md rounded btn-block mt-5"
-                           :to="{ name: 'login'}">
-                  <b-button class="btn btn-black btn-md rounded btn-block mt-5">
-                    Sign In for Apply
-                  </b-button>
-                </nuxt-link>
+                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--</div>-->
+                <!--<div class="clearfix"></div>-->
 
 
-                                <!--<div class="widget-body">-->
-                                  <!--<b-form>-->
-                                    <!--<div class="form-group">-->
-                                      <!--<b-form-input name="name" type="text" placeholder="Name *"></b-form-input>-->
-                                    <!--</div>-->
 
-                                    <!--<div class="form-group">-->
-                                      <!--<b-form-input name="phone" type="text" placeholder="Phone *"></b-form-input>-->
-                                    <!--</div>-->
 
-                                    <!--<div class="form-group">-->
-                                      <!--<b-form-input name="email" type="email" placeholder="Email"></b-form-input>-->
-                                    <!--</div>-->
 
-                                    <!--<div class="form-group">-->
-                                      <!--<b-form-input name="subject" type="text" placeholder="Subject *" value="6007 Applegate Lane"-->
-                                                    <!--disabled></b-form-input>-->
-                                    <!--</div>-->
+                <!--&lt;!&ndash;<div class="widget-body">&ndash;&gt;-->
+                <!--&lt;!&ndash;<b-form>&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                <!--&lt;!&ndash;<b-form-input name="name" type="text" placeholder="Name *"></b-form-input>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-                                    <!--<div class="form-group">-->
-                                      <!--<b-form-textarea name="message" placeholder="Message"></b-form-textarea>-->
-                                    <!--</div>-->
+                <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                <!--&lt;!&ndash;<b-form-input name="phone" type="text" placeholder="Phone *"></b-form-input>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
 
-                                    <!--<div class="form-group">-->
-                                      <!--<b-button class="btn btn-black btn-md rounded btn-block">Send Message</b-button>-->
-                                    <!--</div>-->
-                                  <!--</b-form>-->
-                                <!--</div>-->
-              </div>
-            </div>
+                <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                <!--&lt;!&ndash;<b-form-input name="email" type="email" placeholder="Email"></b-form-input>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                <!--&lt;!&ndash;<b-form-input name="subject" type="text" placeholder="Subject *" value="6007 Applegate Lane"&ndash;&gt;-->
+                <!--&lt;!&ndash;disabled></b-form-input>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                <!--&lt;!&ndash;<b-form-textarea name="message" placeholder="Message"></b-form-textarea>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                <!--&lt;!&ndash;<b-button class="btn btn-black btn-md rounded btn-block">Send Message</b-button>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</b-form>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+              <!--</div>-->
+            <!--</div>-->
           </b-col>
         </b-row>
       </b-container>
