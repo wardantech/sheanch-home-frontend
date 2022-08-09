@@ -670,13 +670,12 @@
       await this.$axios.$get('property/show/' + this.$route.params.id)
         .then(response => {
           this.property = response.data;
+
+          console.log(this.property);
+
           this.property_type = response.data.property_type.name;
           this.landlord = response.data.landlord;
-          if (this.property.image != null) {
-            this.propertyImage = this.property.image.split(',');
-          }
 
-          console.log(this.propertyImage);
         })
     },
     methods: {

@@ -12,7 +12,6 @@
                     <b-form-radio-group
                       id="btn-radios-2"
                       :options="options"
-                      :aria-describedby="ariaDescribedby"
                       button-variant="outline-dark"
                       size="lg"
                       name="radio-btn-outline"
