@@ -45,10 +45,16 @@
                 </nuxt-link>
               </li>
               <li>
-                <nuxt-link
-                  :to="{ name: 'account-property-leases'}">
+                <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 2"
+                  :to="{ name: 'account-property-deed-landlord'}">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
-                  leases
+                  Property Deed
+                </nuxt-link>
+
+                <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 3"
+                           :to="{ name: 'account-property-deed-tenant'}">
+                  <b-icon icon="newspaper" font-scale="1"></b-icon>
+                  Property Deed
                 </nuxt-link>
               </li>
               <li>

@@ -70,16 +70,29 @@
                           {{ property.bath_rooms }}
                         </li>
                         <li>
-                          <strong>Square: </strong>
-                          {{ property.area_size }}
+                          <strong>Balcony: </strong>
+                          {{ property.balcony }}
                         </li>
-                        <!--                        <li>-->
-                        <!--                          <strong>Floors: </strong>-->
-                        <!--                          05-->
-                        <!--                        </li>-->
                         <li>
-                          <strong>Property Type: </strong>
-                          {{ property.property_type }}
+                          <strong>Floor: </strong>
+                          {{ property.floor }}
+                        </li>
+                        <li>
+                          <strong>Area: </strong>
+                          {{ property.area_size }} sqf
+                        </li>
+                        <li>
+                          <strong>Category: </strong>
+                          <span v-if="property.property_category == 1">Commercial</span>
+                          <span v-if="property.property_category == 2">Residential</span>
+                        </li>
+<!--                        <li>-->
+<!--                          <strong>Type: </strong>-->
+<!--                          {{ property.property_type_id }}-->
+<!--                        </li>-->
+                        <li>
+                          <strong>Security Money: </strong>
+                          {{ property.security_money }}
                         </li>
                       </ul>
                     </div>
@@ -138,25 +151,19 @@
                           </tr>
                           </thead>
                           <tbody>
-                          <tr>
+                          <tr v-for="(utility, j) in utilities" :key="j">
                             <th scope="row">
                               <font-awesome-icon icon="fa-solid fa-circle-check" style=""/>
                             </th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <td>{{utility.utility_name}}</td>
+                            <td>
+                              <span v-if="utility.utility_paid_by == 1">Landlord</span>
+                              <span  v-else>Tenant</span>
+                            </td>
+                            <td>{{utility.utility_amount}}</td>
                           </tr>
                           </tbody>
                         </table>
-
-                        <!--<li v-for="(utility, j) in utilities" :key="j">-->
-                        <!--<font-awesome-icon icon="fa-solid fa-circle-check"/>-->
-                        <!--<span class="ml-2">{{ utility.utility_name }} - </span>-->
-                        <!--<span class="ml-2">Paid by</span>-->
-                        <!--<span v-if="utility.utility_paid_by == 1" class="ml-2">Landlord</span>-->
-                        <!--<span v-else class="ml-2">Tenant</span>-->
-                        <!--<span class="ml-2">Amount - {{utility.utility_amount}}</span>-->
-                        <!--</li>-->
                       </div>
                     </div>
                   </b-card-body>
@@ -175,14 +182,29 @@
                   <b-card-body>
                     <div class="block-body">
                       <ul class="detail_features">
-                        <li v-for="(utility, j) in utilities" :key="j">
-                          <font-awesome-icon icon="fa-solid fa-circle-check"/>
-                          <span class="ml-2">{{ utility.utility_name }} - </span>
-                          <span class="ml-2">Paid by</span>
-                          <span v-if="utility.utility_paid_by == 1" class="ml-2">Landlord</span>
-                          <span v-else class="ml-2">Tenant</span>
-                          <span class="ml-2">Amount - {{utility.utility_amount}}</span>
-                        </li>
+                        <table class="table">
+                          <thead style="border-style: hidden">
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Paid by</th>
+                            <th scope="col">Amount</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr v-for="(facility, j) in facilities" :key="j">
+                            <th scope="row">
+                              <font-awesome-icon icon="fa-solid fa-circle-check" style=""/>
+                            </th>
+                            <td>{{facility.facility_name}}</td>
+                            <td>
+                              <span v-if="facility.facility_paid_by == 1">Landlord</span>
+                              <span  v-else>Tenant</span>
+                            </td>
+                            <td>{{facility.facility_amount}}</td>
+                          </tr>
+                          </tbody>
+                        </table>
                       </ul>
                     </div>
                   </b-card-body>
@@ -194,17 +216,17 @@
               <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" class="p-1" role="tab">
                   <b-button block v-b-toggle.accordion-4 variant="info">
-                    Location
+                   Google Map Location
                   </b-button>
                 </b-card-header>
                 <b-collapse id="accordion-4" visible accordion="my-accordion-4" role="tabpanel">
                   <b-card-body>
                     <div class="block-body p-0">
-                      <p>{{ property.address }}</p>
+<!--                      <p>{{ property.address }}</p>-->
                       <div class="map-container">
                         <b-row class="justify-content-center">
                           <b-col md="12">
-                            <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3648.35052480518!2d90.39648971445824!3d23.877185989839113!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c4214e79e92d%3A0xdba8af15e0f784d7!2sWardan%20Tech%20Limited!5e0!3m2!1sen!2sbd!4v1655119620049!5m2!1sen!2sbd" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>-->
+                            <iframe :src="property.google_map_location" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                           </b-col>
                         </b-row>
                       </div>
@@ -250,235 +272,235 @@
               </b-card>
             </div>
 
-            <div class="rating">
-              <div class="rating-box">
-                <span class="rating-box-total">1.75</span>
-                <span class="rating-box-percent">out of 5.0</span>
-                <div class="rating-star">
-                  <b-icon icon="star-fill"></b-icon>
-                  <b-icon icon="star-fill"></b-icon>
-                  <b-icon icon="star"></b-icon>
-                  <b-icon icon="star"></b-icon>
-                  <b-icon icon="star"></b-icon>
-                </div>
-              </div>
+<!--            <div class="rating">-->
+<!--              <div class="rating-box">-->
+<!--                <span class="rating-box-total">1.75</span>-->
+<!--                <span class="rating-box-percent">out of 5.0</span>-->
+<!--                <div class="rating-star">-->
+<!--                  <b-icon icon="star-fill"></b-icon>-->
+<!--                  <b-icon icon="star-fill"></b-icon>-->
+<!--                  <b-icon icon="star"></b-icon>-->
+<!--                  <b-icon icon="star"></b-icon>-->
+<!--                  <b-icon icon="star"></b-icon>-->
+<!--                </div>-->
+<!--              </div>-->
 
-              <div class="rating-bars">
-                <div class="rating-bars-item">
-                  <span class="rating-bars-item-name">Service</span>
-                  <span class="rating-bars-item-inner">
-                                        <b-progress :value="value" class="mb-3"></b-progress>
-                                    </span>
-                </div>
-                <div class="rating-bars-item">
-                  <span class="rating-bars-item-name">Value for Money</span>
-                  <span class="rating-bars-item-inner">
-                                        <b-progress :value="value" class="mb-3"></b-progress>
-                                    </span>
-                </div>
-                <div class="rating-bars-item">
-                  <span class="rating-bars-item-name">Location</span>
-                  <span class="rating-bars-item-inner">
-                                        <b-progress :value="value" class="mb-3"></b-progress>
-                                    </span>
-                </div>
-                <div class="rating-bars-item">
-                  <span class="rating-bars-item-name">Cleanliness</span>
-                  <span class="rating-bars-item-inner">
-                                        <b-progress :value="value" class="mb-3"></b-progress>
-                                    </span>
-                </div>
-              </div>
-            </div>
+<!--              <div class="rating-bars">-->
+<!--                <div class="rating-bars-item">-->
+<!--                  <span class="rating-bars-item-name">Service</span>-->
+<!--                  <span class="rating-bars-item-inner">-->
+<!--                                        <b-progress :value="value" class="mb-3"></b-progress>-->
+<!--                                    </span>-->
+<!--                </div>-->
+<!--                <div class="rating-bars-item">-->
+<!--                  <span class="rating-bars-item-name">Value for Money</span>-->
+<!--                  <span class="rating-bars-item-inner">-->
+<!--                                        <b-progress :value="value" class="mb-3"></b-progress>-->
+<!--                                    </span>-->
+<!--                </div>-->
+<!--                <div class="rating-bars-item">-->
+<!--                  <span class="rating-bars-item-name">Location</span>-->
+<!--                  <span class="rating-bars-item-inner">-->
+<!--                                        <b-progress :value="value" class="mb-3"></b-progress>-->
+<!--                                    </span>-->
+<!--                </div>-->
+<!--                <div class="rating-bars-item">-->
+<!--                  <span class="rating-bars-item-name">Cleanliness</span>-->
+<!--                  <span class="rating-bars-item-inner">-->
+<!--                                        <b-progress :value="value" class="mb-3"></b-progress>-->
+<!--                                    </span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="accordion mt-5" role="tablist">
-              <b-card no-body class="mb-1">
-                <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button block v-b-toggle.accordion-6 variant="info">
-                    6 Reviews
-                  </b-button>
-                </b-card-header>
-                <b-collapse id="accordion-6" visible accordion="my-accordion-6" role="tabpanel">
-                  <b-card-body>
-                    <div class="block-body p-0">
-                      <div class="reviews">
-                        <div class="reviews-list">
-                          <ul>
-                            <li class="comments">
-                              <article>
-                                <div class="comments-thumb">
-                                  <b-img src="https://resido.thesky9.com/storage/accounts/4-150x150.jpg"
-                                         alt="Image"></b-img>
-                                </div>
-                                <div class="comments-details">
-                                  <div class="comments-rating">
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                  </div>
-                                  <div class="comment-meta">
-                                    <h4 class="author-name">Walker Bergstrom</h4>
-                                    <div class="comment-date">
-                                      15 Feb, 2022
-                                    </div>
-                                  </div>
-                                  <div class="comment-text">
-                                    <p>Ut provident qui aut. Sit nam esse officiis quis assumenda iusto molestiae.</p>
-                                  </div>
-                                </div>
-                              </article>
-                            </li>
+<!--            <div class="accordion mt-5" role="tablist">-->
+<!--              <b-card no-body class="mb-1">-->
+<!--                <b-card-header header-tag="header" class="p-1" role="tab">-->
+<!--                  <b-button block v-b-toggle.accordion-6 variant="info">-->
+<!--                    6 Reviews-->
+<!--                  </b-button>-->
+<!--                </b-card-header>-->
+<!--                <b-collapse id="accordion-6" visible accordion="my-accordion-6" role="tabpanel">-->
+<!--                  <b-card-body>-->
+<!--                    <div class="block-body p-0">-->
+<!--                      <div class="reviews">-->
+<!--                        <div class="reviews-list">-->
+<!--                          <ul>-->
+<!--                            <li class="comments">-->
+<!--                              <article>-->
+<!--                                <div class="comments-thumb">-->
+<!--                                  <b-img src="https://resido.thesky9.com/storage/accounts/4-150x150.jpg"-->
+<!--                                         alt="Image"></b-img>-->
+<!--                                </div>-->
+<!--                                <div class="comments-details">-->
+<!--                                  <div class="comments-rating">-->
+<!--                                    <b-icon icon="star-fill"></b-icon>-->
+<!--                                    <b-icon icon="star-fill"></b-icon>-->
+<!--                                    <b-icon icon="star"></b-icon>-->
+<!--                                    <b-icon icon="star"></b-icon>-->
+<!--                                    <b-icon icon="star"></b-icon>-->
+<!--                                  </div>-->
+<!--                                  <div class="comment-meta">-->
+<!--                                    <h4 class="author-name">Walker Bergstrom</h4>-->
+<!--                                    <div class="comment-date">-->
+<!--                                      15 Feb, 2022-->
+<!--                                    </div>-->
+<!--                                  </div>-->
+<!--                                  <div class="comment-text">-->
+<!--                                    <p>Ut provident qui aut. Sit nam esse officiis quis assumenda iusto molestiae.</p>-->
+<!--                                  </div>-->
+<!--                                </div>-->
+<!--                              </article>-->
+<!--                            </li>-->
 
-                            <li class="comments">
-                              <article>
-                                <div class="comments-thumb">
-                                  <b-img src="https://resido.thesky9.com/storage/accounts/5-150x150.jpg"
-                                         alt="Image"></b-img>
-                                </div>
-                                <div class="comments-details">
-                                  <div class="comments-rating">
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                  </div>
-                                  <div class="comment-meta">
-                                    <h4 class="author-name">Cara Anderson</h4>
-                                    <div class="comment-date">
-                                      15 FEB, 2022
-                                    </div>
-                                  </div>
-                                  <div class="comment-text">
-                                    <p>Et qui ut iusto est nulla. Aspernatur laboriosam quis exercitationem. Architecto
-                                      quis sint illo porro non ea.</p>
-                                  </div>
-                                </div>
-                              </article>
-                            </li>
+<!--                            <li class="comments">-->
+<!--                              <article>-->
+<!--                                <div class="comments-thumb">-->
+<!--                                  <b-img src="https://resido.thesky9.com/storage/accounts/5-150x150.jpg"-->
+<!--                                         alt="Image"></b-img>-->
+<!--                                </div>-->
+<!--                                <div class="comments-details">-->
+<!--                                  <div class="comments-rating">-->
+<!--                                    <b-icon icon="star-fill"></b-icon>-->
+<!--                                    <b-icon icon="star-fill"></b-icon>-->
+<!--                                    <b-icon icon="star"></b-icon>-->
+<!--                                    <b-icon icon="star"></b-icon>-->
+<!--                                    <b-icon icon="star"></b-icon>-->
+<!--                                  </div>-->
+<!--                                  <div class="comment-meta">-->
+<!--                                    <h4 class="author-name">Cara Anderson</h4>-->
+<!--                                    <div class="comment-date">-->
+<!--                                      15 FEB, 2022-->
+<!--                                    </div>-->
+<!--                                  </div>-->
+<!--                                  <div class="comment-text">-->
+<!--                                    <p>Et qui ut iusto est nulla. Aspernatur laboriosam quis exercitationem. Architecto-->
+<!--                                      quis sint illo porro non ea.</p>-->
+<!--                                  </div>-->
+<!--                                </div>-->
+<!--                              </article>-->
+<!--                            </li>-->
 
-                            <li class="comments">
-                              <article>
-                                <div class="comments-thumb">
-                                  <b-img src="https://resido.thesky9.com/storage/accounts/3-150x150.jpg"
-                                         alt="Image"></b-img>
-                                </div>
-                                <div class="comments-details">
-                                  <div class="comments-rating">
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                  </div>
-                                  <div class="comment-meta">
-                                    <h4 class="author-name">Sage Feest</h4>
-                                    <div class="comment-date">
-                                      15 FEB, 2022
-                                    </div>
-                                  </div>
-                                  <div class="comment-text">
-                                    <p>Non sequi dignissimos recusandae dolorum dolore aut qui est. Ea quaerat non quia
-                                      qui nemo. Laborum hic et et fuga ut.</p>
-                                  </div>
-                                </div>
-                              </article>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </b-card-body>
-                </b-collapse>
-              </b-card>
-            </div>
+<!--                            <li class="comments">-->
+<!--                              <article>-->
+<!--                                <div class="comments-thumb">-->
+<!--                                  <b-img src="https://resido.thesky9.com/storage/accounts/3-150x150.jpg"-->
+<!--                                         alt="Image"></b-img>-->
+<!--                                </div>-->
+<!--                                <div class="comments-details">-->
+<!--                                  <div class="comments-rating">-->
+<!--                                    <b-icon icon="star-fill"></b-icon>-->
+<!--                                    <b-icon icon="star-fill"></b-icon>-->
+<!--                                    <b-icon icon="star-fill"></b-icon>-->
+<!--                                    <b-icon icon="star"></b-icon>-->
+<!--                                    <b-icon icon="star"></b-icon>-->
+<!--                                  </div>-->
+<!--                                  <div class="comment-meta">-->
+<!--                                    <h4 class="author-name">Sage Feest</h4>-->
+<!--                                    <div class="comment-date">-->
+<!--                                      15 FEB, 2022-->
+<!--                                    </div>-->
+<!--                                  </div>-->
+<!--                                  <div class="comment-text">-->
+<!--                                    <p>Non sequi dignissimos recusandae dolorum dolore aut qui est. Ea quaerat non quia-->
+<!--                                      qui nemo. Laborum hic et et fuga ut.</p>-->
+<!--                                  </div>-->
+<!--                                </div>-->
+<!--                              </article>-->
+<!--                            </li>-->
+<!--                          </ul>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </b-card-body>-->
+<!--                </b-collapse>-->
+<!--              </b-card>-->
+<!--            </div>-->
 
-            <div class="accordion mt-5" role="tablist">
-              <b-card no-body class="mb-1">
-                <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button block v-b-toggle.accordion-7 variant="info">
-                    Write A Review
-                  </b-button>
-                </b-card-header>
-                <b-collapse id="accordion-7" visible accordion="my-accordion-7" role="tabpanel">
-                  <b-card-body>
-                    <p class="text-danger">Please <a href="#" class="text-danger">login</a> to write review!</p>
-                    <div class="block-body p-0">
-                      <b-form>
-                        <b-row class="py-3">
-                          <b-col md="8">
-                            <b-row>
-                              <b-col lg="6" md="6" sm="12">
-                                <label class="select-star">service</label>
-                                <div class="review-star">
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                </div>
-                              </b-col>
-                              <b-col lg="6" md="6" sm="12">
-                                <label class="select-star">value</label>
-                                <div class="review-star">
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                </div>
-                              </b-col>
-                              <b-col lg="6" md="6" sm="12">
-                                <label class="select-star">Location</label>
-                                <div class="review-star">
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                </div>
-                              </b-col>
-                              <b-col lg="6" md="6" sm="12">
-                                <label class="select-star">cleanliness</label>
-                                <div class="review-star">
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                </div>
-                              </b-col>
-                            </b-row>
-                          </b-col>
+<!--            <div class="accordion mt-5" role="tablist">-->
+<!--              <b-card no-body class="mb-1">-->
+<!--                <b-card-header header-tag="header" class="p-1" role="tab">-->
+<!--                  <b-button block v-b-toggle.accordion-7 variant="info">-->
+<!--                    Write A Review-->
+<!--                  </b-button>-->
+<!--                </b-card-header>-->
+<!--                <b-collapse id="accordion-7" visible accordion="my-accordion-7" role="tabpanel">-->
+<!--                  <b-card-body>-->
+<!--                    <p class="text-danger">Please <a href="#" class="text-danger">login</a> to write review!</p>-->
+<!--                    <div class="block-body p-0">-->
+<!--                      <b-form>-->
+<!--                        <b-row class="py-3">-->
+<!--                          <b-col md="8">-->
+<!--                            <b-row>-->
+<!--                              <b-col lg="6" md="6" sm="12">-->
+<!--                                <label class="select-star">service</label>-->
+<!--                                <div class="review-star">-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star"></b-icon>-->
+<!--                                  <b-icon icon="star"></b-icon>-->
+<!--                                </div>-->
+<!--                              </b-col>-->
+<!--                              <b-col lg="6" md="6" sm="12">-->
+<!--                                <label class="select-star">value</label>-->
+<!--                                <div class="review-star">-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star"></b-icon>-->
+<!--                                  <b-icon icon="star"></b-icon>-->
+<!--                                </div>-->
+<!--                              </b-col>-->
+<!--                              <b-col lg="6" md="6" sm="12">-->
+<!--                                <label class="select-star">Location</label>-->
+<!--                                <div class="review-star">-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star"></b-icon>-->
+<!--                                  <b-icon icon="star"></b-icon>-->
+<!--                                </div>-->
+<!--                              </b-col>-->
+<!--                              <b-col lg="6" md="6" sm="12">-->
+<!--                                <label class="select-star">cleanliness</label>-->
+<!--                                <div class="review-star">-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star-fill"></b-icon>-->
+<!--                                  <b-icon icon="star"></b-icon>-->
+<!--                                  <b-icon icon="star"></b-icon>-->
+<!--                                </div>-->
+<!--                              </b-col>-->
+<!--                            </b-row>-->
+<!--                          </b-col>-->
 
-                          <b-col lg="4" md="4" sm="12">
-                            <div class="total-rating">
-                              <h4>4.75</h4>
-                              <span>Average Rating</span>
-                            </div>
-                          </b-col>
-                        </b-row>
+<!--                          <b-col lg="4" md="4" sm="12">-->
+<!--                            <div class="total-rating">-->
+<!--                              <h4>4.75</h4>-->
+<!--                              <span>Average Rating</span>-->
+<!--                            </div>-->
+<!--                          </b-col>-->
+<!--                        </b-row>-->
 
-                        <b-row>
-                          <b-col lg="12" md="12" sm="12">
-                            <div class="form-group">
-                              <textarea name="comment" placeholder="Message" class="form-control ht-80"
-                                        disabled></textarea>
-                            </div>
-                          </b-col>
+<!--                        <b-row>-->
+<!--                          <b-col lg="12" md="12" sm="12">-->
+<!--                            <div class="form-group">-->
+<!--                              <textarea name="comment" placeholder="Message" class="form-control ht-80"-->
+<!--                                        disabled></textarea>-->
+<!--                            </div>-->
+<!--                          </b-col>-->
 
-                          <b-col lg="12" md="12" sm="12">
-                            <b-link class="btn btn-browse-more" disabled>Submit Review</b-link>
-                          </b-col>
-                        </b-row>
-                      </b-form>
-                    </div>
-                  </b-card-body>
-                </b-collapse>
-              </b-card>
-            </div>
+<!--                          <b-col lg="12" md="12" sm="12">-->
+<!--                            <b-link class="btn btn-browse-more" disabled>Submit Review</b-link>-->
+<!--                          </b-col>-->
+<!--                        </b-row>-->
+<!--                      </b-form>-->
+<!--                    </div>-->
+<!--                  </b-card-body>-->
+<!--                </b-collapse>-->
+<!--              </b-card>-->
+<!--            </div>-->
           </b-col>
 
           <b-col lg="4" md="12" sm="12">
@@ -513,7 +535,7 @@
             <b-button
               v-if="$auth.loggedIn && $auth.user.type == 3"
               @click="apply" class="btn btn-black btn-md rounded btn-block">
-              For Apply
+              Apply for deed
             </b-button>
 
 
@@ -521,7 +543,7 @@
                        class="btn btn-black btn-md rounded btn-block"
                        :to="{ name: 'login'}">
               <b-button class="btn btn-black btn-md rounded btn-block">
-                Sign In for Apply
+                Sign in as a tenant for apply
               </b-button>
             </nuxt-link>
 
@@ -588,105 +610,105 @@
       </b-container>
     </section>
 
-    <section id="place" class="bg-gary">
-      <b-container>
-        <b-row class="row justify-content-center">
-          <b-col lg="7" md="10" class="text-center">
-            <div class="section-heading center">
-              <h2>Recently Viewed Properties</h2>
-            </div>
-          </b-col>
-        </b-row>
+<!--    <section id="place" class="bg-gary">-->
+<!--      <b-container>-->
+<!--        <b-row class="row justify-content-center">-->
+<!--          <b-col lg="7" md="10" class="text-center">-->
+<!--            <div class="section-heading center">-->
+<!--              <h2>Recently Viewed Properties</h2>-->
+<!--            </div>-->
+<!--          </b-col>-->
+<!--        </b-row>-->
 
-        <b-row class="place-layout">
-          <b-col lg="4" md="6" sm="12">
-            <div class="place-layout-listing">
-              <div class="place-layout-listing-img">
-                <div class="place-layout-listing-img-slide">
-                  <b-carousel id="carousel-6" v-model="slide6" :interval="1500" controls>
-                    <b-carousel-slide
-                      img-src="https://resido.thesky9.com/storage/properties/p-3-400xauto.jpg"></b-carousel-slide>
-                    <b-carousel-slide
-                      img-src="https://resido.thesky9.com/storage/properties/p-16-400xauto.jpg"></b-carousel-slide>
-                    <b-carousel-slide
-                      img-src="https://resido.thesky9.com/storage/properties/p-6-400xauto.jpg"></b-carousel-slide>
-                  </b-carousel>
-                </div>
-                <div class="place-layout-listing-img-action">
-                  <b-link href="#" class="add-to-wishlist">
-                    <font-awesome-icon icon="fa-solid fa-heart"/>
-                  </b-link>
-                </div>
-              </div>
-              <div class="place-layout-listing-detail">
-                <div class="place-layout-listing-detail-wrap">
-                  <div class="place-layout-listing-detail-wrap-short">
-                    <div class="list-price d-flex justify-content-between">
-                      <span class="sale-type rent">For Rent</span>
-                      <h6 class="card-price">$232,021</h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="place-layout-listing-detail-name">
-                  <b-link href="#" title="6007 Applegate Lane">
-                    1745 T Street Southeast
-                  </b-link>
-                </div>
-                <div class="rating-wrap">
-                  <div class="rating">
-                    <div class="product-rate" width="70%">
-                      <font-awesome-icon icon="fa-solid fa-star"/>
-                      <font-awesome-icon icon="fa-solid fa-star"/>
-                      <font-awesome-icon icon="fa-solid fa-star"/>
-                      <font-awesome-icon icon="fa-solid fa-star"/>
-                      <font-awesome-icon icon="fa-solid fa-star-half"/>
-                    </div>
-                  </div>
-                  <span class="reviews-text">( 3 Reviews)</span>
-                </div>
-              </div>
-              <div class="place-layout-listing-features">
-                <div class="features-list">
-                  <div class="features-list-icon">
-                    <div class="fleat-icon">
-                      <font-awesome-icon icon="fa-solid fa-bed"/>
-                    </div>
-                    1 Bed
-                  </div>
+<!--        <b-row class="place-layout">-->
+<!--          <b-col lg="4" md="6" sm="12">-->
+<!--            <div class="place-layout-listing">-->
+<!--              <div class="place-layout-listing-img">-->
+<!--                <div class="place-layout-listing-img-slide">-->
+<!--                  <b-carousel id="carousel-6" v-model="slide6" :interval="1500" controls>-->
+<!--                    <b-carousel-slide-->
+<!--                      img-src="https://resido.thesky9.com/storage/properties/p-3-400xauto.jpg"></b-carousel-slide>-->
+<!--                    <b-carousel-slide-->
+<!--                      img-src="https://resido.thesky9.com/storage/properties/p-16-400xauto.jpg"></b-carousel-slide>-->
+<!--                    <b-carousel-slide-->
+<!--                      img-src="https://resido.thesky9.com/storage/properties/p-6-400xauto.jpg"></b-carousel-slide>-->
+<!--                  </b-carousel>-->
+<!--                </div>-->
+<!--                <div class="place-layout-listing-img-action">-->
+<!--                  <b-link href="#" class="add-to-wishlist">-->
+<!--                    <font-awesome-icon icon="fa-solid fa-heart"/>-->
+<!--                  </b-link>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="place-layout-listing-detail">-->
+<!--                <div class="place-layout-listing-detail-wrap">-->
+<!--                  <div class="place-layout-listing-detail-wrap-short">-->
+<!--                    <div class="list-price d-flex justify-content-between">-->
+<!--                      <span class="sale-type rent">For Rent</span>-->
+<!--                      <h6 class="card-price">$232,021</h6>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="place-layout-listing-detail-name">-->
+<!--                  <b-link href="#" title="6007 Applegate Lane">-->
+<!--                    1745 T Street Southeast-->
+<!--                  </b-link>-->
+<!--                </div>-->
+<!--                <div class="rating-wrap">-->
+<!--                  <div class="rating">-->
+<!--                    <div class="product-rate" width="70%">-->
+<!--                      <font-awesome-icon icon="fa-solid fa-star"/>-->
+<!--                      <font-awesome-icon icon="fa-solid fa-star"/>-->
+<!--                      <font-awesome-icon icon="fa-solid fa-star"/>-->
+<!--                      <font-awesome-icon icon="fa-solid fa-star"/>-->
+<!--                      <font-awesome-icon icon="fa-solid fa-star-half"/>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <span class="reviews-text">( 3 Reviews)</span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="place-layout-listing-features">-->
+<!--                <div class="features-list">-->
+<!--                  <div class="features-list-icon">-->
+<!--                    <div class="fleat-icon">-->
+<!--                      <font-awesome-icon icon="fa-solid fa-bed"/>-->
+<!--                    </div>-->
+<!--                    1 Bed-->
+<!--                  </div>-->
 
-                  <div class="features-list-icon">
-                    <div class="fleat-icon">
-                      <font-awesome-icon icon="fa-solid fa-bath"/>
-                    </div>
-                    5 Bath
-                  </div>
+<!--                  <div class="features-list-icon">-->
+<!--                    <div class="fleat-icon">-->
+<!--                      <font-awesome-icon icon="fa-solid fa-bath"/>-->
+<!--                    </div>-->
+<!--                    5 Bath-->
+<!--                  </div>-->
 
-                  <div class="features-list-icon">
-                    <div class="fleat-icon">
-                      <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
-                    </div>
-                    83 m²
-                  </div>
-                </div>
-              </div>
-              <div class="place-layout-listing-footer">
-                <div class="footer-first">
-                  <div class="footer-first-location d-flex">
-                    <font-awesome-icon icon="fa-solid fa-location-dot"/>
-                    Hampton, Virginia
-                  </div>
-                </div>
-                <div class="footer-flex">
-                  <b-link href="#" class="product-view">
-                    View
-                  </b-link>
-                </div>
-              </div>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </section>
+<!--                  <div class="features-list-icon">-->
+<!--                    <div class="fleat-icon">-->
+<!--                      <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>-->
+<!--                    </div>-->
+<!--                    83 m²-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="place-layout-listing-footer">-->
+<!--                <div class="footer-first">-->
+<!--                  <div class="footer-first-location d-flex">-->
+<!--                    <font-awesome-icon icon="fa-solid fa-location-dot"/>-->
+<!--                    Hampton, Virginia-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="footer-flex">-->
+<!--                  <b-link href="#" class="product-view">-->
+<!--                    View-->
+<!--                  </b-link>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </b-col>-->
+<!--        </b-row>-->
+<!--      </b-container>-->
+<!--    </section>-->
 
     <!-- Start newsletter -->
     <Newsletter/>
@@ -710,7 +732,6 @@
         utilities: '',
         facilities: '',
         property_type: '',
-        landlord: '',
         slickOptions: {
           lazyLoad: 'ondemand',
           slidesToShow: 2,
@@ -733,7 +754,6 @@
       this.media = propertiesAds.data.property.media;
       this.utilities = JSON.parse(this.property.utilities);
       this.facilities = JSON.parse(this.property.facilities);
-      console.log(this.propertyAds)
 
     },
 
@@ -744,19 +764,19 @@
     },
     methods: {
       apply() {
+        console.log(this.$auth.user)
         this.$swal.fire({
           title: 'Are you confirm to apply for this property',
           showCancelButton: true,
           confirmButtonText: 'Yes',
         }).then((result) => {
-          /* Read more about isConfirmed, isDenied below */
-
           if (result.isConfirmed) {
-            this.$axios.$post('lease/store/',
+            this.$axios.$post('property/deed/store/',
               {
-                property_id: this.$route.params.id,
+                property_ad_id: this.$route.params.id,
+                property_id: this.property.id,
                 tenant_id: this.$auth.user.tenant_id,
-                landlord_id: this.landlord.id,
+                landlord_id: this.property.landlord_id,
               }
             )
               .then(response => {

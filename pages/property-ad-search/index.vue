@@ -93,241 +93,78 @@
           </b-row>
         </div>
 
-        <b-row class="mt-5">
+        <b-row v-if="propertiesAds.length > 0" class="mt-5" v-for="(propertiesAd, index) in propertiesAds" :key="index">
           <b-col md="4">
             <div class="gallery">
-              <div>
-                <div>
-                  <div class="place-layout-listing">
-                    <div class="place-layout-listing-img">
-                      <div class="place-layout-listing-img-slide">
-                        <div>
-                          <b-img
-                            src="https://cdn.pixabay.com/photo/2013/07/25/11/52/rajiv-gandhi-sea-link-166867_960_720.jpg" alt="Image 1">
-                          </b-img>
-                        </div>
-                      </div>
-                      <div class="place-layout-listing-img-action">
-                        <b-link href="#" class="add-to-wishlist">
-                          <font-awesome-icon icon="fa-solid fa-heart"/>
-                        </b-link>
-                      </div>
+              <div class="place-layout-listing">
+                <div class="place-layout-listing-img">
+                  <div class="place-layout-listing-img-slide">
+                    <div>
+                      <b-img
+                        src="https://cdn.pixabay.com/photo/2013/07/25/11/52/rajiv-gandhi-sea-link-166867_960_720.jpg"
+                        alt="Image 1">
+                      </b-img>
                     </div>
-                    <div class="place-layout-listing-detail">
-                      <div class="place-layout-listing-detail-wrap">
-                        <div class="place-layout-listing-detail-wrap-short">
-                          <div class="list-price d-flex justify-content-between">
-                            <!--<span class="sale-type rent" v-if="propertiesAd.property.sale_type == 1">Rent</span>-->
-                            <span class="sale-type sale">Sale</span>
-                            <h6 class="card-price">12,000 Taka Only</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="place-layout-listing-detail-name">
-                        <b-link href="#" title="6007 Applegate Lane">
-                          Lorem title
-                        </b-link>
-                      </div>
-                    </div>
-                    <div class="place-layout-listing-features">
-                      <div class="features-list">
-                        <div class="features-list-icon">
-                          <div class="fleat-icon">
-                            <font-awesome-icon icon="fa-solid fa-bed"/>
-                          </div>
-                          5 Bed
-                        </div>
-
-                        <div class="features-list-icon">
-                          <div class="fleat-icon">
-                            <font-awesome-icon icon="fa-solid fa-bath"/>
-                          </div>
-                          5 Bath
-                        </div>
-
-                        <div class="features-list-icon">
-                          <div class="fleat-icon">
-                            <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
-                          </div>
-                          800 m²
-                        </div>
-                      </div>
-                    </div>
-                    <div class="place-layout-listing-footer">
-                      <div class="footer-first">
-                        <div class="footer-first-location d-flex">
-                          <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>
-                          Mohammadpur, Dhaka - 1207
-                        </div>
-                      </div>
-                      <div class="footer-flex">
-                        <nuxt-link
-                          class="product-view"
-                          :to="{ name: 'account-property-id-show', params: { id: 2 }}">
-                          View
-                        </nuxt-link>
+                  </div>
+                  <div class="place-layout-listing-img-action">
+                    <b-link href="#" class="add-to-wishlist">
+                      <font-awesome-icon icon="fa-solid fa-heart"/>
+                    </b-link>
+                  </div>
+                </div>
+                <div class="place-layout-listing-detail">
+                  <div class="place-layout-listing-detail-wrap">
+                    <div class="place-layout-listing-detail-wrap-short">
+                      <div class="list-price d-flex justify-content-between">
+                        <!--<span class="sale-type rent" v-if="propertiesAd.property.sale_type == 1">Rent</span>-->
+                        <span class="sale-type sale">Sale</span>
+                        <h6 class="card-price">{{propertiesAd.rent_amount}} Taka Only</h6>
                       </div>
                     </div>
                   </div>
+                  <div class="place-layout-listing-detail-name">
+                    <b-link href="#" title="6007 Applegate Lane">
+                      Lorem title
+                    </b-link>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </b-col>
-
-          <b-col md="4">
-            <div class="gallery">
-              <div>
-                <div>
-                  <div class="place-layout-listing">
-                    <div class="place-layout-listing-img">
-                      <div class="place-layout-listing-img-slide">
-                        <div>
-                          <b-img
-                            src="https://cdn.pixabay.com/photo/2013/07/25/11/52/rajiv-gandhi-sea-link-166867_960_720.jpg" alt="Image 1">
-                          </b-img>
-                        </div>
+                <div class="place-layout-listing-features">
+                  <div class="features-list">
+                    <div class="features-list-icon">
+                      <div class="fleat-icon">
+                        <font-awesome-icon icon="fa-solid fa-bed"/>
                       </div>
-                      <div class="place-layout-listing-img-action">
-                        <b-link href="#" class="add-to-wishlist">
-                          <font-awesome-icon icon="fa-solid fa-heart"/>
-                        </b-link>
-                      </div>
+                      5 Bed
                     </div>
-                    <div class="place-layout-listing-detail">
-                      <div class="place-layout-listing-detail-wrap">
-                        <div class="place-layout-listing-detail-wrap-short">
-                          <div class="list-price d-flex justify-content-between">
-                            <!--<span class="sale-type rent" v-if="propertiesAd.property.sale_type == 1">Rent</span>-->
-                            <span class="sale-type sale">Sale</span>
-                            <h6 class="card-price">12,000 Taka Only</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="place-layout-listing-detail-name">
-                        <b-link href="#" title="6007 Applegate Lane">
-                          Lorem title
-                        </b-link>
-                      </div>
-                    </div>
-                    <div class="place-layout-listing-features">
-                      <div class="features-list">
-                        <div class="features-list-icon">
-                          <div class="fleat-icon">
-                            <font-awesome-icon icon="fa-solid fa-bed"/>
-                          </div>
-                          5 Bed
-                        </div>
 
-                        <div class="features-list-icon">
-                          <div class="fleat-icon">
-                            <font-awesome-icon icon="fa-solid fa-bath"/>
-                          </div>
-                          5 Bath
-                        </div>
-
-                        <div class="features-list-icon">
-                          <div class="fleat-icon">
-                            <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
-                          </div>
-                          800 m²
-                        </div>
+                    <div class="features-list-icon">
+                      <div class="fleat-icon">
+                        <font-awesome-icon icon="fa-solid fa-bath"/>
                       </div>
+                      5 Bath
                     </div>
-                    <div class="place-layout-listing-footer">
-                      <div class="footer-first">
-                        <div class="footer-first-location d-flex">
-                          <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>
-                          Mohammadpur, Dhaka - 1207
-                        </div>
+
+                    <div class="features-list-icon">
+                      <div class="fleat-icon">
+                        <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
                       </div>
-                      <div class="footer-flex">
-                        <nuxt-link
-                          class="product-view"
-                          :to="{ name: 'account-property-id-show', params: { id: 2 }}">
-                          View
-                        </nuxt-link>
-                      </div>
+                      800 m²
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </b-col>
-
-          <b-col md="4">
-            <div class="gallery">
-              <div>
-                <div>
-                  <div class="place-layout-listing">
-                    <div class="place-layout-listing-img">
-                      <div class="place-layout-listing-img-slide">
-                        <div>
-                          <b-img
-                            src="https://cdn.pixabay.com/photo/2013/07/25/11/52/rajiv-gandhi-sea-link-166867_960_720.jpg" alt="Image 1">
-                          </b-img>
-                        </div>
-                      </div>
-                      <div class="place-layout-listing-img-action">
-                        <b-link href="#" class="add-to-wishlist">
-                          <font-awesome-icon icon="fa-solid fa-heart"/>
-                        </b-link>
-                      </div>
+                <div class="place-layout-listing-footer">
+                  <div class="footer-first">
+                    <div class="footer-first-location d-flex">
+                      <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>
+                      Mohammadpur, Dhaka - 1207
                     </div>
-                    <div class="place-layout-listing-detail">
-                      <div class="place-layout-listing-detail-wrap">
-                        <div class="place-layout-listing-detail-wrap-short">
-                          <div class="list-price d-flex justify-content-between">
-                            <!--<span class="sale-type rent" v-if="propertiesAd.property.sale_type == 1">Rent</span>-->
-                            <span class="sale-type sale">Sale</span>
-                            <h6 class="card-price">12,000 Taka Only</h6>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="place-layout-listing-detail-name">
-                        <b-link href="#" title="6007 Applegate Lane">
-                          Lorem title
-                        </b-link>
-                      </div>
-                    </div>
-                    <div class="place-layout-listing-features">
-                      <div class="features-list">
-                        <div class="features-list-icon">
-                          <div class="fleat-icon">
-                            <font-awesome-icon icon="fa-solid fa-bed"/>
-                          </div>
-                          5 Bed
-                        </div>
-
-                        <div class="features-list-icon">
-                          <div class="fleat-icon">
-                            <font-awesome-icon icon="fa-solid fa-bath"/>
-                          </div>
-                          5 Bath
-                        </div>
-
-                        <div class="features-list-icon">
-                          <div class="fleat-icon">
-                            <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
-                          </div>
-                          800 m²
-                        </div>
-                      </div>
-                    </div>
-                    <div class="place-layout-listing-footer">
-                      <div class="footer-first">
-                        <div class="footer-first-location d-flex">
-                          <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>
-                          Mohammadpur, Dhaka - 1207
-                        </div>
-                      </div>
-                      <div class="footer-flex">
-                        <nuxt-link
-                          class="product-view"
-                          :to="{ name: 'account-property-id-show', params: { id: 2 }}">
-                          View
-                        </nuxt-link>
-                      </div>
-                    </div>
+                  </div>
+                  <div class="footer-flex">
+                    <nuxt-link
+                      class="product-view"
+                      :to="{ name: 'account-property-id-show', params: { id: 2 }}">
+                      View
+                    </nuxt-link>
                   </div>
                 </div>
               </div>
@@ -344,50 +181,60 @@
 </template>
 
 <script>
-  import Newsletter from "@/components/frontend/Newsletter";
+import Newsletter from "@/components/frontend/Newsletter";
 
-  export default {
-    name: "index",
-    components: {Newsletter},
-    data() {
-      return {
-        form: {
-          property_type_id: '',
-          division_id: '',
-          district_id: '',
-          thana_id: '',
-        },
-        units: '',
-        thanas: '',
-        divisions: '',
-        districts: '',
-        propertyTypes: '',
-        bannerImage: ''
-      }
-    },
-    async created() {
-      const propertyTypes = await this.$axios.$get('property/get-property-type');
-      this.propertyTypes = propertyTypes.data;
-
-      const divisions = await this.$axios.$get('settings/divisions');
-      this.divisions = divisions.data;
-
-      const res = await this.$axios.$post('get-general-setting-images', {data: 'banner'});
-      this.bannerImage = "background: url(" + res.image + ") no-repeat";
-    },
-    methods: {
-      async getDistricts(division_id) {
-        this.thanas = '';
-        let district = await this.$axios.$post('settings/districts', {divisionId: division_id});
-        this.districts = district.data;
+export default {
+  name: "index",
+  auth: false,
+  components: {Newsletter},
+  data() {
+    return {
+      form: {
+        min_price: '',
+        max_price: '',
+        property_category: '',
+        property_type_id: '',
+        division_id: '',
+        district_id: '',
+        thana_id: '',
       },
 
-      async getThanas(district_id) {
-        let thanas = await this.$axios.$post('settings/thanas', {districtId: district_id});
-        this.thanas = thanas.data;
-      },
+      thanas: '',
+      divisions: '',
+      districts: '',
+      propertyTypes: '',
+      bannerImage: '',
+      propertiesAds: []
     }
+  },
+  async created() {
+    this.form = this.$store.getters['search/getSearch'];
+
+    const propertiesAds = await this.$axios.$post('property/ad/search', this.form);
+    this.propertiesAds = propertiesAds.data;
+
+    const propertyTypes = await this.$axios.$get('property/get-property-type');
+    this.propertyTypes = propertyTypes.data;
+
+    const divisions = await this.$axios.$get('settings/divisions');
+    this.divisions = divisions.data;
+
+    const res = await this.$axios.$post('get-general-setting-images', {data: 'banner'});
+    this.bannerImage = "background: url(" + res.image + ") no-repeat";
+  },
+  methods: {
+    async getDistricts(division_id) {
+      this.thanas = '';
+      let district = await this.$axios.$post('settings/districts', {divisionId: division_id});
+      this.districts = district.data;
+    },
+
+    async getThanas(district_id) {
+      let thanas = await this.$axios.$post('settings/thanas', {districtId: district_id});
+      this.thanas = thanas.data;
+    },
   }
+}
 </script>
 
 <style scoped>

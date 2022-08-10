@@ -86,7 +86,9 @@ export default {
   auth: false,
   validation: false,
   mounted() {
-    console.log(this.$store.state.auth.user)
+
+   // console.log(this.$nuxt.context.from)
+    //console.log(this.$nuxt.context.from.name);
      console.log(this.$auth.loggedIn)
     if(this.$auth.loggedIn){
       this.$nuxt.$options.router.push({name: 'account-dashboard'})
@@ -124,7 +126,15 @@ export default {
               title: 'Success !!',
               message: 'successfully logged in'
             })
-            this.$nuxt.$options.router.push({name: 'account-dashboard'})
+            const path = this.$nuxt.context.from;
+
+            if(path.name == 'account-property-id-show'){
+              this.$nuxt.$options.router.push({name: 'account-property-id-show',params: { id: path.params.id }})
+            }
+            else{
+              this.$nuxt.$options.router.push({name: 'account-dashboard'})
+            }
+
           }
         }).catch(error => {
           if(error.response.status == 422){

@@ -8,7 +8,7 @@
             <h2>Find Accessible Homes To Rent</h2>
           </div>
 
-          <form action="" method="POST">
+          <form @submit.prevent="searchStore" action="" method="POST">
             <div class="banner-form-content">
               <b-row class="my-4">
                 <b-col lg="12" md="12" sm="12">
@@ -27,32 +27,45 @@
               <b-row>
                 <b-col lg="6" md="6" sm="6">
                   <b-form-group label="Min Price" label-for="min_price">
-                    <select class="form-control" id="min_price">
+                    <select v-model="form.min_price" class="form-control" id="min_price">
                       <option>No Min</option>
-                      <option>500</option>
-                      <option>1000</option>
-                      <option>2000</option>
-                      <option>50000</option>
+                      <option>5000</option>
                       <option>10000</option>
+                      <option>20000</option>
+                      <option>50000</option>
+                      <option>100000</option>
+                      <option>1000000</option>
                     </select>
                   </b-form-group>
                 </b-col>
 
                 <b-col lg="6" md="6" sm="6">
                   <b-form-group label="Max Price" label-for="max_price">
-                    <select class="form-control" id="max_price">
+                    <select v-model="form.max_price" class="form-control" id="max_price">
                       <option>No Max</option>
-                      <option>1000</option>
-                      <option>2000</option>
-                      <option>5000</option>
                       <option>10000</option>
                       <option>20000</option>
+                      <option>50000</option>
+                      <option>100000</option>
+                      <option>1000000</option>
+                      <option>2000000</option>
                     </select>
                   </b-form-group>
                 </b-col>
               </b-row>
 
               <b-row>
+                <b-col lg="6" md="6" sm="6">
+                  <b-form-group label="Property Category" label-for="property_type">
+                    <select v-model="form.property_category"
+                            class="form-control custom-input-control">
+                      <option value="0">Select</option>
+                      <option value="1">Commercial</option>
+                      <option value="2">Residential</option>
+                    </select>
+                  </b-form-group>
+                </b-col>
+
                 <b-col lg="6" md="6" sm="6">
                   <b-form-group label="Property Type" label-for="property_type">
                     <select v-model="form.property_type_id"
@@ -61,17 +74,6 @@
                       <option v-for="(type, i) in propertyTypes" :key="i" :value="type.id">
                         {{ type.name }}
                       </option>
-                    </select>
-                  </b-form-group>
-                </b-col>
-
-                <b-col lg="6" md="6" sm="6">
-                  <b-form-group label="Unit Type" label-for="unit">
-                    <select class="form-control" id="unit">
-                      <option>Select</option>
-                      <option>Apartment</option>
-                      <option>Room</option>
-                      <option>Plaza</option>
                     </select>
                   </b-form-group>
                 </b-col>
@@ -117,9 +119,7 @@
               </b-row>
             </div>
             <div class="banner-form-action">
-              <nuxt-link :to="{name: 'property-ad-search'}" class="btn btn-primary banner-form-action-button">
-                Search Result
-              </nuxt-link>
+              <button class="btn btn-primary banner-form-action-button">Search Result</button>
             </div>
           </form>
         </div>
@@ -138,12 +138,14 @@
           {text: 'To Rent', value: '2'}
         ],
         form: {
+          min_price:'',
+          max_price:'',
+          property_category:'',
           property_type_id: '',
           division_id: '',
           district_id: '',
           thana_id: '',
         },
-        units: '',
         thanas: '',
         divisions: '',
         districts: '',
@@ -179,6 +181,11 @@
         let thanas = await this.$axios.$post('settings/thanas', {districtId: district_id});
         this.thanas = thanas.data;
       },
+
+      searchStore(){
+        this.$store.dispatch('search/storeSearch', this.form)
+        this.$router.push({name: 'property-ad-search'});
+      }
     }
   }
 </script>
