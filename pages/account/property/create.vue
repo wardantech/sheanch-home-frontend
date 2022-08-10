@@ -106,7 +106,7 @@
                   </b-row>
 
                   <b-row>
-                    <b-col md="6">
+                    <b-col md="4">
                       <b-form-group label="Bath Rooms (Qty)">
                         <b-form-input min="1" v-model="form.bath_rooms" class="custom-input-control" type="number"
                                       placeholder="Bath Rooms (Qty)"></b-form-input>
@@ -116,7 +116,29 @@
                       </b-form-group>
                     </b-col>
 
-                    <b-col md="6">
+                    <b-col md="4">
+                      <b-form-group label="Balcony (Qty)">
+                        <b-form-input min="1" v-model="form.balcony" class="custom-input-control" type="number"
+                                      placeholder="Balcony (Qty)"></b-form-input>
+                        <strong class="text-danger" style="font-size: 12px" v-if="errors.balcony">{{
+                            errors.balcony[0]
+                          }}</strong>
+                      </b-form-group>
+                    </b-col>
+
+                    <b-col md="4">
+                      <b-form-group label="Floor">
+                        <b-form-input min="1" v-model="form.floor" class="custom-input-control" type="number"
+                                      placeholder="Enter floor"></b-form-input>
+                        <strong class="text-danger" style="font-size: 12px" v-if="errors.floor">{{
+                            errors.floor[0]
+                          }}</strong>
+                      </b-form-group>
+                    </b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col md="4">
                       <b-form-group label="Select division">
                         <select @change="getDistricts(form.division_id)" v-model="form.division_id" id=""
                                 class="form-control custom-input-control">
@@ -126,14 +148,12 @@
                           </option>
                         </select>
                         <strong class="text-danger" style="font-size: 12px" v-if="errors.division_id">{{
-                          errors.division_id[0]
+                            errors.division_id[0]
                           }}</strong>
                       </b-form-group>
                     </b-col>
-                  </b-row>
 
-                  <b-row>
-                    <b-col md="6">
+                    <b-col md="4">
                       <b-form-group label="Select district">
                         <select @change="getThanas(form.district_id)" v-model="form.district_id" id=""
                                 class="form-control custom-input-control">
@@ -148,7 +168,7 @@
                       </b-form-group>
                     </b-col>
 
-                    <b-col md="6">
+                    <b-col md="4">
                       <b-form-group label="Select Thana">
                         <select v-model="form.thana_id" class="form-control custom-input-control">
                           <option value="">Select Thana</option>
@@ -216,6 +236,16 @@
                           }}</strong>
                       </b-form-group>
                     </b-col>
+
+                    <b-col md="12">
+                      <b-form-group label="Google pam location">
+                        <b-form-input min="1" v-model="form.google_map_location" class="custom-input-control" type="text"
+                                      placeholder="Enter google map location"></b-form-input>
+                        <strong class="text-danger" style="font-size: 12px" v-if="errors.google_map_location">{{
+                            errors.google_map_location[0]
+                          }}</strong>
+                      </b-form-group>
+                    </b-col>
                   </b-row>
 
                   <b-row>
@@ -277,9 +307,8 @@
                       <b-form-group label="Paid By">
                         <select @click="utilityPaidBy(n, utility)" name="" :id="'utility_paid_by' + n"
                                 class="form-control custom-select-form-control">
-                          <option value="0">select</option>
-                          <option value="1">Paid By Landlord</option>
-                          <option value="2">Paid By Tenant</option>
+                          <option value="1">Landlord</option>
+                          <option value="2">Tenant</option>
                         </select>
                         <strong class="text-danger" style="font-size: 12px" v-if="errors.area_size">{{
                           errors.area_size[0]
@@ -401,30 +430,33 @@
           maxFilesize: 2,
           maxFiles: 20, // Test
         },
-
         form: {
+          status: '',
           name: '',
+          landlord_id: this.$auth.user.landlord_id,
+          property_category: '',
+          property_type_id: '',
+          sale_type: '',
+          area_size: '',
+          bed_rooms: '',
+          bath_rooms: '',
+          balcony: '',
+          floor: '',
+          video_link: '',
+          rent_amount: '',
+          security_money: '',
+          house_no: '',
+          zip_code:'',
           thana_id: '',
           district_id: '',
           division_id: '',
-          property_category: '',
-          property_type_id: '',
-          bed_rooms: '',
-          bath_rooms: '',
-          video_link: '',
           address: '',
-          area_size: '',
-          rent_amount: '',
-          security_money: '',
-          status: '',
+          google_map_location:'',
           description: '',
-          landlord_id: this.$auth.user.landlord_id,
           images: [],
-          lease_type: '',
-          sale_type: '',
-          house_no: '',
           facilities: [],
-          utilities: []
+          utilities: [],
+
         },
         propertyTypes: '',
         landlords: '',
