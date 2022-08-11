@@ -112,7 +112,7 @@ export default {
       {width: '', label: 'Sale/Lease Type', name: 'lease_type'},
       {width: '', label: 'Amount', name: 'rent_amount'},
       {width: '', label: 'Status', name: 'status'},
-      {width: '', label: 'Action', name: ''},
+      //{width: '', label: 'Action', name: ''},
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;

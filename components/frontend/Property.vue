@@ -6,21 +6,22 @@
           <b-col lg="7" md="10" class="text-center">
             <div class="section-heading center">
               <h2>Latest Properties</h2>
-              <div class="latest-properties-radio">
-                <b-row class="my-4">
-                  <b-col lg="12" md="12" sm="12">
-                    <b-form-radio-group
-                      id="btn-radios-2"
-                      :options="options"
-                      button-variant="outline-dark"
-                      size="lg"
-                      name="radio-btn-outline"
-                      buttons
-                      class=""
-                    ></b-form-radio-group>
-                  </b-col>
-                </b-row>
-              </div>
+<!--              <div class="latest-properties-radio">-->
+<!--                <b-row class="my-4">-->
+<!--                  <b-col lg="12" md="12" sm="12">-->
+<!--                    <b-form-radio-group-->
+<!--                      id="btn-radios-2"-->
+<!--                      v-model="sale_type"-->
+<!--                      :options="options"-->
+<!--                      button-variant="outline-dark"-->
+<!--                      size="lg"-->
+<!--                      name="radio-btn-outline"-->
+<!--                      buttons-->
+<!--                      class=""-->
+<!--                    ></b-form-radio-group>-->
+<!--                  </b-col>-->
+<!--                </b-row>-->
+<!--              </div>-->
             </div>
           </b-col>
         </b-row>
@@ -152,6 +153,7 @@
           {text: 'To Rent', value: '2'}
         ],
         slide: 0,
+        sale_type:'',
         propertiesAds: []
       }
     },
