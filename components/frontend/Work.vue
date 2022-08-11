@@ -13,50 +13,49 @@
         </b-row>
 
         <b-row>
-          <b-col lg="4" md="4">
+          <b-col v-for="(work, i) in howToworks" :key="i" lg="4" md="4">
             <div class="how-work-icon">
               <div class="how-work-icon-wrap">
                 <div class="how-work-icon-wrap-box icon-success">
-                  <font-awesome-icon icon="fa-solid fa-receipt"/>
+                  <font-awesome-icon :icon="work.icon"/>
                 </div>
               </div>
               <div class="how-work-icon-wrap-content">
-                <h4>Evaluate Property</h4>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have Ipsum
-                  available.</p>
+                <h4>{{ work.title }}</h4>
+                <p>{{ work.description }}</p>
               </div>
             </div>
           </b-col>
 
-          <b-col lg="4" md="4">
-            <div class="how-work-icon">
-              <div class="how-work-icon-wrap">
-                <div class="how-work-icon-wrap-box icon-warning">
-                  <font-awesome-icon icon="fa-solid fa-user-tie"/>
-                </div>
-              </div>
-              <div class="how-work-icon-wrap-content">
-                <h4>Meet Your Agent</h4>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have Ipsum
-                  available.</p>
-              </div>
-            </div>
-          </b-col>
+          <!--<b-col lg="4" md="4">-->
+            <!--<div class="how-work-icon">-->
+              <!--<div class="how-work-icon-wrap">-->
+                <!--<div class="how-work-icon-wrap-box icon-warning">-->
+                  <!--<font-awesome-icon icon="fa-solid fa-user-tie"/>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="how-work-icon-wrap-content">-->
+                <!--<h4>Meet Your Agent</h4>-->
+                <!--<p>There are many variations of passages of Lorem Ipsum available, but the majority have Ipsum-->
+                  <!--available.</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</b-col>-->
 
-          <b-col lg="4" md="4">
-            <div class="how-work-icon">
-              <div class="how-work-icon-wrap">
-                <div class="how-work-icon-wrap-box icon-blue">
-                  <font-awesome-icon icon="fa-solid fa-shield-halved"/>
-                </div>
-              </div>
-              <div class="how-work-icon-wrap-content">
-                <h4>Close The Deal</h4>
-                <p>There are many variations of passages of Lorem Ipsum available, but the majority have Ipsum
-                  available.</p>
-              </div>
-            </div>
-          </b-col>
+          <!--<b-col lg="4" md="4">-->
+            <!--<div class="how-work-icon">-->
+              <!--<div class="how-work-icon-wrap">-->
+                <!--<div class="how-work-icon-wrap-box icon-blue">-->
+                  <!--<font-awesome-icon icon="fa-solid fa-shield-halved"/>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="how-work-icon-wrap-content">-->
+                <!--<h4>Close The Deal</h4>-->
+                <!--<p>There are many variations of passages of Lorem Ipsum available, but the majority have Ipsum-->
+                  <!--available.</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</b-col>-->
         </b-row>
       </b-container>
     </section>
@@ -65,7 +64,16 @@
 
 <script>
   export default {
-    name: "Work"
+    name: "Work",
+    data() {
+      return {
+        howToworks: ''
+      }
+    },
+    async created() {
+      const response = await this.$axios.$get('get-how-to-work-widget');
+      this.howToworks = response.data;
+    },
   }
 </script>
 
