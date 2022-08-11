@@ -14,6 +14,7 @@
                 <b-col lg="12" md="12" sm="12">
                   <b-form-radio-group
                     id="btn-radios-2"
+                    v-model="form.sale_type"
                     :options="options"
                     button-variant="outline-primary"
                     size="lg"
@@ -28,13 +29,13 @@
                 <b-col lg="6" md="6" sm="6">
                   <b-form-group label="Min Price" label-for="min_price">
                     <select v-model="form.min_price" class="form-control" id="min_price">
-                      <option>No Min</option>
-                      <option>5000</option>
-                      <option>10000</option>
-                      <option>20000</option>
-                      <option>50000</option>
-                      <option>100000</option>
-                      <option>1000000</option>
+                      <option value="">No Min</option>
+                      <option value="5000">5000</option>
+                      <option value="10000">10000</option>
+                      <option value="20000">20000</option>
+                      <option value="50000">50000</option>
+                      <option value="100000">100000</option>
+                      <option value="1000000">1000000</option>
                     </select>
                   </b-form-group>
                 </b-col>
@@ -42,13 +43,13 @@
                 <b-col lg="6" md="6" sm="6">
                   <b-form-group label="Max Price" label-for="max_price">
                     <select v-model="form.max_price" class="form-control" id="max_price">
-                      <option>No Max</option>
-                      <option>10000</option>
-                      <option>20000</option>
-                      <option>50000</option>
-                      <option>100000</option>
-                      <option>1000000</option>
-                      <option>2000000</option>
+                      <option value="">No Max</option>
+                      <option value="10000">10000</option>
+                      <option value="20000">20000</option>
+                      <option value="50000">50000</option>
+                      <option value="100000">100000</option>
+                      <option value="1000000">1000000</option>
+                      <option value="2000000">2000000</option>
                     </select>
                   </b-form-group>
                 </b-col>
@@ -134,11 +135,12 @@
     data() {
       return {
         options: [
-          {text: 'For Sale', value: '1'},
-          {text: 'To Rent', value: '2'}
+          {text: 'For Sale', value: '2'},
+          {text: 'To Rent', value: '1'}
         ],
         form: {
           min_price:'',
+          sale_type:'',
           max_price:'',
           property_category:'',
           property_type_id: '',
