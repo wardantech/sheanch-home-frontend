@@ -57,13 +57,13 @@
                   Property Deed
                 </nuxt-link>
               </li>
-              <li>
-                <nuxt-link
-                  :to="{ name: 'account-settings'}">
-                  <b-icon icon="gear" font-scale="1"></b-icon>
-                  Settings
-                </nuxt-link>
-              </li>
+<!--              <li>-->
+<!--                <nuxt-link-->
+<!--                  :to="{ name: 'account-settings'}">-->
+<!--                  <b-icon icon="gear" font-scale="1"></b-icon>-->
+<!--                  Settings-->
+<!--                </nuxt-link>-->
+<!--              </li>-->
 
               <li>
                 <b-link @click="logout">

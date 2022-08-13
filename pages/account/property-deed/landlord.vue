@@ -48,7 +48,7 @@
                       <div v-if="value.property.sale_type == 1"> Rent</div>
                       <div v-if="value.property.sale_type == 2"> Sale</div>
                     </td>
-                    <td>{{ value.property.rent_amount }}</td>
+                    <td>{{ value.property_ad.rent_amount }}</td>
                     <td>
                       <select @change="statusChange({id:value.id, status: $event.target.value})" name="" id="status"
                               class="form-control custom-select-form-control">
