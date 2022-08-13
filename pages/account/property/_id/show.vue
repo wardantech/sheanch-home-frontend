@@ -749,6 +749,7 @@
 
     async created() {
       const propertiesAds = await this.$axios.$post('property/ad/get-details/' + this.$route.params.id);
+      console.log(propertiesAds);
       this.propertyAd = propertiesAds.data;
       this.property = propertiesAds.data.property;
       this.media = propertiesAds.data.property.media;

@@ -20,7 +20,14 @@
               Bangladesh. Start your journey now!
             </p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-              <b-button variant="success">Get Started</b-button>
+              <nuxt-link class="btn btn-success" v-if="!$auth.loggedIn"
+                         :to="{ name: 'login'}">
+                Get Started
+              </nuxt-link>
+              <nuxt-link class="btn btn-success" v-if="$auth.loggedIn"
+                         :to="{ name: 'account-property-create'}">
+                Get Started
+              </nuxt-link>
             </div>
           </div>
         </b-row>
