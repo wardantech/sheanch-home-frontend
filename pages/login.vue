@@ -91,7 +91,13 @@ export default {
     //console.log(this.$nuxt.context.from.name);
      console.log(this.$auth.loggedIn)
     if(this.$auth.loggedIn){
-      this.$nuxt.$options.router.push({name: 'account-dashboard'})
+      if(this.$auth.user.landlord_id){
+        this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
+      }
+      if(this.$auth.user.tenant_id){
+        this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
+      }
+
     }
   },
   data() {
@@ -132,7 +138,12 @@ export default {
               this.$nuxt.$options.router.push({name: 'account-property-id-show',params: { id: path.params.id }})
             }
             else{
-              this.$nuxt.$options.router.push({name: 'account-dashboard'})
+              if(this.$auth.user.landlord_id){
+                this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
+              }
+              if(this.$auth.user.tenant_id){
+                this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
+              }
             }
 
           }
