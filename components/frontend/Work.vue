@@ -12,7 +12,7 @@
           </b-col>
         </b-row>
 
-        <b-row>
+        <b-row v-if="howToworks.length > 0">
           <b-col v-for="(work, i) in howToworks" :key="i" lg="4" md="4">
             <div class="how-work-icon">
               <div class="how-work-icon-wrap">
@@ -73,6 +73,7 @@
     async created() {
       const response = await this.$axios.$get('get-how-to-work-widget');
       this.howToworks = response.data;
+      console.log(this.howToworks);
     },
   }
 </script>

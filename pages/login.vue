@@ -53,7 +53,7 @@
                         Don't have an account?
                         <nuxt-link
                           class="text-danger"
-                          :to="{ name: 'auth-register'}">
+                          :to="{ name: 'register'}">
                           Register a new account
                         </nuxt-link>
                       </p>
