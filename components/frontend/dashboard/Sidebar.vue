@@ -88,7 +88,7 @@ export default {
   name: "Sidebar",
   data() {
     return {
-      'profileImage': 'asdasdasd'
+      'profileImage': ''
     }
   },
   computed: {
@@ -101,9 +101,13 @@ export default {
     }
   },
   async created() {
-    const response = await this.$axios.$post('profile/landlord', {id: this.$auth.user.landlord_id});
-
-    this.profileImage = response.data.landlord.image;
+    if(this.$auth.user.landlord_id) {
+      const response = await this.$axios.$post('profile/landlord', {id: this.$auth.user.landlord_id});
+      this.profileImage = response.data.landlord.image;
+    }else if (this.$auth.user.tenant_id) {
+      const response = await this.$axios.$post('profile/landlord', {id: this.$auth.user.tenant_id});
+      this.profileImage = response.data.landlord.image;
+    }
   },
   methods: {
     async logout() {
