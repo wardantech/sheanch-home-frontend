@@ -43,8 +43,8 @@
                     <!--              </td>-->
                     <td>{{value.name}}</td>
                     <td>
-                      <div v-if="value.lease_type == 1"> Commercial</div>
-                      <div v-if="value.lease_type == 2"> Residiantial</div>
+                      <div v-if="value.property_category == 1"> Commercial</div>
+                      <div v-if="value.property_category == 2"> Residential</div>
                     </td>
                     <td>
                       <div v-if="value.sale_type == 1"> Rent</div>

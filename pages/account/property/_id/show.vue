@@ -764,7 +764,7 @@
       }
     },
     methods: {
-      apply() {
+      async apply() {
         console.log(this.$auth.user)
         this.$swal.fire({
           title: 'Are you confirm to apply for this property',
@@ -772,14 +772,13 @@
           confirmButtonText: 'Yes',
         }).then((result) => {
           if (result.isConfirmed) {
-            this.$axios.$post('property/deed/store/',
-              {
-                property_ad_id: this.$route.params.id,
-                property_id: this.property.id,
-                tenant_id: this.$auth.user.tenant_id,
-                landlord_id: this.property.landlord_id,
-              }
-            )
+            const data = {
+              property_ad_id: this.$route.params.id,
+              property_id: this.property.id,
+              tenant_id: this.$auth.user.tenant_id,
+              landlord_id: this.property.landlord_id,
+            }
+           this.$axios.$post('property/deed/save-data',data)
               .then(response => {
                 this.$swal.fire('Success !', '', 'wait for admin confirmation')
               })
