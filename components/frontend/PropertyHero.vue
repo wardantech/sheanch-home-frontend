@@ -20,14 +20,17 @@
               Bangladesh. Start your journey now!
             </p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-              <nuxt-link class="btn btn-success" v-if="!$auth.loggedIn"
-                         :to="{ name: 'login'}">
-                Get Started
-              </nuxt-link>
-              <nuxt-link class="btn btn-success" v-if="$auth.loggedIn"
+
+              <nuxt-link class="btn btn-success" v-if="$auth.loggedIn && $auth.user.landlord_id"
                          :to="{ name: 'account-property-create'}">
                 Get Started
               </nuxt-link>
+
+              <nuxt-link class="btn btn-success" v-else
+                         :to="{ name: 'login'}">
+                Get Started
+              </nuxt-link>
+
             </div>
           </div>
         </b-row>
@@ -38,7 +41,10 @@
 
 <script>
   export default {
-    name: "PropertyHero"
+    name: "PropertyHero",
+    created() {
+      console.log(this.$auth.loggedIn);
+    }
   }
 </script>
 
