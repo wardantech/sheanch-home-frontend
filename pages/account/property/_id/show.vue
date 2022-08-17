@@ -222,7 +222,7 @@
                 <b-collapse id="accordion-4" visible accordion="my-accordion-4" role="tabpanel">
                   <b-card-body>
                     <div class="block-body p-0">
-<!--                      <p>{{ property.address }}</p>-->
+                      <p>{{ property.address }}</p>
                       <div class="map-container">
                         <b-row class="justify-content-center">
                           <b-col md="12">
@@ -748,8 +748,10 @@
     },
 
     async created() {
-      const propertiesAds = await this.$axios.$post('property/ad/get-details/' + this.$route.params.id);
-      console.log(propertiesAds);
+      const propertiesAds = await this.$axios.$post('property/ad/get-details  ', {
+        propertyAdId: this.$route.params.id
+      });
+
       this.propertyAd = propertiesAds.data;
       this.property = propertiesAds.data.property;
       this.media = propertiesAds.data.property.media;
@@ -765,7 +767,7 @@
     },
     methods: {
       async apply() {
-        console.log(this.$auth.user)
+        this.$router.push({name: 'account-property-deed'});
         this.$swal.fire({
           title: 'Are you confirm to apply for this property',
           showCancelButton: true,
@@ -780,7 +782,9 @@
             }
            this.$axios.$post('property/deed/save-data',data)
               .then(response => {
+
                 this.$swal.fire('Success !', '', 'wait for admin confirmation')
+
               })
               .catch(error => {
                 alert(error)
