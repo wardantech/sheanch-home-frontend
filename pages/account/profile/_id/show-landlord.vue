@@ -147,18 +147,11 @@ export default {
   },
 
   async created() {
-    await this.$axios.$post('landlord/show/' ,{
+    await this.$axios.$post('profile/landlord/show' ,{
       landlordId: this.$route.params.id,
     })
       .then(response => {
-        this.property = response.data;
-
-        this.images = response.data.media;
-        this.thana_name = this.property.thana.name;
-        this.district_name = this.property.district.name;
-        this.division_name = this.property.division.name;
-        this.property_type_name = this.property.property_type.name;
-        this.landlord_name = this.property.landlord.name;
+        console.log(response);
       })
   },
 }
