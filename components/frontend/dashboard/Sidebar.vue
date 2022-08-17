@@ -4,7 +4,11 @@
       <div class="sidebar-widgets">
         <div class="sidebar-navbar">
           <div class="profile-avater">
-            <b-img src="../../../assets/frontend/images/profile/user.png" width="150px" alt="Profile Image"></b-img>
+            <b-img
+              :src="imageUrl+profileImage"
+              alt="Profile Image"
+              style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+            </b-img>
             <h4>{{user}}</h4>
           </div>
           <div class="profile-navigation">
@@ -83,11 +87,26 @@
 export default {
   name: "Sidebar",
   data() {
-    return {}
+    return {
+      'profileImage': ''
+    }
   },
   computed: {
     user() {
       return this.$auth.user.name;
+    },
+
+    imageUrl(){
+      return `${process.env.APP_ROOT_IMG_URL}`
+    }
+  },
+  async created() {
+    if(this.$auth.user.landlord_id) {
+      const response = await this.$axios.$post('profile/landlord', {id: this.$auth.user.landlord_id});
+      this.profileImage = response.data.landlord.image;
+    }else if (this.$auth.user.tenant_id) {
+      const response = await this.$axios.$post('profile/landlord', {id: this.$auth.user.tenant_id});
+      this.profileImage = response.data.landlord.image;
     }
   },
   methods: {

@@ -21,7 +21,7 @@
                   Create
                 </nuxt-link>
               </div>
-              <div class="card-body">
+              <div class="card-body p-0 mt-4">
                 <div class="search d-flex justify-content-between align-items-center">
                   <div class="form-group">
                     <input class="form-control custom-form-control" type="text" v-model="tableData.search"
@@ -84,6 +84,7 @@
                     <!--                      &lt;!&ndash;<font-awesome-icon icon="fa-solid fa-pen-to-square"/>&ndash;&gt;-->
                     <!--                      &lt;!&ndash;</nuxt-link>&ndash;&gt;-->
                     <!--                    </td>-->
+
                   </tr>
                   </tbody>
                 </DataTable>
