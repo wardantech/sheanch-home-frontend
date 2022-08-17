@@ -57,6 +57,19 @@
                         <option :selected="value.status == 3" value="3">Decline</option>
                       </select>
                     </td>
+                    <td>
+                      <nuxt-link :to="{name:'account-property-id-details', params: { id: value.id }}" rel="tooltip"
+                                 class="btn btn-sm btn-info btn-simple"
+                                 title="Details">
+                        <font-awesome-icon icon="fa-solid fa-eye" />
+                      </nuxt-link>
+
+                      <nuxt-link :to="{name:'account-property-id-edit', params: { id: value.id }}" rel="tooltip"
+                                 class="btn btn-sm btn-success btn-simple"
+                                 title="Edit">
+                        <font-awesome-icon icon="fa-solid fa-edit"/>
+                      </nuxt-link>
+                    </td>
                   </tr>
                   </tbody>
                 </DataTable>

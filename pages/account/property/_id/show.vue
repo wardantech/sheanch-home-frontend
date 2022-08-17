@@ -766,8 +766,8 @@
       }
     },
     methods: {
-      async apply() {
-        this.$router.push({name: 'account-property-deed'});
+      apply() {
+
         this.$swal.fire({
           title: 'Are you confirm to apply for this property',
           showCancelButton: true,
@@ -780,16 +780,16 @@
               tenant_id: this.$auth.user.tenant_id,
               landlord_id: this.property.landlord_id,
             }
-           this.$axios.$post('property/deed/save-data',data)
+            this.$axios.$post('property/deed/save-data',data)
               .then(response => {
-
-                this.$swal.fire('Success !', '', 'wait for admin confirmation')
-
+                this.$swal.fire('Success', '852', 'wait for admin confirmation');
               })
               .catch(error => {
                 alert(error)
               })
           }
+
+
         })
       }
     }
