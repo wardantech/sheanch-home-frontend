@@ -68,17 +68,18 @@
                       </b-button>
                     </td>
                     <td>
-                      <nuxt-link :to="{name:'account-property-id-details', params: { id: value.id }}" rel="tooltip"
+                      <nuxt-link :to="{name:'account-property-id-details', params: { id: value.property_id }}" rel="tooltip"
                                  class="btn btn-sm btn-info btn-simple"
                                  title="Details">
-                        <font-awesome-icon icon="fa-solid fa-eye" />
+                        <font-awesome-icon icon="fa-solid fa-hotel" />
                       </nuxt-link>
 
-                      <nuxt-link :to="{name:'account-property-id-edit', params: { id: value.id }}" rel="tooltip"
-                                 class="btn btn-sm btn-success btn-simple"
-                                 title="Edit">
-                        <font-awesome-icon icon="fa-solid fa-edit"/>
+                      <nuxt-link :to="{name:'account-property-ads-id-show', params: { id: value.property_ad_id }}" rel="tooltip"
+                                 class="btn btn-sm btn-warning btn-simple"
+                                 title="View Ad">
+                        <font-awesome-icon icon="fa-solid fa-eye"/>
                       </nuxt-link>
+
                     </td>
                   </tr>
                   </tbody>
@@ -125,7 +126,7 @@ export default {
       {width: '', label: 'Sale/Lease Type', name: 'lease_type'},
       {width: '', label: 'Amount', name: 'rent_amount'},
       {width: '', label: 'Status', name: 'status'},
-      //{width: '', label: 'Action', name: ''},
+      {width: '', label: 'Action', name: ''},
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
