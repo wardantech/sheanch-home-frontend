@@ -164,6 +164,11 @@
         propertiesAds: []
       }
     },
+    computed: {
+      imageUrl() {
+        return `${process.env.APP_ROOT_IMG_URL}`
+      }
+    },
     async created() {
 
       const propertiesAds = await this.$axios.$post('property/ad/active-property/list');
@@ -177,18 +182,21 @@
         this.slickOptions.slidesToShow = 3;
       }
     },
-    computed: {
-      imageUrl() {
-        return `${process.env.APP_ROOT_IMG_URL}`
-      }
-    },
+
     methods: {
-      async typeChange(e){
+      async typeChange(){
         const propertiesAds = await this.$axios.$post('property/ad/active-property/list-as-type',{
           type: this.sale_type
         });
         this.propertiesAds = propertiesAds.data;
-        console.log(this.sale_type);
+
+        if(this.propertiesAds.length == 1) {
+          this.slickOptions.slidesToShow = 1;
+        }else if (this.propertiesAds.length == 2)  {
+          this.slickOptions.slidesToShow = 2;
+        }else {
+          this.slickOptions.slidesToShow = 3;
+        }
       }
     }
   }
