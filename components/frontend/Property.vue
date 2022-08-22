@@ -1,32 +1,33 @@
 <template>
   <div>
-    <section id="place" v-if="propertiesAds.length > 0">
+    <section id="place" >
       <b-container>
         <b-row class="row justify-content-center">
           <b-col lg="7" md="10" class="text-center">
             <div class="section-heading center">
               <h2>Latest Properties</h2>
-<!--              <div class="latest-properties-radio">-->
-<!--                <b-row class="my-4">-->
-<!--                  <b-col lg="12" md="12" sm="12">-->
-<!--                    <b-form-radio-group-->
-<!--                      id="btn-radios-2"-->
-<!--                      v-model="sale_type"-->
-<!--                      :options="options"-->
-<!--                      button-variant="outline-dark"-->
-<!--                      size="lg"-->
-<!--                      name="radio-btn-outline"-->
-<!--                      buttons-->
-<!--                      class=""-->
-<!--                    ></b-form-radio-group>-->
-<!--                  </b-col>-->
-<!--                </b-row>-->
-<!--              </div>-->
+              <div class="latest-properties-radio">
+                <b-row class="my-4">
+                  <b-col lg="12" md="12" sm="12">
+                    <b-form-radio-group
+                      @change="typeChange"
+                      id="btn-radios-2"
+                      v-model="sale_type"
+                      :options="options"
+                      button-variant="outline-dark"
+                      size="lg"
+                      name="radio-btn-outline"
+                      buttons
+                      class=""
+                    ></b-form-radio-group>
+                  </b-col>
+                </b-row>
+              </div>
             </div>
           </b-col>
         </b-row>
 
-        <b-row class="place-layout">
+        <b-row class="place-layout" v-if="propertiesAds.length > 0">
 
           <div class="gallery">
             <Slick ref="slick" :options="slickOptions" v-if="propertiesAds.length > 0">
@@ -165,25 +166,31 @@
     },
     async created() {
 
-      console.log(this.propertyData);
+      const propertiesAds = await this.$axios.$post('property/ad/active-property/list');
+      this.propertiesAds = propertiesAds.data;
 
-      // const propertiesAds = await this.$axios.$post('property/ad/active-property/list');
-      // this.propertiesAds = propertiesAds.data;
-      //
-      // if(this.propertiesAds.length == 1) {
-      //   this.slickOptions.slidesToShow = 1;
-      // }else if (this.propertiesAds.length == 2)  {
-      //   this.slickOptions.slidesToShow = 2;
-      // }else {
-      //   this.slickOptions.slidesToShow = 3;
-      // }
+      if(this.propertiesAds.length == 1) {
+        this.slickOptions.slidesToShow = 1;
+      }else if (this.propertiesAds.length == 2)  {
+        this.slickOptions.slidesToShow = 2;
+      }else {
+        this.slickOptions.slidesToShow = 3;
+      }
     },
     computed: {
       imageUrl() {
         return `${process.env.APP_ROOT_IMG_URL}`
       }
     },
-    methods: {}
+    methods: {
+      async typeChange(e){
+        const propertiesAds = await this.$axios.$post('property/ad/active-property/list-as-type',{
+          type: this.sale_type
+        });
+        this.propertiesAds = propertiesAds.data;
+        console.log(this.sale_type);
+      }
+    }
   }
 </script>
 
