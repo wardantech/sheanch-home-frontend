@@ -36,9 +36,12 @@
                     <div class="place-layout-listing-img">
                       <div class="place-layout-listing-img-slide">
                         <div v-if="propertiesAd.property.media.length > 0">
-                          <b-img
-                            :src="propertiesAd.property.media[0].original_url" alt="Image 1">
-                          </b-img>
+                          <nuxt-link
+                            :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
+                            <b-img
+                              :src="propertiesAd.property.media[0].original_url" :alt="propertiesAd.property.name">
+                            </b-img>
+                          </nuxt-link>
                         </div>
                         <div v-else>
                           <b-img
@@ -64,9 +67,11 @@
                         </div>
                       </div>
                       <div class="place-layout-listing-detail-name">
-                        <b-link href="#" title="6007 Applegate Lane">
+                        <nuxt-link
+                          :title="propertiesAd.property.name"
+                          :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
                           {{ propertiesAd.property.name }}
-                        </b-link>
+                        </nuxt-link>
                       </div>
 <!--                      <div class="rating-wrap">-->
 <!--                        <div class="rating">-->

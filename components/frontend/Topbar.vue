@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="top-bar bg-brand p-2 d-none d-sm-block">
+        <div class="top-bar bg-brand d-none d-sm-block">
             <b-container>
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="currency">
