@@ -58,15 +58,13 @@
 <script>
   export default {
     name: "Header",
-
     data() {
       return {
-        logo: ''
+          logo:'',
       }
     },
-    async created() {
-      const res = await this.$axios.$post('get-general-setting-images', {data: 'logo'});
-      this.logo = res.image;
+    mounted() {
+      this.logo = this.$store.getters['frontend-data/getLogo'];
     }
   }
 </script>

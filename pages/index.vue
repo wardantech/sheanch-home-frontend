@@ -9,7 +9,7 @@
         <!-- End how work section -->
 
         <!-- Start place section -->
-        <Property/>
+        <Property :propertyData="property"/>
         <!-- End place section -->
 
         <!-- Start Location -->
@@ -36,6 +36,19 @@
     export default {
       name: 'IndexPage',
       auth: false,
-      components: {Newsletter, Package, Location, Property, Work, Banner}
+      components: {Newsletter, Package, Location, Property, Work, Banner},
+      data() {
+        return {
+          property: [],
+        }
+      },
+
+      async fetch() {
+        const propertiesAds = await this.$axios.$post('property/ad/active-property/list');
+        this.property = propertiesAds.data;
+        console.log(propertiesAds.data)
+      },
+
     }
+
 </script>
