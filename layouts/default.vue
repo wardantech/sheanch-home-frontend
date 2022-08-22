@@ -4,12 +4,11 @@
 
     <div id="wrapper">
       <!-- Start Top Bar -->
-      <!--<Topbar/>-->
+      <Topbar/>
       <!-- End Top Bar -->
 
       <!-- Start Navigation -->
       <Header/>
-
       <!-- End Navigation -->
 
       <Nuxt/>
@@ -38,7 +37,7 @@
 
     data() {
       return {
-          foo: ''
+        foo: ''
       }
     }
   }

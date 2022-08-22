@@ -147,9 +147,27 @@ section {
 }
 
 .social-button {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
   .social-button-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 20px 0;
     color: $white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
+    i {
+      font-size: 30px;
+    }
+
+    &.gamil {
+      background: rgb(66, 133, 244);
+    }
 
     &.facebook {
       background: #3b5998;

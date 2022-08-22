@@ -33,7 +33,8 @@ export default {
     '@fortawesome/fontawesome-svg-core/styles.css',
     'assets/frontend/css/style.css',
     '~/assets/frontend/sass/main.scss',
-    'slick-carousel/slick/slick.css'
+    'slick-carousel/slick/slick.css',
+    'boxicons/css/boxicons.min.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
