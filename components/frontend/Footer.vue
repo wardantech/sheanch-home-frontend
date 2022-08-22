@@ -6,19 +6,19 @@
           <b-row>
             <b-col lg="3" md="4">
               <div class="footer-widget">
-                <b-img :src="footerLogo" class="footer-widget-img"></b-img>
+                <b-img :src="logo" class="footer-widget-img"></b-img>
                 <div class="footer-widget-address">
                   <p>
                     <font-awesome-icon icon="fa-solid fa-location-dot"/>
-                    {{ address }}
+                    {{ data.address }}
                   </p>
                   <p>
                     <font-awesome-icon icon="fa-solid fa-square-phone-flip"/>
-                    {{ phone }}
+                    {{ data.phone }}
                   </p>
                   <p>
                     <font-awesome-icon icon="fa-solid fa-envelope"/>
-                    {{ email }}
+                    {{ data.email }}
                   </p>
                 </div>
               </div>
@@ -179,20 +179,17 @@
     name: "Footer",
     data() {
       return {
-        footerLogo: '',
-        address: '',
-        email: '',
-        phone: ''
+        logo:'',
+        data:'',
       }
     },
-    async created() {
-      const res = await this.$axios.$post('get-general-setting-images', {data: 'footerLogo'});
-      this.footerLogo = res.image;
-      this.address = res.data.address;
-      this.email = res.data.email;
-      this.phone = res.data.phone;
-
+    mounted() {
+      this.logo = this.$store.getters['frontend-data/getFooterLogo'];
+      const footerData = this.$store.getters['frontend-data/getFrontend'];
+      this.data = footerData.data;
     }
+
+
   }
 </script>
 

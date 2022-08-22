@@ -158,18 +158,19 @@
     computed: {
       imageUrl(){
         return `${process.env.APP_ROOT_IMG_URL}/`
-      }
+      },
     },
 
-    async created() {
+    async mounted() {
+
       const propertyTypes = await this.$axios.$get('property/get-property-type');
       this.propertyTypes = propertyTypes.data;
 
       const divisions = await this.$axios.$get('settings/divisions');
       this.divisions = divisions.data;
 
-      const res = await this.$axios.$post('get-general-setting-images', {data: 'banner'});
-      this.bannerImage = "background: url("+res.image+") no-repeat";
+      const banner = this.$store.getters['frontend-data/getBanner'];
+      this.bannerImage = "background: url("+banner+") no-repeat";
     },
 
     methods: {
