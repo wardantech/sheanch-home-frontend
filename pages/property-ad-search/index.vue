@@ -105,10 +105,10 @@
         </b-row>
       </b-container>
     </div>
-    <section v-if="propertiesAds.length > 0" v-for="(propertiesAd, index) in propertiesAds" :key="index" id="search">
+    <section v-if="propertiesAds.length > 0" >
       <b-container>
-        <b-row>
-          <b-col md="4">
+        <b-row >
+          <b-col md="4" v-for="(propertiesAd, index) in propertiesAds" :key="index" id="search">
             <div class="gallery">
               <div class="place-layout-listing">
                 <div class="place-layout-listing-img">
