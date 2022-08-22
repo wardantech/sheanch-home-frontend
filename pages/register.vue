@@ -170,8 +170,11 @@
                         <span>Or login via</span>
                       </div>
                       <div class="social-button">
-                        <b-button block class="btn social-button-login facebook">
-                          Facebook
+                        <b-button class="btn social-button-login facebook">
+                          <i class='bx bxl-facebook'></i>
+                        </b-button>
+                        <b-button class="btn social-button-login gmail">
+                          <i class='bx bxl-gmail'></i>
                         </b-button>
                       </div>
                     </div>
@@ -223,7 +226,7 @@ export default {
         name: '',
         email: '',
         password: '',
-        type:'',
+        type:'2',
         password_confirmation: ''
       }
     }

@@ -18,7 +18,7 @@
                   class="btn btn-sm btn-info"
                   :to="{ name: 'account-property-create'}">
                   <font-awesome-icon icon="fa-solid fa-plus" />
-                  Create
+                  Create property
                 </nuxt-link>
               </div>
               <div class="card-body p-0 mt-4">
