@@ -18,7 +18,7 @@
                         <div class="top-bar-wishlist">
                             <a class="text-white" href="#">
                                 <font-awesome-icon icon="fa-solid fa-heart" />
-                                Wishlist (0)
+                                Wishlist {{wishlist_count}}
                             </a>
                         </div>
                         <!--<div class="ms-3 text-white">-->
@@ -37,7 +37,16 @@
 
 <script>
     export default {
-        name: "Topbar"
+        name: "Topbar",
+      data(){
+        return{
+          wishlist_count: 0
+        }
+      },
+      mounted(){
+        this.wishlist_count = this.$store.getters['wishlist/getWishlist'];
+        console.log(this.wishlist_count);
+      }
     }
 </script>
 

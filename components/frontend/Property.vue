@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section id="place" >
+    <section id="place">
       <b-container>
         <b-row class="row justify-content-center">
           <b-col lg="7" md="10" class="text-center">
@@ -52,7 +52,7 @@
 
                       </div>
                       <div class="place-layout-listing-img-action">
-                        <b-link href="#" class="add-to-wishlist">
+                        <b-link href="#" @click="wishlistStore(propertiesAd.id)" class="add-to-wishlist">
                           <font-awesome-icon icon="fa-solid fa-heart"/>
                         </b-link>
                       </div>
@@ -74,18 +74,18 @@
                           {{ propertiesAd.property.name }}
                         </nuxt-link>
                       </div>
-<!--                      <div class="rating-wrap">-->
-<!--                        <div class="rating">-->
-<!--                          <div class="product-rate" width="70%">-->
-<!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
-<!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
-<!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
-<!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
-<!--                            <font-awesome-icon icon="fa-solid fa-star-half"/>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                        <span class="reviews-text">(2 Reviews)</span>-->
-<!--                      </div>-->
+                      <!--                      <div class="rating-wrap">-->
+                      <!--                        <div class="rating">-->
+                      <!--                          <div class="product-rate" width="70%">-->
+                      <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--                            <font-awesome-icon icon="fa-solid fa-star-half"/>-->
+                      <!--                          </div>-->
+                      <!--                        </div>-->
+                      <!--                        <span class="reviews-text">(2 Reviews)</span>-->
+                      <!--                      </div>-->
                     </div>
                     <div class="place-layout-listing-features">
                       <div class="features-list">
@@ -142,13 +142,13 @@
 
   export default {
     name: "Place",
-    props:['propertyData'],
+    props: ['propertyData'],
     components: {Slick},
     data() {
       return {
         slickOptions: {
           infinite: true,
-          autoplay:false,
+          autoplay: false,
           lazyLoad: 'ondemand',
           slidesToShow: '',
           slidesToScroll: 1,
@@ -160,8 +160,9 @@
           {text: 'To Rent', value: '2'}
         ],
         slide: 0,
-        sale_type:'',
-        propertiesAds: []
+        sale_type: '',
+        propertiesAds: [],
+       // tenant_id: this.$auth.user.tenant_id ,
       }
     },
     computed: {
@@ -170,34 +171,63 @@
       }
     },
     async created() {
-
       const propertiesAds = await this.$axios.$post('property/ad/active-property/list');
       this.propertiesAds = propertiesAds.data;
 
-      if(this.propertiesAds.length == 1) {
+      if (this.propertiesAds.length == 1) {
         this.slickOptions.slidesToShow = 1;
-      }else if (this.propertiesAds.length == 2)  {
+      } else if (this.propertiesAds.length == 2) {
         this.slickOptions.slidesToShow = 2;
-      }else {
+      } else {
         this.slickOptions.slidesToShow = 3;
       }
     },
 
     methods: {
-      async typeChange(){
 
-        const propertiesAds = await this.$axios.$post('property/ad/active-property/list-as-type',{
+
+      async typeChange() {
+        const propertiesAds = await this.$axios.$post('property/ad/active-property/list-as-type', {
           type: this.sale_type
         });
         this.propertiesAds = propertiesAds.data;
 
-        if(this.propertiesAds.length == 1) {
+        if (this.propertiesAds.length == 1) {
           this.slickOptions.slidesToShow = 1;
-        }else if (this.propertiesAds.length == 2)  {
+        } else if (this.propertiesAds.length == 2) {
           this.slickOptions.slidesToShow = 2;
-        }else {
+        } else {
           this.slickOptions.slidesToShow = 3;
         }
+      },
+
+      async wishlistStore(propertyAdId) {
+
+        this.$store.dispatch('wishlist/storeWishlist', 2);
+        console.log(this.$store.getters['wishlist/getWishlist'])
+        //if(this.tenant_id) {
+          this.$axios.$post('wishlist/store', {propertyAdId: propertyAdId, tenantId: this.tenant_id})
+            .then(response => {
+              if (!response.data.status) {
+                this.$izitoast.warning({
+                  title: 'Property already has on your wishlist.'
+                });
+              } else {
+                this.$izitoast.success({
+                  title: 'Property added successfully on your wishlist.',
+                });
+
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            })
+        // }
+        // else {
+        //   this.$izitoast.success({
+        //     title: 'Login in first.'
+        //   });
+        // }
       }
     }
   }

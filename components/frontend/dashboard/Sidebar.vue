@@ -105,8 +105,8 @@ export default {
       const response = await this.$axios.$post('profile/landlord', {id: this.$auth.user.landlord_id});
       this.profileImage = response.data.landlord.image;
     }else if (this.$auth.user.tenant_id) {
-      const response = await this.$axios.$post('profile/landlord', {id: this.$auth.user.tenant_id});
-      this.profileImage = response.data.landlord.image;
+      const response = await this.$axios.$post('profile/tenant', {id: this.$auth.user.tenant_id});
+      this.profileImage = response.data.tenant.image;
     }
   },
   methods: {
