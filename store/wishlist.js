@@ -4,13 +4,19 @@ export const state = () => ({
 
 export const mutations = {
   STORE_WISHLIST(state, data) {
-    state.wishlist_count = data;
+    state.wishlist_count  = data;
+  },
+  INCREASE_WISHLIST(state, data){
+    state.wishlist_count++;
   }
 }
 
 export const actions = {
   storeWishlist({commit}, data) {
     commit('STORE_WISHLIST', data);
+  },
+  increaseWishlist({commit}, data) {
+    commit('INCREASE_WISHLIST', data);
   },
 
 }

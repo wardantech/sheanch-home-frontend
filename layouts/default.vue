@@ -35,15 +35,24 @@ export default {
     return {
       foo: '',
       footerData:{},
+      tenant_id: '',
     }
   },
 
   async fetch() {
-    const res = await this.$axios.$post('get-general-setting-images');
-    this.$store.dispatch('frontend-data/storeFrontend', res);
+    if(this.$auth.loggedIn && this.$auth.user.tenant_id) {
+      this.tenant_id = this.$auth.user.tenant_id;
+    }
+    const response = await this.$axios.$post('get-frontend-data',{
+      tenantId: this.tenant_id,
+    });
+    console.log(response.data);
+    this.$store.dispatch('frontend-data/storeFrontend', response.data.frontendData);
+    this.$store.dispatch('wishlist/storeWishlist', response.data.wishlistCount);
+    console.log(this.$store.getters['wishlist/getWishlist']);
 
-    if (res.data.media.length > 0) {
-      for (const element of res.data.media) {
+    if (response.data.frontendData.media.length > 0) {
+      for (const element of response.data.frontendData.media) {
         if (element.collection_name == "logo") {
           this.$store.dispatch('frontend-data/storeLogo', element.original_url);
         }
