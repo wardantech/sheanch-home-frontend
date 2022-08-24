@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="page-title">
+    <div class="page-title" style="background-image: url('https://i.im.ge/2022/07/27/Fi9Cj6.png')">
       <b-container>
         <b-row class="justify-content-center">
           <b-col md="12">
@@ -105,7 +105,7 @@
         </b-row>
       </b-container>
     </div>
-    <section v-if="propertiesAds.length > 0">
+    <section v-if="propertiesAds.length > 0" id="searchSection">
       <b-container>
         <b-row>
           <b-col md="4" v-for="(propertiesAd, index) in propertiesAds" :key="index" id="search">

@@ -1,7 +1,7 @@
 <template>
   <div>
     <footer class="dark-footer">
-      <div class="py-5">
+      <div class="pt-5 pb-1">
         <b-container>
           <b-row>
             <b-col lg="3" md="4">
@@ -89,26 +89,26 @@
                     <h4 class="footer-widget-title">Download Apps</h4>
                     <b-link href="#" class="other-store-link">
                       <div class="other-store-app">
-                        <div class="app-icon">
+                        <div class="app-icon" title="Download google play store">
                           <b-img width="40" src="../../assets/frontend/images/icons/google-play.png"
                                  alt="Google play"></b-img>
                         </div>
-                        <div class="app-text">
-                          Google Play
-                          <span>Get It Now</span>
-                        </div>
+                        <!--<div class="app-text">-->
+                          <!--Google Play-->
+                          <!--<span>Get It Now</span>-->
+                        <!--</div>-->
                       </div>
                     </b-link>
                     <b-link href="#" class="other-store-link">
                       <div class="other-store-app">
-                        <div class="app-icon">
+                        <div class="app-icon" title="Download apple store">
                           <b-img width="40" src="../../assets/frontend/images/icons/app-store.png"
                                  alt="Apple store"></b-img>
                         </div>
-                        <div class="app-text">
-                          App Store
-                          <span>Now it Available</span>
-                        </div>
+                        <!--<div class="app-text">-->
+                          <!--App Store-->
+                          <!--<span>Now it Available</span>-->
+                        <!--</div>-->
                       </div>
                     </b-link>
                   </div>
