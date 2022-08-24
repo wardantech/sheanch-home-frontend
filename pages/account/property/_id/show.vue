@@ -777,7 +777,7 @@
             }
             this.$axios.$post('property/deed/save-data', data)
               .then(response => {
-                this.$swal.fire('Success', '852', 'wait for admin confirmation');
+                this.$swal.fire('Success', 'property did data deed applied successfully !! wait for admin confirmation');
               })
               .catch(error => {
                 alert(error)

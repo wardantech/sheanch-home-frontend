@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div id="fix-container"></div>
 
     <div id="wrapper">
       <!-- Start Top Bar -->
@@ -34,22 +33,23 @@ export default {
   data() {
     return {
       foo: '',
-      footerData:{},
+      footerData: {},
       tenant_id: '',
     }
   },
 
   async fetch() {
-    if(this.$auth.loggedIn && this.$auth.user.tenant_id) {
+    if (this.$auth.loggedIn && this.$auth.user.tenant_id) {
       this.tenant_id = this.$auth.user.tenant_id;
     }
-    const response = await this.$axios.$post('get-frontend-data',{
+    const response = await this.$axios.$post('get-frontend-data', {
       tenantId: this.tenant_id,
     });
-    console.log(response.data);
+
     this.$store.dispatch('frontend-data/storeFrontend', response.data.frontendData);
-    this.$store.dispatch('wishlist/storeWishlist', response.data.wishlistCount);
-    console.log(this.$store.getters['wishlist/getWishlist']);
+    this.$store.dispatch('wishlist/storeWishlist',
+      response.data.wishlistCount ? response.data.wishlistCount : 0
+    );
 
     if (response.data.frontendData.media.length > 0) {
       for (const element of response.data.frontendData.media) {

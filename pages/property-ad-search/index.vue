@@ -105,23 +105,26 @@
         </b-row>
       </b-container>
     </div>
-    <section v-if="propertiesAds.length > 0" >
+    <section v-if="propertiesAds.length > 0">
       <b-container>
-        <b-row >
+        <b-row>
           <b-col md="4" v-for="(propertiesAd, index) in propertiesAds" :key="index" id="search">
             <div class="gallery">
               <div class="place-layout-listing">
                 <div class="place-layout-listing-img">
                   <div class="place-layout-listing-img-slide">
                     <div v-if="propertiesAd.property.media.length > 0">
-                      <b-img
-                        :src="propertiesAd.property.media[0].original_url"
-                        alt="Image 1">
-                      </b-img>
+                      <nuxt-link
+                        :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
+                        <b-img
+                          :src="propertiesAd.property.media[0].original_url"
+                          alt="Image 1">
+                        </b-img>
+                      </nuxt-link>
                     </div>
                   </div>
                   <div class="place-layout-listing-img-action">
-                    <b-link href="#" class="add-to-wishlist">
+                    <b-link @click="wishlistStore(propertiesAd.id)" class="add-to-wishlist">
                       <font-awesome-icon icon="fa-solid fa-heart"/>
                     </b-link>
                   </div>
@@ -217,7 +220,6 @@ export default {
       divisions: '',
       districts: '',
       propertyTypes: '',
-      bannerImage: '',
       propertiesAds: []
     }
   },
@@ -233,8 +235,6 @@ export default {
     const divisions = await this.$axios.$get('settings/divisions');
     this.divisions = divisions.data;
 
-    const res = await this.$axios.$post('get-general-setting-images', {data: 'banner'});
-    this.bannerImage = "background: url(" + res.image + ") no-repeat";
   },
   methods: {
     async getDistricts(division_id) {
@@ -248,10 +248,37 @@ export default {
       this.thanas = thanas.data;
     },
 
-     async searchStore() {
+    async searchStore() {
       let propertiesAds = await this.$axios.$post('property/ad/search', this.form);
       this.propertiesAds = propertiesAds.data;
       console.log(this.propertiesAds);
+    },
+
+    async wishlistStore(propertyAdId) {
+
+      if (this.$auth.loggedIn && this.$auth.user.tenant_id) {
+        this.$axios.$post('wishlist/store', {propertyAdId: propertyAdId, tenantId: this.$auth.user.tenant_id})
+          .then(response => {
+            if (!response.data.status) {
+              this.$izitoast.warning({
+                title: 'Property already has on your wishlist.'
+              });
+            } else {
+              this.$store.dispatch('wishlist/increaseWishlist');
+              this.$izitoast.success({
+                title: 'Property added successfully on your wishlist.',
+              });
+
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      } else {
+        this.$izitoast.success({
+          title: 'Login in first.'
+        });
+      }
     }
   }
 }
