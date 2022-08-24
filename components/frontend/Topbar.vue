@@ -18,7 +18,7 @@
                         <div class="top-bar-wishlist">
                             <a class="text-white" href="#">
                                 <font-awesome-icon icon="fa-solid fa-heart" />
-                                Wishlist {{wishlist_count}}
+                                Wishlist {{wishlist}}
                             </a>
                         </div>
                         <!--<div class="ms-3 text-white">-->
@@ -40,13 +40,15 @@
         name: "Topbar",
       data(){
         return{
-          wishlist_count: 0
+          //wishlist_count: 0
         }
       },
-      mounted(){
-        this.wishlist_count = this.$store.getters['wishlist/getWishlist'];
-        console.log(this.wishlist_count);
-      }
+      computed:{
+          wishlist(){
+            return this.$store.getters['wishlist/getWishlist']
+          }
+      },
+
     }
 </script>
 

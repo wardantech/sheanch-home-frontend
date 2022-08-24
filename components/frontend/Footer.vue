@@ -186,7 +186,7 @@
     mounted() {
       this.logo = this.$store.getters['frontend-data/getFooterLogo'];
       const footerData = this.$store.getters['frontend-data/getFrontend'];
-      this.data = footerData.data;
+      this.data = footerData;
     }
 
 

@@ -95,6 +95,7 @@ export default {
         this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
       }
       if(this.$auth.user.tenant_id){
+
         this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
       }
 
@@ -134,7 +135,7 @@ export default {
             })
             const path = this.$nuxt.context.from;
 
-            if(path.name == 'account-property-id-show'){
+            if(path && path.name == 'account-property-id-show'){
               this.$nuxt.$options.router.push({name: 'account-property-id-show',params: { id: path.params.id }})
             }
             else{
@@ -142,12 +143,14 @@ export default {
                 this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
               }
               if(this.$auth.user.tenant_id){
+                this.$store.dispatch('wishlist/storeWishlist',2);
                 this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
               }
             }
 
           }
         }).catch(error => {
+          console.log(error)
           if(error.response.status == 422){
             console.log(error.response.data.errors)
             this.errors = error.response.data.errors
