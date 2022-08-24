@@ -162,7 +162,7 @@
         slide: 0,
         sale_type: '',
         propertiesAds: [],
-       // tenant_id: this.$auth.user.tenant_id ,
+        tenant_id: this.$auth.user.tenant_id,
       }
     },
     computed: {
@@ -200,10 +200,7 @@
       },
 
       async wishlistStore(propertyAdId) {
-
-        this.$store.dispatch('wishlist/storeWishlist', 2);
-        console.log(this.$store.getters['wishlist/getWishlist'])
-        //if(this.tenant_id) {
+        if (this.tenant_id) {
           this.$axios.$post('wishlist/store', {propertyAdId: propertyAdId, tenantId: this.tenant_id})
             .then(response => {
               if (!response.data.status) {
@@ -220,12 +217,12 @@
             .catch(error => {
               console.log(error);
             })
-        // }
-        // else {
-        //   this.$izitoast.success({
-        //     title: 'Login in first.'
-        //   });
-        // }
+        }
+        else {
+          this.$izitoast.warning({
+            title: 'Login in first.'
+          });
+        }
       }
     }
   }
