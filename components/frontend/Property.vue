@@ -219,7 +219,7 @@
         else {
           this.$izitoast.warning({
             title: 'Warning !!',
-            message: 'Please login first'
+            message: 'Please login as tenant !'
           });
         }
       }
