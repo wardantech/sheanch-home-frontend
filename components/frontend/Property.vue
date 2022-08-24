@@ -196,21 +196,20 @@
       },
 
       async wishlistStore(propertyAdId) {
-
-
         if(this.$auth.loggedIn && this.$auth.user.tenant_id) {
           this.$axios.$post('wishlist/store', {propertyAdId: propertyAdId, tenantId: this.$auth.user.tenant_id})
             .then(response => {
               if (!response.data.status) {
                 this.$izitoast.warning({
-                  title: 'Property already has on your wishlist.'
+                  title: 'Warning !!',
+                  message: 'Property already has on your wishlist.'
                 });
               } else {
                 this.$store.dispatch('wishlist/increaseWishlist');
                 this.$izitoast.success({
-                  title: 'Property added successfully on your wishlist.',
+                  title: 'Success !!',
+                  message: 'Property added successfully on your wishlist.',
                 });
-
               }
             })
             .catch(error => {
@@ -218,8 +217,9 @@
             })
         }
         else {
-          this.$izitoast.success({
-            title: 'Login in first.'
+          this.$izitoast.warning({
+            title: 'Warning !!',
+            message: 'Please login first'
           });
         }
       }
