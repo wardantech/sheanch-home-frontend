@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div id="fix-container"></div>
 
     <div id="wrapper">
       <!-- Start Top Bar -->
@@ -34,16 +33,26 @@ export default {
   data() {
     return {
       foo: '',
-      footerData:{},
+      footerData: {},
+      tenant_id: '',
     }
   },
 
   async fetch() {
-    const res = await this.$axios.$post('get-general-setting-images');
-    this.$store.dispatch('frontend-data/storeFrontend', res);
+    if (this.$auth.loggedIn && this.$auth.user.tenant_id) {
+      this.tenant_id = this.$auth.user.tenant_id;
+    }
+    const response = await this.$axios.$post('get-frontend-data', {
+      tenantId: this.tenant_id,
+    });
 
-    if (res.data.media.length > 0) {
-      for (const element of res.data.media) {
+    this.$store.dispatch('frontend-data/storeFrontend', response.data.frontendData);
+    this.$store.dispatch('wishlist/storeWishlist',
+      response.data.wishlistCount ? response.data.wishlistCount : 0
+    );
+
+    if (response.data.frontendData.media.length > 0) {
+      for (const element of response.data.frontendData.media) {
         if (element.collection_name == "logo") {
           this.$store.dispatch('frontend-data/storeLogo', element.original_url);
         }

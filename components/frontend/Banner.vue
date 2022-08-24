@@ -161,16 +161,16 @@
       },
     },
 
-    async mounted() {
-
-      const propertyTypes = await this.$axios.$get('property/get-property-type');
-      this.propertyTypes = propertyTypes.data;
-
-      const divisions = await this.$axios.$get('settings/divisions');
-      this.divisions = divisions.data;
-
+    created() {
       const banner = this.$store.getters['frontend-data/getBanner'];
       this.bannerImage = "background: url("+banner+") no-repeat";
+    },
+
+    async fetch() {
+      const response = await this.$axios.$get('get-frontend-banner-data');
+      this.propertyTypes = response.data.propertyTypes;
+      this.divisions = response.data.divisions;
+
     },
 
     methods: {

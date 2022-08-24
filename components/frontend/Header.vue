@@ -63,7 +63,7 @@
           logo:'',
       }
     },
-    mounted() {
+    created() {
       this.logo = this.$store.getters['frontend-data/getLogo'];
     }
   }

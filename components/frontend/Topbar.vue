@@ -16,10 +16,12 @@
                     </div>
                     <div class="top-bar-right d-flex align-items-center">
                         <div class="top-bar-wishlist">
-                            <a class="text-white" href="#">
+                            <nuxt-link
+                              :to="{ name: 'account-wishlist'}"
+                              class="text-white" href="#">
                                 <font-awesome-icon icon="fa-solid fa-heart" />
-                                Wishlist {{wishlist_count}}
-                            </a>
+                                Wishlist ({{wishlist}})
+                            </nuxt-link>
                         </div>
                         <!--<div class="ms-3 text-white">-->
                             <!--<b-dropdown size="sm" text="Lang" class="m-2 top-bar-right-lang">-->
@@ -40,13 +42,14 @@
         name: "Topbar",
       data(){
         return{
-          wishlist_count: 0
         }
       },
-      mounted(){
-        this.wishlist_count = this.$store.getters['wishlist/getWishlist'];
-        console.log(this.wishlist_count);
-      }
+      computed:{
+          wishlist(){
+            return this.$store.getters['wishlist/getWishlist']
+          }
+      },
+
     }
 </script>
 

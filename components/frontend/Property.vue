@@ -6,33 +6,31 @@
           <b-col lg="7" md="10" class="text-center">
             <div class="section-heading center">
               <h2>Latest Properties</h2>
-              <div class="latest-properties-radio">
-                <b-row class="my-4">
-                  <b-col lg="12" md="12" sm="12">
-                    <b-form-radio-group
-                      @change="typeChange"
-                      id="btn-radios-2"
-                      v-model="sale_type"
-                      :options="options"
-                      button-variant="outline-dark"
-                      size="lg"
-                      name="radio-btn-outline"
-                      buttons
-                      class=""
-                    ></b-form-radio-group>
-                  </b-col>
-                </b-row>
-              </div>
+<!--              <div class="latest-properties-radio">-->
+<!--                <b-row class="my-4">-->
+<!--                  <b-col lg="12" md="12" sm="12">-->
+<!--                    <b-form-radio-group-->
+<!--                      @change="typeChange"-->
+<!--                      id="btn-radios-2"-->
+<!--                      v-model="sale_type"-->
+<!--                      :options="options"-->
+<!--                      button-variant="outline-dark"-->
+<!--                      size="lg"-->
+<!--                      name="radio-btn-outline"-->
+<!--                      buttons-->
+<!--                      class=""-->
+<!--                    ></b-form-radio-group>-->
+<!--                  </b-col>-->
+<!--                </b-row>-->
+<!--              </div>-->
             </div>
           </b-col>
         </b-row>
 
         <b-row class="place-layout" v-if="propertiesAds.length > 0">
-
           <div class="gallery">
             <Slick ref="slick" :options="slickOptions" v-if="propertiesAds.length > 0">
               <div v-for="(propertiesAd, index) in propertiesAds" :key="index">
-                <div>
                   <div class="place-layout-listing">
                     <div class="place-layout-listing-img">
                       <div class="place-layout-listing-img-slide">
@@ -52,7 +50,7 @@
 
                       </div>
                       <div class="place-layout-listing-img-action">
-                        <b-link href="#" @click="wishlistStore(propertiesAd.id)" class="add-to-wishlist">
+                        <b-link @click="wishlistStore(propertiesAd.id)" class="add-to-wishlist">
                           <font-awesome-icon icon="fa-solid fa-heart"/>
                         </b-link>
                       </div>
@@ -128,7 +126,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
             </Slick>
           </div>
         </b-row>
@@ -162,7 +159,6 @@
         slide: 0,
         sale_type: '',
         propertiesAds: [],
-        tenant_id: this.$auth.user.tenant_id,
       }
     },
     computed: {
@@ -200,14 +196,17 @@
       },
 
       async wishlistStore(propertyAdId) {
-        if (this.tenant_id) {
-          this.$axios.$post('wishlist/store', {propertyAdId: propertyAdId, tenantId: this.tenant_id})
+
+
+        if(this.$auth.loggedIn && this.$auth.user.tenant_id) {
+          this.$axios.$post('wishlist/store', {propertyAdId: propertyAdId, tenantId: this.$auth.user.tenant_id})
             .then(response => {
               if (!response.data.status) {
                 this.$izitoast.warning({
                   title: 'Property already has on your wishlist.'
                 });
               } else {
+                this.$store.dispatch('wishlist/increaseWishlist');
                 this.$izitoast.success({
                   title: 'Property added successfully on your wishlist.',
                 });
@@ -219,7 +218,7 @@
             })
         }
         else {
-          this.$izitoast.warning({
+          this.$izitoast.success({
             title: 'Login in first.'
           });
         }
