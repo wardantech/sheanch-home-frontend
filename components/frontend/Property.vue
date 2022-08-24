@@ -28,11 +28,9 @@
         </b-row>
 
         <b-row class="place-layout" v-if="propertiesAds.length > 0">
-
           <div class="gallery">
             <Slick ref="slick" :options="slickOptions" v-if="propertiesAds.length > 0">
               <div v-for="(propertiesAd, index) in propertiesAds" :key="index">
-                <div>
                   <div class="place-layout-listing">
                     <div class="place-layout-listing-img">
                       <div class="place-layout-listing-img-slide">
@@ -52,7 +50,7 @@
 
                       </div>
                       <div class="place-layout-listing-img-action">
-                        <b-link href="#" @click="wishlistStore(propertiesAd.id)" class="add-to-wishlist">
+                        <b-link @click="wishlistStore(propertiesAd.id)" class="add-to-wishlist">
                           <font-awesome-icon icon="fa-solid fa-heart"/>
                         </b-link>
                       </div>
@@ -128,7 +126,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
             </Slick>
           </div>
         </b-row>
@@ -183,8 +180,6 @@
     },
 
     methods: {
-
-
       async typeChange() {
         const propertiesAds = await this.$axios.$post('property/ad/active-property/list-as-type', {
           type: this.sale_type
@@ -202,8 +197,6 @@
 
       async wishlistStore(propertyAdId) {
 
-        this.$store.dispatch('wishlist/increaseWishlist');
-
         if(this.$auth.loggedIn && this.$auth.user.tenant_id) {
           this.$axios.$post('wishlist/store', {propertyAdId: propertyAdId, tenantId: this.$auth.user.tenant_id})
             .then(response => {
@@ -212,6 +205,7 @@
                   title: 'Property already has on your wishlist.'
                 });
               } else {
+                this.$store.dispatch('wishlist/increaseWishlist');
                 this.$izitoast.success({
                   title: 'Property added successfully on your wishlist.',
                 });

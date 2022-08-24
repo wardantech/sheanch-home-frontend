@@ -143,7 +143,6 @@ export default {
                 this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
               }
               if(this.$auth.user.tenant_id){
-                this.$store.dispatch('wishlist/storeWishlist',2);
                 this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
               }
             }

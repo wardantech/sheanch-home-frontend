@@ -84,9 +84,11 @@
       }
     },
     components: {Newsletter, Sidebar},
-    async created() {
+    async fetch() {
       const response = await this.$axios.$post('get-tenant-dashboard-data', {tenantId: this.$auth.user.tenant_id});
       this.data = response.data;
+      console.log('nice wer')
+      this.$store.dispatch('wishlist/storeWishlist',this.data.wishlistCount);
     },
   }
 </script>
