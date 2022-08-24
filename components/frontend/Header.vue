@@ -15,19 +15,19 @@
               <b-nav-item href="#">Company</b-nav-item>
               <b-nav-item href="#">Blog</b-nav-item>
 
-              <!--<b-nav-item-dropdown class="custom-dropdown-menu" text="Listing" right>-->
-                <!--<b-dropdown-item href="#">Listing Layout</b-dropdown-item>-->
-                <!--<b-dropdown-item href="#">Grid Layout</b-dropdown-item>-->
-                <!--<b-dropdown-item href="#">Half Map Search</b-dropdown-item>-->
-              <!--</b-nav-item-dropdown>-->
+<!--              <b-nav-item-dropdown class="custom-dropdown-menu" text="Listing" right>-->
+<!--                <b-dropdown-item href="#">Listing Layout</b-dropdown-item>-->
+<!--                <b-dropdown-item href="#">Grid Layout</b-dropdown-item>-->
+<!--                <b-dropdown-item href="#">Half Map Search</b-dropdown-item>-->
+<!--              </b-nav-item-dropdown>-->
 
-              <li class="nav-item b-nav-dropdown dropdown custom-dropdown-menu">
-                <nuxt-link
-                  class="mt-2 ml-1"
-                  :to="{ name: 'register'}">
-                  Sign Up
-                </nuxt-link>
-              </li>
+<!--              <li v-if="!$auth.loggedIn" class="nav-item b-nav-dropdown dropdown custom-dropdown-menu">-->
+<!--                <nuxt-link-->
+<!--                  class="mt-2 ml-1"-->
+<!--                  :to="{ name: 'register'}">-->
+<!--                  Sign Up-->
+<!--                </nuxt-link>-->
+<!--              </li>-->
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->
@@ -35,17 +35,26 @@
               <li class="nav-item navigation-right-item">
                 <nuxt-link
                   class="nav-link"
-                  :to="{ name: 'your-property'}">
+                  :to="{ name: 'property-your-property'}">
                   <font-awesome-icon class="mr-2" icon="fa-solid fa-upload"/>
                   Add Property
                 </nuxt-link>
               </li>
 
-              <nuxt-link
+              <nuxt-link v-if="!$auth.loggedIn"
                 class="btn sign-in-button"
                 :to="{ name: 'login'}">
                 <font-awesome-icon icon="fa-solid fa-user"/>
                 Sign In
+              </nuxt-link>
+
+              <nuxt-link v-else
+                         class="btn sign-in-button"
+                         :to="$auth.user.landlord_id ?
+                         { name: 'account-dashboard-landlord'}:
+                         { name: 'account-dashboard-tenant'}">
+                <font-awesome-icon icon="fa-solid fa-address-card" />
+                Account
               </nuxt-link>
             </b-navbar-nav>
           </b-collapse>

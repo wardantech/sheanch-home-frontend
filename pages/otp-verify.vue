@@ -67,7 +67,7 @@
                         Have an account already?
                         <nuxt-link
                           class="text-danger"
-                          :to="{ name: 'auth-login'}">
+                          :to="{ name: 'login'}">
                           Login
                         </nuxt-link>
                       </p>

@@ -85,20 +85,14 @@ export default {
   name: "login",
   auth: false,
   validation: false,
-  mounted() {
-
-   // console.log(this.$nuxt.context.from)
-    //console.log(this.$nuxt.context.from.name);
-     console.log(this.$auth.loggedIn)
+  created() {
     if(this.$auth.loggedIn){
       if(this.$auth.user.landlord_id){
         this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
       }
       if(this.$auth.user.tenant_id){
-
         this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
       }
-
     }
   },
   data() {
@@ -115,7 +109,6 @@ export default {
 
   methods: {
     async userLogin() {
-
       await this.$auth.loginWith('local', {data: this.form})
         .then(response => {
           console.log(response)
@@ -135,8 +128,8 @@ export default {
             })
             const path = this.$nuxt.context.from;
 
-            if(path && path.name == 'account-property-id-show'){
-              this.$nuxt.$options.router.push({name: 'account-property-id-show',params: { id: path.params.id }})
+            if(path && path.name == 'property-id-show'){
+              this.$nuxt.$options.router.push({name: 'property-id-show',params: { id: path.params.id }})
             }
             else{
               if(this.$auth.user.landlord_id){

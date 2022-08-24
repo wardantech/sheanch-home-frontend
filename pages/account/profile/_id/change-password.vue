@@ -105,7 +105,7 @@
               });
 
               this.$auth.logout();
-              this.$nuxt.$options.router.push({name: 'login'})
+              this.$nuxt.$options.router.push({name: 'auth-login'})
             }
           })
           .catch(error => {
