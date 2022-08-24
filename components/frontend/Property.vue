@@ -197,6 +197,7 @@
 
       async wishlistStore(propertyAdId) {
 
+
         if(this.$auth.loggedIn && this.$auth.user.tenant_id) {
           this.$axios.$post('wishlist/store', {propertyAdId: propertyAdId, tenantId: this.$auth.user.tenant_id})
             .then(response => {
