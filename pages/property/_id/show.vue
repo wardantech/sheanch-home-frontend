@@ -712,90 +712,88 @@
 </template>
 
 <script>
-  import Slick from 'vue-slick';
-  import Newsletter from "@/components/frontend/Newsletter";
+import Slick from 'vue-slick';
+import Newsletter from "~/components/frontend/Newsletter";
 
-  export default {
-    name: "show",
-    auth: false,
-    components: {Newsletter, Slick},
-    data() {
-      return {
-        propertyAd: '',
-        property: '',
-        media: '',
-        utilities: '',
-        facilities: '',
-        property_type: '',
-        slickOptions: {
-          lazyLoad: 'ondemand',
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          prevArrow: false,
-          nextArrow: false,
-          centerMode: true,
-          infinite: true,
-          loop: true,
-        },
-        value: 75,
-        slide6: 0,
-      };
-    },
+export default {
+  name: "property-show",
+  auth: false,
+  components: {Newsletter, Slick},
+  data() {
+    return {
+      propertyAd: '',
+      property: '',
+      media: '',
+      utilities: '',
+      facilities: '',
+      property_type: '',
+      slickOptions: {
+        lazyLoad: 'ondemand',
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        prevArrow: false,
+        nextArrow: false,
+        centerMode: true,
+        infinite: true,
+        loop: true,
+      },
+      value: 75,
+      slide6: 0,
+    };
+  },
 
-    async created() {
-      const propertiesAds = await this.$axios.$post('property/ad/get-details  ', {
-        propertyAdId: this.$route.params.id
-      });
+  async created() {
+    const propertiesAds = await this.$axios.$post('property/ad/get-details  ', {
+      propertyAdId: this.$route.params.id
+    });
 
-      this.propertyAd = propertiesAds.data;
-      this.property = propertiesAds.data.property;
-      this.media = propertiesAds.data.property.media;
-      this.utilities = JSON.parse(this.property.utilities);
-      this.facilities = JSON.parse(this.property.facilities);
+    this.propertyAd = propertiesAds.data;
+    this.property = propertiesAds.data.property;
+    this.media = propertiesAds.data.property.media;
+    this.utilities = JSON.parse(this.property.utilities);
+    this.facilities = JSON.parse(this.property.facilities);
 
-    },
+  },
 
-    computed: {
-      imageUrl() {
-        return `${process.env.APP_ROOT_IMG_URL}`
-      }
-    },
-    methods: {
-      apply() {
+  computed: {
+    imageUrl() {
+      return `${process.env.APP_ROOT_IMG_URL}`
+    }
+  },
+  methods: {
+    apply() {
 
-        this.$swal.fire({
-          title: 'Are you confirm to apply for this property',
-          showCancelButton: true,
-          confirmButtonText: 'Yes',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            const data = {
-              property_ad_id: this.$route.params.id,
-              property_id: this.property.id,
-              tenant_id: this.$auth.user.tenant_id,
-              landlord_id: this.property.landlord_id,
-            }
-            this.$axios.$post('property/deed/save-data', data)
-              .then(response => {
-                this.$swal.fire('Success', 'property did data deed applied successfully !! wait for admin confirmation');
-              })
-              .catch(error => {
-                alert(error)
-              })
+      this.$swal.fire({
+        title: 'Are you confirm to apply for this property',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const data = {
+            property_ad_id: this.$route.params.id,
+            property_id: this.property.id,
+            tenant_id: this.$auth.user.tenant_id,
+            landlord_id: this.property.landlord_id,
           }
-
-
-        })
-      }
+          this.$axios.$post('property/deed/save-data', data)
+            .then(response => {
+              this.$swal.fire('Success', 'property did data deed applied successfully !! wait for admin confirmation');
+            })
+            .catch(error => {
+              alert(error)
+            })
+        }
+      })
     }
   }
+}
 </script>
 
 <style scoped lang="scss">
-  /*iframe {*/
-    /*width: 100% !important;*/
-  /*}*/
-  body {
-    background: #0d6efd;
-  }
+/*iframe {*/
+/*width: 100% !important;*/
+/*}*/
+body {
+  background: #0d6efd;
+}
 </style>
