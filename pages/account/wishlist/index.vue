@@ -13,13 +13,7 @@
           <b-col lg="9" md="12">
             <div class="dashboard-wrapper">
               <div class="d-flex justify-content-between align-items-center">
-                <h5>Property Ads Lists</h5>
-                <nuxt-link
-                  class="btn btn-sm btn-info"
-                  :to="{ name: 'account-property-ads-create'}">
-                  <font-awesome-icon icon="fa-solid fa-plus"/>
-                  Create
-                </nuxt-link>
+                <h5>All wishlists</h5>
               </div>
               <div class="card-body p-0 mt-4">
                 <div class="search d-flex justify-content-between align-items-center">
@@ -39,52 +33,19 @@
                   <tbody>
                   <tr v-for="(value,i) in values" :key="value.id">
                     <td>{{ i + 1 }}</td>
-                    <!--              <td>-->
-                    <!--                <img style="height: 50px; width: 50px" :src="imageUrl+value.image" alt="">-->
-                    <!--              </td>-->
-                    <td>{{ value.start_date }}</td>
                     <td>
-                      <div v-if="value.sale_type == 1"> Rent</div>
-                      <div v-if="value.sale_type == 2"> Sale</div>
+                      {{ value.property_ad.property.name }}
                     </td>
                     <td>
-                      <div v-if="value.property_category == 1"> Commercial</div>
-                      <div v-if="value.property_category == 2"> Residential</div>
-                    </td>
-                    <td>{{ value.rent_amount }}</td>
-                    <td>{{ value.security_money }}</td>
-                    <td>
-                      <b-button
-                        :class="value.status == 1 ? 'btn-sm btn-info': 'btn-sm btn-danger'">
-                        {{ value.status == 1 ? 'Active' : 'Inactive' }}
-                      </b-button>
-                    </td>
-                    <td>
-                      <nuxt-link :to="{name:'account-property-id-details', params: { id: value.property_id }}"
-                                 rel="tooltip"
+                      <nuxt-link :to="{name:'account-property-id-show',params: { id: value.property_ad.property.id }}" rel="tooltip"
                                  class="btn btn-sm btn-info btn-simple"
-                                 title="View property">
-                        <font-awesome-icon icon="fa-solid fa-hotel"/>
-                      </nuxt-link>
-                      <nuxt-link :to="{name:'account-property-ads-id-show', params: { id: value.id }}" rel="tooltip"
-                                 class="btn btn-sm btn-warning btn-simple"
-                                 title="View Ad">
+                                 title="View">
                         <font-awesome-icon icon="fa-solid fa-eye"/>
                       </nuxt-link>
-                      <nuxt-link :to="{name:'account-property-ads-id-edit', params: { id: value.id }}" rel="tooltip"
-                                 class="btn btn-sm btn-success btn-simple"
-                                 title="Edit">
-                        <font-awesome-icon icon="fa-solid fa-edit"/>
-                      </nuxt-link>
+                      <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
+                        <font-awesome-icon icon="fa-solid fa-trash"/>
+                      </b-button>
                     </td>
-                    <!--                    <td>-->
-                    <!--                      &lt;!&ndash;<nuxt-link :to="{name:'users-landlords-id-edit',params: { id: value.id }}" rel="tooltip"&ndash;&gt;-->
-                    <!--                      &lt;!&ndash;class="btn btn-sm btn-success btn-simple"&ndash;&gt;-->
-                    <!--                      &lt;!&ndash;title="Edit">&ndash;&gt;-->
-                    <!--                      &lt;!&ndash;<font-awesome-icon icon="fa-solid fa-pen-to-square"/>&ndash;&gt;-->
-                    <!--                      &lt;!&ndash;</nuxt-link>&ndash;&gt;-->
-                    <!--                    </td>-->
-
                   </tr>
                   </tbody>
                 </DataTable>
@@ -109,100 +70,120 @@
 </template>
 
 <script>
-import Sidebar from "../../../components/frontend/dashboard/Sidebar";
-import Newsletter from "../../../components/frontend/Newsletter";
-import Pagination from "../../../components/Datatable/Pagination";
-import DataTable from "../../../components/Datatable/DataTable";
+  import Sidebar from "../../../components/frontend/dashboard/Sidebar";
+  import Newsletter from "../../../components/frontend/Newsletter";
+  import Pagination from "../../../components/Datatable/Pagination";
+  import DataTable from "../../../components/Datatable/DataTable";
 
 
-export default {
-  name: "properties",
-  components: {DataTable, Pagination, Newsletter, Sidebar,},
-  created() {
-    this.getData();
-  },
-  data() {
-    let sortOrders = {};
-    let columns = [
-      {width: '', label: 'Sl', name: 'id'},
-      {width: '', label: 'Start Date', name: 'start_date'},
-      {width: '', label: 'Type', name: 'sale_type'},
-      {width: '', label: 'Property ', name: 'property_category'},
-      {width: '', label: 'Amount', name: 'rent_amount'},
-      {width: '', label: 'Security money', name: 'security_money'},
-      {width: '', label: 'Status', name: ''},
-      {width: '', label: 'Action', name: ''},
-      // {width: '', label: 'Action', name: ''},
-    ];
-    columns.forEach((column) => {
-      sortOrders[column.name] = -1;
-    });
-    return {
-      values: [],
-      sum: [],
-      columns: columns,
-      sortKey: 'id',
-      sortOrders: sortOrders,
-      perPage: ['10', '25', '50', '100', '500', '2000', 'all'],
-      tableData: {
-        draw: 0,
-        length: 10,
-        search: '',
-        column: 0,
-        dir: 'desc',
-      },
-      pagination: {
-        lastPage: '',
-        currentPage: '',
-        total: '',
-        lastPageUrl: '',
-        nextPageUrl: '',
-        prevPageUrl: '',
-        from: '',
-        to: '',
-      },
-    }
-  },
-  methods: {
-    getData(url = '/property/ad/list') {
-      this.tableData.draw++;
-      this.$axios.post(url, {params: this.tableData})
-        .then(response => {
-          let data = response.data;
-          if (this.tableData.draw == data.draw) {
-            this.values = data.data.data;
-            this.configPagination(data.data);
-          }
-        })
-        .catch(errors => {
-          //console.log(errors);
-        }).finally(() => {
-      });
-    },
-
-    configPagination(data) {
-      this.pagination.lastPage = data.last_page;
-      this.pagination.currentPage = data.current_page;
-      this.pagination.total = data.total;
-      this.pagination.lastPageUrl = data.last_page_url;
-      this.pagination.nextPageUrl = data.next_page_url;
-      this.pagination.prevPageUrl = data.prev_page_url;
-      this.pagination.from = data.from;
-      this.pagination.to = data.to;
-    },
-
-    sortBy(key) {
-      this.sortKey = key;
-      this.sortOrders[key] = this.sortOrders[key] * -1;
-      this.tableData.column = this.getIndex(this.columns, 'name', key);
-      this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
+  export default {
+    name: "index",
+    components: {DataTable, Pagination, Newsletter, Sidebar,},
+    created() {
       this.getData();
     },
-    getIndex(array, key, value) {
-      return array.findIndex(i => i[key] == value)
+    data() {
+      let sortOrders = {};
+      let columns = [
+        {width: '10%', label: 'Sl', name: 'id'},
+        {width: '', label: 'Property name', name: 'propertyname'},
+        {width: '20%', label: 'Action', name: ''},
+      ];
+      columns.forEach((column) => {
+        sortOrders[column.name] = -1;
+      });
+      return {
+        values: [],
+        sum: [],
+        columns: columns,
+        sortKey: 'id',
+        sortOrders: sortOrders,
+        perPage: ['10', '25', '50', '100', '500', '2000', 'all'],
+        tableData: {
+          draw: 0,
+          length: 10,
+          search: '',
+          column: 0,
+          dir: 'desc',
+        },
+        pagination: {
+          lastPage: '',
+          currentPage: '',
+          total: '',
+          lastPageUrl: '',
+          nextPageUrl: '',
+          prevPageUrl: '',
+          from: '',
+          to: '',
+        },
+        tenant_id: this.$auth.user.tenant_id
+      }
     },
+    methods: {
+      getData(url = '/wishlist/get-lists') {
+        this.tableData.draw++;
+        this.$axios.post(url, {params: this.tableData, tenantId: this.tenant_id})
+          .then(response => {
+            console.log(response);
+            let data = response.data;
+            if (this.tableData.draw == data.draw) {
+              this.values = data.data.data;
+              this.configPagination(data.data);
+            }
+          })
+          .catch(errors => {
+            //console.log(errors);
+          }).finally(() => {
+        });
+      },
+
+      async deleteItem(id) {
+        let result = confirm("Want to delete?");
+        if (result) {
+          await this.$axios.$post('wishlist/delete', {wishlistId: id, tenantId: this.tenant_id})
+            .then(response => {
+              if (id) {
+                this.values.splice(this.values.indexOf(id), 1);
+              }
+              this.$izitoast.success({
+                title: 'Success !!',
+                message: 'Wishlist removed successfully!'
+              });
+            })
+            .catch(error => {
+              if (error.response.status == 422) {
+                this.errors = error.response.data.errors
+              }
+              else {
+                alert(error.response.message)
+              }
+            })
+        }
+      },
+
+      configPagination(data) {
+        this.pagination.lastPage = data.last_page;
+        this.pagination.currentPage = data.current_page;
+        this.pagination.total = data.total;
+        this.pagination.lastPageUrl = data.last_page_url;
+        this.pagination.nextPageUrl = data.next_page_url;
+        this.pagination.prevPageUrl = data.prev_page_url;
+        this.pagination.from = data.from;
+        this.pagination.to = data.to;
+      },
+
+      sortBy(key) {
+        this.sortKey = key;
+        this.sortOrders[key] = this.sortOrders[key] * -1;
+        this.tableData.column = this.getIndex(this.columns, 'name', key);
+        this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
+        this.getData();
+      },
+      getIndex(array, key, value) {
+        return array.findIndex(i => i[key] == value)
+      },
+    }
   }
-}
 </script>
 
 <style scoped>
