@@ -61,6 +61,13 @@
                   Property Deed
                 </nuxt-link>
               </li>
+              <li>
+                <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 3"
+                           :to="{ name: 'account-wishlist'}">
+                  <b-icon icon="heart-fill" font-scale="1"></b-icon>
+                  Wishlist
+                </nuxt-link>
+              </li>
 <!--              <li>-->
 <!--                <nuxt-link-->
 <!--                  :to="{ name: 'account-settings'}">-->
