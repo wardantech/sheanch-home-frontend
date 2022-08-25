@@ -24,7 +24,7 @@
 <!--              <li v-if="!$auth.loggedIn" class="nav-item b-nav-dropdown dropdown custom-dropdown-menu">-->
 <!--                <nuxt-link-->
 <!--                  class="mt-2 ml-1"-->
-<!--                  :to="{ name: 'register'}">-->
+<!--                  :to="{ name: 'auth-register'}">-->
 <!--                  Sign Up-->
 <!--                </nuxt-link>-->
 <!--              </li>-->
