@@ -10,7 +10,8 @@
                 <br>
                 <div class="login-form">
                   <p v-if="active" class="text-danger">Your account is not activated yet. please contact with admin</p>
-                  <p v-if="validation" class="text-danger">Credentials does not match. Please register or contact with admin  </p>
+                  <p v-if="validation" class="text-danger">Credentials does not match. Please register or contact with
+                    admin </p>
                   <b-form class="simple-form">
                     <b-form-group label="Mobile">
                       <div class="input-with-icon">
@@ -59,16 +60,19 @@
                       </p>
                     </b-form-group>
 
-<!--                    <div class="text-center">-->
-<!--                      <div class="auth-divider">-->
-<!--                        <span>Or login via</span>-->
-<!--                      </div>-->
-<!--                      <div class="social-button">-->
-<!--                        <b-button block class="btn social-button-login facebook">-->
-<!--                          Facebook-->
-<!--                        </b-button>-->
-<!--                      </div>-->
-<!--                    </div>-->
+                    <div class="text-center">
+                      <div class="auth-divider">
+                        <span>Or login via</span>
+                      </div>
+                      <div class="social-button">
+                        <b-button class="btn social-button-login facebook">
+                          <i class='bx bxl-facebook'></i>
+                        </b-button>
+                        <b-button class="btn social-button-login gmail">
+                          <img src="../assets/frontend/images/gmail_Icon.png" alt="Gmail icon" width="55">
+                        </b-button>
+                      </div>
+                    </div>
                   </b-form>
                 </div>
               </div>
@@ -81,17 +85,29 @@
 </template>
 
 <script>
-export default {
-  name: "login",
-  auth: false,
-  validation: false,
-  created() {
-    if(this.$auth.loggedIn){
-      if(this.$auth.user.landlord_id){
-        this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
+  export default {
+    name: "login",
+    auth: false,
+    validation: false,
+    created() {
+      if (this.$auth.loggedIn) {
+        if (this.$auth.user.landlord_id) {
+          this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
+        }
+        if (this.$auth.user.tenant_id) {
+          this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
+        }
       }
-      if(this.$auth.user.tenant_id){
-        this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
+    },
+    data() {
+      return {
+        active: false,
+        validation: false,
+        form: {
+          mobile: '01643734728',
+          password: '123456',
+        },
+        errors: {}
       }
     }
   },
@@ -136,30 +152,59 @@ export default {
               console.log(this.$auth.user);
               if(this.$auth.user.landlord_id){
                 this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
+    },
+
+    methods: {
+      async userLogin() {
+        await this.$auth.loginWith('local', {data: this.form})
+          .then(response => {
+            console.log(response)
+            if (response.data.status == false) {
+              this.validation = false;
+              this.active = true;
+
+              this.$izitoast.success({
+                title: 'Error !!',
+                message: 'Credentials does not matched'
+              })
+            }
+            else {
+              this.$izitoast.success({
+                title: 'Success !!',
+                message: 'successfully logged in'
+              })
+              const path = this.$nuxt.context.from;
+
+              if (path && path.name == 'property-id-show') {
+                this.$nuxt.$options.router.push({name: 'property-id-show', params: {id: path.params.id}})
               }
-              if(this.$auth.user.tenant_id){
-                this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
+              else {
+                if (this.$auth.user.landlord_id) {
+                  this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
+                }
+                if (this.$auth.user.tenant_id) {
+                  this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
+                }
               }
+
+            }
+          }).catch(error => {
+            console.log(error)
+            if (error.response.status == 422) {
+              console.log(error.response.data.errors)
+              this.errors = error.response.data.errors
+            }
+            else {
+              this.active = false;
+              this.validation = true;
             }
 
-          }
-        }).catch(error => {
-          console.log(error)
-          if(error.response.status == 422){
-            console.log(error.response.data.errors)
-            this.errors = error.response.data.errors
-          }
-          else{
-            this.active = false;
-            this.validation = true;
-          }
-
-        });
+          });
 
 
-    },
+      },
+    }
   }
-}
 </script>
 
 <style scoped>
