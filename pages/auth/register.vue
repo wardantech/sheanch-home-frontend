@@ -7,8 +7,9 @@
           <b-col md="6" v-if="otp_area">
             <div class="auth-content">
               <div class="auth-content-body">
-                <div v-if="join_as_area">
-                  <b-form-group label="Join as">
+                <h2 class="text-center">Join us</h2>
+                <div v-if="join_as_area" class="mt-3">
+                  <b-form-group>
                     <b-form-radio-group
                       id="btn-radios-2"
                       v-model="form.type"
@@ -48,16 +49,27 @@
                         <b-button block @click="sendOTP" class="btn btn-browse-more">Send Code</b-button>
                       </b-form-group>
 
+                      <b-form-group class="text-center mt-2">
+                        <p>
+                          Have an account already?
+                          <nuxt-link
+                            class="text-danger"
+                            :to="{ name: 'login'}">
+                            Login
+                          </nuxt-link>
+                        </p>
+                      </b-form-group>
+
                       <div class="text-center">
                         <div class="auth-divider">
-                          <span>Or login via</span>
+                          <span>Or register via</span>
                         </div>
                         <div class="social-button">
                           <b-button class="btn social-button-login facebook">
                             <i class='bx bxl-facebook'></i>
                           </b-button>
                           <b-button class="btn social-button-login gmail">
-                            <i class='bx bxl-gmail'></i>
+                            <img src="../../assets/frontend/images/gmail_Icon.png" alt="Gmail icon" width="55">
                           </b-button>
                         </div>
                       </div>
@@ -86,28 +98,6 @@
                         </p>
                       </b-form-group>
                     </div>
-
-                    <b-form-group class="text-center">
-                      <p>
-                        Have an account already?
-                        <nuxt-link
-                          class="text-danger"
-                          :to="{ name: 'login'}">
-                          Login
-                        </nuxt-link>
-                      </p>
-                    </b-form-group>
-
-<!--                    <div class="text-center">-->
-<!--                      <div class="auth-divider">-->
-<!--                        <span>Or login via</span>-->
-<!--                      </div>-->
-<!--                      <div class="social-button">-->
-<!--                        <b-button block class="btn social-button-login facebook">-->
-<!--                          Facebook-->
-<!--                        </b-button>-->
-<!--                      </div>-->
-<!--                    </div>-->
                   </b-form>
                 </div>
               </div>
