@@ -109,6 +109,7 @@ export default {
 
   methods: {
     async userLogin() {
+
       await this.$auth.loginWith('local', {data: this.form})
         .then(response => {
           console.log(response)
@@ -132,6 +133,7 @@ export default {
               this.$nuxt.$options.router.push({name: 'property-id-show',params: { id: path.params.id }})
             }
             else{
+              console.log(this.$auth.user);
               if(this.$auth.user.landlord_id){
                 this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
               }
