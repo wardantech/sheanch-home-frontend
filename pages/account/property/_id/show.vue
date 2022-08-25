@@ -736,6 +736,8 @@
           centerMode: true,
           infinite: true,
           loop: true,
+          autoplay: true,
+          autoplaySpeed: 2000,
         },
         value: 75,
         slide6: 0,
