@@ -37,7 +37,7 @@
                       {{ value.property_ad.property.name }}
                     </td>
                     <td>
-                      <nuxt-link :to="{name:'account-property-id-show',params: { id: value.property_ad.property.id }}" rel="tooltip"
+                      <nuxt-link :to="{name:'property-id-show',params: { id: value.property_ad.property.id }}" rel="tooltip"
                                  class="btn btn-sm btn-info btn-simple"
                                  title="View">
                         <font-awesome-icon icon="fa-solid fa-eye"/>
