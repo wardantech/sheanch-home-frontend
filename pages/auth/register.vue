@@ -7,6 +7,23 @@
           <b-col md="6" v-if="otp_area">
             <div class="auth-content">
               <div class="auth-content-body">
+                <div v-if="join_as_area">
+                  <b-form-group label="Join as">
+                    <b-form-radio-group
+                      id="btn-radios-2"
+                      v-model="form.type"
+                      :options="options"
+                      button-variant="outline-success"
+                      size="lg"
+                      name="radio-btn-outline"
+                      buttons
+                      class="btn-block"
+                    ></b-form-radio-group>
+                    <strong class="text-danger" style="font-size: 12px" v-if="errors.type">{{
+                        errors.type[0]
+                      }}</strong>
+                  </b-form-group>
+                </div>
                 <h2 class="text-center">OTP Verification</h2>
                 <br>
                 <div class="login-form">
@@ -30,6 +47,20 @@
                       <b-form-group>
                         <b-button block @click="sendOTP" class="btn btn-browse-more">Send Code</b-button>
                       </b-form-group>
+
+                      <div class="text-center">
+                        <div class="auth-divider">
+                          <span>Or login via</span>
+                        </div>
+                        <div class="social-button">
+                          <b-button class="btn social-button-login facebook">
+                            <i class='bx bxl-facebook'></i>
+                          </b-button>
+                          <b-button class="btn social-button-login gmail">
+                            <i class='bx bxl-gmail'></i>
+                          </b-button>
+                        </div>
+                      </div>
                     </div>
 
                     <div v-if="otp_code_area">
@@ -91,26 +122,6 @@
                 <div class="login-form">
                   <b-form class="simple-form">
                     <b-row>
-                      <b-col sm="12">
-                        <b-form-group v-slot="{ ariaDescribedby }" label="Join as">
-                          <b-form-radio-group
-                            id="btn-radios-2"
-                            v-model="form.type"
-                            :options="options"
-                            :aria-describedby="ariaDescribedby"
-                            button-variant="outline-success"
-                            size="lg"
-                            name="radio-btn-outline"
-                            buttons
-                            class="btn-block"
-                          ></b-form-radio-group>
-                          <strong class="text-danger" style="font-size: 12px" v-if="errors.type">{{
-                              errors.type[0]
-                            }}</strong>
-                        </b-form-group>
-                      </b-col>
-                    </b-row>
-                    <b-row>
                       <b-col sm="12" md=12>
                         <b-form-group>
                           <div class="input-with-icon">
@@ -164,20 +175,6 @@
                         </nuxt-link>
                       </p>
                     </b-form-group>
-
-                    <div class="text-center">
-                      <div class="auth-divider">
-                        <span>Or login via</span>
-                      </div>
-                      <div class="social-button">
-                        <b-button class="btn social-button-login facebook">
-                          <i class='bx bxl-facebook'></i>
-                        </b-button>
-                        <b-button class="btn social-button-login gmail">
-                          <i class='bx bxl-gmail'></i>
-                        </b-button>
-                      </div>
-                    </div>
                   </b-form>
                 </div>
               </div>
@@ -209,10 +206,9 @@ export default {
     return {
       register_area: false,
       register_complete_area: false,
-      //register_area: false,
       otp_area: true,
+      join_as_area: true,
       otp_code_area: false,
-      //otp_code_area: true,
       mobile_area: true,
       response_otp_code: '',
       otp_code: '',
@@ -238,6 +234,7 @@ export default {
           if (response.success == true) {
             this.mobile_area = false
             this.otp_code_area = true
+            this.join_as_area = false
             this.response_otp_code = response.data.otp
 
             this.$izitoast.success({
