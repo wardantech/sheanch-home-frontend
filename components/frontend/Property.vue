@@ -6,23 +6,23 @@
           <b-col lg="7" md="10" class="text-center">
             <div class="section-heading center">
               <h2>Latest Properties</h2>
-<!--              <div class="latest-properties-radio">-->
-<!--                <b-row class="my-4">-->
-<!--                  <b-col lg="12" md="12" sm="12">-->
-<!--                    <b-form-radio-group-->
-<!--                      @change="typeChange"-->
-<!--                      id="btn-radios-2"-->
-<!--                      v-model="sale_type"-->
-<!--                      :options="options"-->
-<!--                      button-variant="outline-dark"-->
-<!--                      size="lg"-->
-<!--                      name="radio-btn-outline"-->
-<!--                      buttons-->
-<!--                      class=""-->
-<!--                    ></b-form-radio-group>-->
-<!--                  </b-col>-->
-<!--                </b-row>-->
-<!--              </div>-->
+              <div class="latest-properties-radio">
+                <b-row class="my-4">
+                  <b-col lg="12" md="12" sm="12">
+                    <b-form-radio-group
+                      @change="typeChange"
+                      id="btn-radios-2"
+                      v-model="sale_type"
+                      :options="options"
+                      button-variant="outline-dark"
+                      size="lg"
+                      name="radio-btn-outline"
+                      buttons
+                      class=""
+                    ></b-form-radio-group>
+                  </b-col>
+                </b-row>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -36,7 +36,7 @@
                       <div class="place-layout-listing-img-slide">
                         <div v-if="propertiesAd.property.media.length > 0">
                           <nuxt-link
-                            :to="{ name: 'property-id-show', params: { id: propertiesAd.id }}">
+                            :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
                             <b-img
                               :src="propertiesAd.property.media[0].original_url" :alt="propertiesAd.property.name">
                             </b-img>
@@ -68,7 +68,7 @@
                       <div class="place-layout-listing-detail-name">
                         <nuxt-link
                           :title="propertiesAd.property.name"
-                          :to="{ name: 'property-id-show', params: { id: propertiesAd.id }}">
+                          :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
                           {{ propertiesAd.property.name }}
                         </nuxt-link>
                       </div>
@@ -94,12 +94,12 @@
                           {{ propertiesAd.property.bed_rooms }} Bed
                         </div>
 
-                        <div class="features-list-icon">
-                          <div class="fleat-icon">
-                            <font-awesome-icon icon="fa-solid fa-bath"/>
-                          </div>
-                          {{ propertiesAd.property.bath_rooms }} Bath
+                      <div class="features-list-icon">
+                        <div class="fleat-icon">
+                          <font-awesome-icon icon="fa-solid fa-bath"/>
                         </div>
+                        {{ propertiesAd.property.bath_rooms }} Bath
+                      </div>
 
                         <div class="features-list-icon">
                           <div class="fleat-icon">
@@ -119,7 +119,7 @@
                       <div class="footer-flex">
                         <nuxt-link
                           class="product-view"
-                          :to="{ name: 'property-id-show', params: { id: propertiesAd.id }}">
+                          :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
                           View
                         </nuxt-link>
                       </div>
@@ -145,16 +145,16 @@
       return {
         slickOptions: {
           infinite: true,
-          autoplay: false,
+          autoplay: true,
           lazyLoad: 'ondemand',
           slidesToShow: '',
           slidesToScroll: 1,
-          arrows: false
+          arrows: false,
+          autoplaySpeed: 2000,
         },
-
         options: [
-          {text: 'For Sale', value: '1'},
-          {text: 'To Rent', value: '2'}
+          {text: 'To Rent', value: '1'},
+          {text: 'For Sale', value: '2'}
         ],
         slide: 0,
         sale_type: '',
@@ -181,9 +181,11 @@
 
     methods: {
       async typeChange() {
+        this.propertiesAds = '';
         const propertiesAds = await this.$axios.$post('property/ad/active-property/list-as-type', {
           type: this.sale_type
         });
+
         this.propertiesAds = propertiesAds.data;
 
         if (this.propertiesAds.length == 1) {
@@ -196,7 +198,7 @@
       },
 
       async wishlistStore(propertyAdId) {
-        if(this.$auth.loggedIn && this.$auth.user.tenant_id) {
+        if (this.$auth.loggedIn && this.$auth.user.tenant_id) {
           this.$axios.$post('wishlist/store', {propertyAdId: propertyAdId, tenantId: this.$auth.user.tenant_id})
             .then(response => {
               if (!response.data.status) {
