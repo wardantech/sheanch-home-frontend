@@ -109,6 +109,49 @@
         },
         errors: {}
       }
+    }
+  },
+  data() {
+    return {
+      active:false,
+      validation:false,
+      form: {
+        mobile: '01643734728',
+        password: '123456',
+      },
+      errors: {}
+    }
+  },
+
+  methods: {
+    async userLogin() {
+
+      await this.$auth.loginWith('local', {data: this.form})
+        .then(response => {
+          console.log(response)
+          if(response.data.status == false){
+            this.validation = false;
+            this.active = true;
+
+            this.$izitoast.success({
+              title: 'Error !!',
+              message: 'Credentials does not matched'
+            })
+          }
+          else{
+            this.$izitoast.success({
+              title: 'Success !!',
+              message: 'successfully logged in'
+            })
+            const path = this.$nuxt.context.from;
+
+            if(path && path.name == 'property-id-show'){
+              this.$nuxt.$options.router.push({name: 'property-id-show',params: { id: path.params.id }})
+            }
+            else{
+              console.log(this.$auth.user);
+              if(this.$auth.user.landlord_id){
+                this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
     },
 
     methods: {

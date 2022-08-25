@@ -194,10 +194,10 @@ export default {
   auth: false,
   data() {
     return {
+      join_as_area: true,
       register_area: false,
       register_complete_area: false,
       otp_area: true,
-      join_as_area: true,
       otp_code_area: false,
       mobile_area: true,
       response_otp_code: '',
@@ -210,6 +210,7 @@ export default {
       form: {
         mobile: '',
         name: '',
+        otp_code: '',
         email: '',
         password: '',
         type:'2',
@@ -219,7 +220,13 @@ export default {
   },
   methods: {
     async sendOTP() {
-      await this.$axios.$post('send-otp', {mobile: this.form.mobile})
+
+      this.form.otp_code =  Math.floor((Math.random() * 9999) + 1000);
+
+      await this.$axios.$post('send-otp', {
+        mobile: this.form.mobile,
+        otp_code: this.form.otp_code,
+      })
         .then(response => {
           if (response.success == true) {
             this.mobile_area = false
@@ -266,7 +273,7 @@ export default {
     },
 
     otpVerification() {
-      if (this.otp_code == this.response_otp_code) {
+      if (this.form.otp_code == this.otp_code) {
         this.otp_area = false
         this.register_area = true
 
