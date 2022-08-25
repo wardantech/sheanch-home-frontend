@@ -31,68 +31,68 @@
           <div class="gallery">
             <Slick ref="slick" :options="slickOptions" v-if="propertiesAds.length > 0">
               <div v-for="(propertiesAd, index) in propertiesAds" :key="index">
-                <div class="place-layout-listing">
-                  <div class="place-layout-listing-img">
-                    <div class="place-layout-listing-img-slide">
-                      <div v-if="propertiesAd.property.media.length > 0">
-                        <nuxt-link
-                          :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
+                  <div class="place-layout-listing">
+                    <div class="place-layout-listing-img">
+                      <div class="place-layout-listing-img-slide">
+                        <div v-if="propertiesAd.property.media.length > 0">
+                          <nuxt-link
+                            :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
+                            <b-img
+                              :src="propertiesAd.property.media[0].original_url" :alt="propertiesAd.property.name">
+                            </b-img>
+                          </nuxt-link>
+                        </div>
+                        <div v-else>
                           <b-img
-                            :src="propertiesAd.property.media[0].original_url" :alt="propertiesAd.property.name">
+                            :src="imageUrl+'property/no-image.png'" alt="Image 1">
                           </b-img>
+                        </div>
+
+                      </div>
+                      <div class="place-layout-listing-img-action">
+                        <b-link @click="wishlistStore(propertiesAd.id)" class="add-to-wishlist">
+                          <font-awesome-icon icon="fa-solid fa-heart"/>
+                        </b-link>
+                      </div>
+                    </div>
+                    <div class="place-layout-listing-detail">
+                      <div class="place-layout-listing-detail-wrap">
+                        <div class="place-layout-listing-detail-wrap-short">
+                          <div class="list-price d-flex justify-content-between">
+                            <span class="sale-type rent" v-if="propertiesAd.property.sale_type == 1">Rent</span>
+                            <span class="sale-type sale" v-if="propertiesAd.property.sale_type == 2">Sale</span>
+                            <h6 class="card-price">{{propertiesAd.rent_amount}} Taka Only</h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="place-layout-listing-detail-name">
+                        <nuxt-link
+                          :title="propertiesAd.property.name"
+                          :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
+                          {{ propertiesAd.property.name }}
                         </nuxt-link>
                       </div>
-                      <div v-else>
-                        <b-img
-                          :src="imageUrl+'property/no-image.png'" alt="Image 1">
-                        </b-img>
-                      </div>
-
+                      <!--                      <div class="rating-wrap">-->
+                      <!--                        <div class="rating">-->
+                      <!--                          <div class="product-rate" width="70%">-->
+                      <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--                            <font-awesome-icon icon="fa-solid fa-star-half"/>-->
+                      <!--                          </div>-->
+                      <!--                        </div>-->
+                      <!--                        <span class="reviews-text">(2 Reviews)</span>-->
+                      <!--                      </div>-->
                     </div>
-                    <div class="place-layout-listing-img-action">
-                      <b-link @click="wishlistStore(propertiesAd.id)" class="add-to-wishlist">
-                        <font-awesome-icon icon="fa-solid fa-heart"/>
-                      </b-link>
-                    </div>
-                  </div>
-                  <div class="place-layout-listing-detail">
-                    <div class="place-layout-listing-detail-wrap">
-                      <div class="place-layout-listing-detail-wrap-short">
-                        <div class="list-price d-flex justify-content-between">
-                          <span class="sale-type rent" v-if="propertiesAd.property.sale_type == 1">Rent</span>
-                          <span class="sale-type sale" v-if="propertiesAd.property.sale_type == 2">Sale</span>
-                          <h6 class="card-price">{{propertiesAd.rent_amount}} Taka Only</h6>
+                    <div class="place-layout-listing-features">
+                      <div class="features-list">
+                        <div class="features-list-icon">
+                          <div class="fleat-icon">
+                            <font-awesome-icon icon="fa-solid fa-bed"/>
+                          </div>
+                          {{ propertiesAd.property.bed_rooms }} Bed
                         </div>
-                      </div>
-                    </div>
-                    <div class="place-layout-listing-detail-name">
-                      <nuxt-link
-                        :title="propertiesAd.property.name"
-                        :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
-                        {{ propertiesAd.property.name }}
-                      </nuxt-link>
-                    </div>
-                    <!--                      <div class="rating-wrap">-->
-                    <!--                        <div class="rating">-->
-                    <!--                          <div class="product-rate" width="70%">-->
-                    <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
-                    <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
-                    <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
-                    <!--                            <font-awesome-icon icon="fa-solid fa-star"/>-->
-                    <!--                            <font-awesome-icon icon="fa-solid fa-star-half"/>-->
-                    <!--                          </div>-->
-                    <!--                        </div>-->
-                    <!--                        <span class="reviews-text">(2 Reviews)</span>-->
-                    <!--                      </div>-->
-                  </div>
-                  <div class="place-layout-listing-features">
-                    <div class="features-list">
-                      <div class="features-list-icon">
-                        <div class="fleat-icon">
-                          <font-awesome-icon icon="fa-solid fa-bed"/>
-                        </div>
-                        {{ propertiesAd.property.bed_rooms }} Bed
-                      </div>
 
                       <div class="features-list-icon">
                         <div class="fleat-icon">
@@ -101,31 +101,31 @@
                         {{ propertiesAd.property.bath_rooms }} Bath
                       </div>
 
-                      <div class="features-list-icon">
-                        <div class="fleat-icon">
-                          <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
+                        <div class="features-list-icon">
+                          <div class="fleat-icon">
+                            <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
+                          </div>
+                          {{ propertiesAd.property.area_size }} m²
                         </div>
-                        {{ propertiesAd.property.area_size }} m²
                       </div>
                     </div>
-                  </div>
-                  <div class="place-layout-listing-footer">
-                    <div class="footer-first">
-                      <div class="footer-first-location d-flex">
-                        <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>
-                        {{ propertiesAd.property.address }}
+                    <div class="place-layout-listing-footer">
+                      <div class="footer-first">
+                        <div class="footer-first-location d-flex">
+                          <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>
+                          {{ propertiesAd.property.address }}
+                        </div>
                       </div>
-                    </div>
-                    <div class="footer-flex">
-                      <nuxt-link
-                        class="product-view"
-                        :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
-                        View
-                      </nuxt-link>
+                      <div class="footer-flex">
+                        <nuxt-link
+                          class="product-view"
+                          :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
+                          View
+                        </nuxt-link>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
             </Slick>
           </div>
         </b-row>

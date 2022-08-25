@@ -794,10 +794,10 @@
 </script>
 
 <style scoped lang="scss">
-  /*iframe {*/
-    /*width: 100% !important;*/
-  /*}*/
-  body {
-    background: #0d6efd;
-  }
+/*iframe {*/
+/*width: 100% !important;*/
+/*}*/
+body {
+  background: #0d6efd;
+}
 </style>

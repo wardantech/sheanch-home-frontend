@@ -115,7 +115,7 @@
                   <div class="place-layout-listing-img-slide">
                     <div v-if="propertiesAd.property.media.length > 0">
                       <nuxt-link
-                        :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
+                        :to="{ name: 'property-id-show', params: { id: propertiesAd.id }}">
                         <b-img
                           :src="propertiesAd.property.media[0].original_url"
                           alt="Image 1">
@@ -179,7 +179,7 @@
                   <div class="footer-flex">
                     <nuxt-link
                       class="product-view"
-                      :to="{ name: 'account-property-id-show', params: { id: propertiesAd.id }}">
+                      :to="{ name: 'property-id-show', params: { id: propertiesAd.id }}">
                       View
                     </nuxt-link>
                   </div>
