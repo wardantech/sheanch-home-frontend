@@ -7,24 +7,6 @@
           <b-col md="6" v-if="otp_area">
             <div class="auth-content">
               <div class="auth-content-body">
-                <h2 class="text-center">Join us</h2>
-                <div v-if="join_as_area" class="mt-3">
-                  <b-form-group>
-                    <b-form-radio-group
-                      id="btn-radios-2"
-                      v-model="form.type"
-                      :options="options"
-                      button-variant="outline-success"
-                      size="lg"
-                      name="radio-btn-outline"
-                      buttons
-                      class="btn-block"
-                    ></b-form-radio-group>
-                    <strong class="text-danger" style="font-size: 12px" v-if="errors.type">{{
-                        errors.type[0]
-                      }}</strong>
-                  </b-form-group>
-                </div>
                 <h2 class="text-center">OTP Verification</h2>
                 <br>
                 <div class="login-form">
