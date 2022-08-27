@@ -8,7 +8,24 @@
               <div class="auth-content-body">
                 <h2 class="text-center">Login</h2>
                 <br>
-
+                <h2 class="text-center">Join us</h2>
+                <div class="mt-3">
+                  <b-form-group>
+                    <b-form-radio-group
+                      id="btn-radios-2"
+                      v-model="form.type"
+                      :options="options"
+                      button-variant="outline-success"
+                      size="lg"
+                      name="radio-btn-outline"
+                      buttons
+                      class="btn-block"
+                    ></b-form-radio-group>
+                    <strong class="text-danger" style="font-size: 12px" v-if="errors.type">{{
+                        errors.type[0]
+                      }}</strong>
+                  </b-form-group>
+                </div>
               </div>
             </div>
           </b-col>
@@ -25,7 +42,7 @@ export default {
   validation: false,
   async created() {
     await this.$auth.login({
-      data:{
+      data: {
         token: this.token,
       }
     })
@@ -44,60 +61,13 @@ export default {
   data() {
     return {
       token: this.$route.query.token,
+      options: [
+        {text: 'Tenant', value: '3'},
+        {text: 'Landlord', value: '2'}
+      ],
       errors: {}
     }
   },
-
-  methods: {
-    async userLogin() {
-      await this.$auth.loginWith('local', {data: this.form})
-        .then(response => {
-          console.log(response)
-          if(response.data.status == false){
-            this.validation = false;
-            this.active = true;
-
-            this.$izitoast.success({
-              title: 'Error !!',
-              message: 'Credentials does not matched'
-            })
-          }
-          else{
-            this.$izitoast.success({
-              title: 'Success !!',
-              message: 'successfully logged in'
-            })
-            const path = this.$nuxt.context.from;
-
-            if(path && path.name == 'property-id-show'){
-              this.$nuxt.$options.router.push({name: 'property-id-show',params: { id: path.params.id }})
-            }
-            else{
-              if(this.$auth.user.landlord_id){
-                this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
-              }
-              if(this.$auth.user.tenant_id){
-                this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
-              }
-            }
-
-          }
-        }).catch(error => {
-          console.log(error)
-          if(error.response.status == 422){
-            console.log(error.response.data.errors)
-            this.errors = error.response.data.errors
-          }
-          else{
-            this.active = false;
-            this.validation = true;
-          }
-
-        });
-
-
-    },
-  }
 }
 </script>
 

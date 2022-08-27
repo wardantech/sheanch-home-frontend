@@ -65,10 +65,10 @@
                         <span>Or login via</span>
                       </div>
                       <div class="social-button">
-                        <b-button class="btn social-button-login facebook">
+                        <b-button class="btn social-button-login facebook" @click="socialLogin('facebook')">
                           <i class='bx bxl-facebook'></i>
                         </b-button>
-                        <b-button class="btn social-button-login gmail">
+                        <b-button @click="socialLogin('google')" class="btn social-button-login gmail">
                           <img src="../assets/frontend/images/gmail_Icon.png" alt="Gmail icon" width="55">
                         </b-button>
                       </div>
@@ -85,36 +85,24 @@
 </template>
 
 <script>
-  export default {
-    name: "login",
-    auth: false,
-    validation: false,
-    created() {
-      if (this.$auth.loggedIn) {
-        if (this.$auth.user.landlord_id) {
-          this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
-        }
-        if (this.$auth.user.tenant_id) {
-          this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
-        }
+export default {
+  name: "login",
+  auth: false,
+  validation: false,
+  created() {
+    if (this.$auth.loggedIn) {
+      if (this.$auth.user.landlord_id) {
+        this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
       }
-    },
-    data() {
-      return {
-        active: false,
-        validation: false,
-        form: {
-          mobile: '01643734728',
-          password: '123456',
-        },
-        errors: {}
+      if (this.$auth.user.tenant_id) {
+        this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
       }
     }
   },
   data() {
     return {
-      active:false,
-      validation:false,
+      active: false,
+      validation: false,
       form: {
         mobile: '01643734728',
         password: '123456',
@@ -125,11 +113,10 @@
 
   methods: {
     async userLogin() {
-
       await this.$auth.loginWith('local', {data: this.form})
         .then(response => {
           console.log(response)
-          if(response.data.status == false){
+          if (response.data.status == false) {
             this.validation = false;
             this.active = true;
 
@@ -137,74 +124,41 @@
               title: 'Error !!',
               message: 'Credentials does not matched'
             })
-          }
-          else{
+          } else {
             this.$izitoast.success({
               title: 'Success !!',
               message: 'successfully logged in'
             })
             const path = this.$nuxt.context.from;
 
-            if(path && path.name == 'property-id-show'){
-              this.$nuxt.$options.router.push({name: 'property-id-show',params: { id: path.params.id }})
-            }
-            else{
-              console.log(this.$auth.user);
-              if(this.$auth.user.landlord_id){
+            if (path && path.name == 'property-id-show') {
+              this.$nuxt.$options.router.push({name: 'property-id-show', params: {id: path.params.id}})
+            } else {
+              if (this.$auth.user.landlord_id) {
                 this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
+              }
+              if (this.$auth.user.tenant_id) {
+                this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
+              }
+            }
+          }
+        }).catch(error => {
+          console.log(error)
+          if (error.response.status == 422) {
+            console.log(error.response.data.errors)
+            this.errors = error.response.data.errors
+          } else {
+            this.active = false;
+            this.validation = true;
+          }
+        });
     },
 
-    methods: {
-      async userLogin() {
-        await this.$auth.loginWith('local', {data: this.form})
-          .then(response => {
-            console.log(response)
-            if (response.data.status == false) {
-              this.validation = false;
-              this.active = true;
+    async socialLogin(service){
 
-              this.$izitoast.success({
-                title: 'Error !!',
-                message: 'Credentials does not matched'
-              })
-            }
-            else {
-              this.$izitoast.success({
-                title: 'Success !!',
-                message: 'successfully logged in'
-              })
-              const path = this.$nuxt.context.from;
-
-              if (path && path.name == 'property-id-show') {
-                this.$nuxt.$options.router.push({name: 'property-id-show', params: {id: path.params.id}})
-              }
-              else {
-                if (this.$auth.user.landlord_id) {
-                  this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
-                }
-                if (this.$auth.user.tenant_id) {
-                  this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
-                }
-              }
-
-            }
-          }).catch(error => {
-            console.log(error)
-            if (error.response.status == 422) {
-              console.log(error.response.data.errors)
-              this.errors = error.response.data.errors
-            }
-            else {
-              this.active = false;
-              this.validation = true;
-            }
-
-          });
-
-
-      },
     }
   }
+}
 </script>
 
 <style scoped>
