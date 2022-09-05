@@ -21,6 +21,11 @@
 
                 <div>
                   <div class="form-group">
+                    <nuxt-link class="btn btn-sm btn-info btn-simple" :to="{name:'account-property-id-review', params: { id: this.$route.params.id }}">
+                      <b-icon icon="star-fill" aria-hidden="true" style="margin-bottom: 2px;"></b-icon>
+                      Review
+                    </nuxt-link>
+
                     <nuxt-link class="btn btn-sm btn-success btn-simple" :to="{name:'account-property-id-edit', params: { id: this.$route.params.id }}">
                       <font-awesome-icon icon="fa-solid fa-edit"/>
                       Edit
