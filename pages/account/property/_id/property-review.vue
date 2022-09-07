@@ -15,7 +15,7 @@
               <div class="page-search">
                 <div>
                   <div class="form-group">
-                    <h5>Write your review</h5>
+                    <h5>Write your review for property</h5>
                   </div>
                 </div>
 
