@@ -1,9 +1,30 @@
 #u-property-hero {
   position: relative;
-  height: 556px;
+  //height: 556px;
   padding: 0;
   background-position: center;
   box-sizing: border-box;
+
+  .p-order {
+    order: 1;
+
+    @media (max-width: 768px) {
+      order: 2;
+      margin-bottom: 10px;
+    }
+  }
+
+  .heading-title {
+    @media (max-width: 768px) {
+      font-size: 32px;
+    }
+  }
+
+  .lead {
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
 }
 
 #customer-experiences {

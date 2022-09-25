@@ -4,7 +4,7 @@
       <div class="pt-5 pb-1">
         <b-container>
           <b-row>
-            <b-col lg="3" md="4">
+            <b-col md="3">
               <div class="footer-widget">
                 <b-img :src="logo" class="footer-widget-img"></b-img>
                 <div class="footer-widget-address">
@@ -24,7 +24,7 @@
               </div>
             </b-col>
 
-            <b-col sm="6">
+            <b-col md="6">
               <b-row>
                 <b-col sm="4">
                   <div class="footer-widget">
@@ -82,7 +82,7 @@
               </b-row>
             </b-col>
 
-            <b-col lg="3" md="6">
+            <b-col md="3">
               <div class="widget-shortcode">
                 <div>
                   <div class="footer-widget">
@@ -134,7 +134,7 @@
         <b-container>
           <b-row class="align-items-center">
             <b-col lg="6" md="6">
-              <p class="mb-0">&copy; 2022 Sheanch. All rights reserved by wardan</p>
+              <p class="mb-0 footer-text">&copy; 2022 Sheanch. All rights reserved by wardan</p>
             </b-col>
 
             <b-col lg="6" md="6">
