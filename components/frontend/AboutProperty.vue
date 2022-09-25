@@ -14,7 +14,7 @@
         </b-row>
 
         <b-row>
-          <b-col v-for="(about, i) in aboutPropertySelling" :key="i" lg="4" md="4">
+          <b-col v-for="(about, i) in aboutPropertySelling" :key="i" lg="4" md="4" class="mb-3">
             <b-card class="y-property-card" :title="about.title"
                     :img-src="imageUrl+about.image" img-alt="Image" img-top>
               <b-card-text>{{ about.description }}</b-card-text>

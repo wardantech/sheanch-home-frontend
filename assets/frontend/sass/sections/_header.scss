@@ -122,3 +122,13 @@
     }
   }
 }
+
+.navbar-collapse {
+  &.show {
+    margin-bottom: 20px;
+
+    .navbar-nav {
+      margin-left: 25px !important;
+    }
+  }
+}

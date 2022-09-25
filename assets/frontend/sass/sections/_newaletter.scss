@@ -9,12 +9,20 @@
         flex-wrap: wrap;
         width: 100%;
 
+        @media (max-width: 768px) {
+            justify-content: center;
+        }
+
         &-head {
             flex: 1;
 
             h3 {
                 color: #fff;
                 margin-bottom: 5px;
+            }
+
+            @media (max-width: 768px) {
+                display: none;
             }
         }
 
