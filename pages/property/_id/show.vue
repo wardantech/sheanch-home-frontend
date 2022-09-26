@@ -605,105 +605,105 @@
       </b-container>
     </section>
 
-    <section id="place" class="bg-gary">
-      <b-container>
-        <b-row class="row justify-content-center">
-          <b-col lg="7" md="10" class="text-center">
-            <div class="section-heading center">
-              <h2>Recently Viewed Properties</h2>
-            </div>
-          </b-col>
-        </b-row>
+    <!--<section id="place" class="bg-gary">-->
+      <!--<b-container>-->
+        <!--<b-row class="row justify-content-center">-->
+          <!--<b-col lg="7" md="10" class="text-center">-->
+            <!--<div class="section-heading center">-->
+              <!--<h2>Recently Viewed Properties</h2>-->
+            <!--</div>-->
+          <!--</b-col>-->
+        <!--</b-row>-->
 
-        <b-row class="place-layout">
-          <b-col lg="4" md="6" sm="12">
-            <div class="place-layout-listing">
-              <div class="place-layout-listing-img">
-                <div class="place-layout-listing-img-slide">
-                  <b-carousel id="carousel-6" v-model="slide6" :interval="1500" controls>
-                    <b-carousel-slide
-                      img-src="https://resido.thesky9.com/storage/properties/p-3-400xauto.jpg"></b-carousel-slide>
-                    <b-carousel-slide
-                      img-src="https://resido.thesky9.com/storage/properties/p-16-400xauto.jpg"></b-carousel-slide>
-                    <b-carousel-slide
-                      img-src="https://resido.thesky9.com/storage/properties/p-6-400xauto.jpg"></b-carousel-slide>
-                  </b-carousel>
-                </div>
-                <div class="place-layout-listing-img-action">
-                  <b-link href="#" class="add-to-wishlist">
-                    <font-awesome-icon icon="fa-solid fa-heart"/>
-                  </b-link>
-                </div>
-              </div>
-              <div class="place-layout-listing-detail">
-                <div class="place-layout-listing-detail-wrap">
-                  <div class="place-layout-listing-detail-wrap-short">
-                    <div class="list-price d-flex justify-content-between">
-                      <span class="sale-type rent">For Rent</span>
-                      <h6 class="card-price">$232,021</h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="place-layout-listing-detail-name">
-                  <b-link href="#" title="6007 Applegate Lane">
-                    1745 T Street Southeast
-                  </b-link>
-                </div>
-                <div class="rating-wrap">
-                  <div class="rating">
-                    <div class="product-rate" width="70%">
-                      <font-awesome-icon icon="fa-solid fa-star"/>
-                      <font-awesome-icon icon="fa-solid fa-star"/>
-                      <font-awesome-icon icon="fa-solid fa-star"/>
-                      <font-awesome-icon icon="fa-solid fa-star"/>
-                      <font-awesome-icon icon="fa-solid fa-star-half"/>
-                    </div>
-                  </div>
-                  <span class="reviews-text">( 3 Reviews)</span>
-                </div>
-              </div>
-              <div class="place-layout-listing-features">
-                <div class="features-list">
-                  <div class="features-list-icon">
-                    <div class="fleat-icon">
-                      <font-awesome-icon icon="fa-solid fa-bed"/>
-                    </div>
-                    1 Bed
-                  </div>
+        <!--<b-row class="place-layout">-->
+          <!--<b-col lg="4" md="6" sm="12">-->
+            <!--<div class="place-layout-listing">-->
+              <!--<div class="place-layout-listing-img">-->
+                <!--<div class="place-layout-listing-img-slide">-->
+                  <!--<b-carousel id="carousel-6" v-model="slide6" :interval="1500" controls>-->
+                    <!--<b-carousel-slide-->
+                      <!--img-src="https://resido.thesky9.com/storage/properties/p-3-400xauto.jpg"></b-carousel-slide>-->
+                    <!--<b-carousel-slide-->
+                      <!--img-src="https://resido.thesky9.com/storage/properties/p-16-400xauto.jpg"></b-carousel-slide>-->
+                    <!--<b-carousel-slide-->
+                      <!--img-src="https://resido.thesky9.com/storage/properties/p-6-400xauto.jpg"></b-carousel-slide>-->
+                  <!--</b-carousel>-->
+                <!--</div>-->
+                <!--<div class="place-layout-listing-img-action">-->
+                  <!--<b-link href="#" class="add-to-wishlist">-->
+                    <!--<font-awesome-icon icon="fa-solid fa-heart"/>-->
+                  <!--</b-link>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="place-layout-listing-detail">-->
+                <!--<div class="place-layout-listing-detail-wrap">-->
+                  <!--<div class="place-layout-listing-detail-wrap-short">-->
+                    <!--<div class="list-price d-flex justify-content-between">-->
+                      <!--<span class="sale-type rent">For Rent</span>-->
+                      <!--<h6 class="card-price">$232,021</h6>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="place-layout-listing-detail-name">-->
+                  <!--<b-link href="#" title="6007 Applegate Lane">-->
+                    <!--1745 T Street Southeast-->
+                  <!--</b-link>-->
+                <!--</div>-->
+                <!--<div class="rating-wrap">-->
+                  <!--<div class="rating">-->
+                    <!--<div class="product-rate" width="70%">-->
+                      <!--<font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--<font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--<font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--<font-awesome-icon icon="fa-solid fa-star"/>-->
+                      <!--<font-awesome-icon icon="fa-solid fa-star-half"/>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<span class="reviews-text">( 3 Reviews)</span>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="place-layout-listing-features">-->
+                <!--<div class="features-list">-->
+                  <!--<div class="features-list-icon">-->
+                    <!--<div class="fleat-icon">-->
+                      <!--<font-awesome-icon icon="fa-solid fa-bed"/>-->
+                    <!--</div>-->
+                    <!--1 Bed-->
+                  <!--</div>-->
 
-                  <div class="features-list-icon">
-                    <div class="fleat-icon">
-                      <font-awesome-icon icon="fa-solid fa-bath"/>
-                    </div>
-                    5 Bath
-                  </div>
+                  <!--<div class="features-list-icon">-->
+                    <!--<div class="fleat-icon">-->
+                      <!--<font-awesome-icon icon="fa-solid fa-bath"/>-->
+                    <!--</div>-->
+                    <!--5 Bath-->
+                  <!--</div>-->
 
-                  <div class="features-list-icon">
-                    <div class="fleat-icon">
-                      <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
-                    </div>
-                    83 m²
-                  </div>
-                </div>
-              </div>
-              <div class="place-layout-listing-footer">
-                <div class="footer-first">
-                  <div class="footer-first-location d-flex">
-                    <font-awesome-icon icon="fa-solid fa-location-dot"/>
-                    Hampton, Virginia
-                  </div>
-                </div>
-                <div class="footer-flex">
-                  <b-link href="#" class="product-view">
-                    View
-                  </b-link>
-                </div>
-              </div>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </section>
+                  <!--<div class="features-list-icon">-->
+                    <!--<div class="fleat-icon">-->
+                      <!--<font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>-->
+                    <!--</div>-->
+                    <!--83 m²-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="place-layout-listing-footer">-->
+                <!--<div class="footer-first">-->
+                  <!--<div class="footer-first-location d-flex">-->
+                    <!--<font-awesome-icon icon="fa-solid fa-location-dot"/>-->
+                    <!--Hampton, Virginia-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="footer-flex">-->
+                  <!--<b-link href="#" class="product-view">-->
+                    <!--View-->
+                  <!--</b-link>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</b-col>-->
+        <!--</b-row>-->
+      <!--</b-container>-->
+    <!--</section>-->
 
     <!-- Start newsletter -->
     <Newsletter/>
