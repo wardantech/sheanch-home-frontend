@@ -307,6 +307,10 @@
         outline: 0;
       }
     }
+
+    @media (max-width: 576px) {
+      flex-direction: column;
+    }
   }
 
   .table-body {
