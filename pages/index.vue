@@ -9,7 +9,7 @@
         <!-- End how work section -->
 
         <!-- Start place section -->
-        <Property :propertyData="property"/>
+        <Property/>
         <!-- End place section -->
 
         <!-- Start Location -->

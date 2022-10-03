@@ -18,6 +18,7 @@
                     <h5>Profile</h5>
                   </div>
                 </div>
+
                 <div>
                   <div class="form-group">
                     <nuxt-link class="btn btn-success btn-sm" :to="{ name: 'account-profile-id-change-password', params: { id: $auth.user.landlord_id }}">
@@ -25,7 +26,8 @@
                       Change password
                     </nuxt-link>
 
-                    <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'account-dashboard' }">
+                    <nuxt-link class="btn btn-dark btn-sm"
+                               :to="$auth.user.type == 2?{ name: 'account-dashboard-landlord'}:{ name: 'account-dashboard-tenant'}">
                       <font-awesome-icon icon="fa-solid fa-arrow-left-long"/>
                       Back to dashboard
                     </nuxt-link>
@@ -234,7 +236,7 @@
     mounted() {
       const authId = this.$auth.user.landlord_id;
       if (!authId) {
-        this.$router.push({name: 'account-dashboard'});
+        this.$router.push({name: 'account-dashboard-landlord'});
       }
     },
     async created() {

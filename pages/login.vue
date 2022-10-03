@@ -154,8 +154,8 @@ export default {
         });
     },
 
-    async socialLogin(service){
-
+    socialLogin(service){
+      window.location.href = process.env.APP_SOCIAL_LOGIN_URL+service+'/'+'login';
     }
   }
 }

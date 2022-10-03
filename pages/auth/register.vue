@@ -7,6 +7,24 @@
           <b-col md="6" v-if="otp_area">
             <div class="auth-content">
               <div class="auth-content-body">
+                <h2 class="text-center">Join as</h2>
+                <div class="mt-3">
+                  <b-form-group>
+                    <b-form-radio-group
+                      id="btn-radios-2"
+                      v-model="form.type"
+                      :options="options"
+                      button-variant="outline-success"
+                      size="lg"
+                      name="radio-btn-outline"
+                      buttons
+                      class="btn-block"
+                    ></b-form-radio-group>
+                    <strong class="text-danger" style="font-size: 12px" v-if="errors.type">{{
+                        errors.type[0]
+                      }}</strong>
+                  </b-form-group>
+                </div>
                 <h2 class="text-center">OTP Verification</h2>
                 <br>
                 <div class="login-form">
@@ -47,10 +65,10 @@
                           <span>Or register via</span>
                         </div>
                         <div class="social-button">
-                          <b-button class="btn social-button-login facebook">
+                          <b-button @click="socialRegistration('facebook')" class="btn social-button-login facebook">
                             <i class='bx bxl-facebook'></i>
                           </b-button>
-                          <b-button class="btn social-button-login gmail">
+                          <b-button @click="socialRegistration('google')" class="btn social-button-login gmail">
                             <img src="../../assets/frontend/images/gmail_Icon.png" alt="Gmail icon" width="55">
                           </b-button>
                         </div>
@@ -154,15 +172,7 @@
           </b-col>
 
           <b-col md="6" v-if="register_complete_area">
-            <div class="auth-content">
-              <div class="auth-content-body">
-                <h2 class="text-center">Registration complete</h2>
-                <br>
-                <div class="login-form">
-                  <h4> You have successfully registered. Please wait for admin approval for next step  </h4>
-                </div>
-              </div>
-            </div>
+            <RegCompleteMessage/>
           </b-col>
         </b-row>
       </b-container>
@@ -171,8 +181,10 @@
 </template>
 
 <script>
+import RegCompleteMessage from "@/components/frontend/registration/RegCompleteMessage";
 export default {
   name: "register",
+  components: {RegCompleteMessage},
   auth: false,
   data() {
     return {
@@ -287,6 +299,10 @@ export default {
             alert(error.response.message)
           }
         })
+    },
+
+    socialRegistration(service){
+      window.location.href = process.env.APP_SOCIAL_LOGIN_URL+service+'/'+this.form.type
     }
   }
 }

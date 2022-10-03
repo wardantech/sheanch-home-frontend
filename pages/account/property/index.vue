@@ -106,7 +106,7 @@
     mounted(){
       const authId = this.$auth.user.landlord_id;
       if(!authId){
-        this.$router.push({name: 'account-dashboard'});
+        this.$router.push({name: 'account-dashboard-landlord'});
       }
     },
     created() {
