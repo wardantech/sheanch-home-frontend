@@ -56,7 +56,7 @@ export default {
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    //'@nuxtjs/pwa',
+    '@nuxtjs/pwa',
     'nuxt-izitoast',
     'vue-sweetalert2/nuxt',
 
@@ -108,17 +108,6 @@ export default {
   env: {
     APP_ROOT_API: process.env.APP_ROOT_API,
     APP_ROOT_IMG_URL: process.env.APP_ROOT_IMG_URL,
+    APP_SOCIAL_LOGIN_URL: process.env.APP_SOCIAL_LOGIN_URL
   },
-  // pwa: {
-  //   meta:{
-  //     title:"Sheanch-Home",
-  //     author: "Asif"
-  //   },
-  //   manifest: {
-  //     name: 'Sheanch - Home',
-  //     lang: 'en',
-  //
-  //   }
-  // }
-
 }

@@ -15,7 +15,7 @@
             <ul>
               <li class="active">
                 <nuxt-link
-                  :to="{ name: 'account-dashboard'}">
+                  :to="$auth.user.type == 2?{ name: 'account-dashboard-landlord'}:{ name: 'account-dashboard-tenant'}">
                   <b-icon icon="speedometer2" font-scale="1"></b-icon>
                   Dashboard
                 </nuxt-link>

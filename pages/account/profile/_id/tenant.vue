@@ -25,7 +25,7 @@
                       Change password
                     </nuxt-link>
 
-                    <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'account-dashboard' }">
+                    <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'account-dashboard-tenant' }">
                       <font-awesome-icon icon="fa-solid fa-arrow-left-long"/>
                       Back to dashboard
                     </nuxt-link>
@@ -307,7 +307,7 @@
     mounted() {
       const authId = this.$auth.user.tenant_id;
       if (!authId) {
-        this.$router.push({name: 'account-dashboard'});
+        this.$router.push({name: 'account-dashboard-tenant'});
       }
     },
     async created() {
