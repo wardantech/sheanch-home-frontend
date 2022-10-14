@@ -162,10 +162,10 @@
                     </b-form>
                   </b-col>
                   <b-col md="4">
-                    <b-card class="mt-3" header="Image">
-                      <td>
+                    <b-card class="mt-3" header="Change Profile Photo">
+                      <!-- <td>
                         <img style="height: 200px; width: 100%; object-fit: cover;" v-model="form.oldImage" :src="imageUrl+form.image" alt="">
-                      </td>
+                      </td> -->
                       <b-form-group label="Image upload">
                         <Dropzone id="foo" ref="el"
                                   :options="options"
