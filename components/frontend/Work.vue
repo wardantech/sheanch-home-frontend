@@ -73,7 +73,6 @@
     async created() {
       const response = await this.$axios.$get('get-how-to-work-widget');
       this.howToworks = response.data;
-      console.log(this.howToworks);
     },
   }
 </script>
