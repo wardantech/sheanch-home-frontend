@@ -72,7 +72,7 @@
 
                       <nuxt-link :to="{name:'account-profile-id-show-tenant', params: { id: value.landlord_id }}" rel="tooltip"
                                  class="btn btn-sm btn-success btn-simple"
-                                 title="View landlord">
+                                 title="Show tenant details">
                         <font-awesome-icon icon="fa-solid fa-binoculars" />
                       </nuxt-link>
 

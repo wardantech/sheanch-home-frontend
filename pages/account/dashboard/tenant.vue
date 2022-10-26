@@ -5,7 +5,7 @@
         <b-row>
           <!-- Sidebar -->
           <b-col lg="3" md="12">
-            <Sidebar/>
+            <Sidebar />
           </b-col>
           <!-- /.Sidebar -->
 
@@ -68,29 +68,35 @@
     </section>
 
     <!-- Start newsletter -->
-    <Newsletter/>
+    <Newsletter />
     <!-- End newsletter -->
   </div>
 </template>
 
 <script>
-  import Sidebar from "@/components/frontend/dashboard/Sidebar";
-  import Newsletter from "@/components/frontend/Newsletter";
-  export default {
-    name: "tenant",
-    data() {
-      return {
-        data: ''
-      }
-    },
-    components: {Newsletter, Sidebar},
-    async fetch() {
-      const response = await this.$axios.$post('get-tenant-dashboard-data', {tenantId: this.$auth.user.tenant_id});
-      this.data = response.data;
-      console.log('nice wer')
-      this.$store.dispatch('wishlist/storeWishlist',this.data.wishlistCount);
-    },
-  }
+import Sidebar from "@/components/frontend/dashboard/Sidebar";
+import Newsletter from "@/components/frontend/Newsletter";
+export default {
+  name: "tenant",
+  beforeMount() {
+    const authId = this.$auth.user.tenant_id;
+    if (!authId) {
+      throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+    }
+  },
+  data() {
+    return {
+      data: ''
+    }
+  },
+  components: { Newsletter, Sidebar },
+  async fetch() {
+    const response = await this.$axios.$post('get-tenant-dashboard-data', { tenantId: this.$auth.user.tenant_id });
+    this.data = response.data;
+    console.log('nice wer')
+    this.$store.dispatch('wishlist/storeWishlist', this.data.wishlistCount);
+  },
+}
 </script>
 
 <style scoped>

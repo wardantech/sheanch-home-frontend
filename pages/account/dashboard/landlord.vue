@@ -5,7 +5,7 @@
         <b-row>
           <!-- Sidebar -->
           <b-col lg="3" md="12">
-            <Sidebar/>
+            <Sidebar />
           </b-col>
           <!-- /.Sidebar -->
 
@@ -79,27 +79,33 @@
     </section>
 
     <!-- Start newsletter -->
-    <Newsletter/>
+    <Newsletter />
     <!-- End newsletter -->
   </div>
 </template>
 
 <script>
-  import Sidebar from "@/components/frontend/dashboard/Sidebar";
-  import Newsletter from "/components/frontend/Newsletter";
-  export default {
-    name: "landlord",
-    data() {
-      return {
-        data: ''
-      }
-    },
-    components: {Newsletter, Sidebar},
-    async created() {
-      const response = await this.$axios.$post('get-landlord-dashboard-data', {landlordId: this.$auth.user.landlord_id});
-      this.data = response.data;
-    },
-  }
+import Sidebar from "@/components/frontend/dashboard/Sidebar";
+import Newsletter from "/components/frontend/Newsletter";
+export default {
+  name: "landlord",
+  beforeMount() {
+    const authId = this.$auth.user.landlord_id;
+    if (!authId) {
+      throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+    }
+  },
+  data() {
+    return {
+      data: ''
+    }
+  },
+  components: { Newsletter, Sidebar },
+  async created() {
+    const response = await this.$axios.$post('get-landlord-dashboard-data', { landlordId: this.$auth.user.landlord_id });
+    this.data = response.data;
+  },
+}
 </script>
 
 <style scoped>
