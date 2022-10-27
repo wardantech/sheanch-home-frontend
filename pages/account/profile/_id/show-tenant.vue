@@ -20,6 +20,18 @@
                   </div>
                 </div>
 
+                <div>
+                  <div class="form-group d-flex">
+                    <div class="mx-2">
+                      <nuxt-link class="btn btn-sm btn-info btn-simple" title="Review for tenant"
+                        :to="{ name: 'account-profile-id-tenant-review', params: { id: this.$route.params.id } }">
+                        <b-icon icon="star-fill" aria-hidden="true" style="margin-bottom: 2px;"></b-icon>
+                        Review
+                      </nuxt-link>
+                    </div>
+                  </div>
+                </div>
+
               </div>
               <div>
 
