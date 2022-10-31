@@ -21,28 +21,28 @@
 
                 <h3>{{ property.name }}</h3>
                 <span>
-                      <font-awesome-icon icon="fa-solid fa-location-dot"/>
-                      {{ property.address }}
+                  <font-awesome-icon icon="fa-solid fa-location-dot" />
+                  {{ property.address }}
                 </span>
                 <h3 class="fix-price">${{ propertyAd.rent_amount }}</h3>
                 <div class="features-list">
                   <div class="features-list-icon">
                     <div class="fleat-icon">
-                      <font-awesome-icon icon="fa-solid fa-bed"/>
+                      <font-awesome-icon icon="fa-solid fa-bed" />
                     </div>
                     {{ property.bed_rooms }}
                   </div>
 
                   <div class="features-list-icon">
                     <div class="fleat-icon">
-                      <font-awesome-icon icon="fa-solid fa-bath"/>
+                      <font-awesome-icon icon="fa-solid fa-bath" />
                     </div>
                     {{ property.bath_rooms }}
                   </div>
 
                   <div class="features-list-icon">
                     <div class="fleat-icon">
-                      <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
+                      <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right" />
                     </div>
                     {{ property.area_size }}
                   </div>
@@ -143,25 +143,25 @@
 
                         <table class="table">
                           <thead style="border-style: hidden">
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Paid by</th>
-                            <th scope="col">Amount</th>
-                          </tr>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Paid by</th>
+                              <th scope="col">Amount</th>
+                            </tr>
                           </thead>
                           <tbody>
-                          <tr v-for="(utility, j) in utilities" :key="j">
-                            <th scope="row">
-                              <font-awesome-icon icon="fa-solid fa-circle-check" style=""/>
-                            </th>
-                            <td>{{ utility.utility_name }}</td>
-                            <td>
-                              <span v-if="utility.utility_paid_by == 1">Landlord</span>
-                              <span v-else>Tenant</span>
-                            </td>
-                            <td>{{ utility.utility_amount }}</td>
-                          </tr>
+                            <tr v-for="(utility, j) in utilities" :key="j">
+                              <th scope="row">
+                                <font-awesome-icon icon="fa-solid fa-circle-check" style="" />
+                              </th>
+                              <td>{{ utility.utility_name }}</td>
+                              <td>
+                                <span v-if="utility.utility_paid_by == 1">Landlord</span>
+                                <span v-else>Tenant</span>
+                              </td>
+                              <td>{{ utility.utility_amount }}</td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -184,25 +184,25 @@
                       <ul class="detail_features">
                         <table class="table">
                           <thead style="border-style: hidden">
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Paid by</th>
-                            <th scope="col">Amount</th>
-                          </tr>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Paid by</th>
+                              <th scope="col">Amount</th>
+                            </tr>
                           </thead>
                           <tbody>
-                          <tr v-for="(facility, j) in facilities" :key="j">
-                            <th scope="row">
-                              <font-awesome-icon icon="fa-solid fa-circle-check" style=""/>
-                            </th>
-                            <td>{{ facility.facility_name }}</td>
-                            <td>
-                              <span v-if="facility.facility_paid_by == 1">Landlord</span>
-                              <span v-else>Tenant</span>
-                            </td>
-                            <td>{{ facility.facility_amount }}</td>
-                          </tr>
+                            <tr v-for="(facility, j) in facilities" :key="j">
+                              <th scope="row">
+                                <font-awesome-icon icon="fa-solid fa-circle-check" style="" />
+                              </th>
+                              <td>{{ facility.facility_name }}</td>
+                              <td>
+                                <span v-if="facility.facility_paid_by == 1">Landlord</span>
+                                <span v-else>Tenant</span>
+                              </td>
+                              <td>{{ facility.facility_amount }}</td>
+                            </tr>
                           </tbody>
                         </table>
                       </ul>
@@ -249,7 +249,7 @@
                           <div class="nearby-section-list">
                             <div class="nearby-section-list-ft">
                               <h4>
-                                <font-awesome-icon icon="fa-solid fa-hotel"/>
+                                <font-awesome-icon icon="fa-solid fa-hotel" />
                                 Hospital
                               </h4>
                             </div>
@@ -257,7 +257,7 @@
                           <div class="nearby-section-list">
                             <div class="nearby-section-list-ft">
                               <h4>
-                                <font-awesome-icon icon="fa-solid fa-bus"/>
+                                <font-awesome-icon icon="fa-solid fa-bus" />
                                 Bus Stop
                               </h4>
                             </div>
@@ -270,52 +270,11 @@
               </b-card>
             </div>
 
-            <div class="rating">
-              <div class="rating-box">
-                <span class="rating-box-total">1.75</span>
-                <span class="rating-box-percent">out of 5.0</span>
-                <div class="rating-star">
-                  <b-icon icon="star-fill"></b-icon>
-                  <b-icon icon="star-fill"></b-icon>
-                  <b-icon icon="star"></b-icon>
-                  <b-icon icon="star"></b-icon>
-                  <b-icon icon="star"></b-icon>
-                </div>
-              </div>
-
-              <div class="rating-bars">
-                <div class="rating-bars-item">
-                  <span class="rating-bars-item-name">Service</span>
-                  <span class="rating-bars-item-inner">
-                                                    <b-progress :value="value" class="mb-3"></b-progress>
-                                                </span>
-                </div>
-                <div class="rating-bars-item">
-                  <span class="rating-bars-item-name">Value for Money</span>
-                  <span class="rating-bars-item-inner">
-                                                    <b-progress :value="value" class="mb-3"></b-progress>
-                                                </span>
-                </div>
-                <div class="rating-bars-item">
-                  <span class="rating-bars-item-name">Location</span>
-                  <span class="rating-bars-item-inner">
-                                                    <b-progress :value="value" class="mb-3"></b-progress>
-                                                </span>
-                </div>
-                <div class="rating-bars-item">
-                  <span class="rating-bars-item-name">Cleanliness</span>
-                  <span class="rating-bars-item-inner">
-                                                    <b-progress :value="value" class="mb-3"></b-progress>
-                                                </span>
-                </div>
-              </div>
-            </div>
-
             <div class="accordion mt-5" role="tablist">
               <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" class="p-1" role="tab">
                   <b-button block v-b-toggle.accordion-6 variant="info">
-                    6 Reviews
+                    {{ reviews.length }} Reviews
                   </b-button>
                 </b-card-header>
                 <b-collapse id="accordion-6" visible accordion="my-accordion-6" role="tabpanel">
@@ -324,84 +283,28 @@
                       <div class="reviews">
                         <div class="reviews-list">
                           <ul>
-                            <li class="comments">
-                              <article>
+                            <li class="comments" v-for="(value, index) in reviews" :key="index">
+                              <article class="d-flex">
                                 <div class="comments-thumb">
-                                  <b-img src="https://resido.thesky9.com/storage/accounts/4-150x150.jpg"
-                                         alt="Image"></b-img>
+                                  <b-img :src="imageUrl  +  value.tenant.image" alt="Image"></b-img>
                                 </div>
-                                <div class="comments-details">
-                                  <div class="comments-rating">
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                  </div>
-                                  <div class="comment-meta">
-                                    <h4 class="author-name">Walker Bergstrom</h4>
-                                    <div class="comment-date">
-                                      15 Feb, 2022
-                                    </div>
-                                  </div>
-                                  <div class="comment-text">
-                                    <p>Ut provident qui aut. Sit nam esse officiis quis assumenda iusto molestiae.</p>
-                                  </div>
-                                </div>
-                              </article>
-                            </li>
 
-                            <li class="comments">
-                              <article>
-                                <div class="comments-thumb">
-                                  <b-img src="https://resido.thesky9.com/storage/accounts/5-150x150.jpg"
-                                         alt="Image"></b-img>
-                                </div>
                                 <div class="comments-details">
                                   <div class="comments-rating">
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                    <b-icon icon="star"></b-icon>
+                                    <b-form-rating class="pl-0" id="rating-md-no-border" inline :value="value.rating"
+                                      color="#ff9800" no-border size="lg" readonly>
+                                    </b-form-rating>
                                   </div>
-                                  <div class="comment-meta">
-                                    <h4 class="author-name">Cara Anderson</h4>
-                                    <div class="comment-date">
-                                      15 FEB, 2022
+                                  <div>
+                                    <div class="comment-meta">
+                                      <h4 class="author-name">{{ value.tenant.name }}</h4>
+                                      <div class="comment-date">
+                                        {{ dateFromat(value.created_at) }}
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div class="comment-text">
-                                    <p>Et qui ut iusto est nulla. Aspernatur laboriosam quis exercitationem. Architecto
-                                      quis sint illo porro non ea.</p>
-                                  </div>
-                                </div>
-                              </article>
-                            </li>
-
-                            <li class="comments">
-                              <article>
-                                <div class="comments-thumb">
-                                  <b-img src="https://resido.thesky9.com/storage/accounts/3-150x150.jpg"
-                                         alt="Image"></b-img>
-                                </div>
-                                <div class="comments-details">
-                                  <div class="comments-rating">
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star-fill"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                    <b-icon icon="star"></b-icon>
-                                  </div>
-                                  <div class="comment-meta">
-                                    <h4 class="author-name">Sage Feest</h4>
-                                    <div class="comment-date">
-                                      15 FEB, 2022
+                                    <div class="comment-text">
+                                      <p>{{ value.review }}</p>
                                     </div>
-                                  </div>
-                                  <div class="comment-text">
-                                    <p>Non sequi dignissimos recusandae dolorum dolore aut qui est. Ea quaerat non quia
-                                      qui nemo. Laborum hic et et fuga ut.</p>
                                   </div>
                                 </div>
                               </article>
@@ -415,90 +318,8 @@
               </b-card>
             </div>
 
-            <div class="accordion mt-5" role="tablist">
-              <b-card no-body class="mb-1">
-                <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button block v-b-toggle.accordion-7 variant="info">
-                    Write A Review
-                  </b-button>
-                </b-card-header>
-                <b-collapse id="accordion-7" visible accordion="my-accordion-7" role="tabpanel">
-                  <b-card-body>
-                    <p class="text-danger">Please <a href="#" class="text-danger">login</a> to write review!</p>
-                    <div class="block-body p-0">
-                      <b-form>
-                        <b-row class="py-3">
-                          <b-col md="8">
-                            <b-row>
-                              <b-col lg="6" md="6" sm="12">
-                                <label class="select-star">service</label>
-                                <div class="review-star">
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                </div>
-                              </b-col>
-                              <b-col lg="6" md="6" sm="12">
-                                <label class="select-star">value</label>
-                                <div class="review-star">
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                </div>
-                              </b-col>
-                              <b-col lg="6" md="6" sm="12">
-                                <label class="select-star">Location</label>
-                                <div class="review-star">
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                </div>
-                              </b-col>
-                              <b-col lg="6" md="6" sm="12">
-                                <label class="select-star">cleanliness</label>
-                                <div class="review-star">
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star-fill"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                  <b-icon icon="star"></b-icon>
-                                </div>
-                              </b-col>
-                            </b-row>
-                          </b-col>
-
-                          <b-col lg="4" md="4" sm="12">
-                            <div class="total-rating">
-                              <h4>4.75</h4>
-                              <span>Average Rating</span>
-                            </div>
-                          </b-col>
-                        </b-row>
-
-                        <b-row>
-                          <b-col lg="12" md="12" sm="12">
-                            <div class="form-group">
-                                          <textarea name="comment" placeholder="Message" class="form-control ht-80"
-                                                    disabled></textarea>
-                            </div>
-                          </b-col>
-
-                          <b-col lg="12" md="12" sm="12">
-                            <b-link class="btn btn-browse-more" disabled>Submit Review</b-link>
-                          </b-col>
-                        </b-row>
-                      </b-form>
-                    </div>
-                  </b-card-body>
-                </b-collapse>
-              </b-card>
-            </div>
+            <!-- Write Property Reviews -->
+            <PropertyReview :property-id="property.id"/>
           </b-col>
 
           <b-col lg="4" md="12" sm="12">
@@ -530,281 +351,119 @@
               </ul>
             </div>
 
-            <b-button
-              v-if="$auth.loggedIn && $auth.user.type == 3"
-              @click="apply" class="btn btn-black btn-md rounded btn-block">
+            <b-button v-if="$auth.loggedIn && $auth.user.type == 3" @click="apply"
+              class="btn btn-black btn-md rounded btn-block">
               Apply for deed
             </b-button>
 
 
-            <nuxt-link v-else
-                       class="btn btn-black btn-md rounded btn-block"
-                       :to="{ name: 'login'}">
+            <nuxt-link v-else class="btn btn-black btn-md rounded btn-block" :to="{ name: 'login' }">
               <b-button class="btn btn-black btn-md rounded btn-block">
                 Sign in as a tenant for apply
               </b-button>
             </nuxt-link>
-
-            <!--<div class="sidebar-message">-->
-            <!--<div class="sidebar-message-widget">-->
-            <!--<div class="widget-header">-->
-
-            <!--&lt;!&ndash;<div class="photo">&ndash;&gt;-->
-            <!--&lt;!&ndash;<b-img :src="imageUrl+landlord.image"></b-img>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="widget-details">&ndash;&gt;-->
-            <!--&lt;!&ndash;<h4>&ndash;&gt;-->
-            <!--&lt;!&ndash;<b-link href="#">{{ landlord.name }}</b-link>&ndash;&gt;-->
-            <!--&lt;!&ndash;</h4>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;<span>&ndash;&gt;-->
-            <!--&lt;!&ndash;<b-icon icon="telephone" aria-hidden="true"></b-icon>&ndash;&gt;-->
-            <!--&lt;!&ndash;{{ landlord.mobile }}&ndash;&gt;-->
-            <!--&lt;!&ndash;</span>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;&ndash;&gt;-->
-
-
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--</div>-->
-            <!--<div class="clearfix"></div>-->
-
-
-            <!--&lt;!&ndash;<div class="widget-body">&ndash;&gt;-->
-            <!--&lt;!&ndash;<b-form>&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
-            <!--&lt;!&ndash;<b-form-input name="name" type="text" placeholder="Name *"></b-form-input>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
-            <!--&lt;!&ndash;<b-form-input name="phone" type="text" placeholder="Phone *"></b-form-input>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
-            <!--&lt;!&ndash;<b-form-input name="email" type="email" placeholder="Email"></b-form-input>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
-            <!--&lt;!&ndash;<b-form-input name="subject" type="text" placeholder="Subject *" value="6007 Applegate Lane"&ndash;&gt;-->
-            <!--&lt;!&ndash;disabled></b-form-input>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
-            <!--&lt;!&ndash;<b-form-textarea name="message" placeholder="Message"></b-form-textarea>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
-            <!--&lt;!&ndash;<b-button class="btn btn-black btn-md rounded btn-block">Send Message</b-button>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--&lt;!&ndash;</b-form>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--</div>-->
-            <!--</div>-->
           </b-col>
         </b-row>
       </b-container>
     </section>
 
-    <!--<section id="place" class="bg-gary">-->
-      <!--<b-container>-->
-        <!--<b-row class="row justify-content-center">-->
-          <!--<b-col lg="7" md="10" class="text-center">-->
-            <!--<div class="section-heading center">-->
-              <!--<h2>Recently Viewed Properties</h2>-->
-            <!--</div>-->
-          <!--</b-col>-->
-        <!--</b-row>-->
-
-        <!--<b-row class="place-layout">-->
-          <!--<b-col lg="4" md="6" sm="12">-->
-            <!--<div class="place-layout-listing">-->
-              <!--<div class="place-layout-listing-img">-->
-                <!--<div class="place-layout-listing-img-slide">-->
-                  <!--<b-carousel id="carousel-6" v-model="slide6" :interval="1500" controls>-->
-                    <!--<b-carousel-slide-->
-                      <!--img-src="https://resido.thesky9.com/storage/properties/p-3-400xauto.jpg"></b-carousel-slide>-->
-                    <!--<b-carousel-slide-->
-                      <!--img-src="https://resido.thesky9.com/storage/properties/p-16-400xauto.jpg"></b-carousel-slide>-->
-                    <!--<b-carousel-slide-->
-                      <!--img-src="https://resido.thesky9.com/storage/properties/p-6-400xauto.jpg"></b-carousel-slide>-->
-                  <!--</b-carousel>-->
-                <!--</div>-->
-                <!--<div class="place-layout-listing-img-action">-->
-                  <!--<b-link href="#" class="add-to-wishlist">-->
-                    <!--<font-awesome-icon icon="fa-solid fa-heart"/>-->
-                  <!--</b-link>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="place-layout-listing-detail">-->
-                <!--<div class="place-layout-listing-detail-wrap">-->
-                  <!--<div class="place-layout-listing-detail-wrap-short">-->
-                    <!--<div class="list-price d-flex justify-content-between">-->
-                      <!--<span class="sale-type rent">For Rent</span>-->
-                      <!--<h6 class="card-price">$232,021</h6>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="place-layout-listing-detail-name">-->
-                  <!--<b-link href="#" title="6007 Applegate Lane">-->
-                    <!--1745 T Street Southeast-->
-                  <!--</b-link>-->
-                <!--</div>-->
-                <!--<div class="rating-wrap">-->
-                  <!--<div class="rating">-->
-                    <!--<div class="product-rate" width="70%">-->
-                      <!--<font-awesome-icon icon="fa-solid fa-star"/>-->
-                      <!--<font-awesome-icon icon="fa-solid fa-star"/>-->
-                      <!--<font-awesome-icon icon="fa-solid fa-star"/>-->
-                      <!--<font-awesome-icon icon="fa-solid fa-star"/>-->
-                      <!--<font-awesome-icon icon="fa-solid fa-star-half"/>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                  <!--<span class="reviews-text">( 3 Reviews)</span>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="place-layout-listing-features">-->
-                <!--<div class="features-list">-->
-                  <!--<div class="features-list-icon">-->
-                    <!--<div class="fleat-icon">-->
-                      <!--<font-awesome-icon icon="fa-solid fa-bed"/>-->
-                    <!--</div>-->
-                    <!--1 Bed-->
-                  <!--</div>-->
-
-                  <!--<div class="features-list-icon">-->
-                    <!--<div class="fleat-icon">-->
-                      <!--<font-awesome-icon icon="fa-solid fa-bath"/>-->
-                    <!--</div>-->
-                    <!--5 Bath-->
-                  <!--</div>-->
-
-                  <!--<div class="features-list-icon">-->
-                    <!--<div class="fleat-icon">-->
-                      <!--<font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>-->
-                    <!--</div>-->
-                    <!--83 m²-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="place-layout-listing-footer">-->
-                <!--<div class="footer-first">-->
-                  <!--<div class="footer-first-location d-flex">-->
-                    <!--<font-awesome-icon icon="fa-solid fa-location-dot"/>-->
-                    <!--Hampton, Virginia-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="footer-flex">-->
-                  <!--<b-link href="#" class="product-view">-->
-                    <!--View-->
-                  <!--</b-link>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</b-col>-->
-        <!--</b-row>-->
-      <!--</b-container>-->
-    <!--</section>-->
-
     <!-- Start newsletter -->
-    <Newsletter/>
+    <Newsletter />
     <!-- End newsletter -->
   </div>
 </template>
 
 <script>
-  import Slick from 'vue-slick';
-  import Newsletter from "@/components/frontend/Newsletter";
+import Slick from 'vue-slick';
+import { dateMixin } from '../../../mixins/date-mixin';
+import Newsletter from "@/components/frontend/Newsletter";
+import PropertyReview from '@/components/frontend/PropertyReview';
 
-  export default {
-    name: "show",
-    auth: false,
-    components: {Newsletter, Slick},
-    data() {
-      return {
-        propertyAd: '',
-        property: '',
-        media: '',
-        utilities: '',
-        facilities: '',
-        property_type: '',
-        slickOptions: {
-          lazyLoad: 'ondemand',
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          prevArrow: false,
-          nextArrow: false,
-          centerMode: true,
-          infinite: true,
-          loop: true,
-          autoplay: true,
-          autoplaySpeed: 2000,
-          responsive: [
-            {
-              breakpoint: 768,
-              settings: {
-                slidesToShow: 1
-              }
-            },
-          ]
-        },
-        value: 75,
-        slide6: 0,
-      };
-    },
-
-    async created() {
-      const propertiesAds = await this.$axios.$post('property/ad/get-details  ', {
-        propertyAdId: this.$route.params.id
-      });
-
-      this.propertyAd = propertiesAds.data;
-      this.property = propertiesAds.data.property;
-      this.media = propertiesAds.data.property.media;
-      this.utilities = JSON.parse(this.property.utilities);
-      this.facilities = JSON.parse(this.property.facilities);
-
-    },
-
-    computed: {
-      imageUrl() {
-        return `${process.env.APP_ROOT_IMG_URL}`
-      }
-    },
-    methods: {
-      apply() {
-
-        this.$swal.fire({
-          title: 'Are you confirm to apply for this property',
-          showCancelButton: true,
-          confirmButtonText: 'Yes',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            const data = {
-              property_ad_id: this.$route.params.id,
-              property_id: this.property.id,
-              tenant_id: this.$auth.user.tenant_id,
-              landlord_id: this.property.landlord_id,
+export default {
+  name: "show",
+  auth: false,
+  components: { Newsletter, Slick, PropertyReview },
+  mixins: [dateMixin],
+  data() {
+    return {
+      propertyAd: '',
+      property: '',
+      media: '',
+      utilities: '',
+      facilities: '',
+      property_type: '',
+      reviews: '',
+      slickOptions: {
+        lazyLoad: 'ondemand',
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        prevArrow: false,
+        nextArrow: false,
+        centerMode: true,
+        infinite: true,
+        loop: true,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        responsive: [
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 1
             }
-            this.$axios.$post('property/deed/save-data', data)
-              .then(response => {
-                this.$swal.fire('Success', 'property did data deed applied successfully !! wait for admin confirmation');
-              })
-              .catch(error => {
-                alert(error)
-              })
+          },
+        ]
+      },
+      value: 75,
+      slide6: 0,
+    };
+  },
+
+  async created() {
+    const propertiesAds = await this.$axios.$post('property/ad/get-details', {
+      propertyAdId: this.$route.params.id
+    });
+
+    this.propertyAd = propertiesAds.data;
+    this.property = propertiesAds.data.property;
+    this.media = propertiesAds.data.property.media;
+    this.reviews = propertiesAds.data.property.reviews;
+    this.utilities = JSON.parse(this.property.utilities);
+    this.facilities = JSON.parse(this.property.facilities);
+  },
+  computed: {
+    imageUrl() {
+      return `${process.env.APP_ROOT_IMG_URL}`
+    }
+  },
+  methods: {
+    apply() {
+      this.$swal.fire({
+        title: 'Are you confirm to apply for this property',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const data = {
+            property_ad_id: this.$route.params.id,
+            property_id: this.property.id,
+            tenant_id: this.$auth.user.tenant_id,
+            landlord_id: this.property.landlord_id,
           }
-
-
-        })
-      }
+          this.$axios.$post('property/deed/save-data', data)
+            .then(response => {
+              this.$swal.fire('Success', 'property did data deed applied successfully !! wait for admin confirmation');
+            })
+            .catch(error => {
+              alert(error)
+            })
+        }
+      })
     }
   }
+}
 </script>
 
 <style scoped lang="scss">
-  /*iframe {*/
-  /*width: 100% !important;*/
-  /*}*/
   body {
     background: #0d6efd;
   }
