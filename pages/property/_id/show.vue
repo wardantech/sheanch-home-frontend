@@ -319,7 +319,7 @@
             </div>
 
             <!-- Write Property Reviews -->
-            <PropertyReview :property-id="property.id"/>
+            <PropertyReview />
           </b-col>
 
           <b-col lg="4" md="12" sm="12">
