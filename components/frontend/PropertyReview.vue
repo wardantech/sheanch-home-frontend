@@ -88,22 +88,20 @@ export default {
     }
   },
   methods: {
-    async store() {
-      await this.$axios.$post('review/store', this.form)
-        .then((response) => {
-          this.$izitoast.success({
-            title: 'Success !!',
-            message: 'Your review successfully submitted!'
+    store() {
+        if(!this.form.rating) {
+          this.$izitoast.warning({
+            title: 'Warning !!',
+            message: 'Rating is not empty'
           });
-        })
-        .catch(error => {
-          if (error.response.status == 422) {
-            this.errors = error.response.data.errors
-          }
-          else {
-            alert(error.response.message)
-          }
-        })
+          return;
+        }
+        const formData = this.form;
+        this.$emit('add-review', formData);
+
+        // Field value clear
+        this.form.rating = '',
+        this.form.review = ''
     }
   }
 }

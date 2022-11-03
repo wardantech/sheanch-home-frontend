@@ -270,56 +270,11 @@
               </b-card>
             </div>
 
-            <div class="accordion mt-5" role="tablist">
-              <b-card no-body class="mb-1">
-                <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button block v-b-toggle.accordion-6 variant="info">
-                    {{ reviews.length }} Reviews
-                  </b-button>
-                </b-card-header>
-                <b-collapse id="accordion-6" visible accordion="my-accordion-6" role="tabpanel">
-                  <b-card-body>
-                    <div class="block-body p-0">
-                      <div class="reviews">
-                        <div class="reviews-list">
-                          <ul>
-                            <li class="comments" v-for="(value, index) in reviews" :key="index">
-                              <article class="d-flex">
-                                <div class="comments-thumb">
-                                  <b-img :src="imageUrl  +  value.tenant.image" alt="Image"></b-img>
-                                </div>
-
-                                <div class="comments-details">
-                                  <div class="comments-rating">
-                                    <b-form-rating class="pl-0" id="rating-md-no-border" inline :value="value.rating"
-                                      color="#ff9800" no-border size="lg" readonly>
-                                    </b-form-rating>
-                                  </div>
-                                  <div>
-                                    <div class="comment-meta">
-                                      <h4 class="author-name">{{ value.tenant.name }}</h4>
-                                      <div class="comment-date">
-                                        {{ dateFromat(value.created_at) }}
-                                      </div>
-                                    </div>
-                                    <div class="comment-text">
-                                      <p>{{ value.review }}</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </article>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </b-card-body>
-                </b-collapse>
-              </b-card>
-            </div>
+            <!-- Property Review Show -->
+            <PropertyReviewShow :reviews="reviews"/>
 
             <!-- Write Property Reviews -->
-            <PropertyReview />
+            <PropertyReview @add-review="addReview"/>
           </b-col>
 
           <b-col lg="4" md="12" sm="12">
@@ -375,24 +330,25 @@
 
 <script>
 import Slick from 'vue-slick';
-import { dateMixin } from '../../../mixins/date-mixin';
 import Newsletter from "@/components/frontend/Newsletter";
 import PropertyReview from '@/components/frontend/PropertyReview';
+import PropertyReviewShow from '@/components/frontend/PropertyReviewShow.vue';
 
 export default {
   name: "show",
   auth: false,
-  components: { Newsletter, Slick, PropertyReview },
-  mixins: [dateMixin],
+  components: { Newsletter, Slick, PropertyReview, PropertyReviewShow },
   data() {
     return {
+      name: this.$auth.user.name,
+      propertyId: this.$route.params.id,
       propertyAd: '',
       property: '',
       media: '',
       utilities: '',
       facilities: '',
       property_type: '',
-      reviews: '',
+      reviews: [],
       slickOptions: {
         lazyLoad: 'ondemand',
         slidesToShow: 2,
@@ -417,18 +373,14 @@ export default {
       slide6: 0,
     };
   },
-
   async created() {
-    const propertiesAds = await this.$axios.$post('property/ad/get-details', {
-      propertyAdId: this.$route.params.id
-    });
-
-    this.propertyAd = propertiesAds.data;
-    this.property = propertiesAds.data.property;
-    this.media = propertiesAds.data.property.media;
-    this.reviews = propertiesAds.data.property.reviews;
+    this.propertyAd = await this.propertiesAds();
+    this.property = this.propertyAd.property;
+    this.media = this.propertyAd.property.media;
     this.utilities = JSON.parse(this.property.utilities);
     this.facilities = JSON.parse(this.property.facilities);
+
+    this.reviews = await this.fetchReviews();
   },
   computed: {
     imageUrl() {
@@ -458,6 +410,26 @@ export default {
             })
         }
       })
+    },
+    async propertiesAds() {
+      const propertiesAds = await this.$axios.$post('property/ad/get-details', { propertyAdId: this.propertyId });
+      return propertiesAds.data;
+    },
+    async fetchReviews() {
+      const response = await this.$axios.$post('review/get-reviews', { propertyId: this.propertyId });
+      return response.data;
+    },
+    async addReview(reviews) {
+      const response = await this.$axios.$post('review/store', reviews);
+
+      this.$izitoast.success({
+        title: 'Success !!',
+        message: 'Your review successfully submitted!'
+      });
+
+      this.reviews = [...this.reviews, response.data.review];
+
+      console.log(this.reviews);
     }
   }
 }
