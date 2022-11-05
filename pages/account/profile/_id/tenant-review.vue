@@ -1,0 +1,97 @@
+<template>
+  <div>
+    <section class="bg-light">
+      <b-container fluid>
+        <b-row>
+          <!-- Sidebar -->
+          <b-col lg="3" md="12">
+            <Sidebar />
+          </b-col>
+          <!-- /.Sidebar -->
+
+          <!-- Main Content -->
+          <b-col lg="9" md="12">
+            <div class="dashboard-wrapper">
+              <div class="page-search">
+                <div>
+                  <div class="form-group">
+                    <h5>Write your review for tenant</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <form @submit.prevent="store">
+                  <div class="input-rating">
+                    <label for="rating-readonly">Readonly rating: </label>
+                    <b-form-rating v-model="form.rating" color="rgb(64, 192, 128)" class="mb-2 p-0" inline no-border
+                      size="lg">
+                    </b-form-rating>
+                    <!--<p class="mt-2">({{ form.rating }})</p>-->
+                  </div>
+
+                  <b-form-group label="Review">
+                    <b-form-textarea class="custom-input-control" placeholder="Write here..." rows="3"
+                      v-model="form.review"></b-form-textarea>
+                  </b-form-group>
+
+                  <b-form-group class="mt-3">
+                    <b-button type="submit" class="btn-browse-more btn-height" variant="info">Save</b-button>
+                  </b-form-group>
+                </form>
+              </div>
+            </div>
+          </b-col>
+          <!-- /. Main Content -->
+        </b-row>
+      </b-container>
+    </section>
+  </div>
+</template>
+
+<script>
+import Sidebar from '@/components/frontend/dashboard/Sidebar.vue'
+
+export default {
+  name: "tenant-review",
+  components: { Sidebar },
+  data() {
+    return {
+      form: {
+        review: '',
+        reviewer_type: 2,
+        review_type: 3,
+        review_type_id: this.$route.params.id,
+        reviewer_type_id: this.$auth.user.landlord_id,
+        status: 1,
+        rating: ''
+      },
+    }
+  },
+  methods: {
+    async store() {
+      await this.$axios.$post('review/store', this.form)
+        .then(response => {
+          this.$izitoast.success({
+            title: 'Success !!',
+            message: 'Your review successfully submitted!'
+          });
+
+          this.$router.push({ name: 'account-property-deed-landlord' });
+        })
+        .catch(error => {
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors
+          }
+          else {
+            alert(error.response.message)
+          }
+        })
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>

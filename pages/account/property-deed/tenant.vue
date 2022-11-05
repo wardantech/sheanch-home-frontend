@@ -80,11 +80,11 @@
                         <font-awesome-icon icon="fa-solid fa-eye"/>
                       </nuxt-link>
 
-                      <nuxt-link :to="{name:'account-profile-id-show-landlord', params: { id: value.landlord_id }}" rel="tooltip"
+                      <!-- <nuxt-link :to="{name:'account-profile-id-show-landlord', params: { id: value.landlord_id }}" rel="tooltip"
                                  class="btn btn-sm btn-success btn-simple"
                                  title="View landlord">
                         <font-awesome-icon icon="fa-solid fa-binoculars" />
-                      </nuxt-link>
+                      </nuxt-link> -->
 
                     </td>
                   </tr>

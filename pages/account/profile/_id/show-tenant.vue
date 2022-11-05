@@ -20,6 +20,18 @@
                   </div>
                 </div>
 
+                <div>
+                  <div class="form-group d-flex">
+                    <div class="mx-2">
+                      <nuxt-link class="btn btn-sm btn-info btn-simple" title="Review for tenant"
+                        :to="{ name: 'account-profile-id-tenant-review', params: { id: this.$route.params.id } }">
+                        <b-icon icon="star-fill" aria-hidden="true" style="margin-bottom: 2px;"></b-icon>
+                        Review
+                      </nuxt-link>
+                    </div>
+                  </div>
+                </div>
+
               </div>
               <div>
 
@@ -91,6 +103,10 @@
                   </b-col>
                   <b-col md="4">
                     <b-img thumbnail :src="imageUrl+image" alt="Tenant image" style="object-fit: cover; height: 180px; width: 100%;"></b-img>
+                    <div class="mt-5">
+                      <label for="rating-10">Rating</label>
+                      <b-form-rating v-model="rating" color="#ff9800" readonly></b-form-rating>
+                    </div>
                   </b-col>
                 </b-row>
               </div>
@@ -126,6 +142,7 @@
         'district': '',
         'thana': '',
         'image': '',
+        'rating': ''
       }
     },
     async created() {
@@ -133,11 +150,12 @@
         tenantId: this.$route.params.id,
       });
 
-      this.tenant = response.data;
-      this.division = response.data.division.name;
-      this.district = response.data.district.name;
-      this.thana = response.data.thana.name;
-      this.image = response.data.image;
+      this.tenant = response.data.tenant;
+      this.division = response.data.tenant.division.name;
+      this.district = response.data.tenant.district.name;
+      this.thana = response.data.tenant.thana.name;
+      this.image = response.data.tenant.image;
+      this.rating = response.data.rating;
     },
   }
 </script>
