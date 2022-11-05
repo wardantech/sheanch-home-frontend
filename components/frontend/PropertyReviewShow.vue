@@ -28,8 +28,7 @@
                           </div>
                           <div style="margin-left: 8px;">
                             <div class="comment-meta">
-                              <h4 v-if="value.tenant" class="author-name">{{ value.tenant.name }}</h4>
-                              <h4 v-if="value.landlord" class="author-name">{{ value.landlord.name }}</h4>
+                              <h4 class="author-name">{{ value.tenant.name }}</h4>
                               <div class="comment-date">
                                 {{ dateFromat(value.created_at) }}
                               </div>

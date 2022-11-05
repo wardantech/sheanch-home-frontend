@@ -340,7 +340,6 @@ export default {
   components: { Newsletter, Slick, PropertyReview, PropertyReviewShow },
   data() {
     return {
-      name: this.$auth.user.name,
       propertyId: this.$route.params.id,
       propertyAd: '',
       property: '',
@@ -428,8 +427,6 @@ export default {
       });
 
       this.reviews = [...this.reviews, response.data.review];
-
-      console.log(this.reviews);
     }
   }
 }

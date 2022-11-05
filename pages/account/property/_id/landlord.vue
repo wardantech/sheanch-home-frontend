@@ -86,6 +86,10 @@
 
                 <b-col md="3">
                   <b-img thumbnail :src="imageUrl+image" alt="Landlord Image" style="object-fit: cover; height: 150px; width: 100%;"></b-img>
+                  <div class="mt-5">
+                    <label for="rating-10">Rating</label>
+                    <b-form-rating v-model="rating" color="#ff9800" readonly></b-form-rating>
+                  </div>
                 </b-col>
               </b-row>
 
@@ -115,17 +119,19 @@
         division: '',
         district: '',
         thana: '',
-        image: ''
+        image: '',
+        rating: ''
       }
     },
     async created() {
       await this.$axios.$get('property/landlord/details/' + this.$route.params.id)
         .then((response) => {
-          this.landlord = response.data;
-          this.division = response.data.division.name;
-          this.district = response.data.district.name;
-          this.thana = response.data.thana.name;
-          this.image = response.data.image;
+          this.landlord = response.data.landlord;
+          this.division = response.data.landlord.division.name;
+          this.district = response.data.landlord.district.name;
+          this.thana = response.data.landlord.thana.name;
+          this.image = response.data.landlord.image;
+          this.rating = response.data.rating;
         })
     }
   }

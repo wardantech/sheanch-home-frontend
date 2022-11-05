@@ -103,6 +103,10 @@
                   </b-col>
                   <b-col md="4">
                     <b-img thumbnail :src="imageUrl+image" alt="Tenant image" style="object-fit: cover; height: 180px; width: 100%;"></b-img>
+                    <div class="mt-5">
+                      <label for="rating-10">Rating</label>
+                      <b-form-rating v-model="rating" color="#ff9800" readonly></b-form-rating>
+                    </div>
                   </b-col>
                 </b-row>
               </div>
@@ -138,6 +142,7 @@
         'district': '',
         'thana': '',
         'image': '',
+        'rating': ''
       }
     },
     async created() {
@@ -145,11 +150,12 @@
         tenantId: this.$route.params.id,
       });
 
-      this.tenant = response.data;
-      this.division = response.data.division.name;
-      this.district = response.data.district.name;
-      this.thana = response.data.thana.name;
-      this.image = response.data.image;
+      this.tenant = response.data.tenant;
+      this.division = response.data.tenant.division.name;
+      this.district = response.data.tenant.district.name;
+      this.thana = response.data.tenant.thana.name;
+      this.image = response.data.tenant.image;
+      this.rating = response.data.rating;
     },
   }
 </script>

@@ -9,19 +9,18 @@
         </b-card-header>
         <b-collapse id="accordion-7" visible accordion="my-accordion-7" role="tabpanel">
           <b-card-body>
-            <p v-if="!isAuth" class="text-danger">
-              Please <a href="#" class="text-danger"> login</a> to write review!
+            <p v-if="!isTenant" class="text-danger">
+              Please <a href="#" class="text-danger"> login</a> as a tenant to write review!
             </p>
 
-            <div class="block-body p-0">
+            <div v-if="isTenant" class="block-body p-0">
               <form @submit.prevent="store">
                 <b-row class="py-3">
                   <b-col md="8">
                     <b-row>
                       <b-col lg="6" md="6" sm="12">
                         <label class="select-star">Ratings</label>
-                        <b-form-rating v-if="!isAuth" v-model="form.rating" color="#ff9800" readonly></b-form-rating>
-                        <b-form-rating v-else v-model="form.rating" color="#ff9800"></b-form-rating>
+                        <b-form-rating v-model="form.rating" color="#ff9800"></b-form-rating>
                       </b-col>
                     </b-row>
                   </b-col>
@@ -37,16 +36,13 @@
                 <b-row>
                   <b-col lg="12" md="12" sm="12">
                     <div class="form-group">
-                      <textarea v-if="!isAuth" name="comment" placeholder="Message" class="form-control ht-80"
-                        disabled></textarea>
-                      <textarea v-else name="comment" v-model="form.review" placeholder="Message"
+                      <textarea name="comment" v-model="form.review" placeholder="Message"
                         class="form-control ht-80"></textarea>
                     </div>
                   </b-col>
 
                   <b-col lg="12" md="12" sm="12">
-                    <b-button v-if="!isAuth" class="btn btn-browse-more" disabled>Submit Review</b-button>
-                    <b-button v-else type="submit" class="btn btn-browse-more">Submit Review</b-button>
+                    <b-button type="submit" class="btn btn-browse-more">Submit Review</b-button>
                   </b-col>
                 </b-row>
               </form>
@@ -62,10 +58,10 @@
 export default {
   data() {
     return {
-      isAuth: this.$auth.loggedIn,
+      isTenant: false,
       form: {
         review: '',
-        reviewer_type: '',
+        reviewer_type: 3,
         review_type: 1,
         review_type_id: this.$route.params.id,
         reviewer_type_id: '',
@@ -74,34 +70,29 @@ export default {
       },
     }
   },
-  created() {
-    if (this.isAuth) {
-      if (this.$auth.user.tenant_id) {
-        this.form.reviewer_type_id = this.$auth.user.tenant_id;
-        this.form.reviewer_type = 3;
-      } else {
-        this.form.reviewer_type_id = this.$auth.user.landlord_id;
-        this.form.reviewer_type = 2;
-      }
-    } else {
-      this.form.reviewer_type_id = '';
-    }
-  },
   methods: {
     store() {
-        if(!this.form.rating) {
-          this.$izitoast.warning({
-            title: 'Warning !!',
-            message: 'Rating is not empty'
-          });
-          return;
-        }
-        const formData = this.form;
-        this.$emit('add-review', formData);
+      if (!this.form.rating) {
+        this.$izitoast.warning({
+          title: 'Warning !!',
+          message: 'Rating is not empty'
+        });
+        return;
+      }
+      const formData = this.form;
+      this.$emit('add-review', formData);
 
-        // Field value clear
-        this.form.rating = '',
+      // Field value clear
+      this.form.rating = '',
         this.form.review = ''
+    }
+  },
+  created() {
+    if (this.$auth.loggedIn) {
+      if (this.$auth.user.tenant_id) {
+        this.isTenant = true;
+        this.form.reviewer_type_id = this.$auth.user.tenant_id;
+      }
     }
   }
 }
