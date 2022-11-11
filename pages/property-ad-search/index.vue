@@ -37,7 +37,7 @@
                     <b-col md="3">
                       <b-form-group label="Property Category" label-for="property_category">
                         <select v-model="form.property_category" class="form-control custom-input-control"
-                                id="property_category">
+                          id="property_category">
                           <option value="1">Commercial</option>
                           <option value="2">Residential</option>
                         </select>
@@ -45,8 +45,7 @@
                     </b-col>
                     <b-col md="3">
                       <b-form-group label="Property Type" label-for="property_type">
-                        <select v-model="form.property_type_id"
-                                class="form-control custom-input-control">
+                        <select v-model="form.property_type_id" class="form-control custom-input-control">
                           <option value="">Select</option>
                           <option v-for="(type, i) in propertyTypes" :key="i" :value="type.id">
                             {{ type.name }}
@@ -67,7 +66,7 @@
                     <b-col md="3">
                       <b-form-group label="Select divisions" label-for="division_id">
                         <select @change="getDistricts(form.division_id)" v-model="form.division_id" id=""
-                                class="form-control custom-input-control">
+                          class="form-control custom-input-control">
                           <option value="">Select</option>
                           <option v-for="(division, i) in divisions" :value="division.id" :key="i">
                             {{ division.name }}
@@ -78,7 +77,7 @@
                     <b-col md="3">
                       <b-form-group label="Select district" label-for="district_id">
                         <select @change="getThanas(form.district_id)" v-model="form.district_id" id=""
-                                class="form-control custom-input-control">
+                          class="form-control custom-input-control">
                           <option value="">Select</option>
                           <option v-for="(district, i) in districts" :value="district.id" :key="i">
                             {{ district.name }}
@@ -114,18 +113,15 @@
                 <div class="place-layout-listing-img">
                   <div class="place-layout-listing-img-slide">
                     <div v-if="propertiesAd.property.media.length > 0">
-                      <nuxt-link
-                        :to="{ name: 'property-id-show', params: { id: propertiesAd.id }}">
-                        <b-img
-                          :src="propertiesAd.property.media[0].original_url"
-                          alt="Image 1">
+                      <nuxt-link :to="{ name: 'property-id-show', params: { id: propertiesAd.id } }">
+                        <b-img :src="propertiesAd.property.media[0].original_url" alt="Image 1">
                         </b-img>
                       </nuxt-link>
                     </div>
                   </div>
                   <div class="place-layout-listing-img-action">
                     <b-link @click="wishlistStore(propertiesAd.id)" class="add-to-wishlist">
-                      <font-awesome-icon icon="fa-solid fa-heart"/>
+                      <font-awesome-icon icon="fa-solid fa-heart" />
                     </b-link>
                   </div>
                 </div>
@@ -149,21 +145,21 @@
                   <div class="features-list">
                     <div class="features-list-icon">
                       <div class="fleat-icon">
-                        <font-awesome-icon icon="fa-solid fa-bed"/>
+                        <font-awesome-icon icon="fa-solid fa-bed" />
                       </div>
                       {{ propertiesAd.property.bed_rooms }}
                     </div>
 
                     <div class="features-list-icon">
                       <div class="fleat-icon">
-                        <font-awesome-icon icon="fa-solid fa-bath"/>
+                        <font-awesome-icon icon="fa-solid fa-bath" />
                       </div>
                       {{ propertiesAd.property.bath_rooms }}
                     </div>
 
                     <div class="features-list-icon">
                       <div class="fleat-icon">
-                        <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right"/>
+                        <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right" />
                       </div>
                       {{ propertiesAd.property.area_size }}
                     </div>
@@ -172,14 +168,12 @@
                 <div class="place-layout-listing-footer">
                   <div class="footer-first">
                     <div class="footer-first-location d-flex">
-                      <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot"/>
+                      <font-awesome-icon class="mr-1" icon="fa-solid fa-location-dot" />
                       {{ propertiesAd.property.address }}
                     </div>
                   </div>
                   <div class="footer-flex">
-                    <nuxt-link
-                      class="product-view"
-                      :to="{ name: 'property-id-show', params: { id: propertiesAd.id }}">
+                    <nuxt-link class="product-view" :to="{ name: 'property-id-show', params: { id: propertiesAd.id } }">
                       View
                     </nuxt-link>
                   </div>
@@ -191,7 +185,7 @@
       </b-container>
     </section>
     <!-- Start newsletter -->
-    <Newsletter/>
+    <Newsletter />
     <!-- End newsletter -->
   </div>
 </template>
@@ -202,7 +196,7 @@ import Newsletter from "@/components/frontend/Newsletter";
 export default {
   name: "index",
   auth: false,
-  components: {Newsletter},
+  components: { Newsletter },
   data() {
     return {
       form: {
@@ -239,12 +233,12 @@ export default {
   methods: {
     async getDistricts(division_id) {
       this.thanas = '';
-      let district = await this.$axios.$post('settings/districts', {divisionId: division_id});
+      let district = await this.$axios.$post('settings/districts', { divisionId: division_id });
       this.districts = district.data;
     },
 
     async getThanas(district_id) {
-      let thanas = await this.$axios.$post('settings/thanas', {districtId: district_id});
+      let thanas = await this.$axios.$post('settings/thanas', { districtId: district_id });
       this.thanas = thanas.data;
     },
 
@@ -257,7 +251,7 @@ export default {
     async wishlistStore(propertyAdId) {
 
       if (this.$auth.loggedIn && this.$auth.user.tenant_id) {
-        this.$axios.$post('wishlist/store', {propertyAdId: propertyAdId, tenantId: this.$auth.user.tenant_id})
+        this.$axios.$post('wishlist/store', { propertyAdId: propertyAdId, tenantId: this.$auth.user.tenant_id })
           .then(response => {
             if (!response.data.status) {
               this.$izitoast.warning({

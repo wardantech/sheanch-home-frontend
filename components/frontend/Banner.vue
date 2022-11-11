@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div class="banner image-cover"
-         :style="bannerImage">
+    <div class="banner image-cover" :style="bannerImage">
       <b-container>
         <div class="banner-form">
           <div class="banner-form-title">
@@ -12,16 +11,9 @@
             <div class="banner-form-content">
               <b-row class="my-4">
                 <b-col lg="12" md="12" sm="12">
-                  <b-form-radio-group
-                    id="btn-radios-2"
-                    v-model="form.sale_type"
-                    :options="options"
-                    button-variant="outline-primary"
-                    size="lg"
-                    name="radio-btn-outline"
-                    buttons
-                    class="btn-block"
-                  ></b-form-radio-group>
+                  <b-form-radio-group id="btn-radios-2" v-model="form.sale_type" :options="options"
+                    button-variant="outline-primary" size="lg" name="radio-btn-outline" buttons class="btn-block">
+                  </b-form-radio-group>
                 </b-col>
               </b-row>
 
@@ -58,8 +50,7 @@
               <b-row>
                 <b-col lg="6" md="6" sm="6">
                   <b-form-group label="Property Category" label-for="property_type">
-                    <select v-model="form.property_category"
-                            class="form-control custom-input-control">
+                    <select v-model="form.property_category" class="form-control custom-input-control">
                       <option value="0">Select</option>
                       <option value="1">Commercial</option>
                       <option value="2">Residential</option>
@@ -69,8 +60,7 @@
 
                 <b-col lg="6" md="6" sm="6">
                   <b-form-group label="Property Type" label-for="property_type">
-                    <select v-model="form.property_type_id"
-                            class="form-control custom-input-control">
+                    <select v-model="form.property_type_id" class="form-control custom-input-control">
                       <option value="">Select</option>
                       <option v-for="(type, i) in propertyTypes" :key="i" :value="type.id">
                         {{ type.name }}
@@ -84,7 +74,7 @@
                 <b-col md="6" sm="12">
                   <b-form-group label="Select divisions" label-for="division_id">
                     <select @change="getDistricts(form.division_id)" v-model="form.division_id" id=""
-                            class="form-control custom-input-control">
+                      class="form-control custom-input-control">
                       <option value="">Select</option>
                       <option v-for="(division, i) in divisions" :value="division.id" :key="i">
                         {{ division.name }}
@@ -96,7 +86,7 @@
                 <b-col md="6" sm="12">
                   <b-form-group label="Select district" label-for="district_id">
                     <select @change="getThanas(form.district_id)" v-model="form.district_id" id=""
-                            class="form-control custom-input-control">
+                      class="form-control custom-input-control">
                       <option value="">Select</option>
                       <option v-for="(district, i) in districts" :value="district.id" :key="i">
                         {{ district.name }}
@@ -130,67 +120,66 @@
 </template>
 
 <script>
-  export default {
-    name: "Banner",
-    data() {
-      return {
-        options: [
-          {text: 'For Sale', value: '2'},
-          {text: 'To Rent', value: '1'}
-        ],
-        form: {
-          min_price:'',
-          sale_type:'',
-          max_price:'',
-          property_category:'',
-          property_type_id: '',
-          division_id: '',
-          district_id: '',
-          thana_id: '',
-        },
-        thanas: '',
-        divisions: '',
-        districts: '',
-        propertyTypes: '',
-        bannerImage: ''
-      }
-    },
-    computed: {
-      imageUrl(){
-        return `${process.env.APP_ROOT_IMG_URL}/`
+export default {
+  name: "Banner",
+  data() {
+    return {
+      options: [
+        { text: 'For Sale', value: '2' },
+        { text: 'To Rent', value: '1' }
+      ],
+      form: {
+        min_price: '',
+        sale_type: '',
+        max_price: '',
+        property_category: '',
+        property_type_id: '',
+        division_id: '',
+        district_id: '',
+        thana_id: '',
       },
+      thanas: '',
+      divisions: '',
+      districts: '',
+      propertyTypes: '',
+      bannerImage: ''
+    }
+  },
+  computed: {
+    imageUrl() {
+      return `${process.env.APP_ROOT_IMG_URL}/`
+    },
+  },
+
+  created() {
+    const banner = this.$store.getters['frontend-data/getBanner'];
+    this.bannerImage = "background: url(" + banner + ") no-repeat";
+  },
+
+  async fetch() {
+    const response = await this.$axios.$get('get-frontend-banner-data');
+    this.propertyTypes = response.data.propertyTypes;
+    this.divisions = response.data.divisions;
+  },
+
+  methods: {
+    async getDistricts(division_id) {
+      this.thanas = '';
+      let district = await this.$axios.$post('settings/districts', { divisionId: division_id });
+      this.districts = district.data;
     },
 
-    created() {
-      const banner = this.$store.getters['frontend-data/getBanner'];
-      this.bannerImage = "background: url("+banner+") no-repeat";
+    async getThanas(district_id) {
+      let thanas = await this.$axios.$post('settings/thanas', { districtId: district_id });
+      this.thanas = thanas.data;
     },
 
-    async fetch() {
-      const response = await this.$axios.$get('get-frontend-banner-data');
-      this.propertyTypes = response.data.propertyTypes;
-      this.divisions = response.data.divisions;
-
-    },
-
-    methods: {
-      async getDistricts(division_id) {
-        this.thanas = '';
-        let district = await this.$axios.$post('settings/districts', {divisionId: division_id});
-        this.districts = district.data;
-      },
-
-      async getThanas(district_id) {
-        let thanas = await this.$axios.$post('settings/thanas', {districtId: district_id});
-        this.thanas = thanas.data;
-      },
-
-      searchStore(){
-        this.$store.dispatch('search/storeSearch', this.form)
-        this.$router.push({name: 'property-ad-search'});
-      }
+    searchStore() {
+      this.$store.dispatch('search/storeSearch', this.form)
+      this.$router.push({ name: 'property-ad-search' });
     }
   }
+}
 </script>
 
 <style scoped>
