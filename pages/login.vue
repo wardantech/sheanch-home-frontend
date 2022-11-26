@@ -18,8 +18,8 @@
                         <b-form-input type="text" v-model="form.mobile" placeholder="Mobile"></b-form-input>
                         <b-icon icon="person"></b-icon>
                       </div>
-                      <strong class="text-danger" style="font-size: 12px"
-                              v-if="errors.mobile">{{ errors.mobile[0] }}</strong>
+                      <strong class="text-danger" style="font-size: 12px" v-if="errors.mobile">{{ errors.mobile[0]
+                      }}</strong>
                     </b-form-group>
 
                     <b-form-group label="Password">
@@ -27,8 +27,8 @@
                         <b-form-input type="password" v-model="form.password" placeholder="Password"></b-form-input>
                         <b-icon icon="unlock"></b-icon>
                       </div>
-                      <strong class="text-danger" style="font-size: 12px"
-                              v-if="errors.password">{{ errors.password[0] }}</strong>
+                      <strong class="text-danger" style="font-size: 12px" v-if="errors.password">{{ errors.password[0]
+                      }}</strong>
 
                     </b-form-group>
 
@@ -52,9 +52,7 @@
                     <b-form-group class="text-center">
                       <p>
                         Don't have an account?
-                        <nuxt-link
-                          class="text-danger"
-                          :to="{ name: 'auth-register'}">
+                        <nuxt-link class="text-danger" :to="{ name: 'auth-register' }">
                           Register a new account
                         </nuxt-link>
                       </p>
@@ -92,10 +90,10 @@ export default {
   created() {
     if (this.$auth.loggedIn) {
       if (this.$auth.user.landlord_id) {
-        this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
+        this.$nuxt.$options.router.push({ name: 'account-dashboard-landlord' })
       }
       if (this.$auth.user.tenant_id) {
-        this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
+        this.$nuxt.$options.router.push({ name: 'account-dashboard-tenant' })
       }
     }
   },
@@ -113,7 +111,7 @@ export default {
 
   methods: {
     async userLogin() {
-      await this.$auth.loginWith('local', {data: this.form})
+      await this.$auth.loginWith('local', { data: this.form })
         .then(response => {
           console.log(response)
           if (response.data.status == false) {
@@ -132,13 +130,13 @@ export default {
             const path = this.$nuxt.context.from;
 
             if (path && path.name == 'property-id-show') {
-              this.$nuxt.$options.router.push({name: 'property-id-show', params: {id: path.params.id}})
+              this.$nuxt.$options.router.push({ name: 'property-id-show', params: { id: path.params.id } })
             } else {
               if (this.$auth.user.landlord_id) {
-                this.$nuxt.$options.router.push({name: 'account-dashboard-landlord'})
+                this.$nuxt.$options.router.push({ name: 'account-dashboard-landlord' })
               }
               if (this.$auth.user.tenant_id) {
-                this.$nuxt.$options.router.push({name: 'account-dashboard-tenant'})
+                this.$nuxt.$options.router.push({ name: 'account-dashboard-tenant' })
               }
             }
           }
@@ -154,8 +152,8 @@ export default {
         });
     },
 
-    socialLogin(service){
-      window.location.href = process.env.APP_SOCIAL_LOGIN_URL+service+'/'+'login';
+    socialLogin(service) {
+      window.location.href = process.env.APP_SOCIAL_LOGIN_URL + service + '/' + 'login';
     }
   }
 }
