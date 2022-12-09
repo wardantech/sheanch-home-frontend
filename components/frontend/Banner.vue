@@ -154,24 +154,32 @@ export default {
   created() {
     const banner = this.$store.getters['frontend-data/getBanner'];
     this.bannerImage = "background: url(" + banner + ") no-repeat";
+
+    this.fetch()
   },
 
-  async fetch() {
-    const response = await this.$axios.$get('get-frontend-banner-data');
-    this.propertyTypes = response.data.propertyTypes;
-    this.divisions = response.data.divisions;
-  },
 
   methods: {
+
+    async fetch() {
+    await this.$axios.get('get-frontend-banner-data').then(response => {
+      this.propertyTypes = response.data.propertyTypes;
+      this.divisions = response.data.divisions;
+    });
+  },
+
     async getDistricts(division_id) {
       this.thanas = '';
-      let district = await this.$axios.$post('settings/districts', { divisionId: division_id });
-      this.districts = district.data;
+      await this.$axios.$post('settings/districts', { divisionId: division_id }).then(response => {
+        this.districts = response.data;
+      });
+      
     },
 
     async getThanas(district_id) {
-      let thanas = await this.$axios.$post('settings/thanas', { districtId: district_id });
-      this.thanas = thanas.data;
+      await this.$axios.$post('settings/thanas', { districtId: district_id }).then(res => {
+        this.thanas = res.data;
+      });
     },
 
     searchStore() {
