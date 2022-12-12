@@ -152,9 +152,9 @@ export default {
         });
     },
 
-    socialLogin(service) {
-      window.location.href = process.env.APP_SOCIAL_LOGIN_URL + service + '/' + 'login';
-    }
+    // socialLogin(service) {
+    //   window.location.href = process.env.APP_SOCIAL_LOGIN_URL + service + '/' + 'login';
+    // }
   }
 }
 </script>

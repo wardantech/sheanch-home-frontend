@@ -38,11 +38,16 @@ export default {
     }
   },
 
-  async fetch() {
+  
+  created() {
+    this.fetch()
+  },
+  methods: {
+    async fetch() {
     if (this.$auth.loggedIn && this.$auth.user.tenant_id) {
       this.tenant_id = this.$auth.user.tenant_id;
     }
-    const response = await this.$axios.$post('get-frontend-data', {
+    const response = await this.$axios.post('get-frontend-data', {
       tenantId: this.tenant_id,
     });
 
@@ -65,6 +70,7 @@ export default {
         }
       }
     }
+  }
   }
 }
 </script>
