@@ -1,112 +1,72 @@
 <template>
   <div>
-    <section class="bg-light">
-      <b-container fluid>
-        <b-row>
-          <!-- Sidebar -->
-          <b-col lg="3" md="12">
-            <Sidebar />
-          </b-col>
-          <!-- /.Sidebar -->
+    <div class="d-flex justify-content-between align-items-center">
+      <h5>Property deed Lists</h5>
+    </div>
+    <div class="card-body p-0 mt-4">
+      <div class="search d-flex justify-content-between align-items-center">
+        <div class="form-group">
+          <input class="form-control custom-form-control" type="text" v-model="tableData.search"
+            placeholder="Search Table" @input="getData()">
+        </div>
+        <div class="form-group">
+          <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
+            <option v-for="(records, index) in perPage" :key="index" :value="records">{{ records }}</option>
+          </select>
+        </div>
+      </div>
+      <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
+        <tbody>
+          <tr v-for="(value, i) in values" :key="value.id">
+            <td>{{ i + 1 }}</td>
+            <td>{{ value.landlord.name }}</td>
+            <td>{{ value.property.address }}</td>
+            <td>
+              <div v-if="value.property.sale_type == 1"> Rent</div>
+              <div v-if="value.property.sale_type == 2"> Sale</div>
+            </td>
+            <td>{{ value.property_ad.rent_amount }}</td>
+            <td>
+              <b-button v-if="value.status == 0" class="btn-sm btn-warning">
+                Pending
+              </b-button>
+              <b-button v-if="value.status == 1" class="btn-sm btn-info">
+                Send to landlord
+              </b-button>
+              <b-button v-if="value.status == 2" class="btn-sm btn-info">
+                Completed
+              </b-button>
+              <b-button v-if="value.status == 3" class="btn-sm btn-warning">
+                Decline
+              </b-button>
+            </td>
+            <td>
+              <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }" rel="tooltip"
+                class="btn btn-sm btn-info btn-simple" title="Details">
+                <font-awesome-icon icon="fa-solid fa-hotel" />
+              </nuxt-link>
 
-          <!-- Main Content -->
-          <b-col lg="9" md="12">
-            <div class="dashboard-wrapper">
-              <div class="d-flex justify-content-between align-items-center">
-                <h5>Property deed Lists</h5>
-                <!--                <nuxt-link-->
-                <!--                  class="btn btn-sm btn-info"-->
-                <!--                  :to="{ name: 'profile-property-create'}">-->
-                <!--                  <font-awesome-icon icon="fa-solid fa-plus" />-->
-                <!--                  Create-->
-                <!--                </nuxt-link>-->
-              </div>
-              <div class="card-body p-0 mt-4">
-                <div class="search d-flex justify-content-between align-items-center">
-                  <div class="form-group">
-                    <input class="form-control custom-form-control" type="text" v-model="tableData.search"
-                      placeholder="Search Table" @input="getData()">
-                  </div>
-                  <div class="form-group">
-                    <select class="form-control custom-select-form-control" v-model="tableData.length"
-                      @change="getData()">
-                      <option v-for="(records, index) in perPage" :key="tenant" :value="records">{{ records }}</option>
-                    </select>
-                  </div>
-                </div>
-                <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy"
-                  class="">
-                  <tbody>
-                    <tr v-for="(value, i) in values" :key="value.id">
-                      <td>{{ i + 1 }}</td>
-                      <!--              <td>-->
-                      <!--                <img style="height: 50px; width: 50px" :src="imageUrl+value.image" alt="">-->
-                      <!--              </td>-->
-                      <td>{{ value.landlord.name }}</td>
-                      <td>{{ value.property.address }}</td>
-                      <td>
-                        <div v-if="value.property.sale_type == 1"> Rent</div>
-                        <div v-if="value.property.sale_type == 2"> Sale</div>
-                      </td>
-                      <td>{{ value.property_ad.rent_amount }}</td>
-                      <td>
-                        <b-button v-if="value.status == 0" class="btn-sm btn-warning">
-                          Pending
-                        </b-button>
-                        <b-button v-if="value.status == 1" class="btn-sm btn-info">
-                          Send to landlord
-                        </b-button>
-                        <b-button v-if="value.status == 2" class="btn-sm btn-info">
-                          Completed
-                        </b-button>
-                        <b-button v-if="value.status == 3" class="btn-sm btn-warning">
-                          Decline
-                        </b-button>
-                      </td>
-                      <td>
-                        <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
-                          rel="tooltip" class="btn btn-sm btn-info btn-simple" title="Details">
-                          <font-awesome-icon icon="fa-solid fa-hotel" />
-                        </nuxt-link>
+              <nuxt-link :to="{ name: 'profile-property-ads-id-show', params: { id: value.property_ad_id } }"
+                rel="tooltip" class="btn btn-sm btn-warning btn-simple" title="View Ad">
+                <font-awesome-icon icon="fa-solid fa-eye" />
+              </nuxt-link>
 
-                        <nuxt-link :to="{ name: 'profile-property-ads-id-show', params: { id: value.property_ad_id } }"
-                          rel="tooltip" class="btn btn-sm btn-warning btn-simple" title="View Ad">
-                          <font-awesome-icon icon="fa-solid fa-eye" />
-                        </nuxt-link>
+            </td>
+          </tr>
+        </tbody>
+      </DataTable>
 
-                        <!-- <nuxt-link :to="{name:'profile-profile-id-show-landlord', params: { id: value.landlord_id }}" rel="tooltip"
-                                 class="btn btn-sm btn-success btn-simple"
-                                 title="View landlord">
-                        <font-awesome-icon icon="fa-solid fa-binoculars" />
-                      </nuxt-link> -->
+      <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
+        @next="getData(pagination.nextPageUrl)">
+      </pagination>
 
-                      </td>
-                    </tr>
-                  </tbody>
-                </DataTable>
-
-                <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-                  @next="getData(pagination.nextPageUrl)">
-                </pagination>
-
-              </div>
-            </div>
-          </b-col>
-          <!--/. Main Content -->
-        </b-row>
-      </b-container>
-    </section>
-
-    <!-- Start newsletter -->
-    <Newsletter />
-    <!-- End newsletter -->
+    </div>
   </div>
 </template>
 
 <script>
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
-
 
 export default {
   layout: 'dashboard',
