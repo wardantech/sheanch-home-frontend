@@ -17,7 +17,7 @@
                     <div class="top-bar-right d-flex align-items-center">
                         <div class="top-bar-wishlist">
                             <nuxt-link
-                              :to="{ name: 'account-wishlist'}"
+                              :to="{ name: 'profile-wishlist'}"
                               class="text-white" href="#">
                                 <font-awesome-icon icon="fa-solid fa-heart" />
                                 Wishlist ({{wishlist}})

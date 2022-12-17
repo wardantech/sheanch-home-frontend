@@ -4,81 +4,65 @@
       <div class="sidebar-widgets">
         <div class="sidebar-navbar">
           <div class="profile-avater">
-            <b-img
-              :src="imageUrl+profileImage"
-              alt="Profile Image"
+            <b-img :src="imageUrl + profileImage" alt="Profile Image"
               style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
             </b-img>
-            <h4>{{user}}</h4>
+            <h4>{{ user }}</h4>
           </div>
           <div class="profile-navigation">
             <ul>
               <li class="active">
                 <nuxt-link
-                  :to="$auth.user.type == 2?{ name: 'account-dashboard-landlord'}:{ name: 'account-dashboard-tenant'}">
+                  :to="$auth.user.type == 2 ? { name: 'profile-dashboard-landlord' } : { name: 'profile-dashboard-tenant' }">
                   <b-icon icon="speedometer2" font-scale="1"></b-icon>
                   Dashboard
                 </nuxt-link>
               </li>
               <li v-if="$auth.loggedIn && $auth.user.type == 2">
-                <nuxt-link
-                  :to="{ name: 'account-profile-id-landloard', params: { id: $auth.user.landlord_id }}">
+                <nuxt-link :to="{ name: 'profile-me-id-landloard', params: { id: $auth.user.landlord_id } }">
                   <b-icon icon="person" font-scale="1"></b-icon>
                   Profile
                 </nuxt-link>
               </li>
               <li v-if="$auth.loggedIn && $auth.user.type == 3">
-                <nuxt-link
-                  :to="{ name: 'account-profile-id-tenant', params: { id: $auth.user.tenant_id }}">
+                <nuxt-link :to="{ name: 'profile-me-id-tenant', params: { id: $auth.user.tenant_id } }">
                   <b-icon icon="person" font-scale="1"></b-icon>
                   Profile
                 </nuxt-link>
               </li>
               <li v-if="$auth.loggedIn && $auth.user.type == 2">
-                <nuxt-link
-                  :to="{ name: 'account-property'}">
+                <nuxt-link :to="{ name: 'profile-property' }">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Properties
                 </nuxt-link>
               </li>
               <li v-if="$auth.loggedIn && $auth.user.type == 2">
-                <nuxt-link
-                  :to="{ name: 'account-property-ads'}">
+                <nuxt-link :to="{ name: 'profile-property-ads' }">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Ads
                 </nuxt-link>
               </li>
               <li>
                 <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 2"
-                  :to="{ name: 'account-property-deed-landlord'}">
+                  :to="{ name: 'profile-property-deed-landlord' }">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Property Deed
                 </nuxt-link>
 
-                <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 3"
-                           :to="{ name: 'account-property-deed-tenant'}">
+                <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 3" :to="{ name: 'profile-property-deed-tenant' }">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Property Deed
                 </nuxt-link>
               </li>
               <li>
-                <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 3"
-                           :to="{ name: 'account-wishlist'}">
+                <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 3" :to="{ name: 'profile-wishlist' }">
                   <b-icon icon="heart-fill" font-scale="1"></b-icon>
                   Wishlist
                 </nuxt-link>
               </li>
-<!--              <li>-->
-<!--                <nuxt-link-->
-<!--                  :to="{ name: 'account-settings'}">-->
-<!--                  <b-icon icon="gear" font-scale="1"></b-icon>-->
-<!--                  Settings-->
-<!--                </nuxt-link>-->
-<!--              </li>-->
-
               <li>
                 <b-link @click="logout">
-                  <font-awesome-icon icon="fa-solid fa-right-from-bracket"/>
+                  <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
                   Logout
                 </b-link>
               </li>
@@ -103,25 +87,25 @@ export default {
       return this.$auth.user.name;
     },
 
-    imageUrl(){
+    imageUrl() {
       return `${process.env.APP_ROOT_IMG_URL}`
     }
   },
   async created() {
-    if(this.$auth.user.landlord_id) {
-      const response = await this.$axios.$post('profile/landlord', {id: this.$auth.user.landlord_id});
+    if (this.$auth.user.landlord_id) {
+      const response = await this.$axios.$post('profile/landlord', { id: this.$auth.user.landlord_id });
       this.profileImage = response.data.landlord.image;
-    }else if (this.$auth.user.tenant_id) {
-      const response = await this.$axios.$post('profile/tenant', {id: this.$auth.user.tenant_id});
+    } else if (this.$auth.user.tenant_id) {
+      const response = await this.$axios.$post('profile/tenant', { id: this.$auth.user.tenant_id });
       this.profileImage = response.data.tenant.image;
     }
   },
   methods: {
     async logout() {
       await this.$auth.logout();
-      this.$store.dispatch('wishlist/storeWishlist',0);
+      this.$store.dispatch('wishlist/storeWishlist', 0);
       //this.$toast.error('Logged out successfully!');
-      this.$nuxt.$options.router.push({name: 'login'})
+      this.$nuxt.$options.router.push({ name: 'login' })
     },
   }
 }

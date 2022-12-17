@@ -51,8 +51,8 @@
               <nuxt-link v-else
                          class="btn sign-in-button"
                          :to="$auth.user.landlord_id ?
-                         { name: 'account-dashboard-landlord'}:
-                         { name: 'account-dashboard-tenant'}">
+                         { name: 'profile-dashboard-landlord'}:
+                         { name: 'profile-dashboard-tenant'}">
                 <font-awesome-icon icon="fa-solid fa-address-card" />
                 Account
               </nuxt-link>

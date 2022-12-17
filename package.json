@@ -17,6 +17,7 @@
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.21.2",
     "boxicons": "^2.1.2",
+    "caniuse-lite": "^1.0.30001439",
     "core-js": "^3.19.3",
     "dotenv": "^16.0.1",
     "jquery": "^3.6.0",

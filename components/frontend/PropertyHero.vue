@@ -24,7 +24,7 @@
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
 
               <nuxt-link class="btn btn-success" v-if="$auth.loggedIn && $auth.user.landlord_id"
-                         :to="{ name: 'account-property-create'}">
+                         :to="{ name: 'profile-property-create'}">
                 Get Started
               </nuxt-link>
 
