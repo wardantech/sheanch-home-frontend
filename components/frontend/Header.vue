@@ -14,20 +14,6 @@
             <b-navbar-nav class="custom-navbar">
               <b-nav-item href="#">Company</b-nav-item>
               <b-nav-item href="#">Blog</b-nav-item>
-
-<!--              <b-nav-item-dropdown class="custom-dropdown-menu" text="Listing" right>-->
-<!--                <b-dropdown-item href="#">Listing Layout</b-dropdown-item>-->
-<!--                <b-dropdown-item href="#">Grid Layout</b-dropdown-item>-->
-<!--                <b-dropdown-item href="#">Half Map Search</b-dropdown-item>-->
-<!--              </b-nav-item-dropdown>-->
-
-<!--              <li v-if="!$auth.loggedIn" class="nav-item b-nav-dropdown dropdown custom-dropdown-menu">-->
-<!--                <nuxt-link-->
-<!--                  class="mt-2 ml-1"-->
-<!--                  :to="{ name: 'auth-register'}">-->
-<!--                  Sign Up-->
-<!--                </nuxt-link>-->
-<!--              </li>-->
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->
