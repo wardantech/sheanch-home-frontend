@@ -23,13 +23,6 @@
                                 Wishlist ({{wishlist}})
                             </nuxt-link>
                         </div>
-                        <!--<div class="ms-3 text-white">-->
-                            <!--<b-dropdown size="sm" text="Lang" class="m-2 top-bar-right-lang">-->
-                                <!--<b-dropdown-item-button>EN</b-dropdown-item-button>-->
-                                <!--<b-dropdown-item-button>BN</b-dropdown-item-button>-->
-                                <!--<b-dropdown-item-button>LN</b-dropdown-item-button>-->
-                            <!--</b-dropdown>-->
-                        <!--</div>-->
                     </div>
                 </div>
             </b-container>

@@ -38,24 +38,22 @@ export default {
 
 
   created() {
-    this.fetch()
+    this.fetch();
   },
   methods: {
     async fetch() {
       if (this.$auth.loggedIn && this.$auth.user.tenant_id) {
         this.tenant_id = this.$auth.user.tenant_id;
       }
-      const response = await this.$axios.post('get-frontend-data', {
-        tenantId: this.tenant_id,
-      });
+      const response = await this.$axios.post('get-frontend-data', { tenantId: this.tenant_id });
 
       this.$store.dispatch('frontend-data/storeFrontend', response.data.frontendData);
       this.$store.dispatch('wishlist/storeWishlist',
         response.data.wishlistCount ? response.data.wishlistCount : 0
       );
 
-      if (response.data.frontendData.media.length > 0) {
-        for (const element of response.data.frontendData.media) {
+      if (response.data.data.frontendData.media.length > 0) {
+        for (const element of response.data.data.frontendData.media) {
           if (element.collection_name == "logo") {
             this.$store.dispatch('frontend-data/storeLogo', element.original_url);
           }

@@ -104,7 +104,6 @@ export default {
     async logout() {
       await this.$auth.logout();
       this.$store.dispatch('wishlist/storeWishlist', 0);
-      //this.$toast.error('Logged out successfully!');
       this.$nuxt.$options.router.push({ name: 'login' })
     },
   }
