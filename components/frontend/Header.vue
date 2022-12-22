@@ -40,7 +40,7 @@
                          { name: 'profile-dashboard-landlord'}:
                          { name: 'profile-dashboard-tenant'}">
                 <font-awesome-icon icon="fa-solid fa-address-card" />
-                Account
+                Me
               </nuxt-link>
             </b-navbar-nav>
           </b-collapse>
