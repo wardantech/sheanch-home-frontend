@@ -39,6 +39,9 @@
             <b-form-group label="Paid amount">
               <b-form-input v-model="form.cash_in" class="custom-input-control" type="text"
                 placeholder="Enter amount"></b-form-input>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_in">
+                {{ errors.cash_in[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -52,6 +55,9 @@
           <b-col md="6">
             <b-form-group label="Select Date">
               <b-form-datepicker id="example-datepicker" v-model="form.date" class="mb-2"></b-form-datepicker>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.date">
+                {{ errors.date[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -63,6 +69,9 @@
                 <option value="2">Bank</option>
                 <option value="3">Mobile Bank</option>
               </select>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.payment_method">
+                {{ errors.payment_method[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -93,7 +102,7 @@
         <b-row>
           <b-col>
             <div class="button-t-m" style="margin-top: 30px">
-              <b-button type="submit" variant="success">Add Payment</b-button>
+              <b-button type="submit" variant="success" :disabled="loading">Add Payment</b-button>
             </div>
           </b-col>
         </b-row>
@@ -108,6 +117,7 @@ export default {
   name: 'get-rent',
   data() {
     return {
+      loading: false,
       propertyName: '',
       tenantName: '',
       tenantId: '',
@@ -115,6 +125,7 @@ export default {
       banks: '',
       mobiles: '',
       isPaymentMethod: '',
+      errors: {},
       form: {
         user_id: '',
         property_id: '',
@@ -131,21 +142,22 @@ export default {
     }
   },
   async created() {
-    const res = await this.$axios.$post('property/deed/get-rent-property', { deedId: this.$route.params.id });
+    await this.$axios.$post('property/deed/get-rent-property', { deedId: this.$route.params.id })
+      .then(res => {
+        this.mobiles = res.data.mobiles;
+        this.banks = res.data.banks;
 
-    this.mobiles = res.data.mobiles;
-    this.banks = res.data.banks;
+        this.propertyName = res.data.deed.property.name;
+        this.tenantName = res.data.deed.tenant.name;
+        this.tenantId = res.data.deed.tenant.id;
+        this.rent = res.data.deed.property.rent_amount;
 
-    this.propertyName = res.data.deed.property.name;
-    this.tenantName = res.data.deed.tenant.name;
-    this.tenantId = res.data.deed.tenant.id;
-    this.rent = res.data.deed.property.rent_amount;
-
-    // Form
-    this.form.user_id = this.$auth.user.landlord_id;
-    this.form.property_id = res.data.deed.property.id;
-    this.form.created_by = this.$auth.user.landlord_id;
-    this.form.property_deed_id = this.$route.params.id;
+        // Form
+        this.form.user_id = this.$auth.user.landlord_id;
+        this.form.property_id = res.data.deed.property.id;
+        this.form.created_by = this.$auth.user.landlord_id;
+        this.form.property_deed_id = this.$route.params.id;
+      })
   },
   methods: {
     paymentMethod(event) {
@@ -153,29 +165,26 @@ export default {
     },
 
     async store() {
+      this.loading = true;
       await this.$axios.$post('property/deed/rent-property/store', this.form)
         .then(response => {
-
-          console.log(response);
-
+          this.loading = false;
           this.$izitoast.success({
             title: 'Success !!',
             message: 'Payment Done!'
           });
 
-          // this.$router.push({ name: 'profile-property' });
+          this.$router.push({ name: 'profile-property-payments' });
         })
         .catch(error => {
-
-          console.log(error);
-
-          // if (error.response.status == 422) {
-          //   this.errors = error.response.data.errors
-          // }
-          // else {
-          //   alert(error.response.message)
-          // }
-        })
+          this.loading = false;
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors;
+          }
+          else {
+            alert(error.response.message)
+          }
+        });
     }
   }
 }

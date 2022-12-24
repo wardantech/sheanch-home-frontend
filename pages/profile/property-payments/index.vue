@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h5>Property deed Lists</h5>
+      <h5>Property Payment Lists</h5>
     </div>
     <div class="card-body p-0 mt-4">
       <div class="search d-flex justify-content-between align-items-center">
@@ -15,46 +15,35 @@
           </select>
         </div>
       </div>
+
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.tenant.name }}</td>
             <td>{{ value.property.name }}</td>
+            <td>{{ dateFromat(value.date) }}</td>
             <td>
-              <div v-if="value.property.sale_type == 1"> Rent</div>
-              <div v-if="value.property.sale_type == 2"> Sale</div>
+              <p v-if="value.payment_method == 1">
+                <b-badge variant="primary">Cash</b-badge>
+              </p>
+              <p v-if="value.payment_method == 2">
+                <b-badge variant="success">Bank</b-badge>
+              </p>
+              <p v-if="value.payment_method == 3">
+                <b-badge variant="info">Mobile</b-badge></p>
             </td>
-            <td>{{ value.property_ad.rent_amount }}</td>
             <td>
-              <select @change="statusChange({ id: value.id, status: $event.target.value })" name="" id="status"
-                class="form-control custom-select-form-control">
-                <option :selected="value.status == 1" value="1">Send to landlord</option>
-                <option :selected="value.status == 2" value="2">Completed</option>
-                <option :selected="value.status == 3" value="3">Decline</option>
-              </select>
+              <p v-if="value.due">{{ value.due.amount }}</p>
+              <p v-else>0</p>
+            </td>
+            <td>
+              {{ value.cash_in }}
             </td>
             <td>
               <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }" rel="tooltip"
                 class="btn btn-sm btn-info btn-simple" title="Details">
                 <font-awesome-icon icon="fa-solid fa-hotel" />
               </nuxt-link>
-
-              <nuxt-link :to="{ name: 'profile-property-ads-id-show', params: { id: value.property_ad_id } }"
-                rel="tooltip" class="btn btn-sm btn-warning btn-simple" title="View Ad">
-                <font-awesome-icon icon="fa-solid fa-eye" />
-              </nuxt-link>
-
-              <nuxt-link :to="{ name: 'profile-me-id-show-tenant', params: { id: value.landlord_id } }"
-                rel="tooltip" class="btn btn-sm btn-success btn-simple" title="Show tenant details">
-                <font-awesome-icon icon="fa-solid fa-binoculars" />
-              </nuxt-link>
-
-              <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
-                rel="tooltip" class="btn btn-sm btn-secondary btn-simple" title="Get payment">
-                <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
-              </nuxt-link>
-
             </td>
           </tr>
         </tbody>
@@ -63,7 +52,6 @@
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
         @next="getData(pagination.nextPageUrl)">
       </pagination>
-
     </div>
   </div>
 </template>
@@ -71,11 +59,14 @@
 <script>
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
+import { dateMixin } from '../../../mixins/date-mixin';
 
 export default {
   layout: 'dashboard',
-  name: "properties",
+  name: "property-payments",
   components: { DataTable, Pagination },
+  mixins: [dateMixin],
+
   created() {
     this.getData();
   },
@@ -83,11 +74,11 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Tenant', name: 'name' },
       { width: '', label: 'Property', name: 'property' },
-      { width: '', label: 'Sale/Lease Type', name: 'lease_type' },
-      { width: '', label: 'Amount', name: 'rent_amount' },
-      { width: '', label: 'Status', name: 'status' },
+      { width: '', label: 'Date', name: 'date' },
+      { width: '', label: 'Method', name: 'method' },
+      { width: '', label: 'Due', name: 'due' },
+      { width: '', label: 'Paid', name: 'paid' },
       { width: '', label: 'Actions', name: 'actions' },
     ];
     columns.forEach((column) => {
@@ -106,6 +97,7 @@ export default {
         search: '',
         column: 0,
         dir: 'desc',
+        userId: this.$auth.user.landlord_id
       },
       pagination: {
         lastPage: '',
@@ -120,12 +112,14 @@ export default {
     }
   },
   methods: {
-    getData(url = 'property/deed/landlord-list') {
+    getData(url = 'property/deed/get-property-payments') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
-          
+
+          console.log(data);
+
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
@@ -180,6 +174,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

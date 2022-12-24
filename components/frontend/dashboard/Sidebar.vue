@@ -54,6 +54,12 @@
                   Property Deed
                 </nuxt-link>
               </li>
+              <li v-if="$auth.loggedIn && $auth.user.type == 2">
+                <nuxt-link :to="{ name: 'profile-property-payments' }">
+                  <b-icon icon="currency-dollar" font-scale="1"></b-icon>
+                  Property Payments
+                </nuxt-link>
+              </li>
               <li>
                 <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 3" :to="{ name: 'profile-wishlist' }">
                   <b-icon icon="heart-fill" font-scale="1"></b-icon>
