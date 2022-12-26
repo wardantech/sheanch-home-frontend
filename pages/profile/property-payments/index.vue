@@ -30,7 +30,8 @@
                 <b-badge variant="success">Bank</b-badge>
               </p>
               <p v-if="value.payment_method == 3">
-                <b-badge variant="info">Mobile</b-badge></p>
+                <b-badge variant="info">Mobile</b-badge>
+              </p>
             </td>
             <td>
               <p v-if="value.due">{{ value.due.amount }}</p>
@@ -40,10 +41,14 @@
               {{ value.cash_in }}
             </td>
             <td>
-              <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }" rel="tooltip"
+              <!-- <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }" rel="tooltip"
                 class="btn btn-sm btn-info btn-simple" title="Details">
                 <font-awesome-icon icon="fa-solid fa-hotel" />
-              </nuxt-link>
+              </nuxt-link> -->
+
+              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
+                <font-awesome-icon icon="fa-solid fa-trash" />
+              </b-button>
             </td>
           </tr>
         </tbody>
@@ -117,35 +122,13 @@ export default {
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
-
-          console.log(data);
-
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
           }
         })
         .catch(errors => {
-          //console.log(errors);
-        }).finally(() => {
-      });
-    },
-
-    async statusChange(params) {
-      await this.$axios.$post('property/deed/change-status/' + params.id, params)
-        .then(response => {
-          this.$izitoast.success({
-            title: 'Success !!',
-            message: 'Deed status change successfully!'
-          })
-          this.getData()
-        })
-        .catch(error => {
-          if (error.response.status == 422) {
-            this.errors = error.response.data.errors
-          } else {
-            alert(error.response.message)
-          }
+          alert(errors);
         })
     },
 
@@ -170,6 +153,30 @@ export default {
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value)
     },
+
+    // Destroy Rent Payment
+    async deleteItem(id) {
+        let result = confirm("Want to delete?");
+        if (result) {
+          await this.$axios.$post('property/deed/delete-property-payment', {id: id})
+            .then(response => {
+              this.getData();
+
+              this.$izitoast.success({
+                title: 'Success !!',
+                message: 'Payment deleted successfully!'
+              });
+            })
+            .catch(error => {
+              if (error.response.status == 422) {
+                this.errors = error.response.data.errors
+              }
+              else {
+                alert(error.response.message)
+              }
+            })
+        }
+      },
   }
 }
 </script>
