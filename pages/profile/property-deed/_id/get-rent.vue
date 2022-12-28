@@ -37,7 +37,7 @@
 
           <b-col md="6">
             <b-form-group label="Paid amount">
-              <b-form-input v-model="form.cash_in" class="custom-input-control" type="text"
+              <b-form-input v-model="form.cash_in" @keyup="dueAmount" class="custom-input-control" type="number" min="0"
                 placeholder="Enter amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_in">
                 {{ errors.cash_in[0] }}
@@ -47,8 +47,8 @@
 
           <b-col md="6">
             <b-form-group label="Due amount ( If have due! )">
-              <b-form-input v-model="form.due_amount" class="custom-input-control" type="text"
-                placeholder="Due amount"></b-form-input>
+              <b-form-input v-model="form.due_amount" class="custom-input-control" type="number"
+                placeholder="Due amount" readonly></b-form-input>
             </b-form-group>
           </b-col>
 
@@ -78,15 +78,15 @@
           <b-col v-if="isPaymentMethod == 2" md="6">
             <b-form-group label="Banks">
               <select v-model="form.bank_id" class="form-control custom-input-control">
-                <option v-for="(bank, index) in banks" :value="bank.id" :key="index">{{ bank.name }}</option>
+                <option v-for="(method, index) in paymentMethods" :value="method.bank.id" :key="index">{{ method.bank.name }}</option>
               </select>
             </b-form-group>
           </b-col>
 
           <b-col v-if="isPaymentMethod == 3" md="6">
-            <b-form-group label="Paid amount">
+            <b-form-group label="Mobile Bank">
               <select v-model="form.mobile_banking_id" class="form-control custom-input-control">
-                <option v-for="(bank, index) in mobiles" :value="bank.id" :key="index">{{ bank.name }}</option>
+                <option v-for="(method, index) in paymentMethods" :value="method.mobile_bank.id" :key="index">{{ method.mobile_bank.name }}</option>
               </select>
             </b-form-group>
           </b-col>
@@ -122,8 +122,7 @@ export default {
       tenantName: '',
       tenantId: '',
       rent: '',
-      banks: '',
-      mobiles: '',
+      paymentMethods: [],
       isPaymentMethod: '',
       errors: {},
       form: {
@@ -144,9 +143,6 @@ export default {
   async created() {
     await this.$axios.$post('property/deed/get-rent-property', { deedId: this.$route.params.id })
       .then(res => {
-        this.mobiles = res.data.mobiles;
-        this.banks = res.data.banks;
-
         this.propertyName = res.data.deed.property.name;
         this.tenantName = res.data.deed.tenant.name;
         this.tenantId = res.data.deed.tenant.id;
@@ -160,8 +156,19 @@ export default {
       })
   },
   methods: {
-    paymentMethod(event) {
+    async paymentMethod(event) {
       this.isPaymentMethod = event.target.value;
+      const value = event.target.value;
+      const userId = this.$auth.user.landlord_id
+
+      this.paymentMethods = [];
+
+      if (value == 2 || value == 3) {
+        await this.$axios.$post('property/deed/get-payment-method', { userId: userId, method: value})
+          .then(res => {
+            this.paymentMethods = res.data.banks;
+          });
+      }
     },
 
     async store() {
@@ -185,6 +192,17 @@ export default {
             alert(error.response.message)
           }
         });
+    },
+
+    dueAmount(event) {
+      const value = event.target.value;
+      if (value > this.rent) {
+        alert('Amount cannot be greater than rent');
+        this.form.cash_in = '';
+        this.form.due_amount = '';
+      } else {
+        this.form.due_amount = (this.rent - event.target.value);
+      }
     }
   }
 }
