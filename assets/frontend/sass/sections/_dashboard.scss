@@ -29,9 +29,7 @@
         padding: 0;
 
         li {
-          border-bottom: 1px solid #edf0f7;
           list-style: none;
-          padding: 10px 15px;
 
           &.active {
             background: rgba(15,202,152,.2)!important;
@@ -42,12 +40,23 @@
           }
 
           a {
+            position: relative;
             color: #455892;
-            display: inline-block;
+            display: block;
             font-family: $font-heading;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
-            padding: 3px 0;
+            padding: 10px 15px;
+
+            .drop-arrow {
+              position: absolute;
+              right: 5px;
+              margin: 4px;
+            }
+
+            &:hover {
+              background: antiquewhite;
+            }
 
             svg {
               margin-right: 5px;

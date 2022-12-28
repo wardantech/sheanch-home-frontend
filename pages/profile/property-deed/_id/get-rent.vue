@@ -174,7 +174,7 @@ export default {
             message: 'Payment Done!'
           });
 
-          this.$router.push({ name: 'profile-property-payments' });
+          this.$router.push({ name: 'profile-accounts-rent-collection' });
         })
         .catch(error => {
           this.loading = false;
