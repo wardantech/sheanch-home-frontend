@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex justify-content-between align-items-center">
       <h5>Payment Method Lists</h5>
-      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-bank-create' }">
+      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-mobile-bank-create' }">
         <font-awesome-icon icon="fa-solid fa-plus" />
         Create
       </nuxt-link>
@@ -23,7 +23,7 @@
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.bank.name }}</td>
+            <td>{{ value.mobile_bank.name }}</td>
             <td>{{ value.account_number }}</td>
             <td>
               <!-- <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.id } }" rel="tooltip"
@@ -31,7 +31,7 @@
                 <font-awesome-icon icon="fa-solid fa-eye" />
               </nuxt-link> -->
 
-              <nuxt-link :to="{ name: 'profile-accounts-bank-id-edit', params: { id: value.id } }" rel="tooltip"
+              <nuxt-link :to="{ name: 'profile-accounts-mobile-bank-id-edit', params: { id: value.id } }" rel="tooltip"
                 class="btn btn-sm btn-success btn-simple" title="Edit">
                 <font-awesome-icon icon="fa-solid fa-edit" />
               </nuxt-link>
@@ -71,8 +71,8 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Bank', name: 'bank_id' },
-      { width: '', label: 'Account number', name: 'account_number' },
+      { width: '', label: 'Mobile Bank', name: 'mobile_banking_id' },
+      { width: '', label: 'Mobile Number', name: 'account_number' },
       { width: '', label: 'Action', name: '' },
     ];
     columns.forEach((column) => {
@@ -106,7 +106,7 @@ export default {
     }
   },
   methods: {
-    getData(url = 'accounts/get-bank-payment-method') {
+    getData(url = 'accounts/get-mobile-payment-method') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
@@ -147,7 +147,7 @@ export default {
     async deleteItem(id) {
       let result = confirm("Want to delete?");
       if (result) {
-        await this.$axios.$delete('accounts/bank-method-delete/' + id)
+        await this.$axios.$delete('accounts/mobile-method-delete/' + id)
           .then(response => {
             this.getData();
             this.$izitoast.success({
