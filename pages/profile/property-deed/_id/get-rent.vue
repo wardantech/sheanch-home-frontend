@@ -78,7 +78,9 @@
           <b-col v-if="isPaymentMethod == 2" md="6">
             <b-form-group label="Banks">
               <select v-model="form.bank_id" class="form-control custom-input-control">
-                <option v-for="(method, index) in paymentMethods" :value="method.bank.id" :key="index">{{ method.bank.name }}</option>
+                <option v-for="(method, index) in paymentMethods" :value="method.bank.id" :key="index">
+                  {{ method.bank.name }}
+                </option>
               </select>
             </b-form-group>
           </b-col>
@@ -86,8 +88,20 @@
           <b-col v-if="isPaymentMethod == 3" md="6">
             <b-form-group label="Mobile Bank">
               <select v-model="form.mobile_banking_id" class="form-control custom-input-control">
-                <option v-for="(method, index) in paymentMethods" :value="method.mobile_bank.id" :key="index">{{ method.mobile_bank.name }}</option>
+                <option v-for="(method, index) in paymentMethods" :value="method.mobile_bank.id" :key="index">
+                  {{ method.mobile_bank.name }}
+                </option>
               </select>
+            </b-form-group>
+          </b-col>
+
+          <b-col v-if="isPaymentMethod == 3" md="6">
+            <b-form-group label="Transaction id">
+              <b-form-input v-model="form.transaction_id" class="custom-input-control" type="number"
+                placeholder="Transaction id"></b-form-input>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.transaction_id">
+                {{ errors.transaction_id[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -134,6 +148,7 @@ export default {
         due_amount: '',
         cash_in: '',
         payment_method: '',
+        transaction_id: '',
         created_by: '',
         date: '',
         remark: ''
@@ -164,7 +179,7 @@ export default {
       this.paymentMethods = [];
 
       if (value == 2 || value == 3) {
-        await this.$axios.$post('property/deed/get-payment-method', { userId: userId, method: value})
+        await this.$axios.$post('property/deed/get-payment-method', { userId: userId, method: value })
           .then(res => {
             this.paymentMethods = res.data.banks;
           });
