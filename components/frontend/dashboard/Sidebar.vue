@@ -54,6 +54,34 @@
                   Property Deed
                 </nuxt-link>
               </li>
+
+              <!-- Accoutns -->
+              <li v-if="$auth.loggedIn && $auth.user.type == 2" v-b-toggle.accounts>
+                <a>
+                  <font-awesome-icon icon="fa-solid fa-briefcase" />
+                  Accouns
+                  <font-awesome-icon class="drop-arrow" icon="fa-solid fa-arrow-right" />
+                </a>
+              </li>
+              <b-collapse id="accounts">
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-bank' }">
+                    Bank
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-mobile-bank' }">
+                    Mobile Bank
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-rent-collection' }">
+                    Property Payments
+                  </nuxt-link>
+                </li>
+              </b-collapse>
+              <!-- ./ Accoutns -->
+
               <li>
                 <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 3" :to="{ name: 'profile-wishlist' }">
                   <b-icon icon="heart-fill" font-scale="1"></b-icon>

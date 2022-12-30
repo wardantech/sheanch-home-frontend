@@ -1,11 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h5>Property Lists</h5>
-      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-property-create' }">
-        <font-awesome-icon icon="fa-solid fa-plus" />
-        Create property
-      </nuxt-link>
+      <h5>Property Payment Lists</h5>
     </div>
     <div class="card-body p-0 mt-4">
       <div class="search d-flex justify-content-between align-items-center">
@@ -19,40 +15,40 @@
           </select>
         </div>
       </div>
+
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.name }}</td>
+            <td>{{ value.property.name }}</td>
+            <td>{{ dateFromat(value.date) }}</td>
             <td>
-              <div v-if="value.property_category == 1"> Commercial</div>
-              <div v-if="value.property_category == 2"> Residential</div>
+              <p v-if="value.payment_method == 1">
+                <b-badge variant="primary">Cash</b-badge>
+              </p>
+              <p v-if="value.payment_method == 2">
+                <b-badge variant="success">Bank</b-badge>
+              </p>
+              <p v-if="value.payment_method == 3">
+                <b-badge variant="info">Mobile</b-badge>
+              </p>
             </td>
             <td>
-              <div v-if="value.sale_type == 1"> Rent</div>
-              <div v-if="value.sale_type == 2"> Sale</div>
-            </td>
-            <td>{{ value.rent_amount }}</td>
-            <td>
-              <b-button :class="value.status == 1 ? 'btn-sm btn-info' : 'btn-sm btn-danger'">
-                {{ value.status == 1 ? 'Active' : 'Pending' }}
-              </b-button>
+              <p v-if="value.due">{{ value.due.amount }}</p>
+              <p v-else>0</p>
             </td>
             <td>
-              <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.id } }" rel="tooltip"
+              {{ value.cash_in }}
+            </td>
+            <td>
+              <!-- <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }" rel="tooltip"
                 class="btn btn-sm btn-info btn-simple" title="Details">
-                <font-awesome-icon icon="fa-solid fa-eye" />
-              </nuxt-link>
+                <font-awesome-icon icon="fa-solid fa-hotel" />
+              </nuxt-link> -->
 
-              <nuxt-link :to="{ name: 'profile-property-id-edit', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-success btn-simple" title="Edit">
-                <font-awesome-icon icon="fa-solid fa-edit" />
-              </nuxt-link>
-
-              <nuxt-link :to="{ name: 'profile-property-id-payment-reports', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-secondary btn-simple" title="Payment Reports">
-                <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
-              </nuxt-link>
+              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
+                <font-awesome-icon icon="fa-solid fa-trash" />
+              </b-button>
             </td>
           </tr>
         </tbody>
@@ -68,17 +64,14 @@
 <script>
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
+import { dateMixin } from '../../../../mixins/date-mixin';
 
 export default {
   layout: 'dashboard',
-  name: "properties",
+  name: "property-payments",
   components: { DataTable, Pagination },
-  mounted() {
-    const authId = this.$auth.user.landlord_id;
-    if (!authId) {
-      this.$router.push({ name: 'profile-dashboard-landlord' });
-    }
-  },
+  mixins: [dateMixin],
+
   created() {
     this.getData();
   },
@@ -86,12 +79,12 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Name', name: 'name' },
-      { width: '', label: 'Type', name: 'sale_type' },
-      { width: '', label: 'Lease Type', name: 'lease_type' },
-      { width: '', label: 'Amount', name: 'rent_amount' },
-      { width: '', label: 'Status', name: 'status' },
-      { width: '', label: 'Action', name: '' },
+      { width: '', label: 'Property', name: 'property' },
+      { width: '', label: 'Date', name: 'date' },
+      { width: '', label: 'Method', name: 'method' },
+      { width: '', label: 'Due', name: 'due' },
+      { width: '', label: 'Paid', name: 'paid' },
+      { width: '', label: 'Actions', name: 'actions' },
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
@@ -109,6 +102,7 @@ export default {
         search: '',
         column: 0,
         dir: 'desc',
+        userId: this.$auth.user.landlord_id
       },
       pagination: {
         lastPage: '',
@@ -123,7 +117,7 @@ export default {
     }
   },
   methods: {
-    getData(url = '/property/list') {
+    getData(url = 'property/deed/get-property-payments') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
@@ -134,9 +128,8 @@ export default {
           }
         })
         .catch(errors => {
-          //console.log(errors);
-        }).finally(() => {
-        });
+          alert(errors);
+        })
     },
 
     configPagination(data) {
@@ -160,10 +153,34 @@ export default {
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value)
     },
+
+    // Destroy Rent Payment
+    async deleteItem(id) {
+        let result = confirm("Want to delete?");
+        if (result) {
+          await this.$axios.$post('property/deed/delete-property-payment', {id: id})
+            .then(response => {
+              this.getData();
+
+              this.$izitoast.success({
+                title: 'Success !!',
+                message: 'Payment deleted successfully!'
+              });
+            })
+            .catch(error => {
+              if (error.response.status == 422) {
+                this.errors = error.response.data.errors
+              }
+              else {
+                alert(error.response.message)
+              }
+            })
+        }
+      },
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

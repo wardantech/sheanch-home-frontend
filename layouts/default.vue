@@ -24,6 +24,7 @@
 </template>
 
 <script>
+
 import Topbar from "@/components/frontend/Topbar";
 import Header from "@/components/frontend/Header";
 import Footer from "@/components/frontend/Footer";

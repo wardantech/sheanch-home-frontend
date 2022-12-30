@@ -50,7 +50,7 @@
                 <font-awesome-icon icon="fa-solid fa-binoculars" />
               </nuxt-link>
 
-              <nuxt-link :to="{ name: 'profile-me-id-show-tenant', params: { id: value.landlord_id } }"
+              <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
                 rel="tooltip" class="btn btn-sm btn-secondary btn-simple" title="Get payment">
                 <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
               </nuxt-link>
@@ -125,6 +125,7 @@ export default {
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
+          
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
