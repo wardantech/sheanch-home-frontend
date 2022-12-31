@@ -41,10 +41,10 @@
               {{ value.cash_in }}
             </td>
             <td>
-              <!-- <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }" rel="tooltip"
-                class="btn btn-sm btn-info btn-simple" title="Details">
-                <font-awesome-icon icon="fa-solid fa-hotel" />
-              </nuxt-link> -->
+              <nuxt-link :to="{ name: 'profile-accounts-rent-collection-id-edit', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-success btn-simple" title="Edit">
+                <font-awesome-icon icon="fa-solid fa-edit" />
+              </nuxt-link>
 
               <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
                 <font-awesome-icon icon="fa-solid fa-trash" />

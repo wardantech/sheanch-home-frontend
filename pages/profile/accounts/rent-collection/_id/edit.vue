@@ -3,13 +3,13 @@
     <div class="page-search">
       <div>
         <div class="form-group">
-          <h5>Rent Collection</h5>
+          <h5>Edit Rent Collection.</h5>
         </div>
       </div>
 
       <div>
         <div class="form-group">
-          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-property-deed-landlord' }">
+          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-rent-collection' }">
             <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
             Back to list
           </nuxt-link>
@@ -27,7 +27,7 @@
       </h6>
       <hr>
 
-      <form @submit.prevent="store">
+      <form @submit.prevent="update">
         <b-row>
           <b-col md="6">
             <b-form-group label="Rent amount">
@@ -63,7 +63,7 @@
 
           <b-col md="6">
             <b-form-group label="Select Method">
-              <select v-model="form.payment_method" class="form-control custom-input-control" @change="paymentMethod">
+              <select v-model="form.payment_method" class="form-control custom-input-control" @change="paymentMethod()">
                 <option value="">Select</option>
                 <option value="1">Cash</option>
                 <option value="2">Bank</option>
@@ -116,7 +116,7 @@
         <b-row>
           <b-col>
             <div class="button-t-m" style="margin-top: 30px">
-              <b-button type="submit" variant="success" :disabled="loading">Add Payment</b-button>
+              <b-button type="submit" variant="success" :disabled="loading">Update Payment</b-button>
             </div>
           </b-col>
         </b-row>
@@ -128,7 +128,7 @@
 <script>
 export default {
   layout: 'dashboard',
-  name: 'get-rent',
+  name: 'edit-rent',
   data() {
     return {
       loading: false,
@@ -149,31 +149,60 @@ export default {
         cash_in: '',
         payment_method: '',
         transaction_id: '',
-        created_by: '',
+        updated_by: '',
         date: '',
         remark: ''
       }
     }
   },
   async created() {
-    await this.$axios.$post('property/deed/get-rent-property', { deedId: this.$route.params.id })
+    await this.$axios.$post('property/deed/rent-property/edit', { transactionId: this.$route.params.id })
       .then(res => {
-        this.propertyName = res.data.deed.property.name;
-        this.tenantName = res.data.deed.tenant.name;
-        this.tenantId = res.data.deed.tenant.id;
-        this.rent = res.data.deed.property.rent_amount;
+        this.propertyName = res.data.transaction.property.name;
+        this.tenantName = res.data.transaction.deed.tenant.name;
+        this.tenantId = res.data.transaction.deed.tenant.id;
+        this.rent = res.data.transaction.property.rent_amount;
+        this.isPaymentMethod = res.data.transaction.payment_method;
 
-        // Form
+        // Form Data
+        this.form.updated_by = this.$auth.user.landlord_id;
+        this.form.cash_in = res.data.transaction.cash_in;
+
+        if (res.data.transaction.due === null) {
+          this.form.due_amount = 0;
+        } else {
+          this.form.due_amount = res.data.transaction.due.amount;
+        }
+
+        this.form.date = res.data.transaction.date;
+        this.form.payment_method = res.data.transaction.payment_method;
+        this.form.bank_id = res.data.transaction.bank_id;
+        this.form.mobile_banking_id = res.data.transaction.mobile_banking_id;
+        this.form.transaction_id = res.data.transaction.transaction_id;
+        this.form.remark = res.data.transaction.remark;
+
         this.form.user_id = this.$auth.user.landlord_id;
-        this.form.property_id = res.data.deed.property.id;
-        this.form.created_by = this.$auth.user.landlord_id;
-        this.form.property_deed_id = this.$route.params.id;
-      })
+        this.form.property_id = res.data.transaction.property.id;
+        this.form.property_deed_id = res.data.transaction.deed.id;
+
+        this.paymentMethod();
+      });
   },
   methods: {
-    async paymentMethod(event) {
-      this.isPaymentMethod = event.target.value;
+    dueAmount(event) {
       const value = event.target.value;
+      if (value > this.rent) {
+        alert('Amount cannot be greater than rent');
+        this.form.cash_in = '';
+        this.form.due_amount = '';
+      } else {
+        this.form.due_amount = (this.rent - event.target.value);
+      }
+    },
+
+    async paymentMethod() {
+      this.isPaymentMethod = this.form.payment_method;;
+      const value = this.form.payment_method;;
       const userId = this.$auth.user.landlord_id
 
       this.paymentMethods = [];
@@ -186,14 +215,14 @@ export default {
       }
     },
 
-    async store() {
+    async update() {
       this.loading = true;
-      await this.$axios.$post('property/deed/rent-property/store', this.form)
+      await this.$axios.$put('property/deed/rent-property/update/'+this.$route.params.id, this.form)
         .then(response => {
           this.loading = false;
           this.$izitoast.success({
             title: 'Success !!',
-            message: 'Payment Done!'
+            message: 'Payment Updated!'
           });
 
           this.$router.push({ name: 'profile-accounts-rent-collection' });
@@ -208,17 +237,6 @@ export default {
           }
         });
     },
-
-    dueAmount(event) {
-      const value = event.target.value;
-      if (value > this.rent) {
-        alert('Amount cannot be greater than rent');
-        this.form.cash_in = '';
-        this.form.due_amount = '';
-      } else {
-        this.form.due_amount = (this.rent - event.target.value);
-      }
-    }
   }
 }
 </script>
