@@ -56,11 +56,12 @@
               </li>
 
               <!-- Accoutns -->
-              <li v-if="$auth.loggedIn && $auth.user.type == 2" v-b-toggle.accounts>
+              <!-- v-if="$auth.loggedIn && $auth.user.type == 2"  -->
+              <li v-b-toggle.accounts>
                 <a>
                   <font-awesome-icon icon="fa-solid fa-briefcase" />
                   Accouns
-                  <font-awesome-icon class="drop-arrow" icon="fa-solid fa-arrow-right" />
+                  <font-awesome-icon class="drop-arrow" icon="fa-solid fa-chevron-right" />
                 </a>
               </li>
               <b-collapse id="accounts">
@@ -76,7 +77,7 @@
                 </li>
                 <li>
                   <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-rent-collection' }">
-                    Property Payments
+                    Rent Collection
                   </nuxt-link>
                 </li>
               </b-collapse>

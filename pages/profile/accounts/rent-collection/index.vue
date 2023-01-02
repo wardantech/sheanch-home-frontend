@@ -2,6 +2,10 @@
   <div>
     <div class="d-flex justify-content-between align-items-center">
       <h5>Property Payment Lists</h5>
+      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-rent-collection-create' }">
+        <font-awesome-icon icon="fa-solid fa-plus" />
+        Collection
+      </nuxt-link>
     </div>
     <div class="card-body p-0 mt-4">
       <div class="search d-flex justify-content-between align-items-center">
@@ -34,11 +38,11 @@
               </p>
             </td>
             <td>
-              <p v-if="value.due">{{ value.due.amount }}</p>
-              <p v-else>0</p>
+              {{ value.cash_in }}
             </td>
             <td>
-              {{ value.cash_in }}
+              <p v-if="value.due">{{ value.due.amount }}</p>
+              <p v-else>0</p>
             </td>
             <td>
               <nuxt-link :to="{ name: 'profile-accounts-rent-collection-id-edit', params: { id: value.id } }" rel="tooltip"
@@ -82,8 +86,8 @@ export default {
       { width: '', label: 'Property', name: 'property' },
       { width: '', label: 'Date', name: 'date' },
       { width: '', label: 'Method', name: 'method' },
-      { width: '', label: 'Due', name: 'due' },
       { width: '', label: 'Paid', name: 'paid' },
+      { width: '', label: 'Due', name: 'due' },
       { width: '', label: 'Actions', name: 'actions' },
     ];
     columns.forEach((column) => {

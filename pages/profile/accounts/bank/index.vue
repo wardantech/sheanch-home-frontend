@@ -91,7 +91,7 @@ export default {
         search: '',
         column: 0,
         dir: 'desc',
-        userId: this.$auth.user.landlord_id
+        userId: this.$auth.user.id
       },
       pagination: {
         lastPage: '',
