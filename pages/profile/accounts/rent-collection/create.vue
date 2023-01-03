@@ -21,10 +21,10 @@
       <form @submit.prevent="store">
         <b-row>
           <b-col md="6">
-            <b-form-group label="Select Method">
+            <b-form-group label="Select Property">
               <select v-model="form.property_id" class="form-control custom-input-control" @change="propertyInfo">
                 <option v-for="(deed, index) in deeds" :value="deed.property.id" :key="index">
-                  {{ deed.property.name }} - ( {{ deed.tenant.name }} )
+                  {{ deed.property.name }} - ( {{ deed.user.name }} )
                 </option>
               </select>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.property_id">
@@ -76,6 +76,16 @@
               <strong class="text-danger" style="font-size: 12px" v-if="errors.payment_method">
                 {{ errors.payment_method[0] }}
               </strong>
+            </b-form-group>
+          </b-col>
+
+          <b-col v-if="isPaymentMethod == 2" md="6">
+            <b-form-group label="Banks">
+              <select v-model="form.bank_id" class="form-control custom-input-control">
+                <option v-for="(method, index) in paymentMethods" :value="method.bank.id" :key="index">
+                  {{ method.bank.name }}
+                </option>
+              </select>
             </b-form-group>
           </b-col>
 
@@ -149,7 +159,7 @@ export default {
     }
   },
   async created() {
-    await this.$axios.$post('property/deed/get-rent-deed', { userId: this.$auth.user.landlord_id })
+    await this.$axios.$post('property/deed/get-rent-deed', { userId: this.$auth.user.id })
       .then(res => {
         this.deeds = res.data.deeds;
       })
@@ -158,37 +168,63 @@ export default {
       });
   },
   methods: {
-    async paymentMethod(event) {
-      this.isPaymentMethod = event.target.value;
-      const value = event.target.value;
-      const userId = this.$auth.user.landlord_id
-
-      this.paymentMethods = [];
-
-      if (value == 2 || value == 3) {
-        await this.$axios.$post('property/deed/get-payment-method', { userId: userId, method: value })
-          .then(res => {
-            this.paymentMethods = res.data.banks;
-          });
-      }
-    },
     async propertyInfo(event) {
       let propertyId = event.target.value;
 
       await this.$axios.$post('property/deed/get-property-info', { propertyId: propertyId })
         .then(res => {
           this.rent = res.data.property.rent_amount;
+          this.tenantId = res.data.property.deed[0].tenant_id;
 
           // Form
-          this.form.user_id = this.$auth.user.landlord_id;
-          this.form.created_by = this.$auth.user.landlord_id;
-          this.form.property_deed_id = res.data.property.deed.id;
+          this.form.user_id = this.$auth.user.id;
+          this.form.created_by = this.$auth.user.id;
+          this.form.property_deed_id = res.data.property.deed[0].id;
         })
         .catch(err => {
           alert(err);
         });
     },
+    async paymentMethod(event) {
+      const tenantId = this.tenantId;
+      if (!tenantId) {
+        alert('Select Propert First');
+        this.form.payment_method = '';
+        return;
+      }
 
+      const value = event.target.value;
+      this.isPaymentMethod = event.target.value;
+      this.paymentMethods = [];
+      if (value == 2 || value == 3) {
+        await this.$axios.$post('property/deed/get-payment-method', { userId: tenantId, method: value })
+          .then(res => {
+            this.paymentMethods = res.data.banks;
+          });
+      }
+    },
+    async store() {
+      this.loading = true;
+      await this.$axios.$post('property/deed/rent-property/store', this.form)
+        .then(response => {
+          this.loading = false;
+          this.$izitoast.success({
+            title: 'Success !!',
+            message: 'Payment Done!'
+          });
+
+          this.$router.push({ name: 'profile-accounts-rent-collection' });
+        })
+        .catch(error => {
+          this.loading = false;
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors;
+          }
+          else {
+            alert(error.response.message)
+          }
+        });
+    },
     dueAmount(event) {
       const value = event.target.value;
       if (value > this.rent) {
