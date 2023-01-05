@@ -9,7 +9,7 @@
       <div>
         <div class="form-group">
           <nuxt-link class="btn btn-dark btn-sm"
-            :to="{ name: 'profile-me-id-landloard', params: { id: $auth.user.landlord_id } }">
+            :to="{ name: 'profile-me-id', params: { id: $auth.user.id } }">
             <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
             Back to profile
           </nuxt-link>
@@ -70,15 +70,13 @@ export default {
   },
   methods: {
     async update() {
-      await this.$axios.$post('profile/landlord/password', this.form)
+      await this.$axios.$post('profile/password', this.form)
         .then(response => {
           if (response.status == false) {
             this.$izitoast.error({
               title: 'Error !!',
               message: response.message
             });
-
-            this.$router.push({ name: 'profile-me-id-change-password' });
           }
           else {
             this.$izitoast.success({
@@ -87,7 +85,7 @@ export default {
             });
 
             this.$auth.logout();
-            this.$nuxt.$options.router.push({ name: 'auth-login' })
+            this.$nuxt.$options.router.push({ name: 'login' })
           }
         })
         .catch(error => {

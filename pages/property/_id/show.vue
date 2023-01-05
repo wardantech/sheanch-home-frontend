@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="gallery">
-
       <Slick ref="slick" :options="slickOptions" v-if="media.length > 0">
-        <!--imageUrl+image-->
         <a v-for="(image, i) in property.media" :key="i" :href="image.original_url">
           <img :src="image.original_url" alt="Image" style="height: 357px; object-fit: cover;">
         </a>
@@ -12,19 +10,22 @@
 
     <section class="property-detail bg-gary">
       <b-container>
+        <b-alert v-if="isApply" show dismissible variant="warning">
+          <b>You can't apply, this advertisement belongs to you.</b>
+        </b-alert>
         <b-row>
           <b-col lg="8" md="12" sm="12">
             <div class="property-detail-wrap p-4">
               <div class="property-detail-wrap-title">
                 <span class="pr-type" v-if="property.sale_type == 1">For Rent</span>
                 <span class="pr-type" v-if="property.sale_type == 2">For Sale</span>
-
                 <h3>{{ property.name }}</h3>
+
                 <span>
                   <font-awesome-icon icon="fa-solid fa-location-dot" />
                   {{ property.address }}
                 </span>
-                <h3 class="fix-price">${{ propertyAd.rent_amount }}</h3>
+                <h3 class="fix-price">৳{{ propertyAd.rent_amount }}</h3>
                 <div class="features-list">
                   <div class="features-list-icon">
                     <div class="fleat-icon">
@@ -53,11 +54,11 @@
             <div class="accordion" role="tablist">
               <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button block v-b-toggle.accordion-1 variant="info">
+                  <b-button block v-b-toggle.detailFeatures variant="info">
                     Detail & Features
                   </b-button>
                 </b-card-header>
-                <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+                <b-collapse id="detailFeatures" visible accordion="my-accordion" role="tabpanel">
                   <b-card>
                     <div class="block-body">
                       <ul class="detail_features">
@@ -86,10 +87,6 @@
                           <span v-if="property.property_category == 1">Commercial</span>
                           <span v-if="property.property_category == 2">Residential</span>
                         </li>
-                        <!--                        <li>-->
-                        <!--                          <strong>Type: </strong>-->
-                        <!--                          {{ property.property_type_id }}-->
-                        <!--                        </li>-->
                         <li>
                           <strong>Security Money: </strong>
                           {{ property.security_money }}
@@ -104,26 +101,34 @@
             <div class="accordion mt-5" role="tablist">
               <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button block v-b-toggle.accordion-2 variant="info">
+                  <b-button block v-b-toggle.description variant="info">
                     Description
                   </b-button>
                 </b-card-header>
-                <b-collapse id="accordion-2" visible accordion="my-accordion-2" role="tabpanel">
+                <b-collapse id="description" visible accordion="my-accordion-1" role="tabpanel">
                   <b-card-body>
-                    <div class="block-body p-0" v-html="property.video_link">
-                      <!--<b-embed-->
-                      <!--v-if="property.video_link"-->
-                      <!--type="iframe"-->
-                      <!--aspect="16by9"-->
-                      <!--:src="property.video_link"-->
-                      <!--allowfullscreen-->
-                      <!--&gt;</b-embed>-->
+                    <div class="block-body p-0">
                       <div class="mt-3">
                         <p>
                           {{ property.description }}
                         </p>
                       </div>
                     </div>
+                  </b-card-body>
+                </b-collapse>
+              </b-card>
+            </div>
+
+            <div class="accordion mt-5" role="tablist">
+              <b-card no-body class="mb-1">
+                <b-card-header header-tag="header" class="p-1" role="tab">
+                  <b-button block v-b-toggle.videoLink variant="info">
+                    Watch Video
+                  </b-button>
+                </b-card-header>
+                <b-collapse id="videoLink" visible accordion="my-accordion-2" role="tabpanel">
+                  <b-card-body>
+                    <div class="block-body p-0" v-html="property.video_link"></div>
                   </b-card-body>
                 </b-collapse>
               </b-card>
@@ -215,11 +220,11 @@
             <div class="accordion mt-5" role="tablist">
               <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button block v-b-toggle.accordion-4 variant="info">
+                  <b-button block v-b-toggle.googleMap variant="info">
                     Google Map Location
                   </b-button>
                 </b-card-header>
-                <b-collapse id="accordion-4" visible accordion="my-accordion-4" role="tabpanel">
+                <b-collapse id="googleMap" visible accordion="my-accordion-4" role="tabpanel">
                   <b-card-body>
                     <div class="block-body p-0">
                       <p>{{ property.address }}</p>
@@ -237,11 +242,11 @@
             <div class="accordion mt-5" role="tablist">
               <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button block v-b-toggle.accordion-5 variant="info">
+                  <b-button block v-b-toggle.nearby variant="info">
                     Nearby
                   </b-button>
                 </b-card-header>
-                <b-collapse id="accordion-5" visible accordion="my-accordion-5" role="tabpanel">
+                <b-collapse id="nearby" visible accordion="my-accordion-5" role="tabpanel">
                   <b-card-body>
                     <div class="block-body p-0">
                       <div class="nearby">
@@ -271,14 +276,14 @@
             </div>
 
             <!-- Property Review Show -->
-            <PropertyReviewShow :reviews="reviews"/>
+            <PropertyReviewShow :reviews="reviews" />
 
             <!-- Write Property Reviews -->
-            <PropertyReview @add-review="addReview"/>
+            <PropertyReview @add-review="addReview" />
           </b-col>
 
           <b-col lg="4" md="12" sm="12">
-            <div class="like-share">
+            <!-- <div class="like-share">
               <ul class="like-share-list justify-content-center">
                 <li>
                   <b-link class="btn">
@@ -304,13 +309,13 @@
                   </b-link>
                 </li>
               </ul>
+            </div> -->
+
+            <div v-if="$auth.loggedIn">
+              <b-button @click="apply" class="btn btn-black btn-md rounded btn-block" :disabled="isApply">
+                Apply for deed
+              </b-button>
             </div>
-
-            <b-button v-if="$auth.loggedIn && $auth.user.type == 3" @click="apply"
-              class="btn btn-black btn-md rounded btn-block">
-              Apply for deed
-            </b-button>
-
 
             <nuxt-link v-else class="btn btn-black btn-md rounded btn-block" :to="{ name: 'login' }">
               <b-button class="btn btn-black btn-md rounded btn-block">
@@ -384,6 +389,13 @@ export default {
   computed: {
     imageUrl() {
       return `${process.env.APP_ROOT_IMG_URL}`
+    },
+    isApply() {
+      if (this.$auth.loggedIn) {
+        return this.property.user_id === this.$auth.user.id ? true : false;
+      }
+
+      return false;
     }
   },
   methods: {
@@ -393,20 +405,30 @@ export default {
         showCancelButton: true,
         confirmButtonText: 'Yes',
       }).then((result) => {
-        if (result.isConfirmed) {
+        if (result.isConfirmed && !this.isApply) {
           const data = {
             property_ad_id: this.$route.params.id,
             property_id: this.property.id,
-            tenant_id: this.$auth.user.tenant_id,
-            landlord_id: this.property.landlord_id,
+            tenant_id: this.$auth.user.id,
+            landlord_id: this.property.user_id,
           }
           this.$axios.$post('property/deed/save-data', data)
             .then(response => {
-              this.$swal.fire('Success', 'property did data deed applied successfully !! wait for admin confirmation');
+              this.$swal.fire('Success', 'Your deed request has been sent successfully. Please wait for landlord confirmation');
+            }).catch(error => {
+              if (error.response.status == 422) {
+                console.log(error.response.data.errors.tenant_id[0]);
+                this.$izitoast.warning({
+                  title: 'Warning',
+                  message: error.response.data.errors.tenant_id[0]
+                });
+              }
+              else {
+                alert(error.response.message)
+              }
             })
-            .catch(error => {
-              alert(error)
-            })
+        } else {
+          throw new Error('You can\'t apply, this advertisement belongs to you.');
         }
       })
     },
@@ -433,7 +455,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  body {
-    background: #0d6efd;
-  }
+body {
+  background: #0d6efd;
+}
 </style>

@@ -54,7 +54,7 @@ export default {
   layout: 'dashboard',
   name: "landlord",
   beforeMount() {
-    const authId = this.$auth.user.landlord_id;
+    const authId = this.$auth.user.id;
     if (!authId) {
       throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
     }
@@ -65,7 +65,7 @@ export default {
     }
   },
   async created() {
-    const response = await this.$axios.$post('get-landlord-dashboard-data', { landlordId: this.$auth.user.landlord_id });
+    const response = await this.$axios.$post('get-dashboard-data', { userId: this.$auth.user.id });
     this.data = response.data;
   },
 }

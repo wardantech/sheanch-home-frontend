@@ -19,38 +19,34 @@
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.landlord.name }}</td>
-            <td>{{ value.property.address }}</td>
             <td>
-              <div v-if="value.property.sale_type == 1"> Rent</div>
-              <div v-if="value.property.sale_type == 2"> Sale</div>
-            </td>
-            <td>{{ value.property_ad.rent_amount }}</td>
-            <td>
-              <b-button v-if="value.status == 0" class="btn-sm btn-warning">
-                Pending
-              </b-button>
-              <b-button v-if="value.status == 1" class="btn-sm btn-info">
-                Send to landlord
-              </b-button>
-              <b-button v-if="value.status == 2" class="btn-sm btn-info">
-                Completed
-              </b-button>
-              <b-button v-if="value.status == 3" class="btn-sm btn-warning">
-                Decline
-              </b-button>
+              {{ value.tenant.name }}
             </td>
             <td>
-              <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }" rel="tooltip"
-                class="btn btn-sm btn-info btn-simple" title="Details">
-                <font-awesome-icon icon="fa-solid fa-hotel" />
+              <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
+                title="Details">
+                {{ value.property.name }}
               </nuxt-link>
-
-              <nuxt-link :to="{ name: 'profile-property-ads-id-show', params: { id: value.property_ad_id } }"
-                rel="tooltip" class="btn btn-sm btn-warning btn-simple" title="View Ad">
+            </td>
+            <td>
+              {{ value.start_date ?? 'Not start' }}
+            </td>
+            <td>
+              <b-badge v-if="value.status === 0" variant="warning">Pending</b-badge>
+              <b-badge v-if="value.status === 1" variant="secondary">Viewed</b-badge>
+              <b-badge v-if="value.status === 2" variant="success">Accepted</b-badge>
+              <b-badge v-if="value.status === 3" variant="danger">Declined</b-badge>
+            </td>
+            <td>
+              <nuxt-link :to="{ name: 'profile-property-deed-id-show', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-warning btn-simple" title="View Ad">
                 <font-awesome-icon icon="fa-solid fa-eye" />
               </nuxt-link>
 
+              <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
+                rel="tooltip" class="btn btn-sm btn-secondary btn-simple" title="Get payment">
+                <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
+              </nuxt-link> -->
             </td>
           </tr>
         </tbody>
@@ -59,12 +55,12 @@
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
         @next="getData(pagination.nextPageUrl)">
       </pagination>
-
     </div>
   </div>
 </template>
 
 <script>
+
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
 
@@ -79,12 +75,11 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Landlord', name: 'name' },
-      { width: '', label: 'Property Address', name: 'address' },
-      { width: '', label: 'Sale/Lease Type', name: 'lease_type' },
-      { width: '', label: 'Amount', name: 'rent_amount' },
+      { width: '', label: 'Tenant', name: 'name' },
+      { width: '', label: 'Property', name: 'property' },
+      { width: '', label: 'Start date', name: 'start_date' },
       { width: '', label: 'Status', name: 'status' },
-      { width: '', label: 'Action', name: '' },
+      { width: '', label: 'Actions', name: 'actions' },
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
@@ -102,6 +97,7 @@ export default {
         search: '',
         column: 0,
         dir: 'desc',
+        userId: this.$auth.user.id
       },
       pagination: {
         lastPage: '',
@@ -116,21 +112,37 @@ export default {
     }
   },
   methods: {
-    getData(url = 'property/deed/tenant-list') {
+    getData(url = 'property/deed/landlord-list') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
-          console.log(data)
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
           }
         })
         .catch(errors => {
-          //console.log(errors);
-        }).finally(() => {
-        });
+          alert(errors);
+        })
+    },
+
+    async statusChange(params) {
+      await this.$axios.$post('property/deed/change-status/' + params.id, params)
+        .then(response => {
+          this.$izitoast.success({
+            title: 'Success !!',
+            message: 'Deed status change successfully!'
+          })
+          this.getData()
+        })
+        .catch(error => {
+          if (error.response.status == 422) {
+            this.errors = error.response.data.errors
+          } else {
+            alert(error.response.message)
+          }
+        })
     },
 
     configPagination(data) {
@@ -153,31 +165,6 @@ export default {
     },
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value)
-    },
-
-    // Landloard Delete logic
-    async deleteItem(id) {
-      let result = confirm("Want to delete?");
-
-      if (result) {
-        await this.$axios.$post('property/deed/delete/' + id)
-          .then(response => {
-            if (id) {
-              this.getData();
-            }
-            this.$izitoast.success({
-              title: 'Success !!',
-              message: 'Property deed deleted successfully!'
-            });
-          })
-          .catch(error => {
-            if (error.response.status == 422) {
-              this.errors = error.response.data.errors
-            } else {
-              alert(error.response.message)
-            }
-          })
-      }
     },
   }
 }

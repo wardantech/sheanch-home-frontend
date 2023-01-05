@@ -92,7 +92,7 @@ export default {
   },
 
   async created() {
-    const response = await this.$axios.$post('profile/landlord/show', {
+    const response = await this.$axios.$post('profile/show', {
       landlordId: this.$route.params.id,
     });
 

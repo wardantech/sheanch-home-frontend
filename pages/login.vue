@@ -9,17 +9,21 @@
                 <h2 class="text-center">Login</h2>
                 <br>
                 <div class="login-form">
-                  <p v-if="active" class="text-danger">Your account is not activated yet. please contact with admin</p>
-                  <p v-if="validation" class="text-danger">Credentials does not match. Please register or contact with
-                    admin </p>
+                  <p v-if="active" class="text-danger">
+                    Your account is not activated yet. please contact with admin
+                  </p>
+                  <p v-if="validation" class="text-danger">
+                    Credentials does not match. Please register or contact with admin
+                  </p>
                   <b-form class="simple-form">
                     <b-form-group label="Mobile">
                       <div class="input-with-icon">
                         <b-form-input type="text" v-model="form.mobile" placeholder="Mobile"></b-form-input>
                         <b-icon icon="person"></b-icon>
                       </div>
-                      <strong class="text-danger" style="font-size: 12px" v-if="errors.mobile">{{ errors.mobile[0]
-                      }}</strong>
+                      <strong class="text-danger" style="font-size: 12px" v-if="errors.mobile">
+                        {{ errors.mobile[0] }}
+                      </strong>
                     </b-form-group>
 
                     <b-form-group label="Password">
@@ -27,9 +31,9 @@
                         <b-form-input type="password" v-model="form.password" placeholder="Password"></b-form-input>
                         <b-icon icon="unlock"></b-icon>
                       </div>
-                      <strong class="text-danger" style="font-size: 12px" v-if="errors.password">{{ errors.password[0]
-                      }}</strong>
-
+                      <strong class="text-danger" style="font-size: 12px" v-if="errors.password">
+                        {{ errors.password[0] }}
+                      </strong>
                     </b-form-group>
 
                     <b-form-group>
@@ -89,12 +93,7 @@ export default {
   validation: false,
   created() {
     if (this.$auth.loggedIn) {
-      if (this.$auth.user.landlord_id) {
-        this.$nuxt.$options.router.push({ name: 'profile-dashboard-landlord' })
-      }
-      if (this.$auth.user.tenant_id) {
-        this.$nuxt.$options.router.push({ name: 'profile-dashboard-tenant' })
-      }
+      this.$nuxt.$options.router.push({ name: 'profile-dashboard' })
     }
   },
   data() {
@@ -113,48 +112,37 @@ export default {
     async userLogin() {
       await this.$auth.loginWith('local', { data: this.form })
         .then(response => {
-          console.log(response)
           if (response.data.status == false) {
             this.validation = false;
             this.active = true;
 
             this.$izitoast.success({
-              title: 'Error !!',
+              title: 'Error',
               message: 'Credentials does not matched'
             })
           } else {
             this.$izitoast.success({
-              title: 'Success !!',
+              title: 'Success',
               message: 'successfully logged in'
             })
             const path = this.$nuxt.context.from;
 
             if (path && path.name == 'property-id-show') {
-              this.$nuxt.$options.router.push({ name: 'property-id-show', params: { id: path.params.id } })
+              this.$nuxt.$options.router.push({ name: 'property-id-show', params: { id: path.params.id } });
             } else {
-              if (this.$auth.user.landlord_id) {
-                this.$nuxt.$options.router.push({ name: 'profile-dashboard-landlord' })
-              }
-              if (this.$auth.user.tenant_id) {
-                this.$nuxt.$options.router.push({ name: 'profile-dashboard-tenant' })
-              }
+              this.$nuxt.$options.router.push({ name: 'profile-dashboard' });
             }
           }
         }).catch(error => {
           console.log(error)
           if (error.response.status == 422) {
-            console.log(error.response.data.errors)
             this.errors = error.response.data.errors
           } else {
             this.active = false;
             this.validation = true;
           }
         });
-    },
-
-    // socialLogin(service) {
-    //   window.location.href = process.env.APP_SOCIAL_LOGIN_URL + service + '/' + 'login';
-    // }
+    }
   }
 }
 </script>
