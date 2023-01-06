@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h5>Property deed Lists</h5>
+      <h5>Property deed apply</h5>
     </div>
     <div class="card-body p-0 mt-4">
       <div class="search d-flex justify-content-between align-items-center">
@@ -20,7 +20,7 @@
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
             <td>
-              {{ value.tenant.name }}
+              {{ value.landlord.name }}
             </td>
             <td>
               <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
@@ -38,9 +38,9 @@
               <b-badge v-if="value.status === 3" variant="danger">Declined</b-badge>
             </td>
             <td>
-              <nuxt-link :to="{ name: 'profile-property-deed-id-show', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-warning btn-simple" title="View Ad">
-                <font-awesome-icon icon="fa-solid fa-eye" />
+              <nuxt-link v-if="value.status === 2" :to="{ name: 'profile-property-deed-id-information', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-success btn-simple" title="submit your information">
+                Submit Info
               </nuxt-link>
 
               <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
@@ -66,7 +66,7 @@ import DataTable from "@/components/Datatable/DataTable";
 
 export default {
   layout: 'dashboard',
-  name: "properties",
+  name: "deed-apply",
   components: { DataTable, Pagination },
   created() {
     this.getData();
@@ -75,7 +75,7 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Tenant', name: 'name' },
+      { width: '', label: 'Landlord', name: 'name' },
       { width: '', label: 'Property', name: 'property' },
       { width: '', label: 'Start date', name: 'start_date' },
       { width: '', label: 'Status', name: 'status' },
@@ -112,7 +112,7 @@ export default {
     }
   },
   methods: {
-    getData(url = 'property/deed/landlord-list') {
+    getData(url = 'property/deed/apply-list') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
@@ -124,24 +124,6 @@ export default {
         })
         .catch(errors => {
           alert(errors);
-        })
-    },
-
-    async statusChange(params) {
-      await this.$axios.$post('property/deed/change-status/' + params.id, params)
-        .then(response => {
-          this.$izitoast.success({
-            title: 'Success !!',
-            message: 'Deed status change successfully!'
-          })
-          this.getData()
-        })
-        .catch(error => {
-          if (error.response.status == 422) {
-            this.errors = error.response.data.errors
-          } else {
-            alert(error.response.message)
-          }
         })
     },
 

@@ -24,12 +24,6 @@
                   Profile
                 </nuxt-link>
               </li>
-              <!-- <li v-if="$auth.loggedIn && $auth.user.type == 3">
-                <nuxt-link :to="{ name: 'profile-me-id-tenant', params: { id: $auth.user.tenant_id } }">
-                  <b-icon icon="person" font-scale="1"></b-icon>
-                  Profile
-                </nuxt-link>
-              </li> -->
               <li>
                 <nuxt-link :to="{ name: 'profile-property' }">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
@@ -42,12 +36,28 @@
                   Ads
                 </nuxt-link>
               </li>
-              <li>
-                <nuxt-link :to="{ name: 'profile-property-deed' }">
-                  <b-icon icon="newspaper" font-scale="1"></b-icon>
-                  Property Deed
-                </nuxt-link>
+
+              <!-- Deeds -->
+              <li v-b-toggle.deeds>
+                <a>
+                  <font-awesome-icon icon="fa-solid fa-paperclip" />
+                  Deeds
+                  <font-awesome-icon class="drop-arrow" icon="fa-solid fa-chevron-right" />
+                </a>
               </li>
+              <b-collapse id="deeds">
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-request' }">
+                    Request deeds
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-apply' }">
+                    Apply deeds
+                  </nuxt-link>
+                </li>
+              </b-collapse>
+              <!-- Deeds -->
 
               <!-- Accoutns -->
               <li v-b-toggle.accounts>

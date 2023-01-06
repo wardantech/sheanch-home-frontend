@@ -6,13 +6,13 @@
           <h5>Property Deed Details</h5>
         </div>
       </div>
-      <div>
+      <!-- <div>
         <div class="form-group">
           <nuxt-link class="btn btn-info btn-sm" :to="{ name: 'profile-property' }">
             Submit Tenant Info.
           </nuxt-link>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <b-row>
@@ -23,8 +23,8 @@
               <img :src="imageUrl + deed.image" alt="Tenant" class="rounded-circle" width="100px" height="100px">
               <div class="mt-3">
                 <h4>{{ deed.name }}</h4>
-                <button class="btn btn-primary">Accept</button>
-                <button class="btn btn-outline-danger">Decline</button>
+                <button class="btn btn-sm btn-success" @click="accept" :disabled="deed.status == 2">Accept</button>
+                <button class="btn btn-sm btn-outline-danger" @click="decline" :disabled="deed.status == 2">Decline</button>
               </div>
             </div>
           </div>
@@ -115,7 +115,9 @@ export default {
   name: 'property-deed-show',
   data() {
     return {
-      deed: {}
+      deed: {},
+      userId: this.$auth.user.id,
+      deedId: this.$route.params.id
     }
   },
   computed: {
@@ -124,14 +126,55 @@ export default {
     }
   },
   async created() {
-    await this.$axios.$post('property/deed/show', { deedId: this.$route.params.id })
+    await this.$axios.$post('property/deed/show', { deedId: this.deedId, userId: this.userId })
       .then(res => {
         this.deed = res.data.deed;
-        console.log(res);
       }).catch(err => {
         alert(err);
       });
   },
+  methods: {
+    accept() {
+      this.$swal.fire({
+        title: 'Are you confirm to accept tenant for this property?',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const data = {
+            deedId: this.deedId,
+            userId: this.userId
+          }
+          this.$axios.$post('property/deed/accept', data)
+            .then(response => {
+              this.$swal.fire('Success', 'Deed successfully accepted');
+            }).catch(error => {
+              alert(error);
+            })
+        }
+      })
+    },
+    decline() {
+      this.$swal.fire({
+        title: 'Are you confirm to decline this request?',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const data = {
+            deedId: this.$route.params.id,
+            userId: this.userId
+          }
+          this.$axios.$post('property/deed/decline', data)
+            .then(response => {
+              this.$swal.fire('Success', 'Request successfully decline');
+            }).catch(error => {
+              alert(error);
+            })
+        }
+      })
+    }
+  }
 }
 </script>
 
