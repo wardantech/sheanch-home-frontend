@@ -90,14 +90,10 @@ export default {
       image: ''
     }
   },
-
   async created() {
     const response = await this.$axios.$post('profile/show', {
       landlordId: this.$route.params.id,
     });
-
-    console.log()
-
     this.landlord = response.data;
     this.division = this.landlord.division.name;
     this.district = this.landlord.district.name;

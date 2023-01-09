@@ -36,6 +36,7 @@
               <b-badge v-if="value.status === 1" variant="secondary">Viewed</b-badge>
               <b-badge v-if="value.status === 2" variant="success">Accepted</b-badge>
               <b-badge v-if="value.status === 3" variant="danger">Declined</b-badge>
+              <b-badge v-if="value.status === 4" variant="primary">Information Submited</b-badge>
             </td>
             <td>
               <nuxt-link v-if="value.status === 2" :to="{ name: 'profile-property-deed-id-information', params: { id: value.id } }" rel="tooltip"
