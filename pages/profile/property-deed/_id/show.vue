@@ -23,8 +23,8 @@
               <img :src="imageUrl + deed.image" alt="Tenant" class="rounded-circle" width="100px" height="100px">
               <div class="mt-3">
                 <h4>{{ deed.name }}</h4>
-                <button class="btn btn-sm btn-success" @click="accept" :disabled="deed.status == 2">Accept</button>
-                <button class="btn btn-sm btn-outline-danger" @click="decline" :disabled="deed.status == 2">Decline</button>
+                <button class="btn btn-sm btn-success" @click="accept" :disabled="deed.status >= 3">Accept</button>
+                <button class="btn btn-sm btn-outline-danger" @click="decline" :disabled="deed.status >= 3">Decline</button>
               </div>
             </div>
           </div>
@@ -148,6 +148,7 @@ export default {
           this.$axios.$post('property/deed/accept', data)
             .then(response => {
               this.$swal.fire('Success', 'Deed successfully accepted');
+              this.$router.push({ name: 'profile-property-deed-request' });
             }).catch(error => {
               alert(error);
             })
@@ -168,6 +169,7 @@ export default {
           this.$axios.$post('property/deed/decline', data)
             .then(response => {
               this.$swal.fire('Success', 'Request successfully decline');
+              this.$router.push({ name: 'profile-property-deed-request' });
             }).catch(error => {
               alert(error);
             })

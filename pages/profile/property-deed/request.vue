@@ -32,15 +32,27 @@
               {{ value.start_date ?? 'Not start' }}
             </td>
             <td>
-              <b-badge v-if="value.status === 0" variant="warning">Pending</b-badge>
-              <b-badge v-if="value.status === 1" variant="secondary">Viewed</b-badge>
-              <b-badge v-if="value.status === 2" variant="success">Accepted</b-badge>
-              <b-badge v-if="value.status === 3" variant="danger">Declined</b-badge>
+              <b-badge v-if="value.status === 0" variant="danger">Declined</b-badge>
+              <b-badge v-if="value.status === 1" variant="warning">Pending</b-badge>
+              <b-badge v-if="value.status === 2" variant="secondary">Viewed</b-badge>
+              <b-badge v-if="value.status === 3" variant="info">Accepted</b-badge>
+              <b-badge v-if="value.status === 4" variant="primary">Information Submited from tenant</b-badge>
+              <b-badge v-if="value.status === 5" variant="success">Approved</b-badge>
             </td>
             <td>
               <nuxt-link :to="{ name: 'profile-property-deed-id-show', params: { id: value.id } }" rel="tooltip"
                 class="btn btn-sm btn-warning btn-simple" title="view request">
                 <font-awesome-icon icon="fa-solid fa-eye" />
+              </nuxt-link>
+
+              <nuxt-link v-if="value.status === 4" :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-info btn-simple" title="approve request">
+                <font-awesome-icon v-if="value.status === 4" icon="fa-solid fa-check" />
+              </nuxt-link>
+
+              <nuxt-link v-if="value.status === 5" :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-info btn-simple" title="show tennat informations">
+                <font-awesome-icon v-if="value.status === 5" icon="fa-solid fa-circle-info" />
               </nuxt-link>
 
               <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"

@@ -142,7 +142,7 @@
 
       <hr>
       <h6 class="d-flex justify-content-between align-items-center">
-        <span>Family Members :</span>
+        <span>Family Members / Mess Members:</span>
         <div>
           <button type="button" @click="addMembers" class="btn btn-sm btn-primary mr-1">
             <font-awesome-icon icon="fa-solid fa-plus" />
@@ -334,7 +334,7 @@ export default {
   async created() {
     await await this.$axios.$post('property/deed/information-data', {deedId: this.$route.params.id})
       .then(res => {
-        if (res.data.information.status != 2) {
+        if (res.data.information.status != 3) {
           this.$router.push({ name: 'profile-property-deed-apply' });
           return;
         }

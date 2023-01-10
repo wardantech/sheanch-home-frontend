@@ -32,14 +32,15 @@
               {{ value.start_date ?? 'Not start' }}
             </td>
             <td>
-              <b-badge v-if="value.status === 0" variant="warning">Pending</b-badge>
-              <b-badge v-if="value.status === 1" variant="secondary">Viewed</b-badge>
-              <b-badge v-if="value.status === 2" variant="success">Accepted</b-badge>
-              <b-badge v-if="value.status === 3" variant="danger">Declined</b-badge>
-              <b-badge v-if="value.status === 4" variant="primary">Information Submited</b-badge>
+              <b-badge v-if="value.status === 0" variant="danger">Declined</b-badge>
+              <b-badge v-if="value.status === 1" variant="warning">Pending</b-badge>
+              <b-badge v-if="value.status === 2" variant="secondary">Viewed</b-badge>
+              <b-badge v-if="value.status === 3" variant="info">Accepted</b-badge>
+              <b-badge v-if="value.status === 4" variant="primary">Information submited, please wait for approval.</b-badge>
+              <b-badge v-if="value.status === 5" variant="success">Approved</b-badge>
             </td>
             <td>
-              <nuxt-link v-if="value.status === 2" :to="{ name: 'profile-property-deed-id-information', params: { id: value.id } }" rel="tooltip"
+              <nuxt-link v-if="value.status === 3" :to="{ name: 'profile-property-deed-id-information', params: { id: value.id } }" rel="tooltip"
                 class="btn btn-sm btn-success btn-simple" title="submit your information">
                 Submit Info
               </nuxt-link>
