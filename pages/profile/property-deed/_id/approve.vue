@@ -310,6 +310,8 @@ export default {
       previusLandlord: '',
       driver: '',
       tenant: {},
+      name: '',
+      mobile: '',
       userId: this.$auth.user.id,
       deedId: this.$route.params.id
     }
@@ -324,6 +326,9 @@ export default {
       .then(res => {
         if (res.data.tenant.status === 4 || res.data.tenant.status === 5) {
           this.tenant = res.data.tenant;
+          this.name = res.data.tenant.name;
+          this.mobile = res.data.tenant.phone;
+          this.date = res.data.tenant.issue_date;
           this.emergencyContact = res.data.tenant.emergency_contact;
           this.familyMembers = res.data.tenant.family_members;
           this.homeServant = res.data.tenant.home_servant;
@@ -347,7 +352,10 @@ export default {
         if (result.isConfirmed) {
           const data = {
             deedId: this.deedId,
-            userId: this.userId
+            userId: this.userId,
+            mobile: this.mobile,
+            name: this.name,
+            date: this.date
           }
           this.$axios.$post('property/deed/approve', data)
             .then(response => {
