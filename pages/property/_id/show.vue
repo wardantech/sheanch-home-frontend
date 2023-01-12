@@ -25,7 +25,7 @@
                   <font-awesome-icon icon="fa-solid fa-location-dot" />
                   {{ property.address }}
                 </span>
-                <h3 class="fix-price">৳{{ propertyAd.rent_amount }}</h3>
+                <h3 class="fix-price">৳{{ property.rent_amount }}</h3>
                 <div class="features-list">
                   <div class="features-list-icon">
                     <div class="fleat-icon">
@@ -145,7 +145,6 @@
                   <b-card-body>
                     <div class="block-body">
                       <div class="detail_features">
-
                         <table class="table">
                           <thead style="border-style: hidden">
                             <tr>
@@ -186,31 +185,7 @@
                 <b-collapse id="facilities" visible accordion="facilities" role="tabpanel">
                   <b-card-body>
                     <div class="block-body">
-                      <ul class="detail_features">
-                        <table class="table">
-                          <thead style="border-style: hidden">
-                            <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Paid by</th>
-                              <th scope="col">Amount</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr v-for="(facility, j) in facilities" :key="j">
-                              <th scope="row">
-                                <font-awesome-icon icon="fa-solid fa-circle-check" style="" />
-                              </th>
-                              <td>{{ facility.facility_name }}</td>
-                              <td>
-                                <span v-if="facility.facility_paid_by == 1">Landlord</span>
-                                <span v-else>Tenant</span>
-                              </td>
-                              <td>{{ facility.facility_amount }}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </ul>
+                      {{ facilities }}
                     </div>
                   </b-card-body>
                 </b-collapse>
@@ -378,13 +353,18 @@ export default {
     };
   },
   async created() {
-    this.propertyAd = await this.propertiesAds();
-    this.property = this.propertyAd.property;
-    this.media = this.propertyAd.property.media;
-    this.utilities = JSON.parse(this.property.utilities);
-    this.facilities = JSON.parse(this.property.facilities);
+    await this.$axios.$post('property/ad/get-details', { propertyAdId: this.propertyId })
+      .then(res => {
+        console.log(res);
+        this.property = res.data.propertyAd.property;
+        this.media = res.data.propertyAd.property.media;
+        this.utilities = JSON.parse(res.data.propertyAd.property.utilities);
+        this.facilities = res.data.propertyAd.property.facilitie_ids;
 
-    this.reviews = await this.fetchReviews();
+        // this.reviews = await this.fetchReviews();
+      }).catch(err => {
+        alert(err);
+      });
   },
   computed: {
     imageUrl() {
@@ -431,10 +411,6 @@ export default {
           throw new Error('You can\'t apply, this advertisement belongs to you.');
         }
       })
-    },
-    async propertiesAds() {
-      const propertiesAds = await this.$axios.$post('property/ad/get-details', { propertyAdId: this.propertyId });
-      return propertiesAds.data;
     },
     async fetchReviews() {
       const response = await this.$axios.$post('review/get-reviews', { propertyId: this.propertyId });

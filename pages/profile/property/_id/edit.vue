@@ -17,7 +17,7 @@
     </div>
 
     <div>
-      <form @submit.prevent="store">
+      <form @submit.prevent="update">
         <b-row>
           <b-col md="4">
             <b-form-group label="Property Category">
@@ -26,9 +26,9 @@
                 <option value="1">Commercial</option>
                 <option value="2">Residential</option>
               </select>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.property_category">{{
-    errors.property_category[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.property_category">
+                {{ errors.property_category[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -40,9 +40,9 @@
                   {{ type.name }}
                 </option>
               </select>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.property_type_id">{{
-    errors.property_type_id[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.property_type_id">
+                {{ errors.property_type_id[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -53,9 +53,9 @@
                 <option value="1">For Rent</option>
                 <option value="2">For Sale</option>
               </select>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.sale_type">{{
-    errors.sale_type[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.sale_type">
+                {{ errors.sale_type[0] }}
+              </strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -65,9 +65,9 @@
             <b-form-group label="Property name">
               <b-form-input v-model="form.name" class="custom-input-control" type="text"
                 placeholder="Property name"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.name">{{
-    errors.name[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.name">
+                {{ errors.name[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -75,9 +75,9 @@
             <b-form-group label="Area Size">
               <b-form-input min="1" v-model="form.area_size" class="custom-input-control" type="number"
                 placeholder="Area Size"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.area_size">{{
-    errors.area_size[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.area_size">
+                {{ errors.area_size[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -85,9 +85,9 @@
             <b-form-group label="Bedroom Quantity (Qty)">
               <b-form-input min="1" v-model="form.bed_rooms" class="custom-input-control" type="number"
                 placeholder="Enter Bedroom Quantity (Qty)"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.bed_rooms">{{
-    errors.bed_rooms[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.bed_rooms">
+                {{ errors.bed_rooms[0] }}
+              </strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -97,9 +97,9 @@
             <b-form-group label="Bath Rooms (Qty)">
               <b-form-input min="1" v-model="form.bath_rooms" class="custom-input-control" type="number"
                 placeholder="Bath Rooms (Qty)"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.bath_rooms">{{
-    errors.bath_rooms[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.bath_rooms">
+                {{ errors.bath_rooms[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -107,9 +107,9 @@
             <b-form-group label="Balcony (Qty)">
               <b-form-input min="1" v-model="form.balcony" class="custom-input-control" type="number"
                 placeholder="Balcony (Qty)"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.balcony">{{
-    errors.balcony[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.balcony">
+                {{ errors.balcony[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -117,9 +117,9 @@
             <b-form-group label="Floor">
               <b-form-input min="1" v-model="form.floor" class="custom-input-control" type="number"
                 placeholder="Enter floor"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.floor">{{
-    errors.floor[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.floor">
+                {{ errors.floor[0] }}
+              </strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -134,9 +134,9 @@
                   {{ division.name }}
                 </option>
               </select>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.division_id">{{
-    errors.division_id[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.division_id">
+                {{ errors.division_id[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -149,9 +149,9 @@
                   {{ district.name }}
                 </option>
               </select>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.district_id">{{
-    errors.district_id[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.district_id">
+                {{ errors.district_id[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -163,8 +163,9 @@
                   {{ thana.name }}
                 </option>
               </select>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.thana_id">{{ errors.thana_id[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.thana_id">
+                {{ errors.thana_id[0] }}
+              </strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -174,9 +175,9 @@
             <b-form-group label="Rent Amount">
               <b-form-input min="0" v-model="form.rent_amount" class="custom-input-control" type="number"
                 placeholder="Rent Amount"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.rent_amount">{{
-    errors.rent_amount[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.rent_amount">
+                {{ errors.rent_amount[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -184,9 +185,9 @@
             <b-form-group label="Security money">
               <b-form-input v-model="form.security_money" class="custom-input-control" type="number"
                 placeholder="Security money"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.security_money">{{
-    errors.security_money[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.security_money">
+                {{ errors.security_money[0] }}
+              </strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -196,19 +197,19 @@
             <b-form-group label="Zip Code">
               <b-form-input v-model="form.zip_code" class="custom-input-control" type="text"
                 placeholder="Zip Code"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.zip_code">{{
-    errors.zip_code[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.zip_code">
+                {{ errors.zip_code[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
           <b-col md="6">
-            <b-form-group label="House/Holding/Unit Number">
-              <b-form-input min="1" v-model="form.house_no" class="custom-input-control" type="text"
+            <b-form-group label="Holding Number">
+              <b-form-input min="1" v-model="form.holding_number" class="custom-input-control" type="text"
                 placeholder="House Number"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.house_no">{{
-    errors.house_no[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.holding_number">
+                {{ errors.holding_number[0] }}
+              </strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -218,9 +219,9 @@
             <b-form-group label="Video Link">
               <b-form-input min="1" v-model="form.video_link" class="custom-input-control" type="text"
                 placeholder="Enter video link"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.video_link">{{
-    errors.video_link[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.video_link">
+                {{ errors.video_link[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -228,9 +229,9 @@
             <b-form-group label="Google pam location">
               <b-form-input min="1" v-model="form.google_map_location" class="custom-input-control" type="text"
                 placeholder="Enter google map location"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.google_map_location">{{
-    errors.google_map_location[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.google_map_location">
+                {{ errors.google_map_location[0] }}
+              </strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -240,8 +241,9 @@
             <b-form-group label="Address">
               <b-form-textarea id="address" placeholder="Address" rows="3" v-model="form.address"
                 class="custom-input-control"></b-form-textarea>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.address">{{ errors.address[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.address">
+                {{ errors.address[0] }}
+              </strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -251,9 +253,9 @@
             <b-form-group label="Description">
               <b-form-textarea id="description" placeholder="Description..." rows="3" v-model="form.description"
                 class="custom-input-control"></b-form-textarea>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.description">{{
-    errors.description[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.description">
+                {{ errors.description[0] }}
+              </strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -284,9 +286,9 @@
               <b-form-input readonly v-model="utility.utility_name" :id="'utility_name' + n" min="1"
                 class="custom-input-control" type="text" placeholder="Area Size">
               </b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.security_money">{{
-    errors.security_money[0]
-}}</strong>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.security_money">
+                {{ errors.security_money[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
@@ -318,46 +320,15 @@
 
         <!-- Add Facility -->
         <b-row>
-          <b-col md="4">
-            <b-form-group label="Facilities">
-              <select v-model="facility" class="form-control custom-input-control" name="" id="">
-                <option value="">Select</option>
-                <option v-for="(facility, f) in facilities" :value="facility" :key="f">
-                  {{ facility.name }}
-                </option>
-              </select>
+          <b-col md="12">
+            <b-form-group label="Facilities" v-slot="{ ariaDescribedby }">
+              <b-form-checkbox-group
+                id="checkbox-group-1"
+                v-model="form.facilitie_ids"
+                :options="facilities"
+                :aria-describedby="ariaDescribedby"
+              ></b-form-checkbox-group>
             </b-form-group>
-          </b-col>
-
-          <b-col md="4">
-            <div class="button-t-m" style="margin-top: 30px">
-              <b-button variant="success" @click="addFacilityRow(facility)">Add facility</b-button>
-            </div>
-          </b-col>
-        </b-row>
-
-        <b-row class="align-items-center" v-for="(facility, n) in form.facilities" :key="n">
-          <b-col md="4">
-            <b-form-group label="Facility name">
-              <b-form-input readonly v-model="facility.facility_name" :id="'facility_name' + n" min="1"
-                class="custom-input-control" type="text" placeholder="Facility name">
-              </b-form-input>
-
-            </b-form-group>
-          </b-col>
-
-          <b-col md="3">
-            <b-form-group label="Amount">
-              <b-form-input @input="facilityAmount(n, facility)" v-model="facility.facility_amount"
-                :id="'facility_amount' + n" min="1" class="custom-input-control" type="text"
-                placeholder="Amount"></b-form-input>
-            </b-form-group>
-          </b-col>
-
-          <b-col md="1" @click="deleteFacilityRow(n, facility)">
-            <div class="button-t-m" style="margin-top: 16px;">
-              <b-button variant="danger">-</b-button>
-            </div>
           </b-col>
         </b-row>
         <!-- End Add Facility -->
@@ -375,7 +346,6 @@
         <b-form-group class="mt-3">
           <b-button type="submit" class="btn-browse-more btn-height" variant="info">Update</b-button>
         </b-form-group>
-
       </form>
     </div>
   </div>
@@ -402,7 +372,6 @@ export default {
         maxFilesize: 2,
         maxFiles: 20, // Test
       },
-
       form: {
         status: '',
         name: '',
@@ -418,7 +387,7 @@ export default {
         video_link: '',
         rent_amount: '',
         security_money: '',
-        house_no: '',
+        holding_number: '',
         zip_code: '',
         thana_id: '',
         district_id: '',
@@ -426,79 +395,65 @@ export default {
         address: '',
         google_map_location: '',
         description: '',
-        facilities: [],
-        utilities: [],
         images: [],
-        oldImages: [],
-
+        facilitie_ids: [],
+        utilities: [],
+        oldImages: []
       },
-
       propertyTypes: '',
       landlords: '',
       utilities: '',
       utility: '',
-      facility: '',
-      facilities: '',
+      selected: [],
+      facilities: [],
       divisions: '',
       districts: '',
       thanas: '',
       errors: {},
     }
   },
-
-  // beforeMount() {
-  //   const authId = this.$auth.user.landlord_id;
-  //   if (!authId) {
-  //     throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
-  //   }
-  // },
-
   async created() {
-    const data = await this.$axios.$post('property/edit', { id: this.$route.params.id });
+    await this.$axios.$post('property/edit', { id: this.$route.params.id })
+      .then(res => {
+        this.form = res.data.property;
+        this.propertyTypes = res.data.propertyTypes;
+        this.divisions = res.data.divisions;
+        this.districts = res.data.districts;
+        this.thanas = res.data.thanas;
+        this.utilities = res.data.utilities;
+        this.form.utilities = JSON.parse(res.data.property.utilities);
+        this.facilities = res.data.facilities;
+        this.form.facilitie_ids = JSON.parse(res.data.property.facilitie_ids);
 
-    this.divisions = data.data.divisions;
-    this.districts = data.data.districts;
-    this.thanas = data.data.thanas;
-    this.landlords = data.data.landlords;
-    this.propertyTypes = data.data.propertyTypes;
-    this.utilities = data.data.utilities;
-    this.facilities = data.data.facilities;
+        let images = res.data.propertyImages;
+        this.form.oldImages = [];
 
-    this.form = data.data.property;
-    this.form.utilities = JSON.parse(data.data.property.utilities);
-    this.form.facilities = JSON.parse(data.data.property.facilities);
-    let images = data.data.propertyImages;
-    this.form.oldImages = [];
-
-    if (images.length > 0) {
-      for (let i = 0; i < images.length; i++) {
-
-        var file = {
-          size: images[i].size,
-          name: images[i].name,
-          url: images[i].url,
-          data: images[i].data,
-        };
-
-        this.$refs.el.manuallyAddFile(file, images[i].url);
-
-        this.form.oldImages.push(file)
-      }
-    }
+        if (images.length > 0) {
+          for (let i = 0; i < images.length; i++) {
+            var file = {
+              size: images[i].size,
+              name: images[i].name,
+              url: images[i].url,
+              data: images[i].data,
+            };
+            this.$refs.el.manuallyAddFile(file, images[i].url);
+            this.form.oldImages.push(file)
+          }
+        }
+      }).catch(err => {
+        alert(err);
+      });
   },
-
   methods: {
     async getDistricts(division_id) {
       this.thanas = '';
       let district = await this.$axios.$post('settings/districts', { divisionId: division_id });
       this.districts = district.data;
     },
-
     async getThanas(district_id) {
       let thanas = await this.$axios.$post('settings/thanas', { districtId: district_id });
       this.thanas = thanas.data;
     },
-
     processFile(file) {
       this.form.images = [];
       let image = Array.from(file)
@@ -515,13 +470,9 @@ export default {
           fileObj.type = element.type
 
           this.form.images.push(fileObj)
-
-          console.log(this.form.images)
         }
       })
-
     },
-
     fileRemoved(file) {
       if (file.hasOwnProperty('manuallyAdded')) {
         this.form.oldImages = this.form.oldImages.filter(element => element.url !== file.url)
@@ -533,7 +484,6 @@ export default {
         }
       }
     },
-
     addUtilityRow(data) {
       if (data) {
         let dataCheck = this.form.utilities.find(element => element.utility_id == data.id);
@@ -551,7 +501,6 @@ export default {
             message: data.name + ' Already added!'
           });
         }
-
       }
       else {
         this.$izitoast.error({
@@ -560,75 +509,31 @@ export default {
         });
       }
     },
-
     deleteUtilityRow(index, utility) {
       let idx = this.form.utilities.indexOf(utility);
       if (idx > -1) {
         this.form.utilities.splice(idx, 1);
       }
     },
-
     utilityPaidBy(n, utility) {
       let paid_by = document.getElementById('utility_paid_by' + n).value
       this.form.utilities[n].utility_paid_by = paid_by;
     },
-
     utilityAmount(n, utility) {
       let amount = document.getElementById('utility_amount' + n).value
       this.form.utilities[n].utility_amount = amount;
     },
-
-    addFacilityRow(data) {
-      if (data) {
-        let dataCheck = this.form.facilities.find(element => element.facility_id == data.id)
-        if (!dataCheck) {
-          this.form.facilities.push({
-            'facility_id': data.id,
-            'facility_name': data.name,
-            'facility_amount': '',
-          })
-        }
-        else {
-          this.$izitoast.warning({
-            title: 'Warning !!',
-            message: data.name + ' Already added!'
-          });
-        }
-
-      }
-      else {
-        this.$izitoast.error({
-          title: 'Warning !!',
-          message: 'Please select facility first!'
-        });
-      }
-    },
-
-    deleteFacilityRow(index, facility) {
-      let idx = this.form.facilities.indexOf(facility);
-      if (idx > -1) {
-        this.form.facilities.splice(idx, 1);
-      }
-    },
-
-    facilityAmount(n, facility) {
-      let amount = document.getElementById('facility_amount' + n).value
-      this.form.facilities[n].facility_amount = amount;
-    },
-
-    async store() {
+    async update() {
       await this.$axios.$post('property/update/' + this.$route.params.id, this.form)
         .then(response => {
+          console.log(response);
           this.$izitoast.success({
             title: 'Success !!',
             message: 'Property updated successfully!'
           });
 
           this.$router.push({ name: 'profile-property' });
-
-        })
-        .catch(error => {
-
+        }).catch(error => {
           if (error.response.status == 422) {
             this.errors = error.response.data.errors
           } else {
