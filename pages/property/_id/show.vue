@@ -355,7 +355,6 @@ export default {
   async created() {
     await this.$axios.$post('property/ad/get-details', { propertyAdId: this.propertyId })
       .then(res => {
-        console.log(res);
         this.property = res.data.propertyAd.property;
         this.media = res.data.propertyAd.property.media;
         this.utilities = JSON.parse(res.data.propertyAd.property.utilities);
