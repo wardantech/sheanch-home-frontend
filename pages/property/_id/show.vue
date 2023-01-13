@@ -185,7 +185,19 @@
                 <b-collapse id="facilities" visible accordion="facilities" role="tabpanel">
                   <b-card-body>
                     <div class="block-body">
-                      {{ facilities }}
+                      {{  }}
+                      <div class="detail_features">
+                        <table class="table">
+                          <tbody>
+                            <tr v-for="(facility, index) in facilities" :key="index">
+                              <th scope="row">
+                                <font-awesome-icon icon="fa-solid fa-circle-check" style="" />
+                              </th>
+                              <td>{{ facility.name }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </b-card-body>
                 </b-collapse>
@@ -358,7 +370,7 @@ export default {
         this.property = res.data.propertyAd.property;
         this.media = res.data.propertyAd.property.media;
         this.utilities = JSON.parse(res.data.propertyAd.property.utilities);
-        this.facilities = res.data.propertyAd.property.facilitie_ids;
+        this.facilities = res.data.facilities;
 
         // this.reviews = await this.fetchReviews();
       }).catch(err => {
