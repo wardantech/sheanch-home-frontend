@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h5>Property Payment Lists</h5>
-      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-rent-collection-create' }">
+      <h5>Due Collection Lists</h5>
+      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-due-collection-create' }">
         <font-awesome-icon icon="fa-solid fa-plus" />
-        Collection
+        Due Collection
       </nuxt-link>
     </div>
     <div class="card-body p-0 mt-4">
@@ -125,7 +125,7 @@ export default {
     }
   },
   methods: {
-    getData(url = 'property/deed/get-property-payments') {
+    getData(url = 'property/deed/get-due-payments') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {

@@ -30,6 +30,19 @@
       <form @submit.prevent="update">
         <b-row>
           <b-col md="6">
+            <b-form-group label="Select Property">
+              <select v-model="form.property_id" class="form-control custom-input-control" @change="propertyInfo">
+                <option v-for="(deed, index) in deeds" :value="deed.property.id" :key="index">
+                  {{ deed.property.name }} - ( {{ deed.tenant.name }} )
+                </option>
+              </select>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.property_id">
+                {{ errors.property_id[0] }}
+              </strong>
+            </b-form-group>
+          </b-col>
+
+          <b-col md="6">
             <b-form-group label="Rent amount">
               <b-form-input v-model="rent" class="custom-input-control" type="text" readonly></b-form-input>
             </b-form-group>

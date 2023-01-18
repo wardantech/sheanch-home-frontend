@@ -47,13 +47,18 @@
               </li>
               <b-collapse id="deeds">
                 <li>
-                  <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-request' }">
-                    Request deeds
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-approved' }">
+                    Approved deeds
                   </nuxt-link>
                 </li>
                 <li>
                   <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-apply' }">
                     Apply deeds
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-request' }">
+                    Request deeds
                   </nuxt-link>
                 </li>
               </b-collapse>
@@ -81,6 +86,11 @@
                 <li>
                   <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-rent-collection' }">
                     Rent Collection
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-due-collection' }">
+                    Due Collection
                   </nuxt-link>
                 </li>
               </b-collapse>

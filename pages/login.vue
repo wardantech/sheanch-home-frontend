@@ -62,7 +62,7 @@
                       </p>
                     </b-form-group>
 
-                    <div class="text-center">
+                    <!-- <div class="text-center">
                       <div class="auth-divider">
                         <span>Or login via</span>
                       </div>
@@ -74,7 +74,7 @@
                           <img src="../assets/frontend/images/gmail_Icon.png" alt="Gmail icon" width="55">
                         </b-button>
                       </div>
-                    </div>
+                    </div> -->
                   </b-form>
                 </div>
               </div>
@@ -134,7 +134,6 @@ export default {
             }
           }
         }).catch(error => {
-          console.log(error)
           if (error.response.status == 422) {
             this.errors = error.response.data.errors
           } else {

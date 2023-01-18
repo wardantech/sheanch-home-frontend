@@ -289,10 +289,14 @@
     </b-row>
 
     <b-row class="mt-4">
-      <b-col sm="3">
-        <h6 class="mb-0">Issus Date:</h6>
+      <b-col sm="9" class="text-secondary">
+        <div class="form-group">
+          <label for="issus_date">
+            <h6 class="mb-0">Issus Date:</h6>
+          </label>
+          <input type="date" v-model="issus_date" class="form-control custom-input-control">
+        </div>
       </b-col>
-      <b-col sm="9" class="text-secondary">{{ tenant.issue_date }}</b-col>
     </b-row>
 
   </div>
@@ -312,6 +316,7 @@ export default {
       tenant: {},
       name: '',
       mobile: '',
+      issus_date: '',
       userId: this.$auth.user.id,
       deedId: this.$route.params.id
     }
@@ -328,7 +333,7 @@ export default {
           this.tenant = res.data.tenant;
           this.name = res.data.tenant.name;
           this.mobile = res.data.tenant.phone;
-          this.date = res.data.tenant.issue_date;
+          this.issus_date = res.data.tenant.issue_date;
           this.emergencyContact = res.data.tenant.emergency_contact;
           this.familyMembers = res.data.tenant.family_members;
           this.homeServant = res.data.tenant.home_servant;
@@ -355,12 +360,12 @@ export default {
             userId: this.userId,
             mobile: this.mobile,
             name: this.name,
-            date: this.date
+            date: this.issus_date
           }
           this.$axios.$post('property/deed/approve', data)
             .then(response => {
               this.$swal.fire('Success', 'Deed successfully approved');
-              this.$router.push({ name: 'profile-property-deed-request' });
+              this.$router.push({ name: 'profile-property-deed-approved' });
             }).catch(error => {
               alert(error);
             })

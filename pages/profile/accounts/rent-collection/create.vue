@@ -24,7 +24,7 @@
             <b-form-group label="Select Property">
               <select v-model="form.property_id" class="form-control custom-input-control" @change="propertyInfo">
                 <option v-for="(deed, index) in deeds" :value="deed.property.id" :key="index">
-                  {{ deed.property.name }} - ( {{ deed.user.name }} )
+                  {{ deed.property.name }} - ( {{ deed.tenant.name }} )
                 </option>
               </select>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.property_id">
@@ -130,6 +130,7 @@
 </template>
 
 <script>
+
 export default {
   layout: 'dashboard',
   name: "rent-collection-create",
@@ -173,7 +174,7 @@ export default {
 
       await this.$axios.$post('property/deed/get-property-info', { propertyId: propertyId })
         .then(res => {
-          this.rent = res.data.property.rent_amount;
+          this.rent = res.data.property.total_amount;
           this.tenantId = res.data.property.deed[0].tenant_id;
 
           // Form
