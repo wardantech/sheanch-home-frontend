@@ -31,6 +31,17 @@
     </div>
 
     <b-row class="mt-4">
+      <b-col sm="9" class="text-secondary">
+        <div class="form-group">
+          <label for="issus_date">
+            <h6 class="mb-0">Issus Date:</h6>
+          </label>
+          <input type="date" v-model="issus_date" class="form-control custom-input-control">
+        </div>
+      </b-col>
+    </b-row>
+
+    <b-row class="mt-4">
       <b-col sm="3">
         <h6 class="mb-0">Name:</h6>
       </b-col>
@@ -287,18 +298,6 @@
         {{ tenant.leaving_home }}
       </b-col>
     </b-row>
-
-    <b-row class="mt-4">
-      <b-col sm="9" class="text-secondary">
-        <div class="form-group">
-          <label for="issus_date">
-            <h6 class="mb-0">Issus Date:</h6>
-          </label>
-          <input type="date" v-model="issus_date" class="form-control custom-input-control">
-        </div>
-      </b-col>
-    </b-row>
-
   </div>
 </template>
 

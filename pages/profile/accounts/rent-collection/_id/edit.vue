@@ -18,15 +18,6 @@
     </div>
 
     <div>
-      <h6>Property: {{ propertyName }}</h6>
-      <h6>
-        Tenant:
-        <nuxt-link class="text-info" :to="{ name: 'profile-me-id-show-tenant', params: { id: tenantId } }">
-          {{ tenantName }}
-        </nuxt-link>
-      </h6>
-      <hr>
-
       <form @submit.prevent="update">
         <b-row>
           <b-col md="6">
@@ -59,7 +50,7 @@
           </b-col>
 
           <b-col md="6">
-            <b-form-group label="Due amount ( If have due! )">
+            <b-form-group label="Due amount">
               <b-form-input v-model="form.due_amount" class="custom-input-control" type="number"
                 placeholder="Due amount" readonly></b-form-input>
             </b-form-group>
@@ -76,7 +67,7 @@
 
           <b-col md="6">
             <b-form-group label="Select Method">
-              <select v-model="form.payment_method" class="form-control custom-input-control" @change="paymentMethod()">
+              <select v-model="form.payment_method" class="form-control custom-input-control" @change="paymentMethod">
                 <option value="">Select</option>
                 <option value="1">Cash</option>
                 <option value="2">Bank</option>
@@ -141,12 +132,11 @@
 <script>
 export default {
   layout: 'dashboard',
-  name: 'edit-rent',
+  name: 'rent-collection-edit',
   data() {
     return {
       loading: false,
-      propertyName: '',
-      tenantName: '',
+      deeds: '',
       tenantId: '',
       rent: '',
       paymentMethods: [],
@@ -162,46 +152,49 @@ export default {
         cash_in: '',
         payment_method: '',
         transaction_id: '',
-        updated_by: '',
+        created_by: '',
         date: '',
         remark: ''
       }
     }
   },
   async created() {
-    await this.$axios.$post('property/deed/rent-property/edit', { transactionId: this.$route.params.id })
+    const data = {
+      userId: this.$auth.user.id,
+      transactionId: this.$route.params.id
+    };
+    await this.$axios.$post('property/deed/rent-property/edit', data)
       .then(res => {
-        this.propertyName = res.data.transaction.property.name;
-        this.tenantName = res.data.transaction.deed.tenant.name;
-        this.tenantId = res.data.transaction.deed.tenant.id;
-        this.rent = res.data.transaction.property.rent_amount;
-        this.isPaymentMethod = res.data.transaction.payment_method;
-
-        // Form Data
-        this.form.updated_by = this.$auth.user.landlord_id;
-        this.form.cash_in = res.data.transaction.cash_in;
-
-        if (res.data.transaction.due === null) {
-          this.form.due_amount = 0;
-        } else {
-          this.form.due_amount = res.data.transaction.due.amount;
-        }
-
-        this.form.date = res.data.transaction.date;
-        this.form.payment_method = res.data.transaction.payment_method;
-        this.form.bank_id = res.data.transaction.bank_id;
-        this.form.mobile_banking_id = res.data.transaction.mobile_banking_id;
-        this.form.transaction_id = res.data.transaction.transaction_id;
-        this.form.remark = res.data.transaction.remark;
-
-        this.form.user_id = this.$auth.user.landlord_id;
-        this.form.property_id = res.data.transaction.property.id;
-        this.form.property_deed_id = res.data.transaction.deed.id;
-
+        this.deeds = res.data.deeds;
+        this.form = res.data.transaction;
+        this.propertyInfo();
         this.paymentMethod();
+      }).catch(err => {
+        alert(err);
       });
   },
   methods: {
+    async propertyInfo(event) {
+      let propertyId = this.form.property_id;
+
+      if (event) {
+        propertyId = event.target.value;;
+      }
+
+      await this.$axios.$post('property/deed/get-property-info', { propertyId: propertyId })
+        .then(res => {
+          this.rent = res.data.property.total_amount;
+          this.tenantId = res.data.property.deed[0].tenant_id;
+
+          // Form
+          this.form.user_id = this.$auth.user.id;
+          this.form.updated_by = this.$auth.user.id;
+          this.form.property_deed_id = res.data.property.deed[0].id;
+        })
+        .catch(err => {
+          alert(err);
+        });
+    },
     dueAmount(event) {
       const value = event.target.value;
       if (value > this.rent) {
@@ -212,7 +205,6 @@ export default {
         this.form.due_amount = (this.rent - event.target.value);
       }
     },
-
     async paymentMethod() {
       this.isPaymentMethod = this.form.payment_method;;
       const value = this.form.payment_method;;
@@ -227,7 +219,6 @@ export default {
           });
       }
     },
-
     async update() {
       this.loading = true;
       await this.$axios.$put('property/deed/rent-property/update/'+this.$route.params.id, this.form)
@@ -235,7 +226,7 @@ export default {
           this.loading = false;
           this.$izitoast.success({
             title: 'Success !!',
-            message: 'Payment Updated!'
+            message: 'Rent successfully updated'
           });
 
           this.$router.push({ name: 'profile-accounts-rent-collection' });

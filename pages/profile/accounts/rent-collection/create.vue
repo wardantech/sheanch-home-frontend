@@ -130,7 +130,6 @@
 </template>
 
 <script>
-
 export default {
   layout: 'dashboard',
   name: "rent-collection-create",
@@ -211,7 +210,7 @@ export default {
           this.loading = false;
           this.$izitoast.success({
             title: 'Success !!',
-            message: 'Payment Done!'
+            message: 'Rent successfully collected'
           });
 
           this.$router.push({ name: 'profile-accounts-rent-collection' });

@@ -181,6 +181,9 @@ export default {
           if (this.due > 0) {
             this.isPaidAmount = false;
             this.loading = false;
+          }else {
+            this.isPaidAmount = true;
+            this.loading = true;
           }
 
           // Form
