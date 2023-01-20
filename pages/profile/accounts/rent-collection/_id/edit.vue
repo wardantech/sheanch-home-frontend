@@ -178,7 +178,7 @@ export default {
       let propertyId = this.form.property_id;
 
       if (event) {
-        propertyId = event.target.value;;
+        propertyId = event.target.value;
       }
 
       await this.$axios.$post('property/deed/get-property-info', { propertyId: propertyId })

@@ -24,39 +24,24 @@
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.property.name }}</td>
-            <td>{{ dateFromat(value.date) }}</td>
+            <td>{{ value.property_name }} ({{ value.tenant_name }})</td>
+            <td>{{ value.amount }}</td>
+            <td>{{ (value.property_amount - value.amount)  }}</td>
+
             <td>
-              <p v-if="value.payment_method == 1">
-                <b-badge variant="primary">Cash</b-badge>
-              </p>
-              <p v-if="value.payment_method == 2">
-                <b-badge variant="success">Bank</b-badge>
-              </p>
-              <p v-if="value.payment_method == 3">
-                <b-badge variant="info">Mobile</b-badge>
-              </p>
-            </td>
-            <td>
-              {{ value.cash_in }}
-            </td>
-            <td>
-              <p>{{ value.due_amount }}</p>
-            </td>
-            <td>
-              <nuxt-link :to="{ name: 'profile-accounts-rent-collection-id-edit', params: { id: value.id } }" rel="tooltip"
+              <!-- <nuxt-link :to="{ name: 'profile-accounts-rent-collection-id-edit', params: { id: value.id } }" rel="tooltip"
                 class="btn btn-sm btn-success btn-simple" title="Edit">
                 <font-awesome-icon icon="fa-solid fa-edit" />
               </nuxt-link>
 
-              <!-- <nuxt-link v-if="value.due_amount > 0" :to="{ name: 'profile-accounts-rent-collection-id-edit', params: { id: value.id } }" rel="tooltip"
+              <nuxt-link v-if="value.due_amount > 0" :to="{ name: 'profile-accounts-rent-collection-id-due', params: { id: value.id } }" rel="tooltip"
                 class="btn btn-sm btn-info btn-simple" title="Collect due payment">
                 <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
-              </nuxt-link> -->
+              </nuxt-link>
 
               <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
                 <font-awesome-icon icon="fa-solid fa-trash" />
-              </b-button>
+              </b-button> -->
             </td>
           </tr>
         </tbody>
@@ -88,9 +73,7 @@ export default {
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
       { width: '', label: 'Property', name: 'property' },
-      { width: '', label: 'Date', name: 'date' },
-      { width: '', label: 'Method', name: 'method' },
-      { width: '', label: 'Paid', name: 'paid' },
+      { width: '', label: 'Amount', name: 'amount' },
       { width: '', label: 'Due', name: 'due' },
       { width: '', label: 'Actions', name: 'actions' },
     ];
