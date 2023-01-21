@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h5>Property Payment Lists</h5>
-      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-rent-collection-create' }">
-        <font-awesome-icon icon="fa-solid fa-plus" />
-        Collection
+      <h5>All Deed Transactions</h5>
+      <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-rent-collection' }">
+        <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
+        Back to list
       </nuxt-link>
     </div>
     <div class="card-body p-0 mt-4">
@@ -24,29 +24,19 @@
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.property_name }} ({{ value.tenant_name }})</td>
-            <td>{{ value.monthName }} - {{ value.year }}</td>
-            <td>{{ value.amount }}</td>
-            <td>{{ (value.property_amount - value.amount) }}</td>
+            <td>{{ value.property.name }} ({{ value.deed.tenant.name }})</td>
+            <td>{{ value.cash_in }}</td>
+            <td>{{ dateFromat(value.date) }}</td>
 
             <td>
-              <nuxt-link
-                :to="{ name: 'profile-accounts-rent-collection-details' }"
-                class="btn btn-sm btn-primary btn-simple" title="Show all transactions"
-                :custom="true"
-              >
-                <a @click="storeDeed(value.deedId, value.month)">
-                  <font-awesome-icon icon="fa-solid fa-eye" />
-                </a>
+              <nuxt-link :to="{ name: 'profile-accounts-rent-collection-id-edit', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-success btn-simple" title="Edit">
+                <font-awesome-icon icon="fa-solid fa-edit" />
               </nuxt-link>
 
-              <!-- value.transactionId -->
-
-              <nuxt-link v-if="(value.property_amount - value.amount) > 0"
-                :to="{ name: 'profile-accounts-rent-collection-id-due', params: { id: 2 } }"
-                rel="tooltip" class="btn btn-sm btn-info btn-simple" title="Collect due payment">
-                <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
-              </nuxt-link>
+              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
+                <font-awesome-icon icon="fa-solid fa-trash" />
+              </b-button>
             </td>
           </tr>
         </tbody>
@@ -62,28 +52,27 @@
 <script>
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
+import { dateMixin } from '../../../../mixins/date-mixin';
 
 export default {
   layout: 'dashboard',
-  name: "rent-collection",
+  name: "rent-collection-details",
   components: { DataTable, Pagination },
-  created() {
-    this.getData();
-  },
+  mixins: [dateMixin],
   data() {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
       { width: '', label: 'Property', name: 'property' },
-      { width: '', label: 'Month', name: 'month' },
       { width: '', label: 'Amount', name: 'amount' },
-      { width: '', label: 'Due', name: 'due' },
+      { width: '', label: 'Date', name: 'date' },
       { width: '', label: 'Actions', name: 'actions' },
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
     });
     return {
+      deedInfo: {},
       values: [],
       sum: [],
       columns: columns,
@@ -96,7 +85,8 @@ export default {
         search: '',
         column: 0,
         dir: 'desc',
-        userId: this.$auth.user.id
+        deedId: '',
+        month: ''
       },
       pagination: {
         lastPage: '',
@@ -106,12 +96,22 @@ export default {
         nextPageUrl: '',
         prevPageUrl: '',
         from: '',
-        to: '',
+        to: ''
       },
     }
   },
+  async created() {
+    this.deedInfo = this.$store.getters['transactions/getDeedInfo'];
+    if (!this.deedInfo.deedId) {
+      this.$router.push({ name: 'profile-accounts-rent-collection' });
+      return;
+    }
+    this.tableData.deedId = this.deedInfo.deedId;
+    this.tableData.month = this.deedInfo.month;
+    this.getData();
+  },
   methods: {
-    getData(url = 'property/deed/get-property-payments') {
+    getData(url = 'property/deed/get-deed-transaction-month') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
@@ -145,13 +145,28 @@ export default {
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value)
     },
-    storeDeed(deed_id, month) {
-      const data = {
-        deedId: deed_id,
-        month: month
-      };
-      this.$store.dispatch('transactions/deedInfo', data);
-    }
+    // Destroy Rent Payment
+    async deleteItem(id) {
+      let result = confirm("Want to delete?");
+      if (result) {
+        await this.$axios.$post('property/deed/delete-property-payment', { id: id })
+          .then(response => {
+            this.getData();
+            this.$izitoast.success({
+              title: 'Success !!',
+              message: 'Payment deleted successfully!'
+            });
+          })
+          .catch(error => {
+            if (error.response.status == 422) {
+              this.errors = error.response.data.errors
+            }
+            else {
+              alert(error.response.message)
+            }
+          })
+      }
+    },
   }
 }
 </script>

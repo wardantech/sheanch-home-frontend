@@ -34,25 +34,12 @@
           </b-col>
 
           <b-col md="6">
-            <b-form-group label="Rent amount">
-              <b-form-input v-model="rent" class="custom-input-control" type="text" readonly></b-form-input>
-            </b-form-group>
-          </b-col>
-
-          <b-col md="6">
             <b-form-group label="Paid amount">
-              <b-form-input v-model="form.cash_in" @keyup="dueAmount" class="custom-input-control" type="number" min="0"
+              <b-form-input v-model="form.cash_in" class="custom-input-control" type="number" min="0"
                 placeholder="Enter amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_in">
                 {{ errors.cash_in[0] }}
               </strong>
-            </b-form-group>
-          </b-col>
-
-          <b-col md="6">
-            <b-form-group label="Due amount">
-              <b-form-input v-model="form.due_amount" class="custom-input-control" type="number"
-                placeholder="Due amount" readonly></b-form-input>
             </b-form-group>
           </b-col>
 
@@ -194,16 +181,6 @@ export default {
         .catch(err => {
           alert(err);
         });
-    },
-    dueAmount(event) {
-      const value = event.target.value;
-      if (value > this.rent) {
-        alert('Amount cannot be greater than rent');
-        this.form.cash_in = '';
-        this.form.due_amount = '';
-      } else {
-        this.form.due_amount = (this.rent - event.target.value);
-      }
     },
     async paymentMethod() {
       this.isPaymentMethod = this.form.payment_method;;
