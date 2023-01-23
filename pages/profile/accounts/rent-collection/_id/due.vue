@@ -31,14 +31,14 @@
 
           <b-col md="6">
             <b-form-group label="Due amount">
-              <b-form-input v-model="form.due_amount" class="custom-input-control" type="number"
+              <b-form-input v-model="dueAmount" class="custom-input-control" type="number"
                 placeholder="Due amount" readonly></b-form-input>
             </b-form-group>
           </b-col>
 
           <b-col md="12">
             <b-form-group label="Paid amount">
-              <b-form-input v-model="form.cash_in" class="custom-input-control" type="number" min="0"
+              <b-form-input v-model="form.cash_in" @keyup="checkDueAmount" class="custom-input-control" type="number" min="0"
                 placeholder="Enter amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_in">
                 {{ errors.cash_in[0] }}
@@ -48,7 +48,8 @@
 
           <b-col md="6">
             <b-form-group label="Select Date">
-              <input type="month" v-model="form.date" class="form-control custom-input-control mb-2">
+              <!-- <input type="month" v-model="form.date" class="form-control custom-input-control mb-2"> -->
+              <b-form-datepicker type="month" id="example-datepicker" v-model="form.date" class="mb-2" disabled></b-form-datepicker>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.date">
                 {{ errors.date[0] }}
               </strong>
@@ -132,8 +133,10 @@ export default {
       paymentMethods: [],
       isPaymentMethod: '',
       propertyName: '',
+      dueAmount: '',
       errors: {},
       form: {
+        transId: '',
         user_id: '',
         property_id: '',
         bank_id: '',
@@ -157,10 +160,13 @@ export default {
     await this.$axios.$post('property/deed/rent-property/due', data)
       .then(res => {
         this.propertyName = res.data.transaction.property.name;
+        this.dueAmount = (res.data.transaction.property.total_amount - res.data.pay_amount);
 
         // Form
         this.form.user_id = this.$auth.user.id;
         this.form.created_by = this.$auth.user.id;
+        this.form.date = res.data.transaction.date;
+        this.form.transId = this.$route.params.id
         this.form.due_amount = res.data.transaction.due_amount;
         this.form.property_id = res.data.transaction.property_id;
         this.form.property_deed_id = res.data.transaction.property_deed_id;
@@ -193,7 +199,7 @@ export default {
             message: 'Due successfully store'
           });
 
-          // this.$router.push({ name: 'profile-accounts-rent-collection' });
+          this.$router.push({ name: 'profile-accounts-rent-collection' });
         })
         .catch(error => {
           this.loading = false;
@@ -205,6 +211,13 @@ export default {
           }
         });
     },
+    checkDueAmount(event) {
+      const value = event.target.value;
+      if (value > this.dueAmount) {
+        alert('Amount cannot be greater than due');
+        this.form.cash_in = '';
+      }
+    }
   }
 }
 </script>

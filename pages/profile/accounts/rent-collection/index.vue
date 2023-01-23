@@ -4,7 +4,7 @@
       <h5>Property Payment Lists</h5>
       <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-rent-collection-create' }">
         <font-awesome-icon icon="fa-solid fa-plus" />
-        Collection
+        Rent Collect
       </nuxt-link>
     </div>
     <div class="card-body p-0 mt-4">
@@ -24,8 +24,8 @@
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.property_name }} ({{ value.tenant_name }})</td>
             <td>{{ value.monthName }} - {{ value.year }}</td>
+            <td>{{ value.property_name }} ({{ value.tenant_name }})</td>
             <td>{{ value.amount }}</td>
             <td>{{ (value.property_amount - value.amount) }}</td>
 
@@ -38,14 +38,6 @@
                 <a @click="storeDeed(value.deedId, value.month)">
                   <font-awesome-icon icon="fa-solid fa-eye" />
                 </a>
-              </nuxt-link>
-
-              <!-- value.transactionId -->
-
-              <nuxt-link v-if="(value.property_amount - value.amount) > 0"
-                :to="{ name: 'profile-accounts-rent-collection-id-due', params: { id: 2 } }"
-                rel="tooltip" class="btn btn-sm btn-info btn-simple" title="Collect due payment">
-                <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
               </nuxt-link>
             </td>
           </tr>
@@ -74,8 +66,8 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Property', name: 'property' },
       { width: '', label: 'Month', name: 'month' },
+      { width: '', label: 'Property', name: 'property' },
       { width: '', label: 'Amount', name: 'amount' },
       { width: '', label: 'Due', name: 'due' },
       { width: '', label: 'Actions', name: 'actions' },
@@ -123,7 +115,7 @@ export default {
         })
         .catch(errors => {
           alert(errors);
-        })
+        });
     },
     configPagination(data) {
       this.pagination.lastPage = data.last_page;

@@ -1,11 +1,20 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h5>All Deed Transactions</h5>
-      <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-rent-collection' }">
-        <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
-        Back to list
-      </nuxt-link>
+      <h5>{{ title }}</h5>
+      <div>
+        <button type="button" class="btn btn-sm btn-danger">
+          {{ totalDue }} <span class="badge badge-light">Total Due</span>
+          <span class="sr-only">unread messages</span>
+        </button>
+        <nuxt-link
+          v-if="totalDue > 0"
+          class="btn btn-primary btn-sm"
+          :to="{ name: 'profile-accounts-rent-collection-id-due', params: { id:  transationId } }"
+        >
+          Due Collect
+        </nuxt-link>
+      </div>
     </div>
     <div class="card-body p-0 mt-4">
       <div class="search d-flex justify-content-between align-items-center">
@@ -24,9 +33,15 @@
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.property.name }} ({{ value.deed.tenant.name }})</td>
+            <td>{{ dateFromat(value.created_at) }}</td>
+            <td>
+              <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
+              <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
+              <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
+            </td>
+            <td>{{ (value.mobile_bank === null) ? '--':  value.mobile_bank.name }}</td>
+            <td>{{ value.transaction_id ?? '--' }}</td>
             <td>{{ value.cash_in }}</td>
-            <td>{{ dateFromat(value.date) }}</td>
 
             <td>
               <nuxt-link :to="{ name: 'profile-accounts-rent-collection-id-edit', params: { id: value.id } }" rel="tooltip"
@@ -63,15 +78,20 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Property', name: 'property' },
+      { width: '', label: 'Created at', name: 'created_at' },
+      { width: '', label: 'Method', name: 'method' },
+      { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
+      { width: '', label: 'Transaction Id', name: 'transaction_id' },
       { width: '', label: 'Amount', name: 'amount' },
-      { width: '', label: 'Date', name: 'date' },
       { width: '', label: 'Actions', name: 'actions' },
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
     });
     return {
+      title: '',
+      totalDue: '',
+      transationId: '',
       deedInfo: {},
       values: [],
       sum: [],
@@ -116,6 +136,14 @@ export default {
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
+          let propertyName = response.data.data.data[0].property.name;
+          let tenantName = response.data.data.data[0].deed.tenant.name;
+          let transDate = response.data.data.data[0].date;
+          let rent = response.data.data.data[0].property.total_amount;
+
+          this.transationId = response.data.data.data[0].id;
+          this.totalDue = (rent - response.data.pay_amount);
+          this.title = propertyName + ' ('+ tenantName +') ' + this.monthYear(transDate) + ', All Transaction Reports.';
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);

@@ -88,11 +88,6 @@
                     Rent Collection
                   </nuxt-link>
                 </li>
-                <li>
-                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-due-collection' }">
-                    Due Collection
-                  </nuxt-link>
-                </li>
               </b-collapse>
               <!-- ./ Accoutns -->
 
