@@ -91,6 +91,28 @@
               </b-collapse>
               <!-- ./ Accoutns -->
 
+              <!-- Expense -->
+              <li v-b-toggle.expense>
+                <a>
+                  <font-awesome-icon icon="fa-solid fa-money-bill" />
+                  Expense
+                  <font-awesome-icon class="drop-arrow" icon="fa-solid fa-chevron-right" />
+                </a>
+              </li>
+              <b-collapse id="expense">
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-expanse-items' }">
+                    Expense Items
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-expanse' }">
+                    Expenses
+                  </nuxt-link>
+                </li>
+              </b-collapse>
+              <!-- /. Expense -->
+
               <li>
                 <nuxt-link :to="{ name: 'profile-wishlist' }">
                   <b-icon icon="heart-fill" font-scale="1"></b-icon>

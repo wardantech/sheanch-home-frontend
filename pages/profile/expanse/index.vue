@@ -6,7 +6,8 @@
 
 <script>
 export default {
-
+  layout: 'dashboard',
+  name: "expanse",
 }
 </script>
 
