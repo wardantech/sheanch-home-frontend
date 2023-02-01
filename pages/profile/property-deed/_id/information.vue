@@ -332,7 +332,7 @@ export default {
     }
   },
   async created() {
-    await await this.$axios.$post('property/deed/information-data', {deedId: this.$route.params.id})
+    await this.$axios.$post('property/deed/information-data', {deedId: this.$route.params.id})
       .then(res => {
         if (res.data.information.status != 3) {
           this.$router.push({ name: 'profile-property-deed-apply' });
