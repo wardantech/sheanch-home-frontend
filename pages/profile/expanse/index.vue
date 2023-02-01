@@ -1,13 +1,175 @@
 <template>
   <div>
-    <h1>Expanse</h1>
+    <div class="d-flex justify-content-between align-items-center">
+      <h5>Expanses</h5>
+      <div>
+        <button type="button" class="btn btn-sm btn-success">
+          {{ totalExpanse }} <span class="badge badge-light">Total Expanded</span>
+          <span class="sr-only">unread messages</span>
+        </button>
+        <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-expanse-create' }">
+          <font-awesome-icon icon="fa-solid fa-plus" />
+          Create expanse
+        </nuxt-link>
+      </div>
+    </div>
+
+    <div class="card-body p-0 mt-4">
+      <div class="search d-flex justify-content-between align-items-center">
+        <div class="form-group">
+          <input class="form-control custom-form-control" type="text" v-model="tableData.search"
+            placeholder="Search Table" @input="getData()">
+        </div>
+        <div class="form-group">
+          <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
+            <option v-for="(records, index) in perPage" :key="index" :value="records">{{ records }}</option>
+          </select>
+        </div>
+      </div>
+
+      <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
+        <tbody>
+          <tr v-for="(value, i) in values" :key="value.id">
+            <td>{{ i + 1 }}</td>
+            <td>{{ dateFromat(value.date) }}</td>
+            <td>{{ value.property.name }}</td>
+            <td>
+              <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
+              <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
+              <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
+            </td>
+            <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
+            <td>{{ value.transaction_id ?? '--' }}</td>
+            <td>{{ value.cash_out }}</td>
+            <td>
+              <nuxt-link :to="{ name: 'profile-expanse-items-id-edit', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-success btn-simple" title="Edit">
+                <font-awesome-icon icon="fa-solid fa-edit" />
+              </nuxt-link>
+
+              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
+                <font-awesome-icon icon="fa-solid fa-trash" />
+              </b-button>
+            </td>
+          </tr>
+        </tbody>
+      </DataTable>
+
+      <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
+        @next="getData(pagination.nextPageUrl)">
+      </pagination>
+    </div>
   </div>
 </template>
 
 <script>
+import Pagination from "@/components/Datatable/Pagination";
+import DataTable from "@/components/Datatable/DataTable";
+import { dateMixin } from '../../../mixins/date-mixin';
+
 export default {
   layout: 'dashboard',
   name: "expanse",
+  components: { DataTable, Pagination },
+  mixins: [dateMixin],
+  created() {
+    this.getData();
+  },
+  data() {
+    let sortOrders = {};
+    let columns = [
+      { width: '', label: 'Sl', name: 'id' },
+      { width: '', label: 'Date', name: 'date' },
+      { width: '', label: 'Property', name: 'property' },
+      { width: '', label: 'Method', name: 'method' },
+      { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
+      { width: '', label: 'Transaction Id', name: 'transaction_id' },
+      { width: '', label: 'Amount', name: 'amount' },
+      { width: '', label: 'Action', name: '' },
+    ];
+    columns.forEach((column) => {
+      sortOrders[column.name] = -1;
+    });
+    return {
+      totalExpanse: '',
+      values: [],
+      sum: [],
+      columns: columns,
+      sortKey: 'id',
+      sortOrders: sortOrders,
+      perPage: ['10', '25', '50', '100', '500', '2000', 'all'],
+      tableData: {
+        draw: 0,
+        length: 10,
+        search: '',
+        column: 0,
+        dir: 'desc',
+        userId: this.$auth.user.id
+      },
+      pagination: {
+        lastPage: '',
+        currentPage: '',
+        total: '',
+        lastPageUrl: '',
+        nextPageUrl: '',
+        prevPageUrl: '',
+        from: '',
+        to: '',
+      },
+    }
+  },
+  methods: {
+    getData(url = '/accounts/expanses') {
+      this.tableData.draw++;
+      this.$axios.post(url, { params: this.tableData })
+        .then(response => {
+          let data = response.data;
+          this.totalExpanse = response.data.totalExpanse;
+          if (this.tableData.draw == data.draw) {
+            this.values = data.data.data;
+            this.configPagination(data.data);
+          }
+        })
+        .catch(errors => {
+          alert(errors);
+        });
+    },
+    configPagination(data) {
+      this.pagination.lastPage = data.last_page;
+      this.pagination.currentPage = data.current_page;
+      this.pagination.total = data.total;
+      this.pagination.lastPageUrl = data.last_page_url;
+      this.pagination.nextPageUrl = data.next_page_url;
+      this.pagination.prevPageUrl = data.prev_page_url;
+      this.pagination.from = data.from;
+      this.pagination.to = data.to;
+    },
+    sortBy(key) {
+      this.sortKey = key;
+      this.sortOrders[key] = this.sortOrders[key] * -1;
+      this.tableData.column = this.getIndex(this.columns, 'name', key);
+      this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
+      this.getData();
+    },
+    getIndex(array, key, value) {
+      return array.findIndex(i => i[key] == value)
+    },
+    async deleteItem(id) {
+      let result = confirm("Want to delete?");
+      if (result) {
+        await this.$axios.$delete('accounts/expanses/' + id)
+          .then(response => {
+            this.getData();
+            this.$izitoast.success({
+              title: 'Success!!',
+              message: response.message
+            });
+          }).catch(error => {
+            alert(error.response.message);
+          })
+      }
+    },
+  }
 }
 </script>
 

@@ -3,13 +3,13 @@
     <div class="page-search">
       <div>
         <div class="form-group">
-          <h5>Rent Collection</h5>
+          <h5>Create expanse </h5>
         </div>
       </div>
 
       <div>
         <div class="form-group">
-          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-rent-collection' }">
+          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-expanse' }">
             <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
             Back to list
           </nuxt-link>
@@ -21,10 +21,11 @@
       <form @submit.prevent="store">
         <b-row>
           <b-col md="6">
-            <b-form-group label="Select Property">
-              <select v-model="form.property_id" class="form-control custom-input-control" @change="propertyInfo">
-                <option v-for="(deed, index) in deeds" :value="deed.property.id" :key="index">
-                  {{ deed.property.name }} - ( {{ deed.tenant.name }} )
+            <b-form-group label="Select property">
+              <select v-model="form.property_id" class="form-control custom-input-control">
+                <option value="">Select</option>
+                <option v-for="(property, index) in properties" :key="index" :value="property.id">
+                  {{ property.name }}
                 </option>
               </select>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.property_id">
@@ -34,31 +35,32 @@
           </b-col>
 
           <b-col md="6">
-            <b-form-group label="Rent amount">
-              <b-form-input v-model="rent" class="custom-input-control" type="text" readonly></b-form-input>
-            </b-form-group>
-          </b-col>
-
-          <b-col md="6">
-            <b-form-group label="Paid amount">
-              <b-form-input v-model="form.cash_in" @keyup="dueAmount" class="custom-input-control" type="number" min="0"
-                placeholder="Enter amount"></b-form-input>
-              <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_in">
-                {{ errors.cash_in[0] }}
+            <b-form-group label="Select expanse item">
+              <select v-model="form.expanse_item_id" class="form-control custom-input-control">
+                <option value="">Select</option>
+                <option v-for="(item, index) in expanseItems" :key="index" :value="item.id">
+                  {{ item.name }}
+                </option>
+              </select>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.expanse_item_id">
+                {{ errors.expanse_item_id[0] }}
               </strong>
             </b-form-group>
           </b-col>
 
           <b-col md="6">
-            <b-form-group label="Due amount">
-              <b-form-input v-model="form.due_amount" class="custom-input-control" type="number"
-                placeholder="Due amount" readonly></b-form-input>
+            <b-form-group label="Amount">
+              <b-form-input v-model="form.cash_out" class="custom-input-control" type="number" min="0"
+                placeholder="Enter amount"></b-form-input>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_out">
+                {{ errors.cash_out[0] }}
+              </strong>
             </b-form-group>
           </b-col>
 
           <b-col md="6">
             <b-form-group label="Select Date">
-              <input v-model="form.date" type="month" class="form-control custom-input-control">
+              <input v-model="form.date" type="date" class="form-control custom-input-control">
               <strong class="text-danger" style="font-size: 12px" v-if="errors.date">
                 {{ errors.date[0] }}
               </strong>
@@ -132,72 +134,46 @@
 <script>
 export default {
   layout: 'dashboard',
-  name: "rent-collection-create",
+  name: "expanse-create",
   data() {
     return {
+      errors: {},
       loading: false,
-      deeds: '',
-      tenantId: '',
-      rent: '',
+      properties: '',
+      expanseItems: '',
       paymentMethods: [],
       isPaymentMethod: '',
-      errors: {},
+      userId: this.$auth.user.id,
       form: {
-        user_id: '',
-        property_id: '',
+        date: '',
+        remark: '',
         bank_id: '',
-        mobile_banking_id: '',
-        property_deed_id: '',
-        due_amount: '',
-        cash_in: '',
+        cash_out: '',
+        property_id: '',
         payment_method: '',
         transaction_id: '',
-        created_by: '',
-        date: '',
-        remark: ''
+        expanse_item_id: '',
+        mobile_banking_id: '',
+        user_id: this.$auth.user.id
       }
     }
   },
   async created() {
-    await this.$axios.$post('property/deed/get-rent-deed', { userId: this.$auth.user.id })
-      .then(res => {
-        this.deeds = res.data.deeds;
+    await this.$axios.$post('accounts/expanses/create', {userId: this.userId})
+      .then(response => {
+        this.properties = response.data.prperties;
+        this.expanseItems = response.data.expanseItems;
+      }).catch(error => {
+        alert(error.response.message);
       })
-      .catch(err => {
-        alert(err);
-      });
   },
   methods: {
-    async propertyInfo(event) {
-      let propertyId = event.target.value;
-
-      await this.$axios.$post('property/deed/get-property-info', { propertyId: propertyId })
-        .then(res => {
-          this.rent = res.data.property.total_amount;
-          this.tenantId = res.data.property.deed[0].tenant_id;
-
-          // Form
-          this.form.user_id = this.$auth.user.id;
-          this.form.created_by = this.$auth.user.id;
-          this.form.property_deed_id = res.data.property.deed[0].id;
-        })
-        .catch(err => {
-          alert(err);
-        });
-    },
     async paymentMethod(event) {
-      const tenantId = this.tenantId;
-      if (!tenantId) {
-        alert('Select Propert First');
-        this.form.payment_method = '';
-        return;
-      }
-
       const value = event.target.value;
       this.isPaymentMethod = event.target.value;
       this.paymentMethods = [];
       if (value == 2 || value == 3) {
-        await this.$axios.$post('property/deed/get-payment-method', { userId: tenantId, method: value })
+        await this.$axios.$post('property/deed/get-payment-method', { userId: this.userId, method: value })
           .then(res => {
             this.paymentMethods = res.data.banks;
           });
@@ -205,15 +181,15 @@ export default {
     },
     async store() {
       this.loading = true;
-      await this.$axios.$post('property/deed/rent-property/store', this.form)
+      await this.$axios.$post('accounts/expanses/store', this.form)
         .then(response => {
           this.loading = false;
           this.$izitoast.success({
             title: 'Success !!',
-            message: 'Rent successfully collected'
+            message: response.message
           });
 
-          this.$router.push({ name: 'profile-accounts-rent-collection' });
+          this.$router.push({name: 'profile-expanse'});
         }).catch(error => {
           this.loading = false;
           if (error.response.status == 422) {
@@ -223,16 +199,6 @@ export default {
             alert(error.response.message)
           }
         });
-    },
-    dueAmount(event) {
-      const value = event.target.value;
-      if (value > this.rent) {
-        alert('Amount cannot be greater than rent');
-        this.form.cash_in = '';
-        this.form.due_amount = '';
-      } else {
-        this.form.due_amount = (this.rent - event.target.value);
-      }
     }
   }
 }
