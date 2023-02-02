@@ -42,7 +42,7 @@
             <td>{{ value.transaction_id ?? '--' }}</td>
             <td>{{ value.cash_out }}</td>
             <td>
-              <nuxt-link :to="{ name: 'profile-expanse-items-id-edit', params: { id: value.id } }" rel="tooltip"
+              <nuxt-link :to="{ name: 'profile-expanse-id-edit', params: { id: value.id } }" rel="tooltip"
                 class="btn btn-sm btn-success btn-simple" title="Edit">
                 <font-awesome-icon icon="fa-solid fa-edit" />
               </nuxt-link>
@@ -152,7 +152,7 @@ export default {
       this.getData();
     },
     getIndex(array, key, value) {
-      return array.findIndex(i => i[key] == value)
+      return array.findIndex(i => i[key] == value);
     },
     async deleteItem(id) {
       let result = confirm("Want to delete?");

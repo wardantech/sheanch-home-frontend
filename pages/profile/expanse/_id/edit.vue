@@ -3,7 +3,7 @@
     <div class="page-search">
       <div>
         <div class="form-group">
-          <h5>Create expanse</h5>
+          <h5>Edit Expanse.</h5>
         </div>
       </div>
 
@@ -18,7 +18,7 @@
     </div>
 
     <div>
-      <form @submit.prevent="store">
+      <form @submit.prevent="update">
         <b-row>
           <b-col md="6">
             <b-form-group label="Select property">
@@ -122,7 +122,7 @@
         <b-row>
           <b-col>
             <div class="button-t-m" style="margin-top: 30px">
-              <b-button type="submit" variant="success" :disabled="loading">Add Payment</b-button>
+              <b-button type="submit" variant="success" :disabled="loading">Update Payment</b-button>
             </div>
           </b-col>
         </b-row>
@@ -134,7 +134,7 @@
 <script>
 export default {
   layout: 'dashboard',
-  name: "expanse-create",
+  name: "expanse-edit",
   data() {
     return {
       errors: {},
@@ -159,44 +159,54 @@ export default {
     }
   },
   async created() {
-    await this.$axios.$post('accounts/expanses/create', {userId: this.userId})
+    const data = {
+      userId: this.userId,
+      id: this.$route.params.id
+    };
+    await this.$axios.$post('accounts/expanses/edit', data)
       .then(response => {
+        console.log(response.data.transaction.date);
+        this.form = response.data.transaction;
         this.properties = response.data.properties;
         this.expanseItems = response.data.expanseItems;
+        this.paymentMethod();
       }).catch(error => {
-        alert(error.response.message);
-      })
+        alert(error);
+      });
   },
   methods: {
-    async paymentMethod(event) {
-      const value = event.target.value;
-      this.isPaymentMethod = event.target.value;
+    async paymentMethod() {
+      this.isPaymentMethod = this.form.payment_method;
+      const value = this.form.payment_method;
+
       this.paymentMethods = [];
       if (value == 2 || value == 3) {
         await this.$axios.$post('property/deed/get-payment-method', { userId: this.userId, method: value })
           .then(res => {
             this.paymentMethods = res.data.banks;
-          });
+          }).catch(error => {
+            alert(error);
+          })
       }
     },
-    async store() {
+    async update() {
       this.loading = true;
-      await this.$axios.$post('accounts/expanses/store', this.form)
+      await this.$axios.$put('accounts/expanses/'+this.$route.params.id, this.form)
         .then(response => {
           this.loading = false;
           this.$izitoast.success({
-            title: 'Success !!',
-            message: response.message
-          });
+              title: 'Success !!',
+              message: response.message
+            });
 
-          this.$router.push({name: 'profile-expanse'});
+            this.$router.push({ name: 'profile-expanse' });
         }).catch(error => {
           this.loading = false;
           if (error.response.status == 422) {
             this.errors = error.response.data.errors;
           }
           else {
-            alert(error.response.message)
+            alert(error.response.message);
           }
         });
     }

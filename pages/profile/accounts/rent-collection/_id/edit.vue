@@ -117,109 +117,109 @@
 </template>
 
 <script>
-export default {
-  layout: 'dashboard',
-  name: 'rent-collection-edit',
-  data() {
-    return {
-      loading: false,
-      deeds: '',
-      tenantId: '',
-      rent: '',
-      paymentMethods: [],
-      isPaymentMethod: '',
-      errors: {},
-      form: {
-        user_id: '',
-        property_id: '',
-        bank_id: '',
-        mobile_banking_id: '',
-        property_deed_id: '',
-        due_amount: '',
-        cash_in: '',
-        payment_method: '',
-        transaction_id: '',
-        created_by: '',
-        date: '',
-        remark: ''
+  export default {
+    layout: 'dashboard',
+    name: 'rent-collection-edit',
+    data() {
+      return {
+        loading: false,
+        deeds: '',
+        tenantId: '',
+        rent: '',
+        paymentMethods: [],
+        isPaymentMethod: '',
+        errors: {},
+        form: {
+          user_id: '',
+          property_id: '',
+          bank_id: '',
+          mobile_banking_id: '',
+          property_deed_id: '',
+          due_amount: '',
+          cash_in: '',
+          payment_method: '',
+          transaction_id: '',
+          created_by: '',
+          date: '',
+          remark: ''
+        }
       }
-    }
-  },
-  async created() {
-    const data = {
-      userId: this.$auth.user.id,
-      transactionId: this.$route.params.id
-    };
-    await this.$axios.$post('property/deed/rent-property/edit', data)
-      .then(res => {
-        this.deeds = res.data.deeds;
-        this.form = res.data.transaction;
-        this.propertyInfo();
-        this.paymentMethod();
-      }).catch(err => {
-        alert(err);
-      });
-  },
-  methods: {
-    async propertyInfo(event) {
-      let propertyId = this.form.property_id;
-
-      if (event) {
-        propertyId = event.target.value;
-      }
-
-      await this.$axios.$post('property/deed/get-property-info', { propertyId: propertyId })
+    },
+    async created() {
+      const data = {
+        userId: this.$auth.user.id,
+        transactionId: this.$route.params.id
+      };
+      await this.$axios.$post('property/deed/rent-property/edit', data)
         .then(res => {
-          this.rent = res.data.property.total_amount;
-          this.tenantId = res.data.property.deed[0].tenant_id;
-
-          // Form
-          this.form.user_id = this.$auth.user.id;
-          this.form.updated_by = this.$auth.user.id;
-          this.form.property_deed_id = res.data.property.deed[0].id;
-        })
-        .catch(err => {
+          this.deeds = res.data.deeds;
+          this.form = res.data.transaction;
+          this.propertyInfo();
+          this.paymentMethod();
+        }).catch(err => {
           alert(err);
         });
     },
-    async paymentMethod() {
-      this.isPaymentMethod = this.form.payment_method;;
-      const value = this.form.payment_method;;
-      const userId = this.$auth.user.landlord_id
+    methods: {
+      async propertyInfo(event) {
+        let propertyId = this.form.property_id;
 
-      this.paymentMethods = [];
+        if (event) {
+          propertyId = event.target.value;
+        }
 
-      if (value == 2 || value == 3) {
-        await this.$axios.$post('property/deed/get-payment-method', { userId: userId, method: value })
+        await this.$axios.$post('property/deed/get-property-info', { propertyId: propertyId })
           .then(res => {
-            this.paymentMethods = res.data.banks;
-          });
-      }
-    },
-    async update() {
-      this.loading = true;
-      await this.$axios.$put('property/deed/rent-property/update/'+this.$route.params.id, this.form)
-        .then(response => {
-          this.loading = false;
-          this.$izitoast.success({
-            title: 'Success !!',
-            message: 'Rent successfully updated'
-          });
+            this.rent = res.data.property.total_amount;
+            this.tenantId = res.data.property.deed[0].tenant_id;
 
-          this.$router.push({ name: 'profile-accounts-rent-collection' });
-        })
-        .catch(error => {
-          this.loading = false;
-          if (error.response.status == 422) {
-            this.errors = error.response.data.errors;
-          }
-          else {
-            alert(error.response.message)
-          }
-        });
-    },
+            // Form
+            this.form.user_id = this.$auth.user.id;
+            this.form.updated_by = this.$auth.user.id;
+            this.form.property_deed_id = res.data.property.deed[0].id;
+          })
+          .catch(err => {
+            alert(err);
+          });
+      },
+      async paymentMethod() {
+        this.isPaymentMethod = this.form.payment_method;
+        const value = this.form.payment_method;
+        const userId = this.$auth.user.landlord_id;
+
+        this.paymentMethods = [];
+
+        if (value == 2 || value == 3) {
+          await this.$axios.$post('property/deed/get-payment-method', { userId: userId, method: value })
+            .then(res => {
+              this.paymentMethods = res.data.banks;
+            });
+        }
+      },
+      async update() {
+        this.loading = true;
+        await this.$axios.$put('property/deed/rent-property/update/'+this.$route.params.id, this.form)
+          .then(response => {
+            this.loading = false;
+            this.$izitoast.success({
+              title: 'Success !!',
+              message: 'Rent successfully updated'
+            });
+
+            this.$router.push({ name: 'profile-accounts-rent-collection' });
+          })
+          .catch(error => {
+            this.loading = false;
+            if (error.response.status == 422) {
+              this.errors = error.response.data.errors;
+            }
+            else {
+              alert(error.response.message)
+            }
+          });
+      },
+    }
   }
-}
 </script>
 
 <style>
