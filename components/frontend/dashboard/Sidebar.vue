@@ -79,6 +79,11 @@
                   </nuxt-link>
                 </li>
                 <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-cash' }">
+                    Cash
+                  </nuxt-link>
+                </li>
+                <li>
                   <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-mobile-bank' }">
                     Mobile Bank
                   </nuxt-link>

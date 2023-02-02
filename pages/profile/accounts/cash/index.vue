@@ -1,16 +1,20 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h5>Expanses</h5>
+      <h5>Cash Reports</h5>
       <div>
-        <button type="button" class="btn btn-success">
-          {{ totalExpanse }} <span class="badge badge-light">Total Expanded</span>
+        <button type="button" class="btn btn-info">
+          {{ totalRevenue }} <span class="badge badge-light">Total Credit Balance</span>
           <span class="sr-only">unread messages</span>
         </button>
-        <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-expanse-create' }">
-          <font-awesome-icon icon="fa-solid fa-plus" />
-          Create expanse
-        </nuxt-link>
+        <button type="button" class="btn btn-danger">
+          {{ totalExpanse }} <span class="badge badge-light">Total Debit Balance</span>
+          <span class="sr-only">unread messages</span>
+        </button>
+        <button type="button" class="btn btn-success">
+          {{ currentAmount }} <span class="badge badge-light">Current Balance</span>
+          <span class="sr-only">unread messages</span>
+        </button>
       </div>
     </div>
 
@@ -32,7 +36,6 @@
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
             <td>{{ dateFromat(value.date) }}</td>
-            <td>{{ value.property.name }}</td>
             <td>
               <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
               <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
@@ -40,17 +43,8 @@
             </td>
             <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
             <td>{{ value.transaction_id ?? '--' }}</td>
+            <td>{{ value.cash_in }}</td>
             <td>{{ value.cash_out }}</td>
-            <td>
-              <nuxt-link :to="{ name: 'profile-expanse-id-edit', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-success btn-simple" title="Edit">
-                <font-awesome-icon icon="fa-solid fa-edit" />
-              </nuxt-link>
-
-              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
-                <font-awesome-icon icon="fa-solid fa-trash" />
-              </b-button>
-            </td>
           </tr>
         </tbody>
       </DataTable>
@@ -65,11 +59,11 @@
 <script>
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
-import { dateMixin } from '../../../mixins/date-mixin';
+import { dateMixin } from '../../../../mixins/date-mixin';
 
 export default {
   layout: 'dashboard',
-  name: "expanse",
+  name: "cash",
   components: { DataTable, Pagination },
   mixins: [dateMixin],
   created() {
@@ -80,18 +74,19 @@ export default {
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
       { width: '', label: 'Date', name: 'date' },
-      { width: '', label: 'Property', name: 'property' },
       { width: '', label: 'Method', name: 'method' },
       { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
       { width: '', label: 'Transaction Id', name: 'transaction_id' },
-      { width: '', label: 'Amount', name: 'amount' },
-      { width: '', label: 'Action', name: '' },
+      { width: '', label: 'Credit', name: 'credit' },
+      { width: '', label: 'Debit', name: 'debit' }
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
     });
     return {
+      totalRevenue: '',
       totalExpanse: '',
+      currentAmount: '',
       values: [],
       sum: [],
       columns: columns,
@@ -119,12 +114,14 @@ export default {
     }
   },
   methods: {
-    getData(url = '/accounts/expanses') {
+    getData(url = '/accounts/cash') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
+          this.totalRevenue = response.data.totalRevenue;
           this.totalExpanse = response.data.totalExpanse;
+          this.currentAmount = response.data.currentAmount;
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
@@ -153,22 +150,7 @@ export default {
     },
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value);
-    },
-    async deleteItem(id) {
-      let result = confirm("Want to delete?");
-      if (result) {
-        await this.$axios.$delete('accounts/expanses/' + id)
-          .then(response => {
-            this.getData();
-            this.$izitoast.success({
-              title: 'Success!!',
-              message: response.message
-            });
-          }).catch(error => {
-            alert(error.response.message);
-          })
-      }
-    },
+    }
   }
 }
 </script>
