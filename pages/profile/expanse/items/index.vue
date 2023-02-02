@@ -2,10 +2,6 @@
   <div>
     <div class="d-flex justify-content-between align-items-center">
       <h5>Expanse Items</h5>
-      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-expanse-items-create' }">
-        <font-awesome-icon icon="fa-solid fa-plus" />
-        Create expanse item
-      </nuxt-link>
     </div>
 
     <div class="card-body p-0 mt-4">
@@ -26,16 +22,6 @@
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
             <td>{{ value.name }}</td>
-            <td>
-              <nuxt-link :to="{ name: 'profile-expanse-items-id-edit', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-success btn-simple" title="Edit">
-                <font-awesome-icon icon="fa-solid fa-edit" />
-              </nuxt-link>
-
-              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
-                <font-awesome-icon icon="fa-solid fa-trash" />
-              </b-button>
-            </td>
           </tr>
         </tbody>
       </DataTable>
@@ -62,8 +48,7 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Name', name: 'name' },
-      { width: '', label: 'Action', name: '' },
+      { width: '', label: 'Name', name: 'name' }
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
@@ -80,8 +65,7 @@ export default {
         length: 10,
         search: '',
         column: 0,
-        dir: 'desc',
-        userId: this.$auth.user.id
+        dir: 'desc'
       },
       pagination: {
         lastPage: '',
@@ -131,23 +115,7 @@ export default {
     },
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value)
-    },
-
-    async deleteItem(id) {
-      let result = confirm("Want to delete?");
-      if (result) {
-        await this.$axios.$delete('accounts/expanses-items/' + id)
-          .then(response => {
-            this.getData();
-            this.$izitoast.success({
-              title: 'Success !!',
-              message: response.message
-            });
-          }).catch(error => {
-            alert(error.response.message);
-          })
-      }
-    },
+    }
   }
 }
 </script>
