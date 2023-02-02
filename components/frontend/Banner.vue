@@ -2,7 +2,7 @@
   <div>
     <div class="banner image-cover" :style="bannerImage">
       <b-container>
-        <div class="banner-form">
+        <!-- <div class="banner-form">
           <div class="banner-form-title">
             <h2>Find Accessible Homes To Rent</h2>
           </div>
@@ -113,7 +113,7 @@
               <button class="btn btn-primary banner-form-action-button">Search Result</button>
             </div>
           </form>
-        </div>
+        </div> -->
       </b-container>
     </div>
   </div>
@@ -173,7 +173,7 @@ export default {
       await this.$axios.$post('settings/districts', { divisionId: division_id }).then(response => {
         this.districts = response.data;
       });
-      
+
     },
 
     async getThanas(district_id) {

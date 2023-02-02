@@ -4,6 +4,10 @@
     <Banner />
     <!-- End Banner -->
 
+    <!-- Search -->
+    <Search />
+    <!-- /. Search -->
+
     <!-- Start place section -->
     <Property />
     <!-- End place section -->
@@ -31,10 +35,11 @@
   import Work from "../components/frontend/Work";
   import Property from "../components/frontend/Property";
   import Newsletter from "../components/frontend/Newsletter";
+  import Search from "../components/frontend/Search";
 
   export default {
     name: 'IndexPage',
     auth: false,
-    components: { Newsletter, Property, Work, Banner }
+    components: { Newsletter, Property, Work, Banner, Search }
   }
 </script>

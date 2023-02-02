@@ -43,9 +43,9 @@
       .carousel-control-prev-icon,
       .carousel-control-next-icon {
         background-image: none !important;
-        background: hsla(0, 0%, 100%, .2);
+        background: hsla(0, 0%, 100%, 0.2);
         border-radius: 50%;
-        box-shadow: 0 5px 24px rgba(31, 37, 59, .15);
+        box-shadow: 0 5px 24px rgba(31, 37, 59, 0.15);
         color: $white;
         cursor: pointer;
         font-size: 10px;
@@ -128,12 +128,12 @@
             padding: 4px 12px;
 
             &.sale {
-              background: rgba(247, 68, 0, .1);
+              background: rgba(247, 68, 0, 0.1);
               color: #f74400;
             }
 
             &.rent {
-              background: rgba(136, 102, 218, .1);
+              background: rgba(136, 102, 218, 0.1);
               color: #8866da;
             }
           }
@@ -180,7 +180,7 @@
     }
 
     &-features {
-      padding: .1rem 1rem .6rem;
+      padding: 0.1rem 1rem 0.6rem;
       display: flex;
       flex-wrap: wrap;
     }
@@ -225,4 +225,3 @@
     object-fit: cover;
   }
 }
-
