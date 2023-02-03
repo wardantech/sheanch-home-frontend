@@ -108,55 +108,50 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      form: {
-        min_price: '',
-        sale_type: '',
-        max_price: '',
-        property_category: '',
-        property_type_id: '',
-        division_id: '',
-        district_id: '',
-        thana_id: '',
+  export default {
+    data() {
+      return {
+        form: {
+          min_price: '',
+          sale_type: '',
+          max_price: '',
+          property_category: '',
+          property_type_id: '',
+          division_id: '',
+          district_id: '',
+          thana_id: '',
+        },
+
+        thanas: '',
+        divisions: '',
+        districts: '',
+        propertyTypes: '',
+        propertiesAds: []
+      }
+    },
+    async created() {
+      const propertyTypes = await this.$axios.$get('property/get-property-type');
+      this.propertyTypes = propertyTypes.data;
+
+      const divisions = await this.$axios.$get('settings/divisions');
+      this.divisions = divisions.data;
+    },
+    methods: {
+      async getDistricts(division_id) {
+        this.thanas = '';
+        let district = await this.$axios.$post('settings/districts', { divisionId: division_id });
+        this.districts = district.data;
       },
-
-      thanas: '',
-      divisions: '',
-      districts: '',
-      propertyTypes: '',
-      propertiesAds: []
+      async getThanas(district_id) {
+        let thanas = await this.$axios.$post('settings/thanas', { districtId: district_id });
+        this.thanas = thanas.data;
+      },
+      async searchStore() {
+        let propertiesAds = await this.$axios.$post('property/ad/search', this.form);
+        this.propertiesAds = propertiesAds.data;
+      },
     }
-  },
-  async created() {
-    this.form = this.$store.getters['search/getSearch'];
-    const propertiesAds = await this.$axios.$post('property/ad/search', this.form);
-    this.propertiesAds = propertiesAds.data;
-
-    const propertyTypes = await this.$axios.$get('property/get-property-type');
-    this.propertyTypes = propertyTypes.data;
-
-    const divisions = await this.$axios.$get('settings/divisions');
-    this.divisions = divisions.data;
-  },
-  methods: {
-    async getDistricts(division_id) {
-      this.thanas = '';
-      let district = await this.$axios.$post('settings/districts', { divisionId: division_id });
-      this.districts = district.data;
-    },
-    async getThanas(district_id) {
-      let thanas = await this.$axios.$post('settings/thanas', { districtId: district_id });
-      this.thanas = thanas.data;
-    },
-    async searchStore() {
-      let propertiesAds = await this.$axios.$post('property/ad/search', this.form);
-      this.propertiesAds = propertiesAds.data;
-      console.log(this.propertiesAds);
-    },
   }
-}
 </script>
 
 <style>
