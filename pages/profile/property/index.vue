@@ -73,12 +73,12 @@ export default {
   layout: 'dashboard',
   name: "properties",
   components: { DataTable, Pagination },
-  mounted() {
-    const authId = this.$auth.user.landlord_id;
-    if (!authId) {
-      this.$router.push({ name: 'profile-dashboard-landlord' });
-    }
-  },
+  // mounted() {
+  //   const authId = this.$auth.user.landlord_id;
+  //   if (!authId) {
+  //     this.$router.push({ name: 'profile-dashboard-landlord' });
+  //   }
+  // },
   created() {
     this.getData();
   },
@@ -134,8 +134,7 @@ export default {
           }
         })
         .catch(errors => {
-          //console.log(errors);
-        }).finally(() => {
+          alert(errors);
         });
     },
 

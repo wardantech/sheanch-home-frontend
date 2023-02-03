@@ -78,6 +78,7 @@ export default {
         search: '',
         column: 0,
         dir: 'desc',
+        user_id: this.$auth.user.id
       },
       pagination: {
         lastPage: '',
@@ -89,13 +90,12 @@ export default {
         from: '',
         to: '',
       },
-      tenant_id: this.$auth.user.tenant_id
     }
   },
   methods: {
     getData(url = '/wishlist/get-lists') {
       this.tableData.draw++;
-      this.$axios.post(url, { params: this.tableData, tenantId: this.tenant_id })
+      this.$axios.post(url, { params: this.tableData })
         .then(response => {
           console.log(response);
           let data = response.data;
@@ -113,7 +113,7 @@ export default {
     async deleteItem(id) {
       let result = confirm("Want to delete?");
       if (result) {
-        await this.$axios.$post('wishlist/delete', { wishlistId: id, tenantId: this.tenant_id })
+        await this.$axios.$post('wishlist/delete', { wishlistId: id, user_id: this.$auth.user.id })
           .then(response => {
             if (id) {
               this.values.splice(this.values.indexOf(id), 1);

@@ -1,8 +1,9 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h5>Property deed Lists</h5>
+      <h5>Expanse Items</h5>
     </div>
+
     <div class="card-body p-0 mt-4">
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group">
@@ -15,43 +16,12 @@
           </select>
         </div>
       </div>
+
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.landlord.name }}</td>
-            <td>{{ value.property.address }}</td>
-            <td>
-              <div v-if="value.property.sale_type == 1"> Rent</div>
-              <div v-if="value.property.sale_type == 2"> Sale</div>
-            </td>
-            <td>{{ value.property_ad.rent_amount }}</td>
-            <td>
-              <b-button v-if="value.status == 0" class="btn-sm btn-warning">
-                Pending
-              </b-button>
-              <b-button v-if="value.status == 1" class="btn-sm btn-info">
-                Send to landlord
-              </b-button>
-              <b-button v-if="value.status == 2" class="btn-sm btn-info">
-                Completed
-              </b-button>
-              <b-button v-if="value.status == 3" class="btn-sm btn-warning">
-                Decline
-              </b-button>
-            </td>
-            <td>
-              <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }" rel="tooltip"
-                class="btn btn-sm btn-info btn-simple" title="Details">
-                <font-awesome-icon icon="fa-solid fa-hotel" />
-              </nuxt-link>
-
-              <nuxt-link :to="{ name: 'profile-property-ads-id-show', params: { id: value.property_ad_id } }"
-                rel="tooltip" class="btn btn-sm btn-warning btn-simple" title="View Ad">
-                <font-awesome-icon icon="fa-solid fa-eye" />
-              </nuxt-link>
-
-            </td>
+            <td>{{ value.name }}</td>
           </tr>
         </tbody>
       </DataTable>
@@ -59,7 +29,6 @@
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
         @next="getData(pagination.nextPageUrl)">
       </pagination>
-
     </div>
   </div>
 </template>
@@ -70,7 +39,7 @@ import DataTable from "@/components/Datatable/DataTable";
 
 export default {
   layout: 'dashboard',
-  name: "properties",
+  name: "expanse-items",
   components: { DataTable, Pagination },
   created() {
     this.getData();
@@ -79,12 +48,7 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Landlord', name: 'name' },
-      { width: '', label: 'Property Address', name: 'address' },
-      { width: '', label: 'Sale/Lease Type', name: 'lease_type' },
-      { width: '', label: 'Amount', name: 'rent_amount' },
-      { width: '', label: 'Status', name: 'status' },
-      { width: '', label: 'Action', name: '' },
+      { width: '', label: 'Name', name: 'name' }
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
@@ -101,7 +65,7 @@ export default {
         length: 10,
         search: '',
         column: 0,
-        dir: 'desc',
+        dir: 'desc'
       },
       pagination: {
         lastPage: '',
@@ -116,20 +80,18 @@ export default {
     }
   },
   methods: {
-    getData(url = 'property/deed/tenant-list') {
+    getData(url = '/accounts/expanse-items') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
-          console.log(data)
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
           }
         })
         .catch(errors => {
-          //console.log(errors);
-        }).finally(() => {
+          alert(errors);
         });
     },
 
@@ -153,36 +115,11 @@ export default {
     },
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value)
-    },
-
-    // Landloard Delete logic
-    async deleteItem(id) {
-      let result = confirm("Want to delete?");
-
-      if (result) {
-        await this.$axios.$post('property/deed/delete/' + id)
-          .then(response => {
-            if (id) {
-              this.getData();
-            }
-            this.$izitoast.success({
-              title: 'Success !!',
-              message: 'Property deed deleted successfully!'
-            });
-          })
-          .catch(error => {
-            if (error.response.status == 422) {
-              this.errors = error.response.data.errors
-            } else {
-              alert(error.response.message)
-            }
-          })
-      }
-    },
+    }
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

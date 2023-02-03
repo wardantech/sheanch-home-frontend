@@ -5,7 +5,7 @@
         <b-row class="row justify-content-center">
           <b-col lg="7" md="10" class="text-center">
             <div class="section-heading center">
-              <h2>How It Works?</h2>
+              <h2>HOW IT WORK?</h2>
               <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
                 deleniti atque corrupti quos dolores</p>
             </div>

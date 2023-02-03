@@ -1,11 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h5>Property Payment Lists</h5>
-      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-rent-collection-create' }">
-        <font-awesome-icon icon="fa-solid fa-plus" />
-        Rent Collect
-      </nuxt-link>
+      <h5>Property deed request</h5>
     </div>
     <div class="card-body p-0 mt-4">
       <div class="search d-flex justify-content-between align-items-center">
@@ -19,26 +15,50 @@
           </select>
         </div>
       </div>
-
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.monthName }} - {{ value.year }}</td>
-            <td>{{ value.property_name }} ({{ value.tenant_name }})</td>
-            <td>{{ value.amount }}</td>
-            <td>{{ (value.property_amount - value.amount) }}</td>
-
             <td>
-              <nuxt-link
-                :to="{ name: 'profile-accounts-rent-collection-details' }"
-                class="btn btn-sm btn-primary btn-simple" title="Show all transactions"
-                :custom="true"
-              >
-                <a @click="storeDeed(value.deedId, value.month)">
-                  <font-awesome-icon icon="fa-solid fa-eye" />
-                </a>
+              {{ value.tenant.name }}
+            </td>
+            <td>
+              <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
+                title="Details">
+                {{ value.property.name }}
               </nuxt-link>
+            </td>
+            <td>
+              {{ value.start_date ?? 'Not start' }}
+            </td>
+            <td>
+              <b-badge v-if="value.status === 0" variant="danger">Declined</b-badge>
+              <b-badge v-if="value.status === 1" variant="warning">Pending</b-badge>
+              <b-badge v-if="value.status === 2" variant="secondary">Viewed</b-badge>
+              <b-badge v-if="value.status === 3" variant="info">Accepted</b-badge>
+              <b-badge v-if="value.status === 4" variant="primary">Information Submited from tenant</b-badge>
+              <b-badge v-if="value.status === 5" variant="success">Approved</b-badge>
+            </td>
+            <td>
+              <nuxt-link :to="{ name: 'profile-property-deed-id-show', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-warning btn-simple" title="view request">
+                <font-awesome-icon icon="fa-solid fa-eye" />
+              </nuxt-link>
+
+              <nuxt-link v-if="value.status === 4" :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-info btn-simple" title="approve request">
+                <font-awesome-icon v-if="value.status === 4" icon="fa-solid fa-check" />
+              </nuxt-link>
+
+              <nuxt-link v-if="value.status === 5" :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-info btn-simple" title="show tennat informations">
+                <font-awesome-icon v-if="value.status === 5" icon="fa-solid fa-circle-info" />
+              </nuxt-link>
+
+              <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
+                rel="tooltip" class="btn btn-sm btn-secondary btn-simple" title="Get payment">
+                <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
+              </nuxt-link> -->
             </td>
           </tr>
         </tbody>
@@ -52,12 +72,13 @@
 </template>
 
 <script>
+
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
 
 export default {
   layout: 'dashboard',
-  name: "rent-collection",
+  name: "deed-request",
   components: { DataTable, Pagination },
   created() {
     this.getData();
@@ -66,10 +87,10 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Month', name: 'month' },
+      { width: '', label: 'Tenant', name: 'name' },
       { width: '', label: 'Property', name: 'property' },
-      { width: '', label: 'Amount', name: 'amount' },
-      { width: '', label: 'Due', name: 'due' },
+      { width: '', label: 'Start date', name: 'start_date' },
+      { width: '', label: 'Status', name: 'status' },
       { width: '', label: 'Actions', name: 'actions' },
     ];
     columns.forEach((column) => {
@@ -103,7 +124,7 @@ export default {
     }
   },
   methods: {
-    getData(url = 'property/deed/get-property-payments') {
+    getData(url = 'property/deed/request-list') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
@@ -115,7 +136,7 @@ export default {
         })
         .catch(errors => {
           alert(errors);
-        });
+        })
     },
     configPagination(data) {
       this.pagination.lastPage = data.last_page;
@@ -136,18 +157,11 @@ export default {
     },
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value)
-    },
-    storeDeed(deed_id, month) {
-      const data = {
-        deedId: deed_id,
-        month: month
-      };
-      this.$store.dispatch('transactions/deedInfo', data);
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

@@ -1,12 +1,23 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h5>Property Payment Lists</h5>
-      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-rent-collection-create' }">
-        <font-awesome-icon icon="fa-solid fa-plus" />
-        Rent Collect
-      </nuxt-link>
+      <h5>Cash Reports</h5>
+      <div>
+        <button type="button" class="btn btn-info">
+          {{ totalRevenue }} <span class="badge badge-light">Total Credit Balance</span>
+          <span class="sr-only">unread messages</span>
+        </button>
+        <button type="button" class="btn btn-danger">
+          {{ totalExpanse }} <span class="badge badge-light">Total Debit Balance</span>
+          <span class="sr-only">unread messages</span>
+        </button>
+        <button type="button" class="btn btn-success">
+          {{ currentAmount }} <span class="badge badge-light">Current Balance</span>
+          <span class="sr-only">unread messages</span>
+        </button>
+      </div>
     </div>
+
     <div class="card-body p-0 mt-4">
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group">
@@ -24,22 +35,16 @@
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.monthName }} - {{ value.year }}</td>
-            <td>{{ value.property_name }} ({{ value.tenant_name }})</td>
-            <td>{{ value.amount }}</td>
-            <td>{{ (value.property_amount - value.amount) }}</td>
-
+            <td>{{ dateFromat(value.date) }}</td>
             <td>
-              <nuxt-link
-                :to="{ name: 'profile-accounts-rent-collection-details' }"
-                class="btn btn-sm btn-primary btn-simple" title="Show all transactions"
-                :custom="true"
-              >
-                <a @click="storeDeed(value.deedId, value.month)">
-                  <font-awesome-icon icon="fa-solid fa-eye" />
-                </a>
-              </nuxt-link>
+              <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
+              <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
+              <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
             </td>
+            <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
+            <td>{{ value.transaction_id ?? '--' }}</td>
+            <td>{{ value.cash_in }}</td>
+            <td>{{ value.cash_out }}</td>
           </tr>
         </tbody>
       </DataTable>
@@ -54,11 +59,13 @@
 <script>
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
+import { dateMixin } from '../../../../mixins/date-mixin';
 
 export default {
   layout: 'dashboard',
-  name: "rent-collection",
+  name: "cash",
   components: { DataTable, Pagination },
+  mixins: [dateMixin],
   created() {
     this.getData();
   },
@@ -66,16 +73,20 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Month', name: 'month' },
-      { width: '', label: 'Property', name: 'property' },
-      { width: '', label: 'Amount', name: 'amount' },
-      { width: '', label: 'Due', name: 'due' },
-      { width: '', label: 'Actions', name: 'actions' },
+      { width: '', label: 'Date', name: 'date' },
+      { width: '', label: 'Method', name: 'method' },
+      { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
+      { width: '', label: 'Transaction Id', name: 'transaction_id' },
+      { width: '', label: 'Credit', name: 'credit' },
+      { width: '', label: 'Debit', name: 'debit' }
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
     });
     return {
+      totalRevenue: '',
+      totalExpanse: '',
+      currentAmount: '',
       values: [],
       sum: [],
       columns: columns,
@@ -103,11 +114,14 @@ export default {
     }
   },
   methods: {
-    getData(url = 'property/deed/get-property-payments') {
+    getData(url = '/accounts/cash') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
+          this.totalRevenue = response.data.totalRevenue;
+          this.totalExpanse = response.data.totalExpanse;
+          this.currentAmount = response.data.currentAmount;
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
@@ -135,14 +149,7 @@ export default {
       this.getData();
     },
     getIndex(array, key, value) {
-      return array.findIndex(i => i[key] == value)
-    },
-    storeDeed(deed_id, month) {
-      const data = {
-        deedId: deed_id,
-        month: month
-      };
-      this.$store.dispatch('transactions/deedInfo', data);
+      return array.findIndex(i => i[key] == value);
     }
   }
 }

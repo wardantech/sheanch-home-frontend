@@ -2,7 +2,6 @@
   <div>
     <section>
       <b-container>
-<!--        <b-spinner  label="Spinning"></b-spinner>-->
         <b-row class="justify-content-center">
           <b-col md="6" v-if="otp_area">
             <div class="auth-content">
@@ -29,7 +28,6 @@
                 <br>
                 <div class="login-form">
                   <b-form class="simple-form" @submit.prevent="register">
-
                     <div v-if="mobile_area">
                       <b-row>
                         <b-col sm="12">
@@ -60,7 +58,7 @@
                         </p>
                       </b-form-group>
 
-                      <div class="text-center">
+                      <!-- <div class="text-center">
                         <div class="auth-divider">
                           <span>Or register via</span>
                         </div>
@@ -72,7 +70,7 @@
                             <img src="../../assets/frontend/images/gmail_Icon.png" alt="Gmail icon" width="55">
                           </b-button>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
 
                     <div v-if="otp_code_area">
@@ -214,14 +212,12 @@ export default {
   },
   methods: {
     async sendOTP() {
-
       this.form.otp_code =  Math.floor((Math.random() * 9999) + 1000);
 
       await this.$axios.$post('send-otp', {
         mobile: this.form.mobile,
         otp_code: this.form.otp_code,
-      })
-        .then(response => {
+      }).then(response => {
           if (response.success == true) {
             this.mobile_area = false
             this.otp_code_area = true
@@ -300,10 +296,9 @@ export default {
           }
         })
     },
-
-    socialRegistration(service){
-      window.location.href = process.env.APP_SOCIAL_LOGIN_URL+service+'/'+this.form.type
-    }
+    // socialRegistration(service){
+    //   window.location.href = process.env.APP_SOCIAL_LOGIN_URL+service+'/'+this.form.type
+    // }
   }
 }
 </script>

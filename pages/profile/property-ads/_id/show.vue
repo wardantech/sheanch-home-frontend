@@ -67,15 +67,8 @@ export default {
     const propertyAdData = await this.$axios.$post('property/ad/get-details', {
       propertyAdId: this.$route.params.id
     });
-    this.propertiesAd = propertyAdData.data
-    this.property = propertyAdData.data.property
-    console.log(this.propertiesAd)
-
-
-    // propertyAdData.data.propertyAd.property_category == 1
-    //   ? this.form.property_category = 'Commercial'
-    //   : this.form.property_category = 'Residential';
-
+    this.propertiesAd = propertyAdData.data;
+    this.property = propertyAdData.data.property;
   },
 
   methods: {

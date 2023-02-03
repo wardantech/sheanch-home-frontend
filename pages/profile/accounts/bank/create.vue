@@ -70,7 +70,7 @@ export default {
       errors: {},
       form: {
         bank_id: '',
-        user_id: this.$auth.user.landlord_id,
+        user_id: this.$auth.user.id,
         account_number: '',
       }
     }

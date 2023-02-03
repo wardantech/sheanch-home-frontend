@@ -36,7 +36,7 @@ export default {
     return {
       foo: '',
       footerData: {},
-      tenant_id: '',
+      user_id: '',
       loading: true
     }
   },
@@ -48,10 +48,10 @@ export default {
   methods: {
     async fetch() {
       if (this.$auth.loggedIn && this.$auth.user.tenant_id) {
-        this.tenant_id = this.$auth.user.tenant_id;
+        this.user_id = this.$auth.user.id;
       }
 
-      await this.$axios.post('get-frontend-data', { tenantId: this.tenant_id })
+      await this.$axios.post('get-frontend-data', { userId: this.user_id })
         .then(res => {
           this.$store.dispatch('frontend-data/storeFrontend', res.data.data.frontendData);
 

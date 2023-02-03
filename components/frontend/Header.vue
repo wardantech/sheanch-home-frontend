@@ -34,13 +34,9 @@
                 Sign In
               </nuxt-link>
 
-              <nuxt-link v-else
-                         class="btn sign-in-button"
-                         :to="$auth.user.landlord_id ?
-                         { name: 'profile-dashboard-landlord'}:
-                         { name: 'profile-dashboard-tenant'}">
+              <nuxt-link v-else class="btn sign-in-button" :to=" { name: 'profile-dashboard'}">
                 <font-awesome-icon icon="fa-solid fa-address-card" />
-                Me
+                Profile
               </nuxt-link>
             </b-navbar-nav>
           </b-collapse>

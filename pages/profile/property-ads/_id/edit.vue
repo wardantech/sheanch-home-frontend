@@ -33,7 +33,7 @@
                 </option>
               </select>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.property_id">{{ errors.property_id[0]
-              }}</strong>
+}}</strong>
             </b-form-group>
           </b-col>
 
@@ -43,8 +43,8 @@
                 placeholder="Property category" readonly>
               </b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.property_category">{{
-                  errors.property_category[0]
-              }}</strong>
+    errors.property_category[0]
+}}</strong>
             </b-form-group>
           </b-col>
 
@@ -53,7 +53,7 @@
               <b-form-input class="custom-input-control" v-model="form.rent_amount" type="text"
                 placeholder="Rent amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.rent_amount">{{ errors.rent_amount[0]
-              }}</strong>
+}}</strong>
             </b-form-group>
           </b-col>
 
@@ -62,8 +62,8 @@
               <b-form-input class="custom-input-control" v-model="form.security_money" type="text"
                 placeholder="Rent amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.security_money">{{
-                  errors.security_money[0]
-              }}</strong>
+    errors.security_money[0]
+}}</strong>
             </b-form-group>
           </b-col>
 
@@ -71,7 +71,7 @@
             <b-form-group label="Start date">
               <b-form-input class="custom-input-control" v-model="form.start_date" type="date"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.start_date">{{ errors.start_date[0]
-              }}</strong>
+}}</strong>
             </b-form-group>
           </b-col>
 
@@ -79,7 +79,7 @@
             <b-form-group label="End date">
               <b-form-input class="custom-input-control" v-model="form.end_date" type="date"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.start_date">{{ errors.start_date[0]
-              }}</strong>
+}}</strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -94,7 +94,7 @@
         </b-row>
 
         <b-form-group class="mt-3">
-          <b-button type="submit" class="btn-browse-more btn-height" variant="info">Save</b-button>
+          <b-button type="submit" class="btn-browse-more btn-height" variant="info">Update</b-button>
         </b-form-group>
       </form>
     </div>
@@ -109,7 +109,7 @@ export default {
     return {
       form: {
         landlord_name: this.$auth.user.name,
-        landlord_id: this.$auth.user.landlord_id,
+        user_id: this.$auth.user.id,
         sale_type: '',
         property_id: '',
         property_category: '',
@@ -134,7 +134,7 @@ export default {
   async created() {
     const propertyAdData = await this.$axios.$post('property/ad/get-edit-data', {
       id: this.$route.params.id,
-      landlordId: this.form.landlord_id
+      userId: this.form.user_id
     });
     console.log(propertyAdData.data.properties);
     this.properties = propertyAdData.data.properties;
@@ -167,8 +167,6 @@ export default {
         this.form.thana_id = options[options.selectedIndex].getAttribute('thana_id');
         this.form.property_category_id = options[options.selectedIndex].getAttribute('property_category');
         this.form.property_type_id = options[options.selectedIndex].getAttribute('property_type_id');
-
-
       }
     },
     async store() {
@@ -182,7 +180,6 @@ export default {
           this.$router.push({ name: 'profile-property-ads' });
         })
         .catch(error => {
-
           if (error.response.status == 422) {
             this.errors = error.response.data.errors
           }

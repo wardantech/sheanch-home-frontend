@@ -33,22 +33,19 @@
               </p>
             </td>
             <td>
+              {{ value.cash_in }}
+            </td>
+            <td>
               <p v-if="value.due">{{ value.due.amount }}</p>
               <p v-else>0</p>
             </td>
-            <td>
-              {{ value.cash_in }}
-            </td>
-            <!-- <td>
-              <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }" rel="tooltip"
-                class="btn btn-sm btn-info btn-simple" title="Details">
-                <font-awesome-icon icon="fa-solid fa-hotel" />
-              </nuxt-link>
 
-              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
-                <font-awesome-icon icon="fa-solid fa-trash" />
-              </b-button>
-            </td> -->
+            <td>
+              <nuxt-link v-if="value.due.amount > 0" :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }" rel="tooltip"
+                class="btn btn-sm btn-secondary btn-simple" title="Get due payment">
+                <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
+              </nuxt-link>
+            </td>
           </tr>
         </tbody>
       </DataTable>
@@ -79,9 +76,9 @@ export default {
       { width: '', label: 'Sl', name: 'id' },
       { width: '', label: 'Date', name: 'date' },
       { width: '', label: 'Method', name: 'method' },
-      { width: '', label: 'Due', name: 'due' },
       { width: '', label: 'Paid', name: 'paid' },
-      // { width: '', label: 'Actions', name: 'actions' },
+      { width: '', label: 'Due', name: 'due' },
+      { width: '', label: 'Actions', name: 'actions' },
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
@@ -99,7 +96,8 @@ export default {
         search: '',
         column: 0,
         dir: 'desc',
-        propertyId: this.$route.params.id
+        propertyId: this.$route.params.id,
+        userId: this.$auth.user.landlord_id
       },
       pagination: {
         lastPage: '',

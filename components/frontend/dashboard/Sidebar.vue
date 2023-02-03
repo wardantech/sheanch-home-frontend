@@ -13,54 +13,63 @@
             <ul>
               <li class="active">
                 <nuxt-link
-                  :to="$auth.user.type == 2 ? { name: 'profile-dashboard-landlord' } : { name: 'profile-dashboard-tenant' }">
+                  :to="{ name: 'profile-dashboard' }">
                   <b-icon icon="speedometer2" font-scale="1"></b-icon>
                   Dashboard
                 </nuxt-link>
               </li>
-              <li v-if="$auth.loggedIn && $auth.user.type == 2">
-                <nuxt-link :to="{ name: 'profile-me-id-landloard', params: { id: $auth.user.landlord_id } }">
+              <li>
+                <nuxt-link :to="{ name: 'profile-me-id', params: { id: $auth.user.id } }">
                   <b-icon icon="person" font-scale="1"></b-icon>
                   Profile
                 </nuxt-link>
               </li>
-              <li v-if="$auth.loggedIn && $auth.user.type == 3">
-                <nuxt-link :to="{ name: 'profile-me-id-tenant', params: { id: $auth.user.tenant_id } }">
-                  <b-icon icon="person" font-scale="1"></b-icon>
-                  Profile
-                </nuxt-link>
-              </li>
-              <li v-if="$auth.loggedIn && $auth.user.type == 2">
+              <li>
                 <nuxt-link :to="{ name: 'profile-property' }">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Properties
                 </nuxt-link>
               </li>
-              <li v-if="$auth.loggedIn && $auth.user.type == 2">
+              <li>
                 <nuxt-link :to="{ name: 'profile-property-ads' }">
                   <b-icon icon="newspaper" font-scale="1"></b-icon>
                   Ads
                 </nuxt-link>
               </li>
-              <li>
-                <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 2"
-                  :to="{ name: 'profile-property-deed-landlord' }">
-                  <b-icon icon="newspaper" font-scale="1"></b-icon>
-                  Property Deed
-                </nuxt-link>
 
-                <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 3" :to="{ name: 'profile-property-deed-tenant' }">
-                  <b-icon icon="newspaper" font-scale="1"></b-icon>
-                  Property Deed
-                </nuxt-link>
+              <!-- Deeds -->
+              <li v-b-toggle.deeds>
+                <a>
+                  <font-awesome-icon icon="fa-solid fa-paperclip" />
+                  Deeds
+                  <font-awesome-icon class="drop-arrow" icon="fa-solid fa-chevron-right" />
+                </a>
               </li>
+              <b-collapse id="deeds">
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-approved' }">
+                    Approved deeds
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-apply' }">
+                    Apply deeds
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-request' }">
+                    Request deeds
+                  </nuxt-link>
+                </li>
+              </b-collapse>
+              <!-- Deeds -->
 
               <!-- Accoutns -->
-              <li v-if="$auth.loggedIn && $auth.user.type == 2" v-b-toggle.accounts>
+              <li v-b-toggle.accounts>
                 <a>
                   <font-awesome-icon icon="fa-solid fa-briefcase" />
                   Accouns
-                  <font-awesome-icon class="drop-arrow" icon="fa-solid fa-arrow-right" />
+                  <font-awesome-icon class="drop-arrow" icon="fa-solid fa-chevron-right" />
                 </a>
               </li>
               <b-collapse id="accounts">
@@ -70,20 +79,47 @@
                   </nuxt-link>
                 </li>
                 <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-cash' }">
+                    Cash
+                  </nuxt-link>
+                </li>
+                <li>
                   <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-mobile-bank' }">
                     Mobile Bank
                   </nuxt-link>
                 </li>
                 <li>
                   <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-rent-collection' }">
-                    Property Payments
+                    Rent Collection
                   </nuxt-link>
                 </li>
               </b-collapse>
               <!-- ./ Accoutns -->
 
+              <!-- Expense -->
+              <li v-b-toggle.expense>
+                <a>
+                  <font-awesome-icon icon="fa-solid fa-money-bill" />
+                  Expense
+                  <font-awesome-icon class="drop-arrow" icon="fa-solid fa-chevron-right" />
+                </a>
+              </li>
+              <b-collapse id="expense">
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-expanse-items' }">
+                    Expense Items
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-expanse' }">
+                    Expenses
+                  </nuxt-link>
+                </li>
+              </b-collapse>
+              <!-- /. Expense -->
+
               <li>
-                <nuxt-link v-if="$auth.loggedIn && $auth.user.type == 3" :to="{ name: 'profile-wishlist' }">
+                <nuxt-link :to="{ name: 'profile-wishlist' }">
                   <b-icon icon="heart-fill" font-scale="1"></b-icon>
                   Wishlist
                 </nuxt-link>
@@ -120,12 +156,13 @@ export default {
     }
   },
   async created() {
-    if (this.$auth.user.landlord_id) {
-      const response = await this.$axios.$post('profile/landlord', { id: this.$auth.user.landlord_id });
-      this.profileImage = response.data.landlord.image;
-    } else if (this.$auth.user.tenant_id) {
-      const response = await this.$axios.$post('profile/tenant', { id: this.$auth.user.tenant_id });
-      this.profileImage = response.data.tenant.image;
+    if (this.$auth.user.id) {
+      await this.$axios.$post('profile/sidebar', { id: this.$auth.user.id })
+        .then(response => {
+          this.profileImage = response.data.image;
+        }).catch(err => {
+          alert(err);
+        });
     }
   },
   methods: {

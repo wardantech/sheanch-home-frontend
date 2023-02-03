@@ -10,13 +10,12 @@
       <div>
         <div class="form-group">
           <nuxt-link class="btn btn-success btn-sm"
-            :to="{ name: 'profile-me-id-change-password', params: { id: $auth.user.landlord_id } }">
+            :to="{ name: 'profile-me-id-change-password', params: { id: $auth.user.id } }">
             <font-awesome-icon icon="fa-solid fa-key" />
             Change password
           </nuxt-link>
 
-          <nuxt-link class="btn btn-dark btn-sm"
-            :to="$auth.user.type == 2 ? { name: 'profile-dashboard-landlord' } : { name: 'profile-dashboard-tenant' }">
+          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-dashboard' }">
             <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
             Back to dashboard
           </nuxt-link>
@@ -33,7 +32,7 @@
                   <b-form-input class="custom-input-control" v-model="form.name" type="text"
                     placeholder="Name"></b-form-input>
                   <strong class="text-danger" style="font-size: 12px" v-if="errors.name">{{
-                      errors.name[0]
+                    errors.name[0]
                   }}</strong>
                 </b-form-group>
               </b-col>
@@ -41,7 +40,8 @@
                 <b-form-group label="Mobile">
                   <b-form-input class="custom-input-control" type="text" v-model="form.mobile"
                     placeholder="Mobile"></b-form-input>
-                  <strong class="text-danger" style="font-size: 12px" v-if="errors.mobile">{{ errors.mobile[0]
+                  <strong class="text-danger" style="font-size: 12px" v-if="errors.mobile">{{
+                    errors.mobile[0]
                   }}</strong>
                 </b-form-group>
               </b-col>
@@ -53,7 +53,7 @@
                   <b-form-input class="custom-input-control" type="text" v-model="form.nid"
                     placeholder="National ID"></b-form-input>
                   <strong class="text-danger" style="font-size: 12px" v-if="errors.nid">{{
-                      errors.nid[0]
+                    errors.nid[0]
                   }}</strong>
                 </b-form-group>
               </b-col>
@@ -63,7 +63,7 @@
                   <b-form-input class="custom-input-control" v-model="form.email" type="email"
                     placeholder="Email"></b-form-input>
                   <strong class="text-danger" style="font-size: 12px" v-if="errors.email">{{
-                      errors.email[0]
+                    errors.email[0]
                   }}</strong>
                 </b-form-group>
               </b-col>
@@ -77,7 +77,8 @@
                       {{ division.name }}
                     </option>
                   </select>
-                  <strong class="text-danger" style="font-size: 12px" v-if="errors.division_id">{{ errors.division_id[0]
+                  <strong class="text-danger" style="font-size: 12px" v-if="errors.division_id">{{
+                    errors.division_id[0]
                   }}</strong>
                 </b-form-group>
               </b-col>
@@ -90,11 +91,12 @@
                       {{ district.name }}
                     </option>
                   </select>
-                  <strong class="text-danger" style="font-size: 12px" v-if="errors.district_id">{{ errors.district_id[0]
+                  <strong class="text-danger" style="font-size: 12px" v-if="errors.district_id">{{
+                    errors.district_id[0]
                   }}</strong>
                 </b-form-group>
               </b-col>
-              <b-col lg="6" md="6" sm="12">
+              <b-col lg="12" md="12" sm="12">
                 <b-form-group label="Thana">
                   <select v-model="form.thana_id" id="thana_id" class="form-control custom-input-control">
                     <option value="">Select</option>
@@ -102,19 +104,8 @@
                       {{ thana.name }}
                     </option>
                   </select>
-                  <strong class="text-danger" style="font-size: 12px" v-if="errors.thana_id">{{ errors.thana_id[0]
-                  }}</strong>
-                </b-form-group>
-              </b-col>
-
-              <b-col lg="6" md="6" sm="12">
-                <b-form-group label="Status">
-                  <select v-model="form.status" id="" class="form-control custom-input-control">
-                    <option value="">Select</option>
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
-                  </select>
-                  <strong class="text-danger" style="font-size: 12px" v-if="errors.status">{{ errors.status[0]
+                  <strong class="text-danger" style="font-size: 12px" v-if="errors.thana_id">{{
+                    errors.thana_id[0]
                   }}</strong>
                 </b-form-group>
               </b-col>
@@ -124,7 +115,7 @@
               <b-form-textarea class="custom-input-control" id="postal" placeholder="Postal Address..." rows="3"
                 v-model="form.postal_address"></b-form-textarea>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.postal_address">{{
-                  errors.postal_address[0]
+                errors.postal_address[0]
               }}</strong>
             </b-form-group>
 
@@ -132,7 +123,7 @@
               <b-form-textarea class="custom-input-control" id="residential" placeholder="Residential Address..."
                 rows="3" v-model="form.residential_address"></b-form-textarea>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.residential_address">{{
-                  errors.residential_address[0]
+                errors.residential_address[0]
               }}</strong>
             </b-form-group>
 
@@ -144,9 +135,6 @@
         </b-col>
         <b-col md="4">
           <b-card class="mt-3" header="Change Profile Photo">
-            <!-- <td>
-                        <img style="height: 200px; width: 100%; object-fit: cover;" v-model="form.oldImage" :src="imageUrl+form.image" alt="">
-                      </td> -->
             <b-form-group label="Image upload">
               <Dropzone id="foo" ref="el" :options="options" :destroyDropzone="false">
               </Dropzone>
@@ -164,7 +152,7 @@ import 'nuxt-dropzone/dropzone.css'
 
 export default {
   layout: 'dashboard',
-  name: "landloard",
+  name: "profile",
   components: { Dropzone },
   computed: {
     imageUrl() {
@@ -188,14 +176,11 @@ export default {
         email: '',
         image: '',
         oldImage: '',
-        status: '',
         thana_id: '',
         district_id: '',
         division_id: '',
         postal_address: '',
-        residential_address: '',
-        password: '',
-        password_confirmation: '',
+        residential_address: ''
       },
       previewImage: null,
       landlord: '',
@@ -205,20 +190,16 @@ export default {
       errors: {}
     }
   },
-  mounted() {
-    const authId = this.$auth.user.landlord_id;
-    if (!authId) {
-      this.$router.push({ name: 'profile-dashboard-landlord' });
-    }
-  },
   async created() {
-    const response = await this.$axios.$post('profile/landlord', { id: this.$auth.user.landlord_id });
-
-    this.form = response.data.landlord;
-    this.form.oldImage = response.data.image;
-    this.divisions = response.data.divisions;
-    this.districts = response.data.districts;
-    this.thanas = response.data.thanas;
+    await this.$axios.$post('profile', { id: this.$auth.user.id })
+      .then(response => {
+        this.form = response.data.user;
+        this.divisions = response.data.divisions;
+        this.districts = response.data.districts;
+        this.thanas = response.data.thanas;
+      }).catch(err => {
+        alert(err);
+      });
   },
   methods: {
     async getDistricts(division_id) {
@@ -226,24 +207,20 @@ export default {
       let district = await this.$axios.$post('settings/districts', { divisionId: division_id });
       this.districts = district.data;
     },
-
     async getThanas(district_id) {
       let thanas = await this.$axios.$post('settings/thanas', { districtId: district_id });
       this.thanas = thanas.data;
     },
-
     async update() {
-      await this.$axios.$post('profile/landlord/update/' + this.$auth.user.landlord_id, this.form,)
+      await this.$axios.$post('profile/update/' + this.$auth.user.id, this.form)
         .then(response => {
           this.$izitoast.success({
             title: 'Success !!',
-            message: 'Landlord updated successfully!'
+            message: 'user updated successfully!'
           })
-          this.$refs.el.dropzone.options.url = process.env.APP_ROOT_API + 'profile/landlord/image-upload/' + response.data.id;
+          this.$refs.el.dropzone.options.url = process.env.APP_ROOT_API + 'profile/image-upload/' + response.data.id;
           this.$refs.el.dropzone.processQueue();
-          this.$router.push({ name: 'profile-me-id-landloard' });
-        })
-        .catch(error => {
+        }).catch(error => {
           if (error.response.status == 422) {
             this.errors = error.response.data.errors
           }
