@@ -107,12 +107,7 @@ export default {
     }
   },
   async created() {
-    await this.$axios.$post('property/ad/active-property/list')
-      .then(response => {
-        this.properties = response.data.properties;
-      }).catch(error => {
-        alert(error);
-      });
+    this.properties = this.$store.getters['frontend-data/getProperties'];
   },
   methods: {
     wishlistStore(id) {

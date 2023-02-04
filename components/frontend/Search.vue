@@ -121,20 +121,15 @@
           district_id: '',
           thana_id: '',
         },
-
         thanas: '',
         divisions: '',
         districts: '',
-        propertyTypes: '',
-        propertiesAds: []
+        propertyTypes: ''
       }
     },
     async created() {
-      const propertyTypes = await this.$axios.$get('property/get-property-type');
-      this.propertyTypes = propertyTypes.data;
-
-      const divisions = await this.$axios.$get('settings/divisions');
-      this.divisions = divisions.data;
+      this.propertyTypes = this.$store.getters['frontend-data/getTypes'];
+      this.divisions = this.$store.getters['frontend-data/getDivisions'];
     },
     methods: {
       async getDistricts(division_id) {

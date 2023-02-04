@@ -26,36 +26,6 @@
               </div>
             </div>
           </b-col>
-
-          <!--<b-col lg="4" md="4">-->
-            <!--<div class="how-work-icon">-->
-              <!--<div class="how-work-icon-wrap">-->
-                <!--<div class="how-work-icon-wrap-box icon-warning">-->
-                  <!--<font-awesome-icon icon="fa-solid fa-user-tie"/>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="how-work-icon-wrap-content">-->
-                <!--<h4>Meet Your Agent</h4>-->
-                <!--<p>There are many variations of passages of Lorem Ipsum available, but the majority have Ipsum-->
-                  <!--available.</p>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</b-col>-->
-
-          <!--<b-col lg="4" md="4">-->
-            <!--<div class="how-work-icon">-->
-              <!--<div class="how-work-icon-wrap">-->
-                <!--<div class="how-work-icon-wrap-box icon-blue">-->
-                  <!--<font-awesome-icon icon="fa-solid fa-shield-halved"/>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="how-work-icon-wrap-content">-->
-                <!--<h4>Close The Deal</h4>-->
-                <!--<p>There are many variations of passages of Lorem Ipsum available, but the majority have Ipsum-->
-                  <!--available.</p>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</b-col>-->
         </b-row>
       </b-container>
     </section>
@@ -71,8 +41,7 @@
       }
     },
     async created() {
-      const response = await this.$axios.$get('get-how-to-work-widget');
-      this.howToworks = response.data;
+      this.howToworks = this.$store.getters['frontend-data/getWorksWidgets'];
     },
   }
 </script>

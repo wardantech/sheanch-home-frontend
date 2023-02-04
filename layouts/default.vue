@@ -40,44 +40,47 @@ export default {
       loading: true
     }
   },
-
-  created() {
-    this.fetch();
+  async created() {
+    await this.$axios.post('home', { userId: this.user_id })
+      .then(response => {
+        this.loading = false;
+        this.$store.dispatch('frontend-data/getData', response.data.data);
+      }).catch(error=> {
+        alert(error);
+      })
   },
-
   methods: {
-    async fetch() {
-      if (this.$auth.loggedIn && this.$auth.user.tenant_id) {
-        this.user_id = this.$auth.user.id;
-      }
+    // async fetch() {
+    //   if (this.$auth.loggedIn && this.$auth.user.tenant_id) {
+    //     this.user_id = this.$auth.user.id;
+    //   }
+    //   await this.$axios.post('get-frontend-data', { userId: this.user_id })
+    //     .then(res => {
+    //       this.$store.dispatch('frontend-data/storeFrontend', res.data.data.frontendData);
 
-      await this.$axios.post('get-frontend-data', { userId: this.user_id })
-        .then(res => {
-          this.$store.dispatch('frontend-data/storeFrontend', res.data.data.frontendData);
+    //       this.$store.dispatch('wishlist/storeWishlist',
+    //         res.data.data.wishlistCount ? res.data.data.wishlistCount : 0
+    //       );
 
-          this.$store.dispatch('wishlist/storeWishlist',
-            res.data.data.wishlistCount ? res.data.data.wishlistCount : 0
-          );
+    //       if (res.data.data.frontendData.media.length > 0) {
+    //         for (const element of res.data.data.frontendData.media) {
+    //           if (element.collection_name == "logo") {
+    //             this.$store.dispatch('frontend-data/storeLogo', element.original_url);
+    //           }
+    //           if (element.collection_name == "footerLogo") {
+    //             this.$store.dispatch('frontend-data/storeFooterLogo', element.original_url);
+    //           }
 
-          if (res.data.data.frontendData.media.length > 0) {
-            for (const element of res.data.data.frontendData.media) {
-              if (element.collection_name == "logo") {
-                this.$store.dispatch('frontend-data/storeLogo', element.original_url);
-              }
-              if (element.collection_name == "footerLogo") {
-                this.$store.dispatch('frontend-data/storeFooterLogo', element.original_url);
-              }
-
-              if (element.collection_name == "banner") {
-                this.$store.dispatch('frontend-data/storeBanner', element.original_url);
-              }
-            }
-          }
-        })
-        .then(() => {
-          this.loading = false;
-        });
-    }
+    //           if (element.collection_name == "banner") {
+    //             this.$store.dispatch('frontend-data/storeBanner', element.original_url);
+    //           }
+    //         }
+    //       }
+    //     })
+    //     .then(() => {
+    //       this.loading = false;
+    //     });
+    // }
   }
 }
 </script>

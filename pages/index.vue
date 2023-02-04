@@ -20,10 +20,6 @@
     <!-- <Location/> -->
     <!-- End Location -->
 
-    <!-- Start Packages -->
-    <!-- <Package/> -->
-    <!-- End Packages -->
-
     <!-- Start newsletter -->
     <Newsletter />
     <!-- End newsletter -->
