@@ -372,7 +372,7 @@ export default {
         this.utilities = JSON.parse(res.data.propertyAd.property.utilities);
         this.facilities = res.data.facilities;
 
-        // this.reviews = await this.fetchReviews();
+        this.fetchReviews();
       }).catch(err => {
         alert(err);
       });
@@ -408,7 +408,6 @@ export default {
               this.$swal.fire('Success', 'Your deed request has been sent successfully. Please wait for landlord confirmation');
             }).catch(error => {
               if (error.response.status == 422) {
-                console.log(error.response.data.errors.tenant_id[0]);
                 this.$izitoast.warning({
                   title: 'Warning',
                   message: error.response.data.errors.tenant_id[0]
@@ -424,8 +423,12 @@ export default {
       })
     },
     async fetchReviews() {
-      const response = await this.$axios.$post('review/get-reviews', { propertyId: this.propertyId });
-      return response.data;
+      await this.$axios.$post('review/get-reviews', { propertyId: this.propertyId })
+        .then(response => {
+          this.reviews = response.data;
+        }).catch(error => {
+          alert(error);
+        });
     },
     async addReview(reviews) {
       const response = await this.$axios.$post('review/store', reviews);
