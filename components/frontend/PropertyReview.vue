@@ -84,15 +84,13 @@ export default {
 
       // Field value clear
       this.form.rating = '',
-        this.form.review = ''
+      this.form.review = ''
     }
   },
   created() {
     if (this.$auth.loggedIn) {
-      if (this.$auth.user.tenant_id) {
-        this.isTenant = true;
-        this.form.reviewer_type_id = this.$auth.user.tenant_id;
-      }
+      this.isTenant = true;
+      this.form.reviewer_type_id = this.$auth.user.id;
     }
   }
 }

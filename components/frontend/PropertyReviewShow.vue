@@ -16,9 +16,9 @@
                     <li class="comments" v-for="(value, index) in reviews" :key="index">
                       <article class="d-flex">
                         <!-- <div class="comments-thumb">
-                          <b-img v-if="value.tenant" :src="imageUrl + value.tenant.image" alt="Image"></b-img>
-                          <b-img v-if="value.landlord" :src="imageUrl + value.landlord.image" alt="Image"></b-img>
-                        </div> -->
+                            <b-img v-if="value.tenant" :src="imageUrl + value.tenant.image" alt="Image"></b-img>
+                            <b-img v-if="value.landlord" :src="imageUrl + value.landlord.image" alt="Image"></b-img>
+                          </div> -->
 
                         <div class="comments-details">
                           <div class="comments-rating">
@@ -67,6 +67,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

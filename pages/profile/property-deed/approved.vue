@@ -40,10 +40,10 @@
                 <font-awesome-icon icon="fa-solid fa-circle-info" />
               </nuxt-link>
 
-              <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
+              <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
                 rel="tooltip" class="btn btn-sm btn-warning btn-simple" title="Show deed details">
                 <font-awesome-icon icon="fa-solid fa-eye" />
-              </nuxt-link>
+              </nuxt-link> -->
             </td>
           </tr>
         </tbody>
