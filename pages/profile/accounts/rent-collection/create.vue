@@ -57,7 +57,7 @@
           </b-col>
 
           <b-col md="6">
-            <b-form-group label="Select Date">
+            <b-form-group label="Select Month">
               <input v-model="form.date" type="month" class="form-control custom-input-control">
               <strong class="text-danger" style="font-size: 12px" v-if="errors.date">
                 {{ errors.date[0] }}
