@@ -171,7 +171,7 @@
         </b-row>
 
         <b-row>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group label="Rent Amount">
               <b-form-input min="0" v-model="form.rent_amount" class="custom-input-control" type="number"
                 placeholder="Rent Amount"></b-form-input>
@@ -181,7 +181,7 @@
             </b-form-group>
           </b-col>
 
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group label="Security money">
               <b-form-input v-model="form.security_money" class="custom-input-control" type="number"
                 placeholder="Security money"></b-form-input>
@@ -190,10 +190,20 @@
               </strong>
             </b-form-group>
           </b-col>
+
+          <b-col md="4">
+            <b-form-group label="Road Number">
+              <b-form-input v-model="form.road_number" class="custom-input-control" type="text"
+                placeholder="Road Number"></b-form-input>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.road_number">
+                {{ errors.road_number[0] }}
+              </strong>
+            </b-form-group>
+          </b-col>
         </b-row>
 
         <b-row>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group label="Zip Code">
               <b-form-input v-model="form.zip_code" class="custom-input-control" type="text"
                 placeholder="Zip Code"></b-form-input>
@@ -203,12 +213,24 @@
             </b-form-group>
           </b-col>
 
-          <b-col md="6">
-            <b-form-group label="Holding Number">
+          <b-col md="4">
+            <b-form-group :label="propertyCategory">
               <b-form-input min="1" v-model="form.holding_number" class="custom-input-control" type="text"
-                placeholder="House Number"></b-form-input>
+                :placeholder="propertyCategory"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.holding_number">
                 {{ errors.holding_number[0] }}
+              </strong>
+            </b-form-group>
+          </b-col>
+
+          <b-col md="4">
+            <b-form-group label="Select Area">
+              <select v-model="form.area_id" class="form-control custom-input-control">
+                <option value="">Select Area</option>
+                <option v-for="(area, i) in areas" :key="i" :value="area.id">{{ area.name }}</option>
+              </select>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.area_id">
+                {{ errors.area_id[0] }}
               </strong>
             </b-form-group>
           </b-col>
@@ -392,6 +414,7 @@ export default {
         thana_id: '',
         district_id: '',
         division_id: '',
+        area_id: '',
         address: '',
         google_map_location: '',
         description: '',
@@ -400,6 +423,7 @@ export default {
         utilities: [],
         oldImages: []
       },
+      areas: '',
       propertyTypes: '',
       landlords: '',
       utilities: '',
@@ -423,6 +447,7 @@ export default {
         this.utilities = res.data.utilities;
         this.form.utilities = JSON.parse(res.data.property.utilities);
         this.facilities = res.data.facilities;
+        this.areas = res.data.areas;
         this.form.facilitie_ids = JSON.parse(res.data.property.facilitie_ids);
 
         let images = res.data.propertyImages;
@@ -443,6 +468,11 @@ export default {
       }).catch(err => {
         alert(err);
       });
+  },
+  computed: {
+    propertyCategory() {
+      return this.form.property_category == 1 ? 'Shop Number' : 'Holding Number';
+    }
   },
   methods: {
     async getDistricts(division_id) {

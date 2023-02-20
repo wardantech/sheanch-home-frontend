@@ -204,7 +204,7 @@
         </b-row>
 
         <b-row>
-          <b-col md="6">
+          <b-col md="4">
             <b-form-group label="Zip Code">
               <b-form-input v-model="form.zip_code" class="custom-input-control" type="text"
                 placeholder="Zip Code"></b-form-input>
@@ -214,12 +214,24 @@
             </b-form-group>
           </b-col>
 
-          <b-col md="6">
-            <b-form-group label="Holding Number">
+          <b-col md="4">
+            <b-form-group :label="propertyCategory">
               <b-form-input min="1" v-model="form.holding_number" class="custom-input-control" type="text"
-                placeholder="House Number"></b-form-input>
+                :placeholder="propertyCategory"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.holding_number">
                 {{ errors.holding_number[0] }}
+              </strong>
+            </b-form-group>
+          </b-col>
+
+          <b-col md="4">
+            <b-form-group label="Select Area">
+              <select v-model="form.area_id" class="form-control custom-input-control">
+                <option value="">Select Area</option>
+                <option v-for="(area, i) in areas" :key="i" :value="area.id">{{ area.name }}</option>
+              </select>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.area_id">
+                {{ errors.area_id[0] }}
               </strong>
             </b-form-group>
           </b-col>
@@ -338,12 +350,8 @@
         <b-row>
           <b-col md="12">
             <b-form-group label="Facilities" v-slot="{ ariaDescribedby }">
-              <b-form-checkbox-group
-                id="checkbox-group-1"
-                v-model="form.facilitie_ids"
-                :options="facilities"
-                :aria-describedby="ariaDescribedby"
-              ></b-form-checkbox-group>
+              <b-form-checkbox-group id="checkbox-group-1" v-model="form.facilitie_ids" :options="facilities"
+                :aria-describedby="ariaDescribedby"></b-form-checkbox-group>
             </b-form-group>
           </b-col>
         </b-row>
@@ -416,6 +424,7 @@ export default {
         facilitie_ids: [],
         utilities: [],
       },
+      areas: '',
       propertyTypes: '',
       landlords: '',
       utilities: '',
@@ -433,24 +442,27 @@ export default {
         this.divisions = res.data.divisions;
         this.utilities = res.data.utilities;
         this.facilities = res.data.facilities;
+        this.areas = res.data.areas;
         this.propertyTypes = res.data.propertyTypes;
       }).catch(err => {
         alert(err);
       });
   },
-
+  computed: {
+    propertyCategory() {
+      return this.form.property_category == 1 ? 'Shop Number' : 'Holding Number';
+    }
+  },
   methods: {
     async getDistricts(division_id) {
       this.thanas = '';
       let district = await this.$axios.$post('settings/districts', { divisionId: division_id });
       this.districts = district.data;
     },
-
     async getThanas(district_id) {
       let thanas = await this.$axios.$post('settings/thanas', { districtId: district_id });
       this.thanas = thanas.data;
     },
-
     processFile(file) {
       let image = Array.from(file)
       image.forEach(element => {
@@ -469,7 +481,6 @@ export default {
         }
       })
     },
-
     fileRemoved(file) {
       if (file.dataURL) {
         this.form.images = this.form.images.filter(element => element.data !== file.dataURL)
@@ -477,7 +488,6 @@ export default {
         this.form.images = this.form.images.filter(element => element.name !== file.name)
       }
     },
-
     addUtilityRow(data) {
       if (data) {
         let dataCheck = this.form.utilities.find(element => element.utility_id == data.id);
@@ -503,24 +513,20 @@ export default {
         });
       }
     },
-
     deleteUtilityRow(index, utility) {
       let idx = this.form.utilities.indexOf(utility);
       if (idx > -1) {
         this.form.utilities.splice(idx, 1);
       }
     },
-
     utilityPaidBy(n, utility) {
       let paid_by = document.getElementById('utility_paid_by' + n).value
       this.form.utilities[n].utility_paid_by = paid_by;
     },
-
     utilityAmount(n, utility) {
       let amount = document.getElementById('utility_amount' + n).value
       this.form.utilities[n].utility_amount = amount;
     },
-
     async store() {
       await this.$axios.$post('property/store', this.form)
         .then(response => {
@@ -530,8 +536,7 @@ export default {
           });
 
           this.$router.push({ name: 'profile-property' });
-        })
-        .catch(error => {
+        }).catch(error => {
           if (error.response.status == 422) {
             this.errors = error.response.data.errors
           }
@@ -544,6 +549,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
