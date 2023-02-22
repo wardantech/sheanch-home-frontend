@@ -1,49 +1,43 @@
 <template>
   <div>
-    <div class="page-search">
-      <div>
-        <div class="form-group">
-          <h5>Property Details</h5>
-        </div>
-      </div>
-
-      <div>
-        <div class="form-group d-flex">
-          <div v-if="isTenant" class="mx-2">
-            <nuxt-link class="btn btn-sm btn-info btn-simple" title="Review for property"
-              :to="{ name: 'profile-property-id-property-review', params: { id: this.$route.params.id } }">
-              <b-icon icon="star-fill" aria-hidden="true" style="margin-bottom: 2px;"></b-icon>
-              Review
-            </nuxt-link>
-
-            <nuxt-link class="btn btn-sm btn-primary btn-simple" title="Show landlord details"
-              :to="{ name: 'profile-property-id-landlord', params: { id: this.$route.params.id } }">
-              <b-icon icon="person-circle" aria-hidden="true" style="margin-bottom: 2px;"></b-icon>
-              Landlord
-            </nuxt-link>
-          </div>
-
-          <div v-if="isLandlord">
-            <nuxt-link class="btn btn-sm btn-success btn-simple"
-              :to="{ name: 'profile-property-id-edit', params: { id: this.$route.params.id } }">
-              <font-awesome-icon icon="fa-solid fa-edit" />
-              Edit
-            </nuxt-link>
-          </div>
-
-          <div class="ml-2">
-            <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-property' }">
-              <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
-              Back to list
-            </nuxt-link>
-          </div>
-        </div>
-      </div>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
     </div>
+    <MainCard v-else title="Property Details">
+      <template v-slot:actions>
+        <!--<div v-if="isTenant" class="mx-2">-->
+          <!--<nuxt-link class="btn btn-sm btn-info btn-simple" title="Review for property"-->
+                     <!--:to="{ name: 'profile-property-id-property-review', params: { id: this.$route.params.id } }">-->
+            <!--<b-icon icon="star-fill" aria-hidden="true" style="margin-bottom: 2px;"></b-icon>-->
+            <!--Review-->
+          <!--</nuxt-link>-->
 
-    <div>
-      <table class="table table-bordered table-hover">
-        <tbody>
+          <!--<nuxt-link class="btn btn-sm btn-primary btn-simple" title="Show landlord details"-->
+                     <!--:to="{ name: 'profile-property-id-landlord', params: { id: this.$route.params.id } }">-->
+            <!--<b-icon icon="person-circle" aria-hidden="true" style="margin-bottom: 2px;"></b-icon>-->
+            <!--Landlord-->
+          <!--</nuxt-link>-->
+        <!--</div>-->
+
+        <!--<div v-if="isLandlord">-->
+          <!--<nuxt-link class="btn btn-sm btn-success btn-simple"-->
+                     <!--:to="{ name: 'profile-property-id-edit', params: { id: this.$route.params.id } }">-->
+            <!--<font-awesome-icon icon="fa-solid fa-edit" />-->
+            <!--Edit-->
+          <!--</nuxt-link>-->
+        <!--</div>-->
+
+        <div class="ml-2">
+          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-property' }">
+            <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
+            Back to list
+          </nuxt-link>
+        </div>
+      </template>
+
+      <div>
+        <table class="table table-bordered table-hover">
+          <tbody>
           <tr>
             <td>Landlord Name</td>
             <td>{{ landlord_name }}</td>
@@ -116,25 +110,29 @@
             <td>Descriptions</td>
             <td> {{ property.description }}</td>
           </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
 
-      <b-row>
-        <b-col md="4" lg="3" sm="12" v-for="(img, i) in images" :key="i">
-          <b-img thumbnail fluid :src="img.original_url" :alt="property.name"></b-img>
-        </b-col>
-      </b-row>
+        <b-row>
+          <b-col md="4" lg="3" sm="12" v-for="(img, i) in images" :key="i">
+            <b-img thumbnail fluid :src="img.original_url" :alt="property.name"></b-img>
+          </b-col>
+        </b-row>
 
-    </div>
+      </div>
+    </MainCard>
   </div>
 </template>
 
 <script>
+import MainCard from '@/components/frontend/dashboard/MainCard.vue';
 export default {
   layout: 'dashboard',
   name: "details",
+  components: { MainCard },
   data() {
     return {
+      isLoading: true,
       property: '',
       thana_name: '',
       district_name: '',
@@ -146,7 +144,6 @@ export default {
       isTenant: this.$auth.user.tenant_id ? true : false,
     }
   },
-
   async created() {
     await this.$axios.$get('property/details/' + this.$route.params.id)
       .then(response => {
@@ -158,7 +155,10 @@ export default {
         this.division_name = this.property.division.name;
         this.property_type_name = this.property.property_type.name;
         this.landlord_name = this.property.landlord.name;
-      })
+        this.isLoading = false;
+      }).catch(error => {
+        alert(error);
+      });
   },
 }
 </script>

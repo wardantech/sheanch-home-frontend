@@ -1,99 +1,105 @@
 <template>
   <div>
-    <b-card title="Your Current Credits:">
-      <b-card-text>
-        <b-row>
-          <b-col lg="4" md="6" sm="12">
-            <div class="dashboard-status status-1">
-              <div class="dashboard-status-content">
-                <h4>{{ totalProperties }}</h4>
-                <span>Approved properties</span>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
+    </div>
+    <div v-else>
+      <b-card title="Your Current Credits:">
+        <b-card-text>
+          <b-row>
+            <b-col lg="4" md="6" sm="12">
+              <div class="dashboard-status status-1">
+                <div class="dashboard-status-content">
+                  <h4>{{ totalProperties }}</h4>
+                  <span>Approved properties</span>
+                </div>
+                <div class="dashboard-status-icon">
+                  <font-awesome-icon icon="fa-solid fa-circle-check" />
+                </div>
               </div>
-              <div class="dashboard-status-icon">
-                <font-awesome-icon icon="fa-solid fa-circle-check" />
-              </div>
-            </div>
-          </b-col>
+            </b-col>
 
-          <b-col lg="4" md="6" sm="12">
-            <div class="dashboard-status status-2">
-              <div class="dashboard-status-content">
-                <h4>{{ totalPoropertyAds }}</h4>
-                <span>Approved ads</span>
+            <b-col lg="4" md="6" sm="12">
+              <div class="dashboard-status status-2">
+                <div class="dashboard-status-content">
+                  <h4>{{ totalPoropertyAds }}</h4>
+                  <span>Approved ads</span>
+                </div>
+                <div class="dashboard-status-icon">
+                  <font-awesome-icon icon="fa-solid fa-circle-check" />
+                </div>
               </div>
-              <div class="dashboard-status-icon">
-                <font-awesome-icon icon="fa-solid fa-circle-check" />
-              </div>
-            </div>
-          </b-col>
+            </b-col>
 
-          <b-col lg="4" md="6" sm="12">
-            <div class="dashboard-status status-3">
-              <div class="dashboard-status-content">
-                <h4>{{ totalCompleteDeed }}</h4>
-                <span>Total complete deeds</span>
+            <b-col lg="4" md="6" sm="12">
+              <div class="dashboard-status status-3">
+                <div class="dashboard-status-content">
+                  <h4>{{ totalCompleteDeed }}</h4>
+                  <span>Total complete deeds</span>
+                </div>
+                <div class="dashboard-status-icon">
+                  <font-awesome-icon icon="fa-solid fa-circle-check" />
+                </div>
               </div>
-              <div class="dashboard-status-icon">
-                <font-awesome-icon icon="fa-solid fa-circle-check" />
-              </div>
-            </div>
-          </b-col>
-        </b-row>
-      </b-card-text>
-    </b-card>
+            </b-col>
+          </b-row>
+        </b-card-text>
+      </b-card>
 
-    <b-card title="Approved Deed Lists" class="mt-3">
-      <b-card-text>
-        <div class="search d-flex justify-content-between align-items-center">
-          <div class="form-group">
-            <input class="form-control custom-form-control" type="text" v-model="tableData.search"
-              placeholder="Search Table" @input="getData()">
+      <b-card title="Approved Deed Lists" class="mt-3">
+        <b-card-text>
+          <div class="search d-flex justify-content-between align-items-center">
+            <div class="form-group">
+              <input class="form-control custom-form-control" type="text" v-model="tableData.search"
+                placeholder="Search Table" @input="getData()">
+            </div>
+            <div class="form-group">
+              <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
+                <option v-for="(records, index) in perPage" :key="index" :value="records">{{ records }}</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
-              <option v-for="(records, index) in perPage" :key="index" :value="records">{{ records }}</option>
-            </select>
-          </div>
-        </div>
-        <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
-          <tbody>
-            <tr v-for="(value, i) in values" :key="value.id">
-              <td>{{ i + 1 }}</td>
-              <td>
-                {{ value.tenant.name }}
-              </td>
-              <td>
-                <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
-                  title="Details">
-                  {{ value.property.name }}
-                </nuxt-link>
-              </td>
-              <td>
-                {{ value.start_date ?? 'Not start' }}
-              </td>
-              <td>
-                <b-badge variant="success">Approved</b-badge>
-              </td>
-              <td>
-                <nuxt-link :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
-                  class="btn btn-sm btn-info btn-simple" title="show tennat informations">
-                  <font-awesome-icon icon="fa-solid fa-circle-info" />
-                </nuxt-link>
+          <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy"
+            class="">
+            <tbody>
+              <tr v-for="(value, i) in values" :key="value.id">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  {{ value.tenant.name }}
+                </td>
+                <td>
+                  <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
+                    title="Details">
+                    {{ value.property.name }}
+                  </nuxt-link>
+                </td>
+                <td>
+                  {{ value.start_date ?? 'Not start' }}
+                </td>
+                <td>
+                  <b-badge variant="success">Approved</b-badge>
+                </td>
+                <td>
+                  <nuxt-link :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
+                    class="btn btn-sm btn-info btn-simple" title="show tennat informations">
+                    <font-awesome-icon icon="fa-solid fa-circle-info" />
+                  </nuxt-link>
 
-                <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
+                  <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
                 rel="tooltip" class="btn btn-sm btn-warning btn-simple" title="Show deed details">
                 <font-awesome-icon icon="fa-solid fa-eye" />
               </nuxt-link> -->
-              </td>
-            </tr>
-          </tbody>
-        </DataTable>
+                </td>
+              </tr>
+            </tbody>
+          </DataTable>
 
-        <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-          @next="getData(pagination.nextPageUrl)">
-        </pagination>
-      </b-card-text>
-    </b-card>
+          <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
+            @next="getData(pagination.nextPageUrl)">
+          </pagination>
+        </b-card-text>
+      </b-card>
+    </div>
   </div>
 </template>
 
@@ -128,6 +134,7 @@ export default {
       sortOrders[column.name] = -1;
     });
     return {
+      isLoading: true,
       totalCompleteDeed: '',
       totalPoropertyAds: '',
       totalProperties: '',
@@ -172,6 +179,7 @@ export default {
             this.values = data.data.data;
             this.configPagination(data.data);
           }
+          this.isLoading = false;
         })
         .catch(errors => {
           alert(errors);
