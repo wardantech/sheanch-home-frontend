@@ -1,76 +1,204 @@
 <template>
   <div>
-    <b-row>
-      <b-col lg="12" md="12" sm="12">
-        <h4>
-          Your Current Credits:
-          <span class="pc-title">0</span>
-        </h4>
-      </b-col>
-    </b-row>
+    <b-card title="Your Current Credits:">
+      <b-card-text>
+        <b-row>
+          <b-col lg="4" md="6" sm="12">
+            <div class="dashboard-status status-1">
+              <div class="dashboard-status-content">
+                <h4>{{ totalProperties }}</h4>
+                <span>Approved properties</span>
+              </div>
+              <div class="dashboard-status-icon">
+                <font-awesome-icon icon="fa-solid fa-circle-check" />
+              </div>
+            </div>
+          </b-col>
 
-    <b-row>
-      <b-col lg="4" md="6" sm="12">
-        <div class="dashboard-status status-1">
-          <div class="dashboard-status-content">
-            <h4>{{ data.totalProperties }}</h4>
-            <span>Approved properties</span>
+          <b-col lg="4" md="6" sm="12">
+            <div class="dashboard-status status-2">
+              <div class="dashboard-status-content">
+                <h4>{{ totalPoropertyAds }}</h4>
+                <span>Approved ads</span>
+              </div>
+              <div class="dashboard-status-icon">
+                <font-awesome-icon icon="fa-solid fa-circle-check" />
+              </div>
+            </div>
+          </b-col>
+
+          <b-col lg="4" md="6" sm="12">
+            <div class="dashboard-status status-3">
+              <div class="dashboard-status-content">
+                <h4>{{ totalCompleteDeed }}</h4>
+                <span>Total complete deeds</span>
+              </div>
+              <div class="dashboard-status-icon">
+                <font-awesome-icon icon="fa-solid fa-circle-check" />
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+      </b-card-text>
+    </b-card>
+
+    <b-card title="Approved Deed Lists" class="mt-3">
+      <b-card-text>
+        <div class="search d-flex justify-content-between align-items-center">
+          <div class="form-group">
+            <input class="form-control custom-form-control" type="text" v-model="tableData.search"
+              placeholder="Search Table" @input="getData()">
           </div>
-          <div class="dashboard-status-icon">
-            <font-awesome-icon icon="fa-solid fa-circle-check" />
+          <div class="form-group">
+            <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
+              <option v-for="(records, index) in perPage" :key="index" :value="records">{{ records }}</option>
+            </select>
           </div>
         </div>
-      </b-col>
+        <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
+          <tbody>
+            <tr v-for="(value, i) in values" :key="value.id">
+              <td>{{ i + 1 }}</td>
+              <td>
+                {{ value.tenant.name }}
+              </td>
+              <td>
+                <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
+                  title="Details">
+                  {{ value.property.name }}
+                </nuxt-link>
+              </td>
+              <td>
+                {{ value.start_date ?? 'Not start' }}
+              </td>
+              <td>
+                <b-badge variant="success">Approved</b-badge>
+              </td>
+              <td>
+                <nuxt-link :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
+                  class="btn btn-sm btn-info btn-simple" title="show tennat informations">
+                  <font-awesome-icon icon="fa-solid fa-circle-info" />
+                </nuxt-link>
 
-      <b-col lg="4" md="6" sm="12">
-        <div class="dashboard-status status-2">
-          <div class="dashboard-status-content">
-            <h4>{{ data.totalPropertyAds }}</h4>
-            <span>Approved ads</span>
-          </div>
-          <div class="dashboard-status-icon">
-            <font-awesome-icon icon="fa-solid fa-circle-check" />
-          </div>
-        </div>
-      </b-col>
+                <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
+                rel="tooltip" class="btn btn-sm btn-warning btn-simple" title="Show deed details">
+                <font-awesome-icon icon="fa-solid fa-eye" />
+              </nuxt-link> -->
+              </td>
+            </tr>
+          </tbody>
+        </DataTable>
 
-      <b-col lg="4" md="6" sm="12">
-        <div class="dashboard-status status-3">
-          <div class="dashboard-status-content">
-            <h4>{{ data.totalCompleteDeed }}</h4>
-            <span>Total complete deeds</span>
-          </div>
-          <div class="dashboard-status-icon">
-            <font-awesome-icon icon="fa-solid fa-circle-check" />
-          </div>
-        </div>
-      </b-col>
-    </b-row>
+        <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
+          @next="getData(pagination.nextPageUrl)">
+        </pagination>
+      </b-card-text>
+    </b-card>
   </div>
 </template>
 
 <script>
+import Pagination from "@/components/Datatable/Pagination";
+import DataTable from "@/components/Datatable/DataTable";
+
 export default {
   layout: 'dashboard',
-  name: "landlord",
+  name: "dashboard-index",
+  components: { DataTable, Pagination },
   beforeMount() {
     const authId = this.$auth.user.id;
     if (!authId) {
       throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
     }
   },
+  created() {
+    this.getData();
+  },
   data() {
+    let sortOrders = {};
+    let columns = [
+      { width: '', label: 'Sl', name: 'id' },
+      { width: '', label: 'Tenant', name: 'name' },
+      { width: '', label: 'Property', name: 'property' },
+      { width: '', label: 'Start date', name: 'start_date' },
+      { width: '', label: 'Status', name: 'status' },
+      { width: '', label: 'Actions', name: 'actions' },
+    ];
+    columns.forEach((column) => {
+      sortOrders[column.name] = -1;
+    });
     return {
-      data: ''
+      totalCompleteDeed: '',
+      totalPoropertyAds: '',
+      totalProperties: '',
+      values: [],
+      sum: [],
+      columns: columns,
+      sortKey: 'id',
+      sortOrders: sortOrders,
+      perPage: ['10', '25', '50', '100', '500', '2000', 'all'],
+      tableData: {
+        draw: 0,
+        length: 10,
+        search: '',
+        column: 0,
+        dir: 'desc',
+        userId: this.$auth.user.id
+      },
+      pagination: {
+        lastPage: '',
+        currentPage: '',
+        total: '',
+        lastPageUrl: '',
+        nextPageUrl: '',
+        prevPageUrl: '',
+        from: '',
+        to: '',
+      },
     }
   },
-  async created() {
-    const response = await this.$axios.$post('get-dashboard-data', { userId: this.$auth.user.id });
-    this.data = response.data;
-  },
+  methods: {
+    getData(url = 'get-dashboard-data') {
+      this.tableData.draw++;
+      this.$axios.post(url, { params: this.tableData })
+        .then(response => {
+          let data = response.data;
+
+          this.totalCompleteDeed = response.data.totalCompleteDeed;
+          this.totalPoropertyAds = response.data.totalPoropertyAds;
+          this.totalProperties = response.data.totalProperties;
+
+          if (this.tableData.draw == data.draw) {
+            this.values = data.data.data;
+            this.configPagination(data.data);
+          }
+        })
+        .catch(errors => {
+          alert(errors);
+        })
+    },
+    configPagination(data) {
+      this.pagination.lastPage = data.last_page;
+      this.pagination.currentPage = data.current_page;
+      this.pagination.total = data.total;
+      this.pagination.lastPageUrl = data.last_page_url;
+      this.pagination.nextPageUrl = data.next_page_url;
+      this.pagination.prevPageUrl = data.prev_page_url;
+      this.pagination.from = data.from;
+      this.pagination.to = data.to;
+    },
+    sortBy(key) {
+      this.sortKey = key;
+      this.sortOrders[key] = this.sortOrders[key] * -1;
+      this.tableData.column = this.getIndex(this.columns, 'name', key);
+      this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
+      this.getData();
+    },
+    getIndex(array, key, value) {
+      return array.findIndex(i => i[key] == value)
+    }
+  }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

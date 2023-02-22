@@ -57,7 +57,6 @@
 </template>
 
 <script>
-
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
 

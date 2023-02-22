@@ -20,9 +20,9 @@
 
             <!-- Main Content -->
             <b-col lg="9" md="12">
-              <div class="dashboard-wrapper">
+              <!-- <div class="dashboard-wrapper"> -->
                 <Nuxt />
-              </div>
+              <!-- </div> -->
             </b-col>
             <!--./ Main Content -->
           </b-row>
