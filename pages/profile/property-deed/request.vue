@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between align-items-center">
-      <h5>Property deed request</h5>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
     </div>
-    <div class="card-body p-0 mt-4">
+    <MainCard v-else title="Property deed request">
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group">
           <input class="form-control custom-form-control" type="text" v-model="tableData.search"
-            placeholder="Search Table" @input="getData()">
+                 placeholder="Search Table" @input="getData()">
         </div>
         <div class="form-group">
           <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
@@ -15,71 +15,72 @@
           </select>
         </div>
       </div>
+
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
-          <tr v-for="(value, i) in values" :key="value.id">
-            <td>{{ i + 1 }}</td>
-            <td>
-              {{ value.tenant.name }}
-            </td>
-            <td>
-              <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
-                title="Details">
-                {{ value.property.name }}
-              </nuxt-link>
-            </td>
-            <td>
-              {{ value.start_date ?? 'Not start' }}
-            </td>
-            <td>
-              <b-badge v-if="value.status === 0" variant="danger">Declined</b-badge>
-              <b-badge v-if="value.status === 1" variant="warning">Pending</b-badge>
-              <b-badge v-if="value.status === 2" variant="secondary">Viewed</b-badge>
-              <b-badge v-if="value.status === 3" variant="info">Accepted</b-badge>
-              <b-badge v-if="value.status === 4" variant="primary">Information Submited from tenant</b-badge>
-              <b-badge v-if="value.status === 5" variant="success">Approved</b-badge>
-            </td>
-            <td>
-              <nuxt-link :to="{ name: 'profile-property-deed-id-show', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-warning btn-simple" title="view request">
-                <font-awesome-icon icon="fa-solid fa-eye" />
-              </nuxt-link>
+        <tr v-for="(value, i) in values" :key="value.id">
+          <td>{{ i + 1 }}</td>
+          <td>
+            {{ value.tenant.name }}
+          </td>
+          <td>
+            <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
+                       title="Details">
+              {{ value.property.name }}
+            </nuxt-link>
+          </td>
+          <td>
+            {{ value.start_date ?? 'Not start' }}
+          </td>
+          <td>
+            <b-badge v-if="value.status === 0" variant="danger">Declined</b-badge>
+            <b-badge v-if="value.status === 1" variant="warning">Pending</b-badge>
+            <b-badge v-if="value.status === 2" variant="secondary">Viewed</b-badge>
+            <b-badge v-if="value.status === 3" variant="info">Accepted</b-badge>
+            <b-badge v-if="value.status === 4" variant="primary">Information Submited from tenant</b-badge>
+            <b-badge v-if="value.status === 5" variant="success">Approved</b-badge>
+          </td>
+          <td>
+            <nuxt-link :to="{ name: 'profile-property-deed-id-show', params: { id: value.id } }" rel="tooltip"
+                       class="btn btn-sm btn-warning btn-simple" title="view request">
+              <font-awesome-icon icon="fa-solid fa-eye" />
+            </nuxt-link>
 
-              <nuxt-link v-if="value.status === 4" :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-info btn-simple" title="approve request">
-                <font-awesome-icon v-if="value.status === 4" icon="fa-solid fa-check" />
-              </nuxt-link>
+            <nuxt-link v-if="value.status === 4" :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
+                       class="btn btn-sm btn-info btn-simple" title="approve request">
+              <font-awesome-icon v-if="value.status === 4" icon="fa-solid fa-check" />
+            </nuxt-link>
 
-              <nuxt-link v-if="value.status === 5" :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-info btn-simple" title="show tennat informations">
-                <font-awesome-icon v-if="value.status === 5" icon="fa-solid fa-circle-info" />
-              </nuxt-link>
+            <nuxt-link v-if="value.status === 5" :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
+                       class="btn btn-sm btn-info btn-simple" title="show tennat informations">
+              <font-awesome-icon v-if="value.status === 5" icon="fa-solid fa-circle-info" />
+            </nuxt-link>
 
-              <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
-                rel="tooltip" class="btn btn-sm btn-secondary btn-simple" title="Get payment">
-                <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
-              </nuxt-link> -->
-            </td>
-          </tr>
+            <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
+              rel="tooltip" class="btn btn-sm btn-secondary btn-simple" title="Get payment">
+              <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
+            </nuxt-link> -->
+          </td>
+        </tr>
         </tbody>
       </DataTable>
 
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-        @next="getData(pagination.nextPageUrl)">
+                  @next="getData(pagination.nextPageUrl)">
       </pagination>
-    </div>
+    </MainCard>
   </div>
 </template>
 
 <script>
-
+import MainCard from '@/components/frontend/dashboard/MainCard.vue';
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
 
 export default {
   layout: 'dashboard',
   name: "deed-request",
-  components: { DataTable, Pagination },
+  components: { DataTable, Pagination, MainCard },
   created() {
     this.getData();
   },
@@ -97,6 +98,7 @@ export default {
       sortOrders[column.name] = -1;
     });
     return {
+      isLoading: true,
       values: [],
       sum: [],
       columns: columns,
@@ -133,8 +135,9 @@ export default {
             this.values = data.data.data;
             this.configPagination(data.data);
           }
-        })
-        .catch(errors => {
+
+          this.isLoading = false;
+        }).catch(errors => {
           alert(errors);
         })
     },

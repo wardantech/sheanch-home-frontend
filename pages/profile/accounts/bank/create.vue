@@ -1,23 +1,16 @@
 <template>
   <div>
-    <div class="page-search">
-      <div>
-        <div class="form-group">
-          <h5>Add your payment details</h5>
-        </div>
-      </div>
-
-      <div>
-        <div class="form-group">
-          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-bank' }">
-            <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
-            Back to list
-          </nuxt-link>
-        </div>
-      </div>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
     </div>
+    <MainCard v-else title="Add your payment details">
+      <template v-slot:actions>
+        <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-bank' }">
+          <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
+          Back to list
+        </nuxt-link>
+      </template>
 
-    <div>
       <form @submit.prevent="store">
         <b-row>
           <b-col md="6">
@@ -50,22 +43,26 @@
         <b-row>
           <b-col>
             <div class="button-t-m" style="margin-top: 30px">
-              <b-button type="submit" variant="success" :disabled="loading">Save</b-button>
+              <b-button type="submit" variant="success" size="sm" :disabled="isDisable">Save</b-button>
             </div>
           </b-col>
         </b-row>
       </form>
-    </div>
+    </MainCard>
   </div>
 </template>
 
 <script>
+import MainCard from '@/components/frontend/dashboard/MainCard.vue';
+
 export default {
   layout: 'dashboard',
   name: 'bank-getway',
+  components: { MainCard },
   data() {
     return {
-      loading: false,
+      isDisable: false,
+      isLoading: true,
       banks: '',
       errors: {},
       form: {
@@ -79,23 +76,25 @@ export default {
     await this.$axios.$post('accounts/get-banks')
       .then(res => {
         this.banks = res.data.banks;
-      })
+        this.isLoading = false;
+      }).catch(error => {
+        alert(error);
+      });
   },
   methods: {
     async store() {
-      this.loading = true;
+      this.isDisable = true;
       await this.$axios.$post('accounts/bank-method-store', this.form)
         .then(response => {
-          this.loading = false;
+          this.isDisable = false;
           this.$izitoast.success({
             title: 'Success !!',
             message: 'Your payment method successfully added'
           });
 
           this.$router.push({ name: 'profile-accounts-bank' });
-        })
-        .catch(error => {
-          this.loading = false;
+        }).catch(error => {
+          this.isDisable = false;
           if (error.response.status == 422) {
             this.errors = error.response.data.errors;
           }

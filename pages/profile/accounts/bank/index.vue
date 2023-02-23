@@ -1,17 +1,20 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between align-items-center">
-      <h5>Payment Method Lists</h5>
-      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-bank-create' }">
-        <font-awesome-icon icon="fa-solid fa-plus" />
-        Create
-      </nuxt-link>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
     </div>
-    <div class="card-body p-0 mt-4">
+    <MainCard v-else title="Payment Method Lists">
+      <template v-slot:actions>
+        <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-bank-create' }">
+          <font-awesome-icon icon="fa-solid fa-plus" />
+          Create
+        </nuxt-link>
+      </template>
+
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group">
           <input class="form-control custom-form-control" type="text" v-model="tableData.search"
-            placeholder="Search Table" @input="getData()">
+                 placeholder="Search Table" @input="getData()">
         </div>
         <div class="form-group">
           <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
@@ -21,49 +24,50 @@
       </div>
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
-          <tr v-for="(value, i) in values" :key="value.id">
-            <td>{{ i + 1 }}</td>
-            <td>{{ value.bank.name }}</td>
-            <td>{{ value.account_number }}</td>
-            <td>
-              <!-- <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-info btn-simple" title="Details">
-                <font-awesome-icon icon="fa-solid fa-eye" />
-              </nuxt-link> -->
+        <tr v-for="(value, i) in values" :key="value.id">
+          <td>{{ i + 1 }}</td>
+          <td>{{ value.bank.name }}</td>
+          <td>{{ value.account_number }}</td>
+          <td>
+            <!-- <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.id } }" rel="tooltip"
+              class="btn btn-sm btn-info btn-simple" title="Details">
+              <font-awesome-icon icon="fa-solid fa-eye" />
+            </nuxt-link> -->
 
-              <nuxt-link :to="{ name: 'profile-accounts-bank-id-edit', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-success btn-simple" title="Edit">
-                <font-awesome-icon icon="fa-solid fa-edit" />
-              </nuxt-link>
+            <nuxt-link :to="{ name: 'profile-accounts-bank-id-edit', params: { id: value.id } }" rel="tooltip"
+                       class="btn btn-sm btn-success btn-simple" title="Edit">
+              <font-awesome-icon icon="fa-solid fa-edit" />
+            </nuxt-link>
 
-              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
-                <font-awesome-icon icon="fa-solid fa-trash" />
-              </b-button>
+            <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
+              <font-awesome-icon icon="fa-solid fa-trash" />
+            </b-button>
 
-              <!-- <nuxt-link :to="{ name: 'profile-property-id-payment-reports', params: { id: value.id } }" rel="tooltip"
-                class="btn btn-sm btn-secondary btn-simple" title="Payment Reports">
-                <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
-              </nuxt-link> -->
-            </td>
-          </tr>
+            <!-- <nuxt-link :to="{ name: 'profile-property-id-payment-reports', params: { id: value.id } }" rel="tooltip"
+              class="btn btn-sm btn-secondary btn-simple" title="Payment Reports">
+              <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
+            </nuxt-link> -->
+          </td>
+        </tr>
         </tbody>
       </DataTable>
 
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-        @next="getData(pagination.nextPageUrl)">
+                  @next="getData(pagination.nextPageUrl)">
       </pagination>
-    </div>
+    </MainCard>
   </div>
 </template>
 
 <script>
+import MainCard from '@/components/frontend/dashboard/MainCard.vue';
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
 
 export default {
   layout: 'dashboard',
   name: 'payment-method',
-  components: { DataTable, Pagination },
+  components: { DataTable, Pagination, MainCard },
   created() {
     this.getData();
   },
@@ -79,6 +83,7 @@ export default {
       sortOrders[column.name] = -1;
     });
     return {
+      isLoading: true,
       values: [],
       sum: [],
       columns: columns,
@@ -115,6 +120,7 @@ export default {
             this.values = data.data.data;
             this.configPagination(data.data);
           }
+          this.isLoading = false;
         })
         .catch(errors => {
           alert(errors);

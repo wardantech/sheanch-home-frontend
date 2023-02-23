@@ -1,22 +1,16 @@
 <template>
   <div>
-    <div class="page-search">
-      <div>
-        <div class="form-group">
-          <h5>Create Property Ads</h5>
-        </div>
-      </div>
-
-      <div>
-        <div class="form-group">
-          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-property' }">
-            <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
-            Back to list
-          </nuxt-link>
-        </div>
-      </div>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
     </div>
-    <div>
+    <MainCard v-else title="Create Property Ads">
+      <template v-slot:actions>
+        <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-property' }">
+          <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
+          Back to list
+        </nuxt-link>
+      </template>
+
       <form @submit.prevent="store">
         <b-row>
           <b-col lg="6" md="6" sm="12">
@@ -24,47 +18,47 @@
               <select @change="setRent" v-model="form.property_id" id="" class="form-control custom-input-control">
                 <option value="">Select</option>
                 <option v-for="(property, i) in properties" :sale_type="property.sale_type"
-                  :property_category="property.property_category" :security_money="property.security_money"
-                  :rent_amount="property.rent_amount" :division_id="property.division_id"
-                  :district_id="property.district_id" :thana_id="property.thana_id"
-                  :property_type_id="property.property_type_id" :value="property.id" :key="i">
+                        :property_category="property.property_category" :security_money="property.security_money"
+                        :rent_amount="property.rent_amount" :division_id="property.division_id"
+                        :district_id="property.district_id" :thana_id="property.thana_id"
+                        :property_type_id="property.property_type_id" :value="property.id" :key="i">
                   {{ property.name }}
                 </option>
               </select>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.property_id">{{
                 errors.property_id[0]
-              }}</strong>
+                }}</strong>
             </b-form-group>
           </b-col>
 
           <b-col lg="6" md="6" sm="12">
             <b-form-group label="Property category">
               <b-form-input class="custom-input-control" v-model="form.property_category" type="text"
-                placeholder="Property category" readonly>
+                            placeholder="Property category" readonly>
               </b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.property_category">{{
                 errors.property_category[0]
-              }}</strong>
+                }}</strong>
             </b-form-group>
           </b-col>
 
           <b-col lg="6" md="6" sm="12">
             <b-form-group label="Rent amount">
               <b-form-input class="custom-input-control" v-model="form.rent_amount" type="text"
-                placeholder="Rent amount"></b-form-input>
+                            placeholder="Rent amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.rent_amount">{{
                 errors.rent_amount[0]
-              }}</strong>
+                }}</strong>
             </b-form-group>
           </b-col>
 
           <b-col lg="6" md="6" sm="12">
             <b-form-group label="Security money">
               <b-form-input class="custom-input-control" v-model="form.security_money" type="text"
-                placeholder="Rent amount"></b-form-input>
+                            placeholder="Rent amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.security_money">{{
                 errors.security_money[0]
-              }}</strong>
+                }}</strong>
             </b-form-group>
           </b-col>
 
@@ -73,7 +67,7 @@
               <b-form-input class="custom-input-control" v-model="form.start_date" type="date"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.start_date">{{
                 errors.start_date[0]
-              }}</strong>
+                }}</strong>
             </b-form-group>
           </b-col>
 
@@ -82,7 +76,7 @@
               <b-form-input class="custom-input-control" v-model="form.end_date" type="date"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.start_date">{{
                 errors.start_date[0]
-              }}</strong>
+                }}</strong>
             </b-form-group>
           </b-col>
         </b-row>
@@ -91,23 +85,26 @@
           <b-col md="12">
             <b-form-group label="Description">
               <b-form-textarea class="custom-input-control" v-model="form.description" placeholder="Say something..."
-                rows="3"></b-form-textarea>
+                               rows="3"></b-form-textarea>
             </b-form-group>
           </b-col>
         </b-row>
 
         <b-form-group class="mt-3">
-          <b-button type="submit" class="btn-browse-more btn-height" variant="info">Save</b-button>
+          <b-button type="submit" class="btn-browse-more btn-height" variant="info" size="sm" :disabled="isDisable">Save</b-button>
         </b-form-group>
       </form>
-    </div>
+    </MainCard>
   </div>
 </template>
 
 <script>
+import MainCard from '@/components/frontend/dashboard/MainCard.vue';
+
 export default {
   layout: 'dashboard',
   name: "create",
+  components: { MainCard },
   data() {
     return {
       form: {
@@ -128,13 +125,20 @@ export default {
         end_date: '',
         description: '',
       },
+      isDisable: false,
+      isLoading: true,
       properties: '',
       errors: {},
     }
   },
   async created() {
-    let properties = await this.$axios.$post('property/ad/get-property-as-landlord', { userId: this.form.user_id });
-    this.properties = properties.data;
+    await this.$axios.$post('property/ad/get-property-as-landlord', { userId: this.form.user_id })
+      .then(response => {
+        this.properties = response.data;
+        this.isLoading = false;
+      }).catch(error => {
+        alert(error);
+      });
   },
   methods: {
     setRent(event) {
@@ -158,6 +162,7 @@ export default {
       }
     },
     async store() {
+      this.isDisable = true;
       await this.$axios.$post('property/ad/store', this.form)
         .then(response => {
           this.$izitoast.success({
@@ -166,8 +171,8 @@ export default {
           });
 
           this.$router.push({ name: 'profile-property-ads' });
-        })
-        .catch(error => {
+        }).catch(error => {
+          this.isDisable = false;
           if (error.response.status == 422) {
             this.errors = error.response.data.errors
           }

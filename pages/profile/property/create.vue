@@ -1,23 +1,16 @@
 <template>
   <div>
-    <div class="page-search">
-      <div>
-        <div class="form-group">
-          <h5>Create Property</h5>
-        </div>
-      </div>
-
-      <div>
-        <div class="form-group">
-          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-property' }">
-            <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
-            Back to list
-          </nuxt-link>
-        </div>
-      </div>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
     </div>
+    <MainCard v-else title="Create Property">
+      <template v-slot:actions>
+        <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-property' }">
+          <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
+          Back to list
+        </nuxt-link>
+      </template>
 
-    <div>
       <form @submit.prevent="store">
         <b-row>
           <b-col md="4">
@@ -65,7 +58,7 @@
           <b-col md="4">
             <b-form-group label="Property name">
               <b-form-input v-model="form.name" class="custom-input-control" type="text"
-                placeholder="Property name"></b-form-input>
+                            placeholder="Property name"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.name">
                 {{ errors.name[0] }}
               </strong>
@@ -75,7 +68,7 @@
           <b-col md="4">
             <b-form-group label="Area Size">
               <b-form-input min="1" v-model="form.area_size" class="custom-input-control" type="number"
-                placeholder="Area Size"></b-form-input>
+                            placeholder="Area Size"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.area_size">
                 {{ errors.area_size[0] }}
               </strong>
@@ -85,7 +78,7 @@
           <b-col md="4">
             <b-form-group label="Bedroom Quantity (Qty)">
               <b-form-input min="1" v-model="form.bed_rooms" class="custom-input-control" type="number"
-                placeholder="Enter Bedroom Quantity (Qty)"></b-form-input>
+                            placeholder="Enter Bedroom Quantity (Qty)"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.bed_rooms">
                 {{ errors.bed_rooms[0] }}
               </strong>
@@ -97,7 +90,7 @@
           <b-col md="4">
             <b-form-group label="Bath Rooms (Qty)">
               <b-form-input min="1" v-model="form.bath_rooms" class="custom-input-control" type="number"
-                placeholder="Bath Rooms (Qty)"></b-form-input>
+                            placeholder="Bath Rooms (Qty)"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.bath_rooms">
                 {{ errors.bath_rooms[0] }}
               </strong>
@@ -107,7 +100,7 @@
           <b-col md="4">
             <b-form-group label="Balcony (Qty)">
               <b-form-input min="1" v-model="form.balcony" class="custom-input-control" type="number"
-                placeholder="Balcony (Qty)"></b-form-input>
+                            placeholder="Balcony (Qty)"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.balcony">
                 {{ errors.balcony[0] }}
               </strong>
@@ -117,7 +110,7 @@
           <b-col md="4">
             <b-form-group label="Floor">
               <b-form-input min="1" v-model="form.floor" class="custom-input-control" type="number"
-                placeholder="Enter floor"></b-form-input>
+                            placeholder="Enter floor"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.floor">
                 {{ errors.floor[0] }}
               </strong>
@@ -129,7 +122,7 @@
           <b-col md="4">
             <b-form-group label="Select division">
               <select @change="getDistricts(form.division_id)" v-model="form.division_id" id=""
-                class="form-control custom-input-control">
+                      class="form-control custom-input-control">
                 <option value="">Select division</option>
                 <option v-for="(division, i) in divisions" :value="division.id" :key="i">
                   {{ division.name }}
@@ -144,7 +137,7 @@
           <b-col md="4">
             <b-form-group label="Select district">
               <select @change="getThanas(form.district_id)" v-model="form.district_id" id=""
-                class="form-control custom-input-control">
+                      class="form-control custom-input-control">
                 <option value="">Select district</option>
                 <option v-for="(district, i) in districts" :value="district.id" :key="i">
                   {{ district.name }}
@@ -175,7 +168,7 @@
           <b-col md="4">
             <b-form-group label="Rent Amount">
               <b-form-input min="0" v-model="form.rent_amount" class="custom-input-control" type="number"
-                placeholder="Rent Amount"></b-form-input>
+                            placeholder="Rent Amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.rent_amount">
                 {{ errors.rent_amount[0] }}
               </strong>
@@ -185,7 +178,7 @@
           <b-col md="4">
             <b-form-group label="Security money">
               <b-form-input v-model="form.security_money" class="custom-input-control" type="number"
-                placeholder="Security money"></b-form-input>
+                            placeholder="Security money"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.security_money">
                 {{ errors.security_money[0] }}
               </strong>
@@ -195,7 +188,7 @@
           <b-col md="4">
             <b-form-group label="Road Number">
               <b-form-input v-model="form.road_number" class="custom-input-control" type="text"
-                placeholder="Road Number"></b-form-input>
+                            placeholder="Road Number"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.road_number">
                 {{ errors.road_number[0] }}
               </strong>
@@ -207,7 +200,7 @@
           <b-col md="4">
             <b-form-group label="Zip Code">
               <b-form-input v-model="form.zip_code" class="custom-input-control" type="text"
-                placeholder="Zip Code"></b-form-input>
+                            placeholder="Zip Code"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.zip_code">
                 {{ errors.zip_code[0] }}
               </strong>
@@ -217,7 +210,7 @@
           <b-col md="4">
             <b-form-group :label="propertyCategory">
               <b-form-input min="1" v-model="form.holding_number" class="custom-input-control" type="text"
-                :placeholder="propertyCategory"></b-form-input>
+                            :placeholder="propertyCategory"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.holding_number">
                 {{ errors.holding_number[0] }}
               </strong>
@@ -241,7 +234,7 @@
           <b-col md="12">
             <b-form-group label="Video Link">
               <b-form-input min="1" v-model="form.video_link" class="custom-input-control" type="text"
-                placeholder="Enter video link"></b-form-input>
+                            placeholder="Enter video link"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.video_link">
                 {{ errors.video_link[0] }}
               </strong>
@@ -251,7 +244,7 @@
           <b-col md="12">
             <b-form-group label="Google pam location">
               <b-form-input min="1" v-model="form.google_map_location" class="custom-input-control" type="text"
-                placeholder="Enter google map location"></b-form-input>
+                            placeholder="Enter google map location"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.google_map_location">
                 {{ errors.google_map_location[0] }}
               </strong>
@@ -263,7 +256,7 @@
           <b-col md="12">
             <b-form-group label="Address">
               <b-form-textarea id="address" placeholder="Address" rows="3" v-model="form.address"
-                class="custom-input-control"></b-form-textarea>
+                               class="custom-input-control"></b-form-textarea>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.address">
                 {{ errors.address[0] }}
               </strong>
@@ -275,7 +268,7 @@
           <b-col md="12">
             <b-form-group label="Description">
               <b-form-textarea id="description" placeholder="Description..." rows="3" v-model="form.description"
-                class="custom-input-control"></b-form-textarea>
+                               class="custom-input-control"></b-form-textarea>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.description">
                 {{ errors.description[0] }}
               </strong>
@@ -307,7 +300,7 @@
           <b-col md="4">
             <b-form-group label="Utility Name">
               <b-form-input readonly v-model="utility.utility_name" :id="'utility_name' + n" min="1"
-                class="custom-form-control" type="text" placeholder="Area Size">
+                            class="custom-form-control" type="text" placeholder="Area Size">
               </b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.security_money">
                 {{ errors.security_money[0] }}
@@ -318,7 +311,7 @@
           <b-col md="4">
             <b-form-group label="Paid By">
               <select @click="utilityPaidBy(n, utility)" name="" :id="'utility_paid_by' + n"
-                class="form-control custom-select-form-control">
+                      class="form-control custom-select-form-control">
                 <option value="1">Landlord</option>
                 <option value="2">Tenant</option>
               </select>
@@ -331,7 +324,7 @@
           <b-col md="3">
             <b-form-group label="Amount">
               <b-form-input @input="utilityAmount(n, utility)" :id="'utility_amount' + n" min="1"
-                class="custom-form-control" type="text" placeholder="Amount"></b-form-input>
+                            class="custom-form-control" type="text" placeholder="Amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.area_size">
                 {{ errors.area_size[0] }}
               </strong>
@@ -351,7 +344,7 @@
           <b-col md="12">
             <b-form-group label="Facilities" v-slot="{ ariaDescribedby }">
               <b-form-checkbox-group id="checkbox-group-1" v-model="form.facilitie_ids" :options="facilities"
-                :aria-describedby="ariaDescribedby"></b-form-checkbox-group>
+                                     :aria-describedby="ariaDescribedby"></b-form-checkbox-group>
             </b-form-group>
           </b-col>
         </b-row>
@@ -361,29 +354,30 @@
           <b-col md="12">
             <b-form-group label="Image Upload">
               <dropzone id="foo" ref="el" :options="options" @vdropzone-files-added="processFile"
-                @vdropzone-removed-file="fileRemoved" :destroyDropzone="false">
+                        @vdropzone-removed-file="fileRemoved" :destroyDropzone="false">
               </dropzone>
             </b-form-group>
           </b-col>
         </b-row>
 
         <b-form-group class="mt-3">
-          <b-button type="submit" class="btn-browse-more btn-height" variant="info">Save</b-button>
+          <b-button type="submit" class="btn-browse-more btn-height" variant="info" :disabled="isDisable">Save</b-button>
         </b-form-group>
 
       </form>
-    </div>
+    </MainCard>
   </div>
 </template>
 
 <script>
+import MainCard from '@/components/frontend/dashboard/MainCard.vue';
 import Dropzone from 'nuxt-dropzone'
 import 'nuxt-dropzone/dropzone.css'
 
 export default {
   layout: 'dashboard',
   name: "create",
-  components: { Dropzone },
+  components: { Dropzone, MainCard },
   data() {
     return {
       options: {
@@ -425,6 +419,8 @@ export default {
         utilities: [],
       },
       areas: '',
+      isDisable: false,
+      isLoading: true,
       propertyTypes: '',
       landlords: '',
       utilities: '',
@@ -444,6 +440,7 @@ export default {
         this.facilities = res.data.facilities;
         this.areas = res.data.areas;
         this.propertyTypes = res.data.propertyTypes;
+        this.isLoading = false;
       }).catch(err => {
         alert(err);
       });
@@ -528,15 +525,17 @@ export default {
       this.form.utilities[n].utility_amount = amount;
     },
     async store() {
+      this.isDisable = true;
       await this.$axios.$post('property/store', this.form)
         .then(response => {
           this.$izitoast.success({
             title: 'Success !!',
             message: 'Property create successfully!'
           });
-
+          this.isDisable = false;
           this.$router.push({ name: 'profile-property' });
         }).catch(error => {
+          this.isDisable = false;
           if (error.response.status == 422) {
             this.errors = error.response.data.errors
           }
