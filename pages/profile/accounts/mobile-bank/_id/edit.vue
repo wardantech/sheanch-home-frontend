@@ -1,23 +1,16 @@
 <template>
   <div>
-    <div class="page-search">
-      <div>
-        <div class="form-group">
-          <h5>Edit your payment details</h5>
-        </div>
-      </div>
-
-      <div>
-        <div class="form-group">
-          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-mobile-bank' }">
-            <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
-            Back to list
-          </nuxt-link>
-        </div>
-      </div>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
     </div>
+    <MainCard v-else title="Edit your payment details">
+      <template v-slot:actions>
+        <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-mobile-bank' }">
+          <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
+          Back to list
+        </nuxt-link>
+      </template>
 
-    <div>
       <form @submit.prevent="update">
         <b-row>
           <b-col md="6">
@@ -55,16 +48,20 @@
           </b-col>
         </b-row>
       </form>
-    </div>
+    </MainCard>
   </div>
 </template>
 
 <script>
+import MainCard from '@/components/frontend/dashboard/MainCard.vue';
+
 export default {
   layout: 'dashboard',
   name: 'mobile-getway-edit',
+  components: { MainCard },
   data() {
     return {
+      isLoading: true,
       loading: false,
       banks: '',
       errors: {},
@@ -80,7 +77,10 @@ export default {
       .then(res => {
         this.form = res.data.paymentMethod;
         this.banks = res.data.banks;
-      })
+        this.isLoading = false;
+      }).catch(error => {
+        alert(error);
+      });
   },
   methods: {
     async update() {

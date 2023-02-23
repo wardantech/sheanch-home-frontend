@@ -1,23 +1,16 @@
 <template>
   <div>
-    <div class="page-search">
-      <div>
-        <div class="form-group">
-          <h5>Edit Rent Collection.</h5>
-        </div>
-      </div>
-
-      <div>
-        <div class="form-group">
-          <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-rent-collection' }">
-            <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
-            Back to list
-          </nuxt-link>
-        </div>
-      </div>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
     </div>
+    <MainCard v-else title="Edit Rent Collection.">
+      <template v-slot:actions>
+        <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-rent-collection' }">
+          <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
+          Back to list
+        </nuxt-link>
+      </template>
 
-    <div>
       <form @submit.prevent="update">
         <b-row>
           <b-col md="6">
@@ -36,7 +29,7 @@
           <b-col md="6">
             <b-form-group label="Paid amount">
               <b-form-input v-model="form.cash_in" class="custom-input-control" type="number" min="0"
-                placeholder="Enter amount"></b-form-input>
+                            placeholder="Enter amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_in">
                 {{ errors.cash_in[0] }}
               </strong>
@@ -89,7 +82,7 @@
           <b-col v-if="isPaymentMethod == 3" md="6">
             <b-form-group label="Transaction id">
               <b-form-input v-model="form.transaction_id" class="custom-input-control" type="number"
-                placeholder="Transaction id"></b-form-input>
+                            placeholder="Transaction id"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.transaction_id">
                 {{ errors.transaction_id[0] }}
               </strong>
@@ -99,7 +92,7 @@
           <b-col md="12">
             <b-form-group label="Description">
               <b-form-textarea id="description" placeholder="Description..." rows="3" v-model="form.remark"
-                class="custom-input-control"></b-form-textarea>
+                               class="custom-input-control"></b-form-textarea>
             </b-form-group>
           </b-col>
         </b-row>
@@ -112,16 +105,20 @@
           </b-col>
         </b-row>
       </form>
-    </div>
+    </MainCard>
   </div>
 </template>
 
 <script>
+  import MainCard from '@/components/frontend/dashboard/MainCard.vue';
+
   export default {
     layout: 'dashboard',
     name: 'rent-collection-edit',
+    components: { MainCard },
     data() {
       return {
+        isLoading: true,
         loading: false,
         deeds: '',
         tenantId: '',
@@ -156,6 +153,7 @@
           this.form = res.data.transaction;
           this.propertyInfo();
           this.paymentMethod();
+          this.isLoading = false;
         }).catch(err => {
           alert(err);
         });

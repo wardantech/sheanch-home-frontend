@@ -1,17 +1,20 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between align-items-center">
-      <h5>Property Payment Lists</h5>
-      <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-rent-collection-create' }">
-        <font-awesome-icon icon="fa-solid fa-plus" />
-        Rent Collect
-      </nuxt-link>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
     </div>
-    <div class="card-body p-0 mt-4">
+    <MainCard v-else title="Property Payment Lists">
+      <template v-slot:actions>
+        <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-rent-collection-create' }">
+          <font-awesome-icon icon="fa-solid fa-plus" />
+          Rent Collect
+        </nuxt-link>
+      </template>
+
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group">
           <input class="form-control custom-form-control" type="text" v-model="tableData.search"
-            placeholder="Search Table" @input="getData()">
+                 placeholder="Search Table" @input="getData()">
         </div>
         <div class="form-group">
           <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
@@ -22,43 +25,44 @@
 
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
-          <tr v-for="(value, i) in values" :key="value.id">
-            <td>{{ i + 1 }}</td>
-            <td>{{ value.monthName }} - {{ value.year }}</td>
-            <td>{{ value.property_name }} ({{ value.tenant_name }})</td>
-            <td>{{ value.amount }}</td>
-            <td>{{ (value.property_amount - value.amount) }}</td>
+        <tr v-for="(value, i) in values" :key="value.id">
+          <td>{{ i + 1 }}</td>
+          <td>{{ value.monthName }} - {{ value.year }}</td>
+          <td>{{ value.property_name }} ({{ value.tenant_name }})</td>
+          <td>{{ value.amount }}</td>
+          <td>{{ (value.property_amount - value.amount) }}</td>
 
-            <td>
-              <nuxt-link
-                :to="{ name: 'profile-accounts-rent-collection-details' }"
-                class="btn btn-sm btn-primary btn-simple" title="Show all transactions"
-                :custom="true"
-              >
-                <a @click="storeDeed(value.deedId, value.month)">
-                  <font-awesome-icon icon="fa-solid fa-eye" />
-                </a>
-              </nuxt-link>
-            </td>
-          </tr>
+          <td>
+            <nuxt-link
+              :to="{ name: 'profile-accounts-rent-collection-details' }"
+              class="btn btn-sm btn-primary btn-simple" title="Show all transactions"
+              :custom="true"
+            >
+              <a @click="storeDeed(value.deedId, value.month)">
+                <font-awesome-icon icon="fa-solid fa-eye" />
+              </a>
+            </nuxt-link>
+          </td>
+        </tr>
         </tbody>
       </DataTable>
 
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-        @next="getData(pagination.nextPageUrl)">
+                  @next="getData(pagination.nextPageUrl)">
       </pagination>
-    </div>
+    </MainCard>
   </div>
 </template>
 
 <script>
+import MainCard from '@/components/frontend/dashboard/MainCard.vue';
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
 
 export default {
   layout: 'dashboard',
   name: "rent-collection",
-  components: { DataTable, Pagination },
+  components: { DataTable, Pagination, MainCard },
   created() {
     this.getData();
   },
@@ -76,6 +80,7 @@ export default {
       sortOrders[column.name] = -1;
     });
     return {
+      isLoading: true,
       values: [],
       sum: [],
       columns: columns,
@@ -112,6 +117,7 @@ export default {
             this.values = data.data.data;
             this.configPagination(data.data);
           }
+          this.isLoading = false;
         })
         .catch(errors => {
           alert(errors);

@@ -1,8 +1,10 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between align-items-center">
-      <h5>Cash Reports</h5>
-      <div>
+    <div v-if="isLoading" class="d-flex justify-content-center mb-3">
+      <p>Loading...</p>
+    </div>
+    <MainCard v-else title="Cash Reports">
+      <template v-slot:actions>
         <button type="button" class="btn btn-info">
           {{ totalRevenue }} <span class="badge badge-light">Total Credit Balance</span>
           <span class="sr-only">unread messages</span>
@@ -15,14 +17,12 @@
           {{ currentAmount }} <span class="badge badge-light">Current Balance</span>
           <span class="sr-only">unread messages</span>
         </button>
-      </div>
-    </div>
+      </template>
 
-    <div class="card-body p-0 mt-4">
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group">
           <input class="form-control custom-form-control" type="text" v-model="tableData.search"
-            placeholder="Search Table" @input="getData()">
+                 placeholder="Search Table" @input="getData()">
         </div>
         <div class="form-group">
           <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
@@ -33,30 +33,31 @@
 
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
-          <tr v-for="(value, i) in values" :key="value.id">
-            <td>{{ i + 1 }}</td>
-            <td>{{ dateFromat(value.date) }}</td>
-            <td>
-              <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
-              <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
-              <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
-            </td>
-            <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
-            <td>{{ value.transaction_id ?? '--' }}</td>
-            <td>{{ value.cash_in }}</td>
-            <td>{{ value.cash_out }}</td>
-          </tr>
+        <tr v-for="(value, i) in values" :key="value.id">
+          <td>{{ i + 1 }}</td>
+          <td>{{ dateFromat(value.date) }}</td>
+          <td>
+            <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
+            <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
+            <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
+          </td>
+          <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
+          <td>{{ value.transaction_id ?? '--' }}</td>
+          <td>{{ value.cash_in }}</td>
+          <td>{{ value.cash_out }}</td>
+        </tr>
         </tbody>
       </DataTable>
 
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-        @next="getData(pagination.nextPageUrl)">
+                  @next="getData(pagination.nextPageUrl)">
       </pagination>
-    </div>
+    </MainCard>
   </div>
 </template>
 
 <script>
+import MainCard from '@/components/frontend/dashboard/MainCard.vue';
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
 import { dateMixin } from '../../../../mixins/date-mixin';
@@ -64,7 +65,7 @@ import { dateMixin } from '../../../../mixins/date-mixin';
 export default {
   layout: 'dashboard',
   name: "cash",
-  components: { DataTable, Pagination },
+  components: { DataTable, Pagination, MainCard },
   mixins: [dateMixin],
   created() {
     this.getData();
@@ -84,6 +85,7 @@ export default {
       sortOrders[column.name] = -1;
     });
     return {
+      isLoading: true,
       totalRevenue: '',
       totalExpanse: '',
       currentAmount: '',
@@ -126,8 +128,8 @@ export default {
             this.values = data.data.data;
             this.configPagination(data.data);
           }
-        })
-        .catch(errors => {
+          this.isLoading = false;
+        }).catch(errors => {
           alert(errors);
         });
     },
