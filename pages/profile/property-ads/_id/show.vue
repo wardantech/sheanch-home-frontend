@@ -64,7 +64,7 @@ export default {
     }
   },
   async created() {
-    await this.$axios.$post('property/ad/get-details', {id: this.$route.params.id})
+    await this.$axios.$post('property/ad/get-ad-details', {id: this.$route.params.id})
       .then(response => {
         this.property = response.data.propertyAd;
         this.isLoading = false;
