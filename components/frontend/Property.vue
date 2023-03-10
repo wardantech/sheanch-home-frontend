@@ -93,6 +93,13 @@
             </div>
           </b-col>
         </b-row>
+
+        <div class="d-flex justify-content-end">
+          <nuxt-link class="btn btn-sm btn-outline-primary" :to="{ name: 'properties' }">
+            View all
+            <font-awesome-icon icon="ml-2 fa-solid fa-arrow-right" />
+          </nuxt-link>
+        </div>
       </b-container>
     </section>
   </div>
