@@ -10,7 +10,7 @@
                   <b-row>
                     <b-col md="1">
                       <b-form-group class="mb-2">
-                        <select v-model="form.sale_type" class="form-control" id="sale_lease_type">
+                        <select v-model="form.sale_type" class="form-control" id="sale_lease_type" @change="search">
                           <option value="1">Rent</option>
                           <option value="2">Sale</option>
                         </select>
@@ -24,13 +24,13 @@
                               <strong class="text-danger"><font-awesome-icon icon="fa-solid fa-location-dot" /></strong>
                             </b-input-group-text>
                           </template>
-                          <b-form-input placeholder="Area"></b-form-input>
+                          <b-form-input v-model="form.area" placeholder="Area"></b-form-input>
                         </b-input-group>
                     </b-col>
 
                     <b-col md="2">
                       <b-form-group>
-                        <select v-model="form.property_type_id" class="form-control mb-2">
+                        <select v-model="form.property_type_id" class="form-control mb-2" @change="search">
                           <option value="">Select</option>
                           <option v-for="(type, i) in propertyTypes" :key="i" :value="type.id">
                             {{ type.name }}
@@ -41,7 +41,7 @@
 
                     <b-col md="2">
                       <b-form-group>
-                        <select v-model="form.min_price" class="form-control mb-2">
+                        <select v-model="form.min_price" class="form-control mb-2" @change="search">
                           <option value="">No Min</option>
                           <option value="5000">5000</option>
                           <option value="10000">10000</option>
@@ -55,7 +55,7 @@
 
                     <b-col md="2">
                       <b-form-group class="mb-2">
-                        <select v-model="form.max_price" class="form-control">
+                        <select v-model="form.max_price" class="form-control" @change="search">
                           <option value="">No Max</option>
                           <option value="10000">10000</option>
                           <option value="20000">20000</option>
@@ -83,17 +83,15 @@
 
 <script>
   export default {
+    emits: ['search'],
     data() {
       return {
         form: {
-          min_price: '',
+          area: '',
           sale_type: '',
+          min_price: '',
           max_price: '',
-          property_category: '',
-          property_type_id: '',
-          division_id: '',
-          district_id: '',
-          thana_id: '',
+          property_type_id: ''
         },
         propertyTypes: ''
       }
@@ -106,6 +104,9 @@
         let propertiesAds = await this.$axios.$post('property/ad/search', this.form);
         this.propertiesAds = propertiesAds.data;
       },
+      search() {
+        this.$emit('search', this.form);
+      }
     }
   }
 </script>

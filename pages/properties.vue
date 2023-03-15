@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Search -->
-    <Search />
+    <Search @search="searchProperties" />
     <!-- /. Search -->
 
     <b-container>
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import Search from "../components/frontend/Search";
+import Search from "@/components/frontend/Search";
 export default {
   name: 'properties-all',
   auth: false,
@@ -113,8 +113,18 @@ export default {
         this.properties = response.data.data.properties;
       }).catch(error => {
         alert(error);
-      })
+      });
   },
+  methods: {
+    async searchProperties(data) {
+      await this.$axios.post('properties', data)
+        .then(response => {
+          this.properties = response.data.data.properties;
+        }).catch(error => {
+          alert(error);
+        });
+    }
+  }
 }
 </script>
 
