@@ -11,6 +11,8 @@
         </nuxt-link>
       </template>
 
+      <!-- <pre>{{ properties }}</pre> -->
+
       <form @submit.prevent="store">
         <b-row>
           <b-col lg="6" md="6" sm="12">
@@ -21,7 +23,7 @@
                         :property_category="property.property_category" :security_money="property.security_money"
                         :rent_amount="property.rent_amount" :division_id="property.division_id"
                         :district_id="property.district_id" :thana_id="property.thana_id"
-                        :property_type_id="property.property_type_id" :value="property.id" :key="i">
+                        :property_type_id="property.property_type_id" :area_id="property.area_id" :value="property.id" :key="i">
                   {{ property.name }}
                 </option>
               </select>
@@ -110,6 +112,7 @@ export default {
       form: {
         landlord_name: this.$auth.user.name,
         user_id: this.$auth.user.id,
+        area_id: '',
         sale_type: '',
         property_id: '',
         property_category: '',
@@ -154,6 +157,7 @@ export default {
 
         console.log(options[options.selectedIndex].getAttribute('property_category'))
 
+        this.form.area_id = options[options.selectedIndex].getAttribute('area_id');
         this.form.division_id = options[options.selectedIndex].getAttribute('division_id');
         this.form.district_id = options[options.selectedIndex].getAttribute('district_id');
         this.form.thana_id = options[options.selectedIndex].getAttribute('thana_id');
