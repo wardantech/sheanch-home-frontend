@@ -5,7 +5,7 @@
     <!-- End Banner -->
 
     <!-- Search -->
-    <Search />
+    <!-- <Search /> -->
     <!-- /. Search -->
 
     <!-- Start place section -->

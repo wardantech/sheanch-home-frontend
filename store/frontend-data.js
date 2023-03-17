@@ -1,6 +1,7 @@
 export const state = () => ({
   frontend_data: {},
   logo: '',
+  areas: '',
   banner: '',
   footer_logo: '',
   property_types: '',
@@ -10,6 +11,7 @@ export const state = () => ({
 })
 export const actions = {
   getData({commit}, data) {
+    commit('storeAreas', data.areas);
     commit('storeData', data.frontendData);
     commit('storeTypes', data.propertyTypes);
     commit('storeDivisions', data.divisions);
@@ -23,6 +25,9 @@ export const mutations = {
     state.banner = data.media[0].original_url;
     state.logo = data.media[1].original_url;
     state.footer_logo = data.media[2].original_url;
+  },
+  storeAreas(state, data) {
+    state.areas = data;
   },
   storeTypes(state, data) {
     state.property_types = data;
@@ -49,6 +54,9 @@ export const getters = {
   },
   getFooterLogo(state) {
     return state.footer_logo;
+  },
+  getAreas(state) {
+    return state.areas;
   },
   getTypes(state) {
     return state.property_types;
