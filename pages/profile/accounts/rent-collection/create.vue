@@ -185,7 +185,7 @@ export default {
     async paymentMethod(event) {
       const tenantId = this.tenantId;
       if (!tenantId) {
-        alert('Select Propert First');
+        alert('Select Property First');
         this.form.payment_method = '';
         return;
       }
