@@ -20,11 +20,16 @@
                     <b-col md="3">
                         <b-input-group class="mb-2">
                           <template #append>
-                            <b-input-group-text>
+                            <b-input-group-text class="height-fix">
                               <strong class="text-danger"><font-awesome-icon icon="fa-solid fa-location-dot" /></strong>
                             </b-input-group-text>
                           </template>
-                          <b-form-input v-model="form.area" placeholder="Area"></b-form-input>
+                          <select v-model="form.area_id" class="form-control mb-2" @change="search">
+                            <option value="">Select</option>
+                            <option v-for="(area, index) in areas" :key="index" :value="area.id">
+                              {{ area.name }}
+                            </option>
+                          </select>
                         </b-input-group>
                     </b-col>
 
@@ -87,16 +92,18 @@
     data() {
       return {
         form: {
-          area: '',
+          area_id: '',
           sale_type: '',
           min_price: '',
           max_price: '',
           property_type_id: ''
         },
-        propertyTypes: ''
+        propertyTypes: '',
+        areas: '',
       }
     },
     async created() {
+      this.areas = this.$store.getters['frontend-data/getAreas'];
       this.propertyTypes = this.$store.getters['frontend-data/getTypes'];
     },
     methods: {
@@ -124,5 +131,9 @@
 
   .filter-btn:active {
     border: none;
+  }
+
+  .height-fix {
+    height: 38px;
   }
 </style>
