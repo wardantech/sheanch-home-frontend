@@ -53,12 +53,12 @@
                 </li>
                 <li>
                   <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-apply' }">
-                    Apply deeds
+                    Incoming deed request
                   </nuxt-link>
                 </li>
                 <li>
                   <nuxt-link class="ml-3" :to="{ name: 'profile-property-deed-request' }">
-                    Request deeds
+                    Outgoing deed request
                   </nuxt-link>
                 </li>
               </b-collapse>
@@ -68,7 +68,7 @@
               <li v-b-toggle.accounts>
                 <a>
                   <font-awesome-icon icon="fa-solid fa-briefcase" />
-                  Accouns
+                  Accoutns
                   <font-awesome-icon class="drop-arrow" icon="fa-solid fa-chevron-right" />
                 </a>
               </li>
