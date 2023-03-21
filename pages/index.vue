@@ -27,11 +27,11 @@
 </template>
 
 <script>
-  import Banner from "../components/frontend/Banner";
-  import Work from "../components/frontend/Work";
-  import Property from "../components/frontend/Property";
-  import Newsletter from "../components/frontend/Newsletter";
-  import Search from "../components/frontend/Search";
+  import Banner from "@/components/frontend/Banner";
+  import Work from "@/components/frontend/Work";
+  import Property from "@/components/frontend/Property";
+  import Newsletter from "@/components/frontend/Newsletter";
+  import Search from "@/components/frontend/Search";
 
   export default {
     name: 'IndexPage',
