@@ -12,8 +12,7 @@
           <div class="profile-navigation">
             <ul>
               <li class="active">
-                <nuxt-link
-                  :to="{ name: 'profile-dashboard' }">
+                <nuxt-link :to="{ name: 'profile-dashboard' }">
                   <b-icon icon="speedometer2" font-scale="1"></b-icon>
                   Dashboard
                 </nuxt-link>
@@ -175,6 +174,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

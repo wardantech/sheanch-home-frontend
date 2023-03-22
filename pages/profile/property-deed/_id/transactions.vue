@@ -3,17 +3,13 @@
     <div v-if="isLoading" class="d-flex justify-content-center mb-3">
       <p>Loading...</p>
     </div>
-    <MainCard v-else title="Expanses">
-      <template v-slot:actions>
-        <button type="button" class="btn btn-sm btn-success">
-          {{ amountFormat(totalExpanse) }} <span class="badge badge-light">Total Expanses</span>
+    <MainCard v-else title="Deed transaction reports">
+      <!-- <template v-slot:actions>
+        <button type="button" class="btn btn-info">
+          {{ amountFormat(totalRevenue) }} <span class="badge badge-light">Total</span>
           <span class="sr-only">unread messages</span>
         </button>
-        <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-expanse-create' }">
-          <font-awesome-icon icon="fa-solid fa-plus" />
-          Create expanse
-        </nuxt-link>
-      </template>
+      </template> -->
 
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group">
@@ -31,25 +27,21 @@
         <tbody>
         <tr v-for="(value, i) in values" :key="value.id">
           <td>{{ i + 1 }}</td>
-          <td>{{ dateFromat(value.date) }}</td>
-          <td>{{ value.property.name }}</td>
-          <td>
-            <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
-            <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
-            <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
-          </td>
-          <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
-          <td>{{ value.transaction_id ?? '--' }}</td>
-          <td>{{ amountFormat(value.cash_out) }}</td>
-          <td>
-            <nuxt-link :to="{ name: 'profile-expanse-id-edit', params: { id: value.id } }" rel="tooltip"
-                       class="btn btn-sm btn-success btn-simple" title="Edit">
-              <font-awesome-icon icon="fa-solid fa-edit" />
-            </nuxt-link>
+          <td>{{ value.monthName }} - {{ value.year }}</td>
+          <td>{{ value.property_name }} ({{ value.tenant_name }})</td>
+          <td>{{ amountFormat(value.amount) }}</td>
+          <td>{{ amountFormat((value.property_amount - value.amount)) }}</td>
 
-            <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
-              <font-awesome-icon icon="fa-solid fa-trash" />
-            </b-button>
+          <td>
+            <nuxt-link
+              :to="{ name: 'profile-accounts-rent-collection-details' }"
+              class="btn btn-sm btn-primary btn-simple" title="Show all transactions"
+              :custom="true"
+            >
+              <a @click="storeDeed(value.deedId, value.month)">
+                <font-awesome-icon icon="fa-solid fa-eye" />
+              </a>
+            </nuxt-link>
           </td>
         </tr>
         </tbody>
@@ -66,36 +58,33 @@
 import MainCard from '@/components/frontend/dashboard/MainCard.vue';
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
-import { dateMixin } from '../../../mixins/date-mixin';
-import { helpersMixin } from '../../../mixins/helpers-mixin';
+import { dateMixin } from '../../../../mixins/date-mixin';
+import { helpersMixin } from '../../../../mixins/helpers-mixin';
 
 export default {
   layout: 'dashboard',
-  name: "expanse",
-  components: { DataTable, Pagination, MainCard },
+  name: 'deed_transaction_reports',
+  components: { MainCard, Pagination, DataTable },
   mixins: [dateMixin, helpersMixin],
-  created() {
-    this.getData();
-  },
   data() {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Date', name: 'date' },
+      { width: '', label: 'Month', name: 'month' },
       { width: '', label: 'Property', name: 'property' },
-      { width: '', label: 'Method', name: 'method' },
-      { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
-      { width: '', label: 'Transaction Id', name: 'transaction_id' },
       { width: '', label: 'Amount', name: 'amount' },
-      { width: '', label: 'Action', name: '' },
+      { width: '', label: 'Due', name: 'due' },
+      { width: '', label: 'Actions', name: 'actions' },
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
     });
     return {
       isLoading: true,
-      totalExpanse: '',
       values: [],
+      propertyName: '',
+      tenantName: '',
+      totalRevenue: '',
       sum: [],
       columns: columns,
       sortKey: 'id',
@@ -107,7 +96,8 @@ export default {
         search: '',
         column: 0,
         dir: 'desc',
-        userId: this.$auth.user.id
+        userId: this.$auth.user.id,
+        deedId: this.$route.params.id
       },
       pagination: {
         lastPage: '',
@@ -121,22 +111,24 @@ export default {
       },
     }
   },
+  created() {
+    this.getData();
+  },
   methods: {
-    getData(url = '/accounts/expanses') {
+    getData(url = 'property/deed/transaction-reports') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
-          this.totalExpanse = response.data.totalExpanse;
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
           }
-
           this.isLoading = false;
-        }).catch(errors => {
+        })
+        .catch(errors => {
           alert(errors);
-        });
+        })
     },
     configPagination(data) {
       this.pagination.lastPage = data.last_page;
@@ -156,23 +148,15 @@ export default {
       this.getData();
     },
     getIndex(array, key, value) {
-      return array.findIndex(i => i[key] == value);
+      return array.findIndex(i => i[key] == value)
     },
-    async deleteItem(id) {
-      let result = confirm("Want to delete?");
-      if (result) {
-        await this.$axios.$delete('accounts/expanses/' + id)
-          .then(response => {
-            this.getData();
-            this.$izitoast.success({
-              title: 'Success!!',
-              message: response.message
-            });
-          }).catch(error => {
-            alert(error.response.message);
-          })
-      }
-    },
+    storeDeed(deed_id, month) {
+      const data = {
+        deedId: deed_id,
+        month: month
+      };
+      this.$store.dispatch('transactions/deedInfo', data);
+    }
   }
 }
 </script>

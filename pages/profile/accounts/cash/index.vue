@@ -6,15 +6,15 @@
     <MainCard v-else title="Cash Reports">
       <template v-slot:actions>
         <button type="button" class="btn btn-info">
-          {{ totalRevenue }} <span class="badge badge-light">Total Credit Balance</span>
+          {{ amountFormat(totalRevenue) }} <span class="badge badge-light">Total Credit Balance</span>
           <span class="sr-only">unread messages</span>
         </button>
         <button type="button" class="btn btn-danger">
-          {{ totalExpanse }} <span class="badge badge-light">Total Debit Balance</span>
+          {{ amountFormat(totalExpanse) }} <span class="badge badge-light">Total Debit Balance</span>
           <span class="sr-only">unread messages</span>
         </button>
         <button type="button" class="btn btn-success">
-          {{ currentAmount }} <span class="badge badge-light">Current Balance</span>
+          {{ amountFormat(currentAmount) }} <span class="badge badge-light">Current Balance</span>
           <span class="sr-only">unread messages</span>
         </button>
       </template>
@@ -43,8 +43,8 @@
           </td>
           <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
           <td>{{ value.transaction_id ?? '--' }}</td>
-          <td>{{ value.cash_in }}</td>
-          <td>{{ value.cash_out }}</td>
+          <td>{{ amountFormat(value.cash_in) }}</td>
+          <td>{{ amountFormat(value.cash_out) }}</td>
         </tr>
         </tbody>
       </DataTable>
@@ -61,12 +61,13 @@ import MainCard from '@/components/frontend/dashboard/MainCard.vue';
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
 import { dateMixin } from '../../../../mixins/date-mixin';
+import { helpersMixin } from '../../../../mixins/helpers-mixin';
 
 export default {
   layout: 'dashboard',
   name: "cash",
   components: { DataTable, Pagination, MainCard },
-  mixins: [dateMixin],
+  mixins: [dateMixin, helpersMixin],
   created() {
     this.getData();
   },
