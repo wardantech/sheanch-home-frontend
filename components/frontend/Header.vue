@@ -5,15 +5,27 @@
         <b-navbar class="header-navber" toggleable="lg">
           <nuxt-link :to="{ name: 'index'}" class="navbar-brand-logo">
             <img :src="logo" alt="logo" width="150px" height="45px">
-            <!--<img v-else src="https://i.ibb.co/1MFFM3W/Image-not-available.png" alt="logo" width="150px" height="45px">-->
           </nuxt-link>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="custom-navbar">
-              <b-nav-item href="#">Company</b-nav-item>
-              <b-nav-item href="#">Blog</b-nav-item>
+              <li class="nav-item">
+                <nuxt-link to="/" class="nav-link">
+                  Home
+                </nuxt-link>
+              </li>
+              <li class="nav-item">
+                <nuxt-link :to="{ name: 'about-us'}" class="nav-link">
+                  About us
+                </nuxt-link>
+              </li>
+              <li class="nav-item">
+                <nuxt-link :to="{ name: 'contact-us'}" class="nav-link">
+                  Contact us
+                </nuxt-link>
+              </li>
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->

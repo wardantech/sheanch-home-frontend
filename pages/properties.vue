@@ -9,8 +9,8 @@
         <h3 class="properties-title">Properties:</h3>
       </div>
 
-      <b-row class="place-layout" v-if="properties.length > 0">
-        <b-col md="4" class="gallery" v-for="(property, index) in properties" :key="index">
+      <b-row class="place-layout" v-if="propertiesLoaded.length > 0">
+        <b-col md="4" class="gallery" v-for="(property, index) in propertiesLoaded" :key="index">
           <div class="place-layout-listing">
             <div class="place-layout-listing-img">
               <div class="place-layout-listing-img-slide">
@@ -92,6 +92,12 @@
           </div>
         </b-col>
       </b-row>
+
+      <b-row v-show="showLoadMore">
+        <b-col lg="12" md="12" sm="12" class="text-center my-5">
+          <b-link class="btn btn-sm btn-browse-more" @click="loadMore">Load More</b-link>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>
@@ -104,7 +110,9 @@ export default {
   components: { Search },
   data() {
     return {
+      showLoadMore: true,
       properties: [],
+      length: 6,
     }
   },
   async created() {
@@ -123,8 +131,19 @@ export default {
         }).catch(error => {
           alert(error);
         });
-    }
-  }
+    },
+    loadMore() {
+      if (this.length > this.properties.length) {
+        this.showLoadMore = false;
+      };
+      this.length = this.length + 3;
+    },
+  },
+  computed: {
+    propertiesLoaded() {
+      return this.properties.slice(0, this.length);
+    },
+  },
 }
 </script>
 
