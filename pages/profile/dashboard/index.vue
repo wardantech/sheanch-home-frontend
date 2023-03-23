@@ -48,7 +48,7 @@
         <div class="search d-flex justify-content-between align-items-center">
           <div class="form-group">
             <input class="form-control custom-form-control" type="text" v-model="tableData.search"
-                   placeholder="Search Table" @input="getData()">
+              placeholder="Search Table" @input="getData()">
           </div>
           <div class="form-group">
             <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
@@ -56,43 +56,42 @@
             </select>
           </div>
         </div>
-        <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy"
-                   class="">
+        <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
           <tbody>
-          <tr v-for="(value, i) in values" :key="value.id">
-            <td>{{ i + 1 }}</td>
-            <td>
-              {{ value.tenant.name }}
-            </td>
-            <td>
-              <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
-                         title="Details">
-                {{ value.property.name }}
-              </nuxt-link>
-            </td>
-            <td>
-              {{ value.start_date ?? 'Not start' }}
-            </td>
-            <td>
-              <b-badge variant="success">Approved</b-badge>
-            </td>
-            <td>
-              <nuxt-link :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
-                         class="btn btn-sm btn-info btn-simple" title="show tennat informations">
-                <font-awesome-icon icon="fa-solid fa-circle-info" />
-              </nuxt-link>
+            <tr v-for="(value, i) in values" :key="value.id">
+              <td>{{ i + 1 }}</td>
+              <td>
+                {{ value.tenant.name }}
+              </td>
+              <td>
+                <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.property_id } }"
+                  title="Details">
+                  {{ value.property.name }}
+                </nuxt-link>
+              </td>
+              <td>
+                {{ value.start_date ?? 'Not start' }}
+              </td>
+              <td>
+                <b-badge variant="success">Approved</b-badge>
+              </td>
+              <td>
+                <nuxt-link :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
+                  class="btn btn-sm btn-info btn-simple" title="show tennat informations">
+                  <font-awesome-icon icon="fa-solid fa-circle-info" />
+                </nuxt-link>
 
-              <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
-            rel="tooltip" class="btn btn-sm btn-warning btn-simple" title="Show deed details">
-            <font-awesome-icon icon="fa-solid fa-eye" />
-          </nuxt-link> -->
-            </td>
-          </tr>
+                <nuxt-link :to="{ name: 'profile-property-deed-id-transactions', params: { id: value.id } }" rel="tooltip"
+                  class="btn btn-sm btn-info btn-simple" title="Show deed transactions">
+                  <font-awesome-icon icon="fa-solid fa-eye" />
+                </nuxt-link>
+              </td>
+            </tr>
           </tbody>
         </DataTable>
 
         <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-                    @next="getData(pagination.nextPageUrl)">
+          @next="getData(pagination.nextPageUrl)">
         </pagination>
       </MainCard>
     </div>

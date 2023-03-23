@@ -36,14 +36,14 @@
           </td>
           <td>
             <nuxt-link :to="{ name: 'profile-property-deed-id-approve', params: { id: value.id } }" rel="tooltip"
-                       class="btn btn-sm btn-info btn-simple" title="show tennat informations">
+                       class="btn btn-sm btn-primary btn-simple" title="show tennat informations">
               <font-awesome-icon icon="fa-solid fa-circle-info" />
             </nuxt-link>
 
-            <!-- <nuxt-link :to="{ name: 'profile-property-deed-id-get-rent', params: { id: value.id } }"
-              rel="tooltip" class="btn btn-sm btn-warning btn-simple" title="Show deed details">
+            <nuxt-link :to="{ name: 'profile-property-deed-id-transactions', params: { id: value.id } }" rel="tooltip"
+                       class="btn btn-sm btn-info btn-simple" title="Show deed transactions">
               <font-awesome-icon icon="fa-solid fa-eye" />
-            </nuxt-link> -->
+            </nuxt-link>
           </td>
         </tr>
         </tbody>

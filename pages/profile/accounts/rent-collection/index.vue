@@ -29,8 +29,8 @@
           <td>{{ i + 1 }}</td>
           <td>{{ value.monthName }} - {{ value.year }}</td>
           <td>{{ value.property_name }} ({{ value.tenant_name }})</td>
-          <td>{{ value.amount }}</td>
-          <td>{{ (value.property_amount - value.amount) }}</td>
+          <td>{{ amountFormat(value.amount) }}</td>
+          <td>{{ amountFormat((value.property_amount - value.amount)) }}</td>
 
           <td>
             <nuxt-link
@@ -58,11 +58,13 @@
 import MainCard from '@/components/frontend/dashboard/MainCard.vue';
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
+import { helpersMixin } from '../../../../mixins/helpers-mixin';
 
 export default {
   layout: 'dashboard',
   name: "rent-collection",
   components: { DataTable, Pagination, MainCard },
+  mixins: [helpersMixin],
   created() {
     this.getData();
   },
