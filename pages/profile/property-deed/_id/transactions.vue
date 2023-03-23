@@ -4,13 +4,6 @@
       <p>Loading...</p>
     </div>
     <MainCard v-else title="Deed transaction reports">
-      <!-- <template v-slot:actions>
-        <button type="button" class="btn btn-info">
-          {{ amountFormat(totalRevenue) }} <span class="badge badge-light">Total</span>
-          <span class="sr-only">unread messages</span>
-        </button>
-      </template> -->
-
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group">
           <input class="form-control custom-form-control" type="text" v-model="tableData.search"
