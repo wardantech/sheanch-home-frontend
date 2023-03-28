@@ -20,9 +20,11 @@
       </template>
 
       <div class="search d-flex justify-content-between align-items-center">
-        <div class="form-group">
-          <input class="form-control custom-form-control" type="text" v-model="tableData.search"
-                 placeholder="Search Table" @input="getData()">
+        <div class="form-group d-flex">
+          <input class="form-control custom-form-control mr-1" type="text" v-model="tableData.search"
+            placeholder="Search Table" @input="getData()">
+          <input class="form-control custom-form-control mr-1" type="month" v-model="tableData.year_month"
+            placeholder="Monthly Reports" @change="monthlyReports">
         </div>
         <div class="form-group">
           <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
@@ -33,24 +35,24 @@
 
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
-        <tr v-for="(value, i) in values" :key="value.id">
-          <td>{{ i + 1 }}</td>
-          <td>{{ dateFromat(value.date) }}</td>
-          <td>
-            <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
-            <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
-            <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
-          </td>
-          <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
-          <td>{{ value.transaction_id ?? '--' }}</td>
-          <td>{{ amountFormat(value.cash_in) }}</td>
-          <td>{{ amountFormat(value.cash_out) }}</td>
-        </tr>
+          <tr v-for="(value, i) in values" :key="value.id">
+            <td>{{ i + 1 }}</td>
+            <td>{{ dateFromat(value.date) }}</td>
+            <td>
+              <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
+              <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
+              <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
+            </td>
+            <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
+            <td>{{ value.transaction_id ?? '--' }}</td>
+            <td>{{ amountFormat(value.cash_in) }}</td>
+            <td>{{ amountFormat(value.cash_out) }}</td>
+          </tr>
         </tbody>
       </DataTable>
 
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-                  @next="getData(pagination.nextPageUrl)">
+        @next="getData(pagination.nextPageUrl)">
       </pagination>
     </MainCard>
   </div>
@@ -102,6 +104,7 @@ export default {
         search: '',
         column: 0,
         dir: 'desc',
+        year_month: '',
         userId: this.$auth.user.id
       },
       pagination: {
@@ -153,11 +156,13 @@ export default {
     },
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value);
+    },
+    monthlyReports($event) {
+      this.year_month = $event.target.value;
+      this.getData();
     }
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

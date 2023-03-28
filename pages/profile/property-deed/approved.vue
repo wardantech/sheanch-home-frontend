@@ -42,7 +42,7 @@
 
             <nuxt-link :to="{ name: 'profile-property-deed-id-transactions', params: { id: value.id } }" rel="tooltip"
                        class="btn btn-sm btn-info btn-simple" title="Show deed transactions">
-              <font-awesome-icon icon="fa-solid fa-eye" />
+              <font-awesome-icon :icon="['fas', 'money-bill']" />
             </nuxt-link>
           </td>
         </tr>
