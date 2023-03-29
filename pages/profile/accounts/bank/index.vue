@@ -29,24 +29,19 @@
           <td>{{ value.bank.name }}</td>
           <td>{{ value.account_number }}</td>
           <td>
-            <!-- <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.id } }" rel="tooltip"
-              class="btn btn-sm btn-info btn-simple" title="Details">
-              <font-awesome-icon icon="fa-solid fa-eye" />
-            </nuxt-link> -->
-
             <nuxt-link :to="{ name: 'profile-accounts-bank-id-edit', params: { id: value.id } }" rel="tooltip"
                        class="btn btn-sm btn-success btn-simple" title="Edit">
               <font-awesome-icon icon="fa-solid fa-edit" />
             </nuxt-link>
 
+            <nuxt-link :to="{ name: 'profile-accounts-bank-id-transactions', params: { id: value.bank.id } }" rel="tooltip"
+                       class="btn btn-sm btn-primary btn-simple" title="Show bank transactions">
+              <font-awesome-icon :icon="['fas', 'money-bill']" />
+            </nuxt-link>
+
             <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
               <font-awesome-icon icon="fa-solid fa-trash" />
             </b-button>
-
-            <!-- <nuxt-link :to="{ name: 'profile-property-id-payment-reports', params: { id: value.id } }" rel="tooltip"
-              class="btn btn-sm btn-secondary btn-simple" title="Payment Reports">
-              <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
-            </nuxt-link> -->
           </td>
         </tr>
         </tbody>

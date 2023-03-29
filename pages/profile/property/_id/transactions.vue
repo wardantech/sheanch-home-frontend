@@ -3,20 +3,24 @@
     <div v-if="isLoading" class="d-flex justify-content-center mb-3">
       <p>Loading...</p>
     </div>
-    <MainCard v-else title="Cash Reports">
+    <MainCard v-else title="Property Transaction Reports">
       <template v-slot:actions>
-        <button type="button" class="btn btn-info">
+        <button type="button" class="btn btn-sm btn-info">
           Total Credit Balance <span class="badge badge-light text-13">{{ amountFormat(totalRevenue) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
-        <button type="button" class="btn btn-danger">
+        <button type="button" class="btn btn-sm btn-danger">
           Total Debit Balance <span class="badge badge-light text-13">{{ amountFormat(totalExpanse) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
-        <button type="button" class="btn btn-success">
+        <button type="button" class="btn btn-sm btn-success">
           Current Balance <span class="badge badge-light text-13">{{ amountFormat(currentAmount) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
+        <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-property' }">
+          <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
+          Back to list
+        </nuxt-link>
       </template>
 
       <div class="search d-flex justify-content-between align-items-center">
@@ -67,8 +71,8 @@ import { helpersMixin } from '../../../../mixins/helpers-mixin';
 
 export default {
   layout: 'dashboard',
-  name: "cash",
-  components: { DataTable, Pagination, MainCard },
+  name: "property_dashboard",
+  components: { Pagination, DataTable, MainCard },
   mixins: [dateMixin, helpersMixin],
   created() {
     this.getData();
@@ -105,7 +109,8 @@ export default {
         column: 0,
         dir: 'desc',
         year_month: '',
-        userId: this.$auth.user.id
+        userId: this.$auth.user.id,
+        propertyId: this.$route.params.id
       },
       pagination: {
         lastPage: '',
@@ -120,7 +125,7 @@ export default {
     }
   },
   methods: {
-    getData(url = '/accounts/cash') {
+    getData(url = '/accounts/property-transactions') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {

@@ -6,7 +6,7 @@
     <MainCard v-else title="Expanses">
       <template v-slot:actions>
         <button type="button" class="btn btn-sm btn-success">
-          {{ amountFormat(totalExpanse) }} <span class="badge badge-light">Total Expanses</span>
+          Total Expanses <span class="badge badge-light text-13">{{ amountFormat(totalExpanse) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
         <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-expanse-create' }">
@@ -16,9 +16,11 @@
       </template>
 
       <div class="search d-flex justify-content-between align-items-center">
-        <div class="form-group">
-          <input class="form-control custom-form-control" type="text" v-model="tableData.search"
+        <div class="form-group d-flex">
+          <input class="form-control custom-form-control mr-1" type="text" v-model="tableData.search"
                  placeholder="Search Table" @input="getData()">
+          <input class="form-control custom-form-control mr-1" type="month" v-model="tableData.year_month"
+            placeholder="Monthly Reports" @change="monthlyReports">
         </div>
         <div class="form-group">
           <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
@@ -107,6 +109,7 @@ export default {
         search: '',
         column: 0,
         dir: 'desc',
+        year_month: '',
         userId: this.$auth.user.id
       },
       pagination: {
@@ -157,6 +160,10 @@ export default {
     },
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value);
+    },
+    monthlyReports($event) {
+      this.month = $event.target.value;
+      this.getData();
     },
     async deleteItem(id) {
       let result = confirm("Want to delete?");

@@ -48,15 +48,15 @@
               <font-awesome-icon icon="fa-solid fa-eye" />
             </nuxt-link>
 
+            <nuxt-link :to="{ name: 'profile-property-id-transactions', params: { id: value.id } }" rel="tooltip"
+                       class="btn btn-sm btn-primary btn-simple" title="Show property transactions">
+              <font-awesome-icon :icon="['fas', 'money-bill']" />
+            </nuxt-link>
+
             <nuxt-link :to="{ name: 'profile-property-id-edit', params: { id: value.id } }" rel="tooltip"
                        class="btn btn-sm btn-success btn-simple" title="Edit">
               <font-awesome-icon icon="fa-solid fa-edit" />
             </nuxt-link>
-
-            <!--<nuxt-link :to="{ name: 'profile-property-id-payment-reports', params: { id: value.id } }" rel="tooltip"-->
-                       <!--class="btn btn-sm btn-secondary btn-simple" title="Payment Reports">-->
-              <!--<font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />-->
-            <!--</nuxt-link>-->
           </td>
         </tr>
         </tbody>

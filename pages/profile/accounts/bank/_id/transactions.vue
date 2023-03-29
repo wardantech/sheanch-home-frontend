@@ -3,20 +3,24 @@
     <div v-if="isLoading" class="d-flex justify-content-center mb-3">
       <p>Loading...</p>
     </div>
-    <MainCard v-else title="Cash Reports">
+    <MainCard v-else title="Bank Transaction Reports">
       <template v-slot:actions>
-        <button type="button" class="btn btn-info">
+        <button type="button" class="btn btn-sm btn-info">
           Total Credit Balance <span class="badge badge-light text-13">{{ amountFormat(totalRevenue) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
-        <button type="button" class="btn btn-danger">
+        <button type="button" class="btn btn-sm btn-danger">
           Total Debit Balance <span class="badge badge-light text-13">{{ amountFormat(totalExpanse) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
-        <button type="button" class="btn btn-success">
-          Current Balance <span class="badge badge-light text-13">{{ amountFormat(currentAmount) }}</span>
+        <!-- <button type="button" class="btn btn-sm btn-success">
+          {{ amountFormat(currentAmount) }} <span class="badge badge-light text-13">Current Balance</span>
           <span class="sr-only">unread messages</span>
-        </button>
+        </button> -->
+        <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-bank' }">
+          <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
+          Back to list
+        </nuxt-link>
       </template>
 
       <div class="search d-flex justify-content-between align-items-center">
@@ -38,13 +42,6 @@
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
             <td>{{ dateFromat(value.date) }}</td>
-            <td>
-              <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
-              <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
-              <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
-            </td>
-            <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
-            <td>{{ value.transaction_id ?? '--' }}</td>
             <td>{{ amountFormat(value.cash_in) }}</td>
             <td>{{ amountFormat(value.cash_out) }}</td>
           </tr>
@@ -62,12 +59,12 @@
 import MainCard from '@/components/frontend/dashboard/MainCard.vue';
 import Pagination from "@/components/Datatable/Pagination";
 import DataTable from "@/components/Datatable/DataTable";
-import { dateMixin } from '../../../../mixins/date-mixin';
-import { helpersMixin } from '../../../../mixins/helpers-mixin';
+import { dateMixin } from '../../../../../mixins/date-mixin';
+import { helpersMixin } from '../../../../../mixins/helpers-mixin';
 
 export default {
   layout: 'dashboard',
-  name: "cash",
+  name: "bank-transaction",
   components: { DataTable, Pagination, MainCard },
   mixins: [dateMixin, helpersMixin],
   created() {
@@ -78,9 +75,6 @@ export default {
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
       { width: '', label: 'Date', name: 'date' },
-      { width: '', label: 'Method', name: 'method' },
-      { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
-      { width: '', label: 'Transaction Id', name: 'transaction_id' },
       { width: '', label: 'Credit', name: 'credit' },
       { width: '', label: 'Debit', name: 'debit' }
     ];
@@ -105,7 +99,8 @@ export default {
         column: 0,
         dir: 'desc',
         year_month: '',
-        userId: this.$auth.user.id
+        userId: this.$auth.user.id,
+        bankId: this.$route.params.id
       },
       pagination: {
         lastPage: '',
@@ -120,14 +115,14 @@ export default {
     }
   },
   methods: {
-    getData(url = '/accounts/cash') {
+    getData(url = '/accounts/bank-transactions') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
           this.totalRevenue = response.data.totalRevenue;
           this.totalExpanse = response.data.totalExpanse;
-          this.currentAmount = response.data.currentAmount;
+          // this.currentAmount = response.data.currentAmount;
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);

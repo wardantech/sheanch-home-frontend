@@ -3,29 +3,25 @@
     <div v-if="isLoading" class="d-flex justify-content-center mb-3">
       <p>Loading...</p>
     </div>
-    <MainCard v-else title="Cash Reports">
+    <MainCard v-else title="Revenue">
       <template v-slot:actions>
         <button type="button" class="btn btn-info">
-          Total Credit Balance <span class="badge badge-light text-13">{{ amountFormat(totalRevenue) }}</span>
-          <span class="sr-only">unread messages</span>
-        </button>
-        <button type="button" class="btn btn-danger">
-          Total Debit Balance <span class="badge badge-light text-13">{{ amountFormat(totalExpanse) }}</span>
-          <span class="sr-only">unread messages</span>
-        </button>
-        <button type="button" class="btn btn-success">
-          Current Balance <span class="badge badge-light text-13">{{ amountFormat(currentAmount) }}</span>
+          Total Revenue <span class="badge badge-light">{{ amountFormat(totalRevenue) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
       </template>
 
       <div class="search d-flex justify-content-between align-items-center">
-        <div class="form-group d-flex">
-          <input class="form-control custom-form-control mr-1" type="text" v-model="tableData.search"
-            placeholder="Search Table" @input="getData()">
-          <input class="form-control custom-form-control mr-1" type="month" v-model="tableData.year_month"
-            placeholder="Monthly Reports" @change="monthlyReports">
+        <div>
+          <div class="form-group d-flex">
+            <input class="form-control custom-form-control mr-1" type="text" v-model="tableData.search"
+              placeholder="Search Table" @input="getData()">
+
+            <input class="form-control custom-form-control mr-1" type="month" v-model="tableData.month"
+              placeholder="Monthly Reports" @change="monthlyReports">
+          </div>
         </div>
+
         <div class="form-group">
           <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
             <option v-for="(records, index) in perPage" :key="index" :value="records">{{ records }}</option>
@@ -46,7 +42,6 @@
             <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
             <td>{{ value.transaction_id ?? '--' }}</td>
             <td>{{ amountFormat(value.cash_in) }}</td>
-            <td>{{ amountFormat(value.cash_out) }}</td>
           </tr>
         </tbody>
       </DataTable>
@@ -67,8 +62,8 @@ import { helpersMixin } from '../../../../mixins/helpers-mixin';
 
 export default {
   layout: 'dashboard',
-  name: "cash",
-  components: { DataTable, Pagination, MainCard },
+  name: 'Revenue',
+  components: { Pagination, DataTable, MainCard },
   mixins: [dateMixin, helpersMixin],
   created() {
     this.getData();
@@ -81,8 +76,7 @@ export default {
       { width: '', label: 'Method', name: 'method' },
       { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
       { width: '', label: 'Transaction Id', name: 'transaction_id' },
-      { width: '', label: 'Credit', name: 'credit' },
-      { width: '', label: 'Debit', name: 'debit' }
+      { width: '', label: 'Amount', name: 'amount' }
     ];
     columns.forEach((column) => {
       sortOrders[column.name] = -1;
@@ -90,8 +84,6 @@ export default {
     return {
       isLoading: true,
       totalRevenue: '',
-      totalExpanse: '',
-      currentAmount: '',
       values: [],
       sum: [],
       columns: columns,
@@ -99,12 +91,12 @@ export default {
       sortOrders: sortOrders,
       perPage: ['10', '25', '50', '100', '500', '2000', 'all'],
       tableData: {
+        month: '',
         draw: 0,
         length: 10,
         search: '',
         column: 0,
         dir: 'desc',
-        year_month: '',
         userId: this.$auth.user.id
       },
       pagination: {
@@ -120,14 +112,12 @@ export default {
     }
   },
   methods: {
-    getData(url = '/accounts/cash') {
+    getData(url = '/accounts/revenues') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
           this.totalRevenue = response.data.totalRevenue;
-          this.totalExpanse = response.data.totalExpanse;
-          this.currentAmount = response.data.currentAmount;
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
@@ -158,7 +148,7 @@ export default {
       return array.findIndex(i => i[key] == value);
     },
     monthlyReports($event) {
-      this.year_month = $event.target.value;
+      this.month = $event.target.value;
       this.getData();
     }
   }
