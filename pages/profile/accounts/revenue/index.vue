@@ -6,7 +6,7 @@
     <MainCard v-else title="Revenue">
       <template v-slot:actions>
         <button type="button" class="btn btn-info">
-          {{ amountFormat(totalRevenue) }} <span class="badge badge-light">Total Revenue</span>
+          Total Revenue <span class="badge badge-light">{{ amountFormat(totalRevenue) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
       </template>

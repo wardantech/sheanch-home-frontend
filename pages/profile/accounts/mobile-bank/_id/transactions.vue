@@ -3,7 +3,7 @@
     <div v-if="isLoading" class="d-flex justify-content-center mb-3">
       <p>Loading...</p>
     </div>
-    <MainCard v-else title="Bank Transaction Reports">
+    <MainCard v-else title="Mobile Bank Transaction Reports">
       <template v-slot:actions>
         <button type="button" class="btn btn-sm btn-info">
           Total Credit Balance <span class="badge badge-light text-13">{{ amountFormat(totalRevenue) }}</span>
@@ -17,7 +17,7 @@
           {{ amountFormat(currentAmount) }} <span class="badge badge-light text-13">Current Balance</span>
           <span class="sr-only">unread messages</span>
         </button> -->
-        <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-bank' }">
+        <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-mobile-bank' }">
           <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
           Back to list
         </nuxt-link>
@@ -42,6 +42,8 @@
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
             <td>{{ dateFromat(value.date) }}</td>
+            <td>{{ value.mobile_bank.name }}</td>
+            <td>{{ value.transaction_id }}</td>
             <td>{{ amountFormat(value.cash_in) }}</td>
             <td>{{ amountFormat(value.cash_out) }}</td>
           </tr>
@@ -64,7 +66,7 @@ import { helpersMixin } from '../../../../../mixins/helpers-mixin';
 
 export default {
   layout: 'dashboard',
-  name: "bank-transaction",
+  name: "mobile-bank-transaction",
   components: { DataTable, Pagination, MainCard },
   mixins: [dateMixin, helpersMixin],
   created() {
@@ -75,6 +77,8 @@ export default {
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
       { width: '', label: 'Date', name: 'date' },
+      { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
+      { width: '', label: 'Transaction Id', name: 'transaction_id' },
       { width: '', label: 'Credit', name: 'credit' },
       { width: '', label: 'Debit', name: 'debit' }
     ];
@@ -100,7 +104,7 @@ export default {
         dir: 'desc',
         year_month: '',
         userId: this.$auth.user.id,
-        bankId: this.$route.params.id
+        mobileBankId: this.$route.params.id
       },
       pagination: {
         lastPage: '',
@@ -115,7 +119,7 @@ export default {
     }
   },
   methods: {
-    getData(url = '/accounts/bank-transactions') {
+    getData(url = '/accounts/mobile-bank-transactions') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {

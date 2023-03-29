@@ -183,8 +183,7 @@ export default {
         });
     },
     async paymentMethod(event) {
-      const tenantId = this.tenantId;
-      if (!tenantId) {
+      if (!this.form.user_id) {
         alert('Select Property First');
         this.form.payment_method = '';
         return;
@@ -194,7 +193,7 @@ export default {
       this.isPaymentMethod = event.target.value;
       this.paymentMethods = [];
       if (value == 2 || value == 3) {
-        await this.$axios.$post('property/deed/get-payment-method', { userId: tenantId, method: value })
+        await this.$axios.$post('property/deed/get-payment-method', { userId: this.form.user_id, method: value })
           .then(res => {
             this.paymentMethods = res.data.banks;
           });

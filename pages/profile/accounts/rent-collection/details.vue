@@ -6,7 +6,7 @@
     <MainCard v-else :title="title">
       <template v-slot:actions>
         <button type="button" class="btn btn-sm btn-danger">
-          {{ amountFormat(totalDue) }} <span class="badge badge-light">Total Due</span>
+          Total Due <span class="badge badge-light text-13">{{ amountFormat(totalDue) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
 

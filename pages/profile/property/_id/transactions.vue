@@ -6,15 +6,15 @@
     <MainCard v-else title="Property Transaction Reports">
       <template v-slot:actions>
         <button type="button" class="btn btn-sm btn-info">
-          {{ amountFormat(totalRevenue) }} <span class="badge badge-light">Total Credit Balance</span>
+          Total Credit Balance <span class="badge badge-light text-13">{{ amountFormat(totalRevenue) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
         <button type="button" class="btn btn-sm btn-danger">
-          {{ amountFormat(totalExpanse) }} <span class="badge badge-light">Total Debit Balance</span>
+          Total Debit Balance <span class="badge badge-light text-13">{{ amountFormat(totalExpanse) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
         <button type="button" class="btn btn-sm btn-success">
-          {{ amountFormat(currentAmount) }} <span class="badge badge-light">Current Balance</span>
+          Current Balance <span class="badge badge-light text-13">{{ amountFormat(currentAmount) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
         <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-property' }">
