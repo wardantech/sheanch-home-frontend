@@ -32,7 +32,7 @@
           list-style: none;
 
           .nuxt-link-exact-active {
-            background: rgba(15, 202, 152, 0.2) !important;
+            // background: rgba(15, 202, 152, 0.2) !important;
             color: #0fca98 !important;
           }
 
@@ -44,6 +44,7 @@
             font-size: 16px;
             font-weight: 600;
             padding: 10px 15px;
+            transition: color 0.5s;
 
             .drop-arrow {
               position: absolute;
@@ -52,7 +53,7 @@
             }
 
             &:hover {
-              background: antiquewhite;
+              color: #0fca98 !important;
             }
 
             svg {

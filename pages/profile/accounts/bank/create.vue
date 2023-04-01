@@ -3,7 +3,7 @@
     <div v-if="isLoading" class="d-flex justify-content-center mb-3">
       <p>Loading...</p>
     </div>
-    <MainCard v-else title="Add your payment details">
+    <MainCard v-else title="Add Your Bank Account">
       <template v-slot:actions>
         <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-bank' }">
           <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
@@ -15,7 +15,8 @@
         <b-row>
           <b-col md="6">
             <b-form-group label="Your name">
-              <b-form-input :value="this.$auth.user.name" class="custom-input-control" type="text" readonly></b-form-input>
+              <b-form-input :value="this.$auth.user.name" class="custom-input-control" type="text"
+                readonly></b-form-input>
             </b-form-group>
           </b-col>
 
@@ -35,6 +36,15 @@
               <b-form-input v-model="form.account_number" class="custom-input-control" type="text"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.account_number">
                 {{ errors.account_number[0] }}
+              </strong>
+            </b-form-group>
+          </b-col>
+
+          <b-col md="6">
+            <b-form-group label="Initial Balance">
+              <b-form-input v-model="form.cash_in" class="custom-input-control" type="text"></b-form-input>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_in">
+                {{ errors.cash_in[0] }}
               </strong>
             </b-form-group>
           </b-col>
@@ -69,6 +79,7 @@ export default {
         bank_id: '',
         user_id: this.$auth.user.id,
         account_number: '',
+        cash_in: ''
       }
     }
   },
@@ -84,12 +95,12 @@ export default {
   methods: {
     async store() {
       this.isDisable = true;
-      await this.$axios.$post('accounts/bank-method-store', this.form)
+      await this.$axios.$post('accounts/banks-store', this.form)
         .then(response => {
           this.isDisable = false;
           this.$izitoast.success({
             title: 'Success !!',
-            message: 'Your payment method successfully added'
+            message: response.message
           });
 
           this.$router.push({ name: 'profile-accounts-bank' });
@@ -107,6 +118,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
