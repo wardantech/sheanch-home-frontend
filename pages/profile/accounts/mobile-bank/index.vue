@@ -3,7 +3,7 @@
     <div v-if="isLoading" class="d-flex justify-content-center mb-3">
       <p>Loading...</p>
     </div>
-    <MainCard v-else title="Payment Method Lists">
+    <MainCard v-else title="Mobile Bank Account Lists">
       <template v-slot:actions>
         <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-mobile-bank-create' }">
           <font-awesome-icon icon="fa-solid fa-plus" />
@@ -14,7 +14,7 @@
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group">
           <input class="form-control custom-form-control" type="text" v-model="tableData.search"
-                 placeholder="Search Table" @input="getData()">
+            placeholder="Search Table" @input="getData()">
         </div>
         <div class="form-group">
           <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
@@ -24,41 +24,32 @@
       </div>
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
-        <tr v-for="(value, i) in values" :key="value.id">
-          <td>{{ i + 1 }}</td>
-          <td>{{ value.mobile_bank.name }}</td>
-          <td>{{ value.account_number }}</td>
-          <td>
-            <!-- <nuxt-link :to="{ name: 'profile-property-id-details', params: { id: value.id } }" rel="tooltip"
-              class="btn btn-sm btn-info btn-simple" title="Details">
-              <font-awesome-icon icon="fa-solid fa-eye" />
-            </nuxt-link> -->
+          <tr v-for="(value, i) in values" :key="value.id">
+            <td>{{ i + 1 }}</td>
+            <td>{{ value.bank.name }}</td>
+            <td>{{ value.account_number }}</td>
+            <td>
+              <nuxt-link :to="{ name: 'profile-accounts-mobile-bank-id-edit', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-success btn-simple" title="Edit">
+                <font-awesome-icon icon="fa-solid fa-edit" />
+              </nuxt-link>
 
-            <nuxt-link :to="{ name: 'profile-accounts-mobile-bank-id-edit', params: { id: value.id } }" rel="tooltip"
-                       class="btn btn-sm btn-success btn-simple" title="Edit">
-              <font-awesome-icon icon="fa-solid fa-edit" />
-            </nuxt-link>
+              <!-- <nuxt-link
+                :to="{ name: 'profile-accounts-mobile-bank-id-transactions', params: { id: value.mobile_bank.id } }"
+                rel="tooltip" class="btn btn-sm btn-primary btn-simple" title="Show bank transactions">
+                <font-awesome-icon :icon="['fas', 'money-bill']" />
+              </nuxt-link> -->
 
-            <nuxt-link :to="{ name: 'profile-accounts-mobile-bank-id-transactions', params: { id: value.mobile_bank.id } }" rel="tooltip"
-                       class="btn btn-sm btn-primary btn-simple" title="Show bank transactions">
-              <font-awesome-icon :icon="['fas', 'money-bill']" />
-            </nuxt-link>
-
-            <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
-              <font-awesome-icon icon="fa-solid fa-trash" />
-            </b-button>
-
-            <!-- <nuxt-link :to="{ name: 'profile-property-id-payment-reports', params: { id: value.id } }" rel="tooltip"
-              class="btn btn-sm btn-secondary btn-simple" title="Payment Reports">
-              <font-awesome-icon icon="fa-solid fa-hand-holding-dollar" />
-            </nuxt-link> -->
-          </td>
-        </tr>
+              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
+                <font-awesome-icon icon="fa-solid fa-trash" />
+              </b-button>
+            </td>
+          </tr>
         </tbody>
       </DataTable>
 
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-                  @next="getData(pagination.nextPageUrl)">
+        @next="getData(pagination.nextPageUrl)">
       </pagination>
     </MainCard>
   </div>
@@ -81,7 +72,7 @@ export default {
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
       { width: '', label: 'Mobile Bank', name: 'mobile_banking_id' },
-      { width: '', label: 'Mobile Number', name: 'account_number' },
+      { width: '', label: 'Account', name: 'account_number' },
       { width: '', label: 'Action', name: '' },
     ];
     columns.forEach((column) => {
@@ -116,7 +107,7 @@ export default {
     }
   },
   methods: {
-    getData(url = 'accounts/get-mobile-payment-method') {
+    getData(url = 'accounts/mobile-banks') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
@@ -131,7 +122,6 @@ export default {
           alert(errors);
         })
     },
-
     configPagination(data) {
       this.pagination.lastPage = data.last_page;
       this.pagination.currentPage = data.current_page;
@@ -142,7 +132,6 @@ export default {
       this.pagination.from = data.from;
       this.pagination.to = data.to;
     },
-
     sortBy(key) {
       this.sortKey = key;
       this.sortOrders[key] = this.sortOrders[key] * -1;
@@ -150,11 +139,9 @@ export default {
       this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
       this.getData();
     },
-
     getIndex(array, key, value) {
       return array.findIndex(i => i[key] == value)
     },
-
     async deleteItem(id) {
       let result = confirm("Want to delete?");
       if (result) {
@@ -173,13 +160,11 @@ export default {
             else {
               alert(error.response.message)
             }
-          })
+          });
       }
     },
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

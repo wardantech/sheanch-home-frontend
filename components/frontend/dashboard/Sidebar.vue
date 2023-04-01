@@ -11,7 +11,7 @@
           </div>
           <div class="profile-navigation">
             <ul>
-              <li class="active">
+              <li>
                 <nuxt-link :to="{ name: 'profile-dashboard' }">
                   <b-icon icon="speedometer2" font-scale="1"></b-icon>
                   Dashboard

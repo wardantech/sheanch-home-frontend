@@ -7,27 +7,31 @@
       <MainCard title="Your Current Credits:">
         <b-row>
           <b-col lg="4" md="6" sm="12">
-            <div class="dashboard-status status-1">
-              <div class="dashboard-status-content">
-                <h4>{{ totalProperties }}</h4>
-                <span>Approved properties</span>
+            <nuxt-link :to="{ name: 'profile-property' }">
+              <div class="dashboard-status status-1">
+                <div class="dashboard-status-content">
+                  <h4>{{ totalProperties }}</h4>
+                  <span>Approved properties</span>
+                </div>
+                <div class="dashboard-status-icon">
+                  <font-awesome-icon icon="fa-solid fa-circle-check" />
+                </div>
               </div>
-              <div class="dashboard-status-icon">
-                <font-awesome-icon icon="fa-solid fa-circle-check" />
-              </div>
-            </div>
+            </nuxt-link>
           </b-col>
 
           <b-col lg="4" md="6" sm="12">
-            <div class="dashboard-status status-2">
-              <div class="dashboard-status-content">
-                <h4>{{ totalPoropertyAds }}</h4>
-                <span>Approved ads</span>
+            <nuxt-link :to="{ name: 'profile-property-deed-approved' }">
+              <div class="dashboard-status status-2">
+                <div class="dashboard-status-content">
+                  <h4>{{ totalPoropertyAds }}</h4>
+                  <span>Approved ads</span>
+                </div>
+                <div class="dashboard-status-icon">
+                  <font-awesome-icon icon="fa-solid fa-circle-check" />
+                </div>
               </div>
-              <div class="dashboard-status-icon">
-                <font-awesome-icon icon="fa-solid fa-circle-check" />
-              </div>
-            </div>
+            </nuxt-link>
           </b-col>
 
           <b-col lg="4" md="6" sm="12">

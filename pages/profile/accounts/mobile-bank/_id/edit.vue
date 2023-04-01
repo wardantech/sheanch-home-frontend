@@ -15,7 +15,8 @@
         <b-row>
           <b-col md="6">
             <b-form-group label="Your name">
-              <b-form-input :value="this.$auth.user.name" class="custom-input-control" type="text" readonly></b-form-input>
+              <b-form-input :value="this.$auth.user.name" class="custom-input-control" type="text"
+                readonly></b-form-input>
             </b-form-group>
           </b-col>
 
@@ -38,12 +39,21 @@
               </strong>
             </b-form-group>
           </b-col>
+
+          <b-col md="6">
+            <b-form-group label="Initial Balance">
+              <b-form-input v-model="form.cash_in" class="custom-input-control" type="text"></b-form-input>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_in">
+                {{ errors.cash_in[0] }}
+              </strong>
+            </b-form-group>
+          </b-col>
         </b-row>
 
         <b-row>
           <b-col>
             <div class="button-t-m" style="margin-top: 30px">
-              <b-button type="submit" variant="success" :disabled="loading">Update</b-button>
+              <b-button type="submit" variant="success" size="sm" :disabled="loading">Update</b-button>
             </div>
           </b-col>
         </b-row>
@@ -66,17 +76,19 @@ export default {
       banks: '',
       errors: {},
       form: {
+        cash_in: '',
+        account_number: '',
         mobile_banking_id: '',
         user_id: this.$auth.user.id,
-        account_number: '',
       }
     }
   },
   async created() {
-    await this.$axios.$post('accounts/mobile-method-edit', { id: this.$route.params.id })
+    await this.$axios.$post('accounts/mobile-banks-edit', { id: this.$route.params.id })
       .then(res => {
-        this.form = res.data.paymentMethod;
+        this.form = res.data.account;
         this.banks = res.data.banks;
+        this.form.cash_in = res.data.initialBalance.cash_in;
         this.isLoading = false;
       }).catch(error => {
         alert(error);
@@ -85,17 +97,15 @@ export default {
   methods: {
     async update() {
       this.loading = true;
-      await this.$axios.$put('accounts/mobile-method-update/' + this.$route.params.id, this.form)
+      await this.$axios.$put('accounts/mobile-banks-update/' + this.$route.params.id, this.form)
         .then(response => {
           this.loading = false;
           this.$izitoast.success({
             title: 'Success !!',
-            message: 'Your payment method successfully added'
+            message: response.message
           });
-
           this.$router.push({ name: 'profile-accounts-mobile-bank' });
-        })
-        .catch(error => {
+        }).catch(error => {
           this.loading = false;
           if (error.response.status == 422) {
             this.errors = error.response.data.errors;
@@ -109,6 +119,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

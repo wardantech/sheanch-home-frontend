@@ -3,7 +3,7 @@
     <div v-if="isLoading" class="d-flex justify-content-center mb-3">
       <p>Loading...</p>
     </div>
-    <MainCard v-else title="Add your payment details">
+    <MainCard v-else title="Add Mobile Bank Account">
       <template v-slot:actions>
         <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-mobile-bank' }">
           <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
@@ -15,7 +15,8 @@
         <b-row>
           <b-col md="6">
             <b-form-group label="Your name">
-              <b-form-input :value="this.$auth.user.name" class="custom-input-control" type="text" readonly></b-form-input>
+              <b-form-input :value="this.$auth.user.name" class="custom-input-control" type="text"
+                readonly></b-form-input>
             </b-form-group>
           </b-col>
 
@@ -38,12 +39,21 @@
               </strong>
             </b-form-group>
           </b-col>
+
+          <b-col md="6">
+            <b-form-group label="Initial Balance">
+              <b-form-input v-model="form.cash_in" class="custom-input-control" type="text"></b-form-input>
+              <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_in">
+                {{ errors.cash_in[0] }}
+              </strong>
+            </b-form-group>
+          </b-col>
         </b-row>
 
         <b-row>
           <b-col>
             <div class="button-t-m" style="margin-top: 30px">
-              <b-button type="submit" variant="success" :disabled="loading">Save</b-button>
+              <b-button type="submit" variant="success" size="sm" :disabled="loading">Save</b-button>
             </div>
           </b-col>
         </b-row>
@@ -65,9 +75,10 @@ export default {
       banks: '',
       errors: {},
       form: {
+        cash_in: '',
+        account_number: '',
         mobile_banking_id: '',
         user_id: this.$auth.user.id,
-        account_number: '',
       }
     }
   },
@@ -83,12 +94,12 @@ export default {
   methods: {
     async store() {
       this.loading = true;
-      await this.$axios.$post('accounts/mobile-method-store', this.form)
+      await this.$axios.$post('accounts/mobile-banks-store', this.form)
         .then(response => {
           this.loading = false;
           this.$izitoast.success({
             title: 'Success !!',
-            message: 'Your payment method successfully added'
+            message: response.message
           });
 
           this.$router.push({ name: 'profile-accounts-mobile-bank' });
@@ -107,6 +118,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

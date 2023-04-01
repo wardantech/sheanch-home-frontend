@@ -3,7 +3,7 @@
     <div v-if="isLoading" class="d-flex justify-content-center mb-3">
       <p>Loading...</p>
     </div>
-    <MainCard v-else title="Payment Method Lists">
+    <MainCard v-else title="Bank Account Lists">
       <template v-slot:actions>
         <nuxt-link class="btn btn-sm btn-info" :to="{ name: 'profile-accounts-bank-create' }">
           <font-awesome-icon icon="fa-solid fa-plus" />
@@ -26,8 +26,8 @@
         <tbody>
         <tr v-for="(value, i) in values" :key="value.id">
           <td>{{ i + 1 }}</td>
-          <td>{{ value.bank.name }}</td>
           <td>{{ value.account_number }}</td>
+          <td>{{ value.bank.name }}</td>
           <td>
             <nuxt-link :to="{ name: 'profile-accounts-bank-id-edit', params: { id: value.id } }" rel="tooltip"
                        class="btn btn-sm btn-success btn-simple" title="Edit">
@@ -70,8 +70,8 @@ export default {
     let sortOrders = {};
     let columns = [
       { width: '', label: 'Sl', name: 'id' },
-      { width: '', label: 'Bank', name: 'bank_id' },
       { width: '', label: 'Account number', name: 'account_number' },
+      { width: '', label: 'Bank', name: 'bank_id' },
       { width: '', label: 'Action', name: '' },
     ];
     columns.forEach((column) => {
@@ -106,7 +106,7 @@ export default {
     }
   },
   methods: {
-    getData(url = 'accounts/get-bank-payment-method') {
+    getData(url = 'accounts/banks') {
       this.tableData.draw++;
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
