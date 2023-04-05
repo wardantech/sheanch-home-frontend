@@ -10,11 +10,8 @@
           <span class="sr-only">unread messages</span>
         </button>
 
-        <nuxt-link
-          v-if="totalDue > 0"
-          class="btn btn-primary btn-sm"
-          :to="{ name: 'profile-accounts-rent-collection-id-due', params: { id:  transationId } }"
-        >
+        <nuxt-link v-if="totalDue > 0" class="btn btn-primary btn-sm"
+          :to="{ name: 'profile-accounts-rent-collection-id-due', params: { id: transationId } }">
           Due Collect
         </nuxt-link>
       </template>
@@ -22,7 +19,7 @@
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group">
           <input class="form-control custom-form-control" type="text" v-model="tableData.search"
-                 placeholder="Search Table" @input="getData()">
+            placeholder="Search Table" @input="getData()">
         </div>
         <div class="form-group">
           <select class="form-control custom-select-form-control" v-model="tableData.length" @change="getData()">
@@ -33,34 +30,35 @@
 
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
-        <tr v-for="(value, i) in values" :key="value.id">
-          <td>{{ i + 1 }}</td>
-          <td>{{ dateFromat(value.created_at) }}</td>
-          <td>
-            <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
-            <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
-            <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
-          </td>
-          <td>{{ (value.mobile_bank === null) ? '--':  value.mobile_bank.name }}</td>
-          <td>{{ value.transaction_id ?? '--' }}</td>
-          <td>{{ amountFormat(value.cash_in) }}</td>
+          <tr v-for="(value, i) in values" :key="value.id">
+            <td>{{ i + 1 }}</td>
+            <td>{{ dateFromat(value.created_at) }}</td>
+            <td>
+              <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
+              <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
+              <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
+            </td>
+            <td>{{ (value.bank_account_id === null) ? '--' : value.bank_account.bank.name + ' - ( ' + value.bank_account.account_number + ' )' }}</td>
+            <td>{{ (value.mobile_bank_account_id === null) ? '--' : value.mobile_bank.name }}</td>
+            <td>{{ value.transaction_id ?? '--' }}</td>
+            <td>{{ amountFormat(value.cash_in) }}</td>
 
-          <td>
-            <nuxt-link :to="{ name: 'profile-accounts-rent-collection-id-edit', params: { id: value.id } }" rel="tooltip"
-                       class="btn btn-sm btn-success btn-simple" title="Edit">
-              <font-awesome-icon icon="fa-solid fa-edit" />
-            </nuxt-link>
+            <td>
+              <nuxt-link :to="{ name: 'profile-accounts-rent-collection-id-edit', params: { id: value.id } }"
+                rel="tooltip" class="btn btn-sm btn-success btn-simple" title="Edit">
+                <font-awesome-icon icon="fa-solid fa-edit" />
+              </nuxt-link>
 
-            <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
-              <font-awesome-icon icon="fa-solid fa-trash" />
-            </b-button>
-          </td>
-        </tr>
+              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
+                <font-awesome-icon icon="fa-solid fa-trash" />
+              </b-button>
+            </td>
+          </tr>
         </tbody>
       </DataTable>
 
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-                  @next="getData(pagination.nextPageUrl)">
+        @next="getData(pagination.nextPageUrl)">
       </pagination>
     </MainCard>
   </div>
@@ -84,6 +82,7 @@ export default {
       { width: '', label: 'Sl', name: 'id' },
       { width: '', label: 'Created at', name: 'created_at' },
       { width: '', label: 'Method', name: 'method' },
+      { width: '', label: 'Bank', name: 'bank' },
       { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
       { width: '', label: 'Transaction Id', name: 'transaction_id' },
       { width: '', label: 'Amount', name: 'amount' },
@@ -148,7 +147,7 @@ export default {
 
           this.transationId = response.data.data.data[0].id;
           this.totalDue = (rent - response.data.pay_amount);
-          this.title = propertyName + ' ('+ tenantName +') ' + this.monthYear(transDate) + ', All Transaction Reports.';
+          this.title = propertyName + ' (' + tenantName + ') ' + this.monthYear(transDate) + ', All Transaction Reports.';
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
@@ -189,21 +188,18 @@ export default {
               title: 'Success !!',
               message: 'Payment deleted successfully!'
             });
-          })
-          .catch(error => {
+          }).catch(error => {
             if (error.response.status == 422) {
               this.errors = error.response.data.errors
             }
             else {
               alert(error.response.message)
             }
-          })
+          });
       }
     },
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

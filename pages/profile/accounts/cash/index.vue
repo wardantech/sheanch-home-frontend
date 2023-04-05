@@ -5,15 +5,15 @@
     </div>
     <MainCard v-else title="Cash Reports">
       <template v-slot:actions>
-        <button type="button" class="btn btn-info">
+        <button type="button" class="btn btn-sm btn-info">
           Total Credit Balance <span class="badge badge-light text-13">{{ amountFormat(totalRevenue) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
-        <button type="button" class="btn btn-danger">
+        <button type="button" class="btn btn-sm btn-danger">
           Total Debit Balance <span class="badge badge-light text-13">{{ amountFormat(totalExpanse) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
-        <button type="button" class="btn btn-success">
+        <button type="button" class="btn btn-sm btn-success">
           Current Balance <span class="badge badge-light text-13">{{ amountFormat(currentAmount) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
@@ -43,6 +43,7 @@
               <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
               <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
             </td>
+            <td>{{ (value.bank_account_id === null) ? '--' : value.bank_account.bank.name + ' - ( ' + value.bank_account.account_number + ' )' }}</td>
             <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
             <td>{{ value.transaction_id ?? '--' }}</td>
             <td>{{ amountFormat(value.cash_in) }}</td>
@@ -79,6 +80,7 @@ export default {
       { width: '', label: 'Sl', name: 'id' },
       { width: '', label: 'Date', name: 'date' },
       { width: '', label: 'Method', name: 'method' },
+      { width: '', label: 'Bank', name: 'bank' },
       { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
       { width: '', label: 'Transaction Id', name: 'transaction_id' },
       { width: '', label: 'Credit', name: 'credit' },

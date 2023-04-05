@@ -26,7 +26,7 @@
         <tbody>
           <tr v-for="(value, i) in values" :key="value.id">
             <td>{{ i + 1 }}</td>
-            <td>{{ value.bank.name }}</td>
+            <td>{{ value.mobile_bank.name }}</td>
             <td>{{ value.account_number }}</td>
             <td>
               <nuxt-link :to="{ name: 'profile-accounts-mobile-bank-id-edit', params: { id: value.id } }" rel="tooltip"
