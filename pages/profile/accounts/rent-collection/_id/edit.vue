@@ -63,7 +63,7 @@
             <b-form-group label="Banks">
               <select v-model="form.bank_account_id" class="form-control custom-input-control">
                 <option v-for="(account, index) in accounts" :value="account.id" :key="index">
-                  {{ account.bank.name }} - ({{ account.account_number }})
+                  {{ account.name }} - {{ account.account_no }} - {{ account.amount }}
                 </option>
               </select>
             </b-form-group>
@@ -73,7 +73,7 @@
             <b-form-group label="Mobile Bank">
               <select v-model="form.mobile_bank_account_id" class="form-control custom-input-control">
                 <option v-for="(account, index) in accounts" :value="account.id" :key="index">
-                  {{ account.mobile_bank.name }} - ({{ account.account_number }})
+                  {{ account.name }} - {{ account.account_no }} - {{ account.amount }}
                 </option>
               </select>
             </b-form-group>
@@ -111,11 +111,13 @@
 
 <script>
 import MainCard from '@/components/frontend/dashboard/MainCard.vue';
+import { helpersMixin } from '../../../../../mixins/helpers-mixin';
 
 export default {
   layout: 'dashboard',
   name: 'rent-collection-edit',
   components: { MainCard },
+  mixins: [helpersMixin],
   data() {
     return {
       rent: '',
@@ -188,7 +190,7 @@ export default {
       if (value == 2 || value == 3) {
         await this.$axios.$post('property/deed/get-accounts', { userId: this.form.user_id, method: value })
           .then(response => {
-            this.accounts = response.data.banks;
+            this.accounts = response.data.accounts;
           }).catch(err => {
             alert(err);
           });

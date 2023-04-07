@@ -18,7 +18,7 @@
       <div class="search d-flex justify-content-between align-items-center">
         <div class="form-group d-flex">
           <input class="form-control custom-form-control mr-1" type="text" v-model="tableData.search"
-                 placeholder="Search Table" @input="getData()">
+            placeholder="Search Table" @input="getData()">
           <input class="form-control custom-form-control mr-1" type="month" v-model="tableData.year_month"
             placeholder="Monthly Reports" @change="monthlyReports">
         </div>
@@ -31,34 +31,35 @@
 
       <DataTable id="dataTable" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy" class="">
         <tbody>
-        <tr v-for="(value, i) in values" :key="value.id">
-          <td>{{ i + 1 }}</td>
-          <td>{{ dateFromat(value.date) }}</td>
-          <td>{{ value.property.name }}</td>
-          <td>
-            <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
-            <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
-            <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
-          </td>
-          <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
-          <td>{{ value.transaction_id ?? '--' }}</td>
-          <td>{{ amountFormat(value.cash_out) }}</td>
-          <td>
-            <nuxt-link :to="{ name: 'profile-expanse-id-edit', params: { id: value.id } }" rel="tooltip"
-                       class="btn btn-sm btn-success btn-simple" title="Edit">
-              <font-awesome-icon icon="fa-solid fa-edit" />
-            </nuxt-link>
+          <tr v-for="(value, i) in values" :key="value.id">
+            <td>{{ i + 1 }}</td>
+            <td>{{ dateFromat(value.date) }}</td>
+            <td>{{ value.property.name }}</td>
+            <td>
+              <span v-if="value.payment_method == 1" class="badge badge-primary">Cash</span>
+              <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
+              <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
+            </td>
+            <td>{{ (value.bank_account_id === null) ? '--' : value.bank_account.bank.name + ' - ( ' + value.bank_account.account_number + ' )' }}</td>
+            <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
+            <td>{{ value.transaction_id ?? '--' }}</td>
+            <td>{{ amountFormat(value.cash_out) }}</td>
+            <td>
+              <nuxt-link :to="{ name: 'profile-expanse-id-edit', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-success btn-simple" title="Edit">
+                <font-awesome-icon icon="fa-solid fa-edit" />
+              </nuxt-link>
 
-            <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
-              <font-awesome-icon icon="fa-solid fa-trash" />
-            </b-button>
-          </td>
-        </tr>
+              <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
+                <font-awesome-icon icon="fa-solid fa-trash" />
+              </b-button>
+            </td>
+          </tr>
         </tbody>
       </DataTable>
 
       <pagination :pagination="pagination" @prev="getData(pagination.prevPageUrl)"
-                  @next="getData(pagination.nextPageUrl)">
+        @next="getData(pagination.nextPageUrl)">
       </pagination>
     </MainCard>
   </div>
@@ -86,6 +87,7 @@ export default {
       { width: '', label: 'Date', name: 'date' },
       { width: '', label: 'Property', name: 'property' },
       { width: '', label: 'Method', name: 'method' },
+      { width: '', label: 'Bank', name: 'bank' },
       { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
       { width: '', label: 'Transaction Id', name: 'transaction_id' },
       { width: '', label: 'Amount', name: 'amount' },
@@ -184,6 +186,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
