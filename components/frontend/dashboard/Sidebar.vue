@@ -73,11 +73,6 @@
               </li>
               <b-collapse id="accounts">
                 <li>
-                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-bank' }">
-                    Bank
-                  </nuxt-link>
-                </li>
-                <li>
                   <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-cash' }">
                     Cash
                   </nuxt-link>
@@ -88,13 +83,18 @@
                   </nuxt-link>
                 </li>
                 <li>
-                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-mobile-bank' }">
-                    Mobile Bank
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-rent-collection' }">
+                    Rent Collection
                   </nuxt-link>
                 </li>
                 <li>
-                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-rent-collection' }">
-                    Rent Collection
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-bank' }">
+                    Bank Accounts
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="ml-3" :to="{ name: 'profile-accounts-mobile-bank' }">
+                    Mobile Bank Accounts
                   </nuxt-link>
                 </li>
               </b-collapse>
