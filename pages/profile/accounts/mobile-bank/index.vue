@@ -34,11 +34,10 @@
                 <font-awesome-icon icon="fa-solid fa-edit" />
               </nuxt-link>
 
-              <!-- <nuxt-link
-                :to="{ name: 'profile-accounts-mobile-bank-id-transactions', params: { id: value.mobile_bank.id } }"
-                rel="tooltip" class="btn btn-sm btn-primary btn-simple" title="Show bank transactions">
+              <nuxt-link :to="{ name: 'profile-accounts-mobile-bank-id-transactions', params: { id: value.id } }" rel="tooltip"
+                class="btn btn-sm btn-primary btn-simple" title="Show mobile bank account transactions">
                 <font-awesome-icon :icon="['fas', 'money-bill']" />
-              </nuxt-link> -->
+              </nuxt-link>
 
               <b-button class="btn btn-sm btn-danger btn-simple" @click="deleteItem(value.id)">
                 <font-awesome-icon icon="fa-solid fa-trash" />

@@ -13,10 +13,10 @@
           Total Debit Balance <span class="badge badge-light text-13">{{ amountFormat(totalExpanse) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
-        <!-- <button type="button" class="btn btn-sm btn-success">
-          {{ amountFormat(currentAmount) }} <span class="badge badge-light text-13">Current Balance</span>
+        <button type="button" class="btn btn-sm btn-success">
+          Current Balance <span class="badge badge-light text-13">{{ amountFormat(currentAmount) }}</span>
           <span class="sr-only">unread messages</span>
-        </button> -->
+        </button>
         <nuxt-link class="btn btn-dark btn-sm" :to="{ name: 'profile-accounts-bank' }">
           <font-awesome-icon icon="fa-solid fa-arrow-left-long" />
           Back to list
@@ -100,7 +100,7 @@ export default {
         dir: 'desc',
         year_month: '',
         userId: this.$auth.user.id,
-        bankId: this.$route.params.id
+        bankAccountId: this.$route.params.id
       },
       pagination: {
         lastPage: '',
@@ -122,7 +122,7 @@ export default {
           let data = response.data;
           this.totalRevenue = response.data.totalRevenue;
           this.totalExpanse = response.data.totalExpanse;
-          // this.currentAmount = response.data.currentAmount;
+          this.currentAmount = response.data.currentAmount;
           if (this.tableData.draw == data.draw) {
             this.values = data.data.data;
             this.configPagination(data.data);
