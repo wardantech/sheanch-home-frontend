@@ -3,7 +3,7 @@
     <div v-if="isLoading" class="d-flex justify-content-center mb-3">
       <p>Loading...</p>
     </div>
-    <MainCard v-else title="Cash Reports">
+    <MainCard v-else title="Cash Reports" id="printable-content">
       <template v-slot:actions>
         <button type="button" class="btn btn-sm btn-info">
           Total Credit Balance <span class="badge badge-light text-13">{{ amountFormat(totalRevenue) }}</span>
@@ -16,6 +16,9 @@
         <button type="button" class="btn btn-sm btn-success">
           Current Balance <span class="badge badge-light text-13">{{ amountFormat(currentAmount) }}</span>
           <span class="sr-only">unread messages</span>
+        </button>
+        <button @click="handlePrintCash" class="btn btn-sm btn-primary">
+          Print
         </button>
       </template>
 
@@ -43,7 +46,8 @@
               <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
               <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
             </td>
-            <td>{{ (value.bank_account_id === null) ? '--' : value.bank_account.bank.name + ' - ( ' + value.bank_account.account_number + ' )' }}</td>
+            <td>{{ (value.bank_account_id === null) ? '--' : value.bank_account.bank.name + ' - ( ' +
+              value.bank_account.account_number + ' )' }}</td>
             <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
             <td>{{ value.transaction_id ?? '--' }}</td>
             <td>{{ amountFormat(value.cash_in) }}</td>
@@ -127,6 +131,7 @@ export default {
       this.$axios.post(url, { params: this.tableData })
         .then(response => {
           let data = response.data;
+          this.printable = response.data;
           this.totalRevenue = response.data.totalRevenue;
           this.totalExpanse = response.data.totalExpanse;
           this.currentAmount = response.data.currentAmount;
@@ -162,6 +167,21 @@ export default {
     monthlyReports($event) {
       this.year_month = $event.target.value;
       this.getData();
+    },
+    handlePrintCash() {
+      this.$axios.post('/accounts/cash/printable', {
+        user_id: this.tableData.userId,
+        year_month: this.tableData.year_month
+      })
+        .then((response) => {
+          this.$store.dispatch('cash-print/printableData', response.data);
+        })
+        .then(() => {
+          this.$router.push({ name: 'profile-accounts-cash-print' });
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   }
 }

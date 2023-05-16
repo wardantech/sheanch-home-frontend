@@ -9,6 +9,9 @@
           Total Revenue <span class="badge badge-light">{{ amountFormat(totalRevenue) }}</span>
           <span class="sr-only">unread messages</span>
         </button>
+        <button @click="handlePrintCash" class="btn btn-sm btn-primary">
+          Print
+        </button>
       </template>
 
       <div class="search d-flex justify-content-between align-items-center">
@@ -152,6 +155,21 @@ export default {
     monthlyReports($event) {
       this.month = $event.target.value;
       this.getData();
+    },
+    handlePrintCash() {
+      this.$axios.post('/accounts/revenue/printable', {
+        user_id: this.tableData.userId,
+        year_month: this.tableData.month
+      })
+        .then((response) => {
+          this.$store.dispatch('cash-print/printableData', response.data);
+        })
+        .then(() => {
+          this.$router.push({ name: 'profile-accounts-revenue-print' });
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   }
 }

@@ -14,6 +14,10 @@
           :to="{ name: 'profile-accounts-rent-collection-id-due', params: { id: transationId } }">
           Due Collect
         </nuxt-link>
+
+        <button @click="handleRentCollectionDetailsPrint" class="btn btn-sm btn-primary">
+          Print
+        </button>
       </template>
 
       <div class="search d-flex justify-content-between align-items-center">
@@ -198,6 +202,21 @@ export default {
           });
       }
     },
+    handleRentCollectionDetailsPrint() {
+      this.$axios.post('/accounts/rent-collections/printable', {
+        deed_id: this.tableData.deedId,
+        month: this.tableData.month
+      })
+        .then((response) => {
+          this.$store.dispatch('rent-collections/printableData', response.data);
+        })
+        .then(() => {
+          this.$router.push({ name: 'profile-accounts-rent-collection-print-details' });
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
   }
 }
 </script>
