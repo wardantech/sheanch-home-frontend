@@ -1,9 +1,21 @@
+.dashboard-menu-btn {
+  position: absolute;
+  top: 45px;
+  right: 15px;
+  display: none;
+
+  @media (max-width: 992px) {
+    display: block;
+  }
+}
+
 .sidebar {
   background: #fff;
   border: 1px solid #e6eaf1;
   border-radius: 0.4rem;
   margin-bottom: 30px;
   padding: 25px;
+  transition: all 0.3s ease-in-out;
 
   &-navbar {
     background: #fff;
@@ -68,6 +80,18 @@
       }
     }
   }
+
+  @media (max-width: 992px) {
+    position: absolute;
+    top: 0;
+    left: -490px;
+    width: 50%;
+    z-index: 1;
+  }
+
+  &.active {
+    left: 15px;
+  }
 }
 
 .pc-title {
@@ -81,6 +105,7 @@
 .tc {
   text-align: center;
 }
+
 .pa3 {
   padding: 1rem;
 }
@@ -117,29 +142,23 @@
   cursor: pointer;
 
   &.status-1 {
-    background: linear-gradient(
-      270deg,
-      hsla(0, 0%, 100%, 0) 30%,
-      hsla(0, 0%, 100%, 0.1)
-    );
+    background: linear-gradient(270deg,
+        hsla(0, 0%, 100%, 0) 30%,
+        hsla(0, 0%, 100%, 0.1));
     background-color: #1baf65;
   }
 
   &.status-2 {
-    background: linear-gradient(
-      270deg,
-      hsla(0, 0%, 100%, 0) 30%,
-      hsla(0, 0%, 100%, 0.1)
-    );
+    background: linear-gradient(270deg,
+        hsla(0, 0%, 100%, 0) 30%,
+        hsla(0, 0%, 100%, 0.1));
     background-color: #f39f00;
   }
 
   &.status-3 {
-    background: linear-gradient(
-      270deg,
-      hsla(0, 0%, 100%, 0) 30%,
-      hsla(0, 0%, 100%, 0.1)
-    );
+    background: linear-gradient(270deg,
+        hsla(0, 0%, 100%, 0) 30%,
+        hsla(0, 0%, 100%, 0.1));
     background-color: #002758;
   }
 
