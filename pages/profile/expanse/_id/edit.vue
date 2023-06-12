@@ -44,7 +44,7 @@
           <b-col md="6">
             <b-form-group label="Amount">
               <b-form-input v-model="form.cash_out" class="custom-input-control" type="number" min="0"
-                            placeholder="Enter amount"></b-form-input>
+                placeholder="Enter amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_out">
                 {{ errors.cash_out[0] }}
               </strong>
@@ -76,9 +76,9 @@
 
           <b-col v-if="isPaymentMethod == 2" md="6">
             <b-form-group label="Banks">
-              <select v-model="form.bank_id" class="form-control custom-input-control">
-                <option v-for="(method, index) in paymentMethods" :value="method.bank.id" :key="index">
-                  {{ method.bank.name }}
+              <select v-model="form.bank_account_id" class="form-control custom-input-control">
+                <option v-for="(account, index) in accounts" :value="account.id" :key="index">
+                  {{ account.name }} - {{ account.account_no }} - {{ amountFormat(account.amount) }}
                 </option>
               </select>
             </b-form-group>
@@ -86,9 +86,9 @@
 
           <b-col v-if="isPaymentMethod == 3" md="6">
             <b-form-group label="Mobile Bank">
-              <select v-model="form.mobile_banking_id" class="form-control custom-input-control">
-                <option v-for="(method, index) in paymentMethods" :value="method.mobile_bank.id" :key="index">
-                  {{ method.mobile_bank.name }}
+              <select v-model="form.mobile_bank_account_id" class="form-control custom-input-control">
+                <option v-for="(account, index) in accounts" :value="account.id" :key="index">
+                  {{ account.name }} - {{ account.account_no }} - {{ amountFormat(account.amount) }}
                 </option>
               </select>
             </b-form-group>
@@ -97,7 +97,7 @@
           <b-col v-if="isPaymentMethod == 3" md="6">
             <b-form-group label="Transaction id">
               <b-form-input v-model="form.transaction_id" class="custom-input-control" type="number"
-                            placeholder="Transaction id"></b-form-input>
+                placeholder="Transaction id"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.transaction_id">
                 {{ errors.transaction_id[0] }}
               </strong>
@@ -107,7 +107,7 @@
           <b-col md="12">
             <b-form-group label="Description">
               <b-form-textarea id="description" placeholder="Description..." rows="3" v-model="form.remark"
-                               class="custom-input-control"></b-form-textarea>
+                class="custom-input-control"></b-form-textarea>
             </b-form-group>
           </b-col>
         </b-row>
@@ -115,7 +115,7 @@
         <b-row>
           <b-col>
             <div class="button-t-m" style="margin-top: 30px">
-              <b-button type="submit" variant="success" :disabled="loading">Update Payment</b-button>
+              <b-button type="submit" variant="success" size="sm" :disabled="loading">Update Payment</b-button>
             </div>
           </b-col>
         </b-row>
@@ -126,19 +126,21 @@
 
 <script>
 import MainCard from '@/components/frontend/dashboard/MainCard.vue';
+import { helpersMixin } from '../../../../mixins/helpers-mixin';
 
 export default {
   layout: 'dashboard',
   name: "expanse-edit",
   components: { MainCard },
+  mixins: [helpersMixin],
   data() {
     return {
-      isLoading: true,
       errors: {},
-      loading: false,
+      accounts: [],
       properties: '',
+      loading: false,
+      isLoading: true,
       expanseItems: '',
-      paymentMethods: [],
       isPaymentMethod: '',
       userId: this.$auth.user.id,
       form: {
@@ -162,7 +164,6 @@ export default {
     };
     await this.$axios.$post('accounts/expanses/edit', data)
       .then(response => {
-        console.log(response.data.transaction.date);
         this.form = response.data.transaction;
         this.properties = response.data.properties;
         this.expanseItems = response.data.expanseItems;
@@ -177,11 +178,11 @@ export default {
       this.isPaymentMethod = this.form.payment_method;
       const value = this.form.payment_method;
 
-      this.paymentMethods = [];
+      this.accounts = [];
       if (value == 2 || value == 3) {
-        await this.$axios.$post('property/deed/get-payment-method', { userId: this.userId, method: value })
+        await this.$axios.$post('property/deed/get-accounts', { userId: this.userId, method: value })
           .then(res => {
-            this.paymentMethods = res.data.banks;
+            this.accounts = res.data.accounts;
           }).catch(error => {
             alert(error);
           })
@@ -189,15 +190,15 @@ export default {
     },
     async update() {
       this.loading = true;
-      await this.$axios.$put('accounts/expanses/'+this.$route.params.id, this.form)
+      await this.$axios.$put('accounts/expanses/' + this.$route.params.id, this.form)
         .then(response => {
           this.loading = false;
           this.$izitoast.success({
-              title: 'Success !!',
-              message: response.message
-            });
+            title: 'Success !!',
+            message: response.message
+          });
 
-            this.$router.push({ name: 'profile-expanse' });
+          this.$router.push({ name: 'profile-expanse' });
         }).catch(error => {
           this.loading = false;
           if (error.response.status == 422) {
@@ -212,6 +213,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

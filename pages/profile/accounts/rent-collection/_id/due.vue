@@ -24,15 +24,15 @@
 
           <b-col md="6">
             <b-form-group label="Due amount">
-              <b-form-input v-model="dueAmount" class="custom-input-control" type="number"
-                            placeholder="Due amount" readonly></b-form-input>
+              <b-form-input v-model="dueAmount" class="custom-input-control" type="number" placeholder="Due amount"
+                readonly></b-form-input>
             </b-form-group>
           </b-col>
 
           <b-col md="12">
             <b-form-group label="Paid amount">
-              <b-form-input v-model="form.cash_in" @keyup="checkDueAmount" class="custom-input-control" type="number" min="0"
-                            placeholder="Enter amount"></b-form-input>
+              <b-form-input v-model="form.cash_in" @keyup="checkDueAmount" class="custom-input-control" type="number"
+                min="0" placeholder="Enter amount"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.cash_in">
                 {{ errors.cash_in[0] }}
               </strong>
@@ -42,7 +42,8 @@
           <b-col md="6">
             <b-form-group label="Select Date">
               <!-- <input type="month" v-model="form.date" class="form-control custom-input-control mb-2"> -->
-              <b-form-datepicker type="month" id="example-datepicker" v-model="form.date" class="mb-2" disabled></b-form-datepicker>
+              <b-form-datepicker type="month" id="example-datepicker" v-model="form.date" class="mb-2"
+                disabled></b-form-datepicker>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.date">
                 {{ errors.date[0] }}
               </strong>
@@ -65,9 +66,9 @@
 
           <b-col v-if="isPaymentMethod == 2" md="6">
             <b-form-group label="Banks">
-              <select v-model="form.bank_id" class="form-control custom-input-control">
-                <option v-for="(method, index) in paymentMethods" :value="method.bank.id" :key="index">
-                  {{ method.bank.name }}
+              <select v-model="form.bank_account_id" class="form-control custom-input-control">
+                <option v-for="(account, index) in accounts" :value="account.id" :key="index">
+                  {{ account.name }} - {{ account.account_no }} - {{ amountFormat(account.amount) }}
                 </option>
               </select>
             </b-form-group>
@@ -75,9 +76,9 @@
 
           <b-col v-if="isPaymentMethod == 3" md="6">
             <b-form-group label="Mobile Bank">
-              <select v-model="form.mobile_banking_id" class="form-control custom-input-control">
-                <option v-for="(method, index) in paymentMethods" :value="method.mobile_bank.id" :key="index">
-                  {{ method.mobile_bank.name }}
+              <select v-model="form.mobile_bank_account_id" class="form-control custom-input-control">
+                <option v-for="(account, index) in accounts" :value="account.id" :key="index">
+                  {{ account.name }} - {{ account.account_no }} - {{ amountFormat(account.amount) }}
                 </option>
               </select>
             </b-form-group>
@@ -86,7 +87,7 @@
           <b-col v-if="isPaymentMethod == 3" md="6">
             <b-form-group label="Transaction id">
               <b-form-input v-model="form.transaction_id" class="custom-input-control" type="number"
-                            placeholder="Transaction id"></b-form-input>
+                placeholder="Transaction id"></b-form-input>
               <strong class="text-danger" style="font-size: 12px" v-if="errors.transaction_id">
                 {{ errors.transaction_id[0] }}
               </strong>
@@ -96,7 +97,7 @@
           <b-col md="12">
             <b-form-group label="Description">
               <b-form-textarea id="description" placeholder="Description..." rows="3" v-model="form.remark"
-                               class="custom-input-control"></b-form-textarea>
+                class="custom-input-control"></b-form-textarea>
             </b-form-group>
           </b-col>
         </b-row>
@@ -104,7 +105,7 @@
         <b-row>
           <b-col>
             <div class="button-t-m" style="margin-top: 30px">
-              <b-button type="submit" variant="success" :disabled="loading">Due Payment</b-button>
+              <b-button type="submit" variant="success" size="sm" :disabled="loading">Due Payment</b-button>
             </div>
           </b-col>
         </b-row>
@@ -115,37 +116,39 @@
 
 <script>
 import MainCard from '@/components/frontend/dashboard/MainCard.vue';
+import { helpersMixin } from '../../../../../mixins/helpers-mixin';
 
 export default {
   layout: 'dashboard',
   name: 'rent-collection-edit',
   components: { MainCard },
+  mixins: [ helpersMixin ],
   data() {
     return {
-      isLoading: true,
-      loading: false,
-      deeds: '',
-      tenantId: '',
       rent: '',
-      paymentMethods: [],
-      isPaymentMethod: '',
-      propertyName: '',
-      dueAmount: '',
+      deeds: '',
       errors: {},
+      accounts: [],
+      tenantId: '',
+      dueAmount: '',
+      loading: false,
+      isLoading: true,
+      propertyName: '',
+      isPaymentMethod: '',
       form: {
+        date: '',
+        remark: '',
         transId: '',
         user_id: '',
-        property_id: '',
-        bank_id: '',
-        mobile_banking_id: '',
-        property_deed_id: '',
-        due_amount: '',
         cash_in: '',
+        due_amount: '',
+        created_by: '',
+        property_id: '',
         payment_method: '',
         transaction_id: '',
-        created_by: '',
-        date: '',
-        remark: ''
+        bank_account_id: '',
+        property_deed_id: '',
+        mobile_bank_account_id: '',
       }
     }
   },
@@ -177,14 +180,12 @@ export default {
     async paymentMethod() {
       this.isPaymentMethod = this.form.payment_method;
       const value = this.form.payment_method;
-      const userId = this.$auth.user.landlord_id;
-
-      this.paymentMethods = [];
+      this.accounts = [];
 
       if (value == 2 || value == 3) {
-        await this.$axios.$post('property/deed/get-payment-method', { userId: userId, method: value })
+        await this.$axios.$post('property/deed/get-accounts', { userId: this.form.user_id, method: value })
           .then(res => {
-            this.paymentMethods = res.data.banks;
+            this.accounts = res.data.accounts;
           });
       }
     },
@@ -220,6 +221,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

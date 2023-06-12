@@ -9,6 +9,9 @@
           <font-awesome-icon icon="fa-solid fa-plus" />
           Rent Collect
         </nuxt-link>
+        <button @click="handlePropertyPaymentPrintable" class="btn btn-sm btn-primary">
+          Print
+        </button>
       </template>
 
       <div class="search d-flex justify-content-between align-items-center">
@@ -151,6 +154,20 @@ export default {
         month: month
       };
       this.$store.dispatch('transactions/deedInfo', data);
+    },
+    handlePropertyPaymentPrintable() {
+      this.$axios.post('/accounts/property-payments/printable', {
+        user_id: this.tableData.userId
+      })
+        .then((response) => {
+          this.$store.dispatch('property-payments/printableData', response.data);
+        })
+        .then(() => {
+          this.$router.push({ name: 'profile-accounts-rent-collection-print' });
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   }
 }

@@ -47,6 +47,7 @@
               <span v-if="value.payment_method == 2" class="badge badge-success">Bank</span>
               <span v-if="value.payment_method == 3" class="badge badge-dark">Mobile Bank</span>
             </td>
+            <td>{{ (value.bank_account_id === null) ? '--' : value.bank_account.bank.name + ' - ( ' + value.bank_account.account_number + ' )' }}</td>
             <td>{{ (value.mobile_bank === null) ? '--' : value.mobile_bank.name }}</td>
             <td>{{ value.transaction_id ?? '--' }}</td>
             <td>{{ amountFormat(value.cash_in) }}</td>
@@ -83,6 +84,7 @@ export default {
       { width: '', label: 'Sl', name: 'id' },
       { width: '', label: 'Date', name: 'date' },
       { width: '', label: 'Method', name: 'method' },
+      { width: '', label: 'Bank', name: 'bank' },
       { width: '', label: 'Mobile Bank', name: 'mobile_bank' },
       { width: '', label: 'Transaction Id', name: 'transaction_id' },
       { width: '', label: 'Credit', name: 'credit' },

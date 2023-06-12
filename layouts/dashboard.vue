@@ -9,19 +9,23 @@
       <Header />
       <!-- End Navigation -->
 
-      <section class="bg-light">
+      <section class="bg-light" style="position: relative;">
+        <button @click="isSidebar = !isSidebar" class="dashboard-menu-btn btn btn-sm btn-primary">
+          <font-awesome-icon v-if="!isSidebar" :icon="['fas', 'bars']" />
+          <font-awesome-icon v-else :icon="['fas', 'xmark']" />
+        </button>
         <b-container fluid>
           <b-row>
             <!-- Sidebar -->
             <b-col lg="3" md="12">
-              <Sidebar />
+              <Sidebar :isSidebar="isSidebar"/>
             </b-col>
             <!-- /.Sidebar -->
 
             <!-- Main Content -->
-            <b-col lg="9" md="12">
+            <b-col lg="9" md="12" style="min-height: 590px;">
               <!-- <div class="dashboard-wrapper"> -->
-                <Nuxt />
+              <Nuxt />
               <!-- </div> -->
             </b-col>
             <!--./ Main Content -->
@@ -44,12 +48,11 @@ import Sidebar from '@/components/frontend/dashboard/Sidebar.vue';
 
 export default {
   name: 'dashboard',
-  components: { Footer, Header, Topbar, Sidebar }
+  components: { Footer, Header, Topbar, Sidebar },
+  data() {
+    return {
+      isSidebar: false
+    }
+  }
 }
 </script>
-
-<style>
-
-</style>
-
-

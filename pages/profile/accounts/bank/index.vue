@@ -34,8 +34,8 @@
               <font-awesome-icon icon="fa-solid fa-edit" />
             </nuxt-link>
 
-            <nuxt-link :to="{ name: 'profile-accounts-bank-id-transactions', params: { id: value.bank.id } }" rel="tooltip"
-                       class="btn btn-sm btn-primary btn-simple" title="Show bank transactions">
+            <nuxt-link :to="{ name: 'profile-accounts-bank-id-transactions', params: { id: value.id } }" rel="tooltip"
+                       class="btn btn-sm btn-primary btn-simple" title="Show bank account transactions">
               <font-awesome-icon :icon="['fas', 'money-bill']" />
             </nuxt-link>
 

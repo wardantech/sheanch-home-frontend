@@ -17,7 +17,7 @@
             <div class="how-work-icon">
               <div class="how-work-icon-wrap">
                 <div class="how-work-icon-wrap-box icon-success">
-                  <font-awesome-icon :icon="work.icon"/>
+                  <font-awesome-icon :icon="work.icon" />
                 </div>
               </div>
               <div class="how-work-icon-wrap-content">
@@ -33,19 +33,15 @@
 </template>
 
 <script>
-  export default {
-    name: "Work",
-    data() {
-      return {
-        howToworks: ''
-      }
-    },
-    async created() {
-      this.howToworks = this.$store.getters['frontend-data/getWorksWidgets'];
-    },
-  }
+export default {
+  name: "Work",
+  data() {
+    return {
+      howToworks: ''
+    }
+  },
+  async created() {
+    this.howToworks = this.$store.getters['frontend-data/getWorksWidgets'];
+  },
+}
 </script>
-
-<style scoped>
-
-</style>
